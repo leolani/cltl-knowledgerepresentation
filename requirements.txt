@@ -1,0 +1,7 @@
+requests~=2.25.0
+rdflib~=5.0.0
+sparqlwrapper~=1.8.5
+numpy~=1.19.4
+fuzzywuzzy~=0.18.0
+nltk~=3.4.4
+iribaker~=0.2

@@ -1,3 +1,3 @@
-from pepper.brain.infrastructure.building_blocks import *
-from pepper.brain.infrastructure.store_connector import *
-from pepper.brain.infrastructure.rdf_builder import *
+from leolani.brain.infrastructure.building_blocks import *
+from leolani.brain.infrastructure.store_connector import *
+from leolani.brain.infrastructure.rdf_builder import *

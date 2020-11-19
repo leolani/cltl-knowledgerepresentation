@@ -2,8 +2,8 @@ import logging
 import os
 from datetime import datetime
 
-from pepper.brain.infrastructure import StoreConnector, RdfBuilder
-from pepper.brain.utils.helper_functions import read_query
+from leolani.brain.infrastructure import StoreConnector, RdfBuilder
+from leolani.brain.utils.helper_functions import read_query
 
 logger = logging.getLogger(__name__)
 

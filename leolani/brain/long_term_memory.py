@@ -1,10 +1,10 @@
-from pepper.brain.LTM_question_processing import create_query
-from pepper.brain.LTM_statement_processing import model_graphs
-from pepper.brain.basic_brain import BasicBrain
-from pepper.brain.infrastructure import Thoughts
-from pepper.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
-from pepper.brain.utils.helper_functions import read_query, casefold_text
-from pepper.framework.infra.di_container import DIContainer
+from leolani.brain.LTM_question_processing import create_query
+from leolani.brain.LTM_statement_processing import model_graphs
+from leolani.brain.basic_brain import BasicBrain
+from leolani.brain.infrastructure import Thoughts
+from leolani.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
+from leolani.brain.utils.helper_functions import read_query, casefold_text
+from leolani.framework.infra.di_container import DIContainer
 
 
 class BrainContainer(DIContainer):

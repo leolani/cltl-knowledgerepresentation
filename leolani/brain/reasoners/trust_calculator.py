@@ -1,5 +1,5 @@
-from pepper.brain.basic_brain import BasicBrain
-from pepper.brain.utils.helper_functions import read_query, sigmoid
+from leolani.brain.basic_brain import BasicBrain
+from leolani.brain.utils.helper_functions import read_query, sigmoid
 
 
 class TrustCalculator(BasicBrain):

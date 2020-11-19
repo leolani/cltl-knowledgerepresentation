@@ -1,8 +1,8 @@
 import requests
 
-from pepper.brain.utils.helper_functions import read_query, casefold_text
-from pepper.brain.long_term_memory import LongTermMemory
-from pepper.brain.LTM_statement_processing import _link_entity, create_claim_graph
+from leolani.brain.utils.helper_functions import read_query, casefold_text
+from leolani.brain.long_term_memory import LongTermMemory
+from leolani.brain.LTM_statement_processing import _link_entity, create_claim_graph
 
 
 class FameAwareMemory(LongTermMemory):

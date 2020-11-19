@@ -1,10 +1,10 @@
 from rdflib import RDF, RDFS, OWL
 
-from pepper.brain.utils.constants import NAMESPACE_MAPPING
-from pepper.brain.utils.helper_functions import hash_claim_id, casefold_text, get_object_id, \
+from leolani.brain.utils.constants import NAMESPACE_MAPPING
+from leolani.brain.utils.helper_functions import hash_claim_id, casefold_text, get_object_id, \
     confidence_to_certainty_value, \
     polarity_to_polarity_value, sentiment_to_sentiment_value, emotion_to_emotion_value
-from api import UtteranceType
+from leolani.api import UtteranceType
 
 
 ######################################## Helpers for statement processing ########################################

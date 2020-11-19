@@ -131,3 +131,6 @@ dmypy.json
 
 # Mac
 .idea/
+
+# 2to3
+*.bak

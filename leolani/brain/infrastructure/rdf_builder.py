@@ -1,6 +1,5 @@
 import logging
 import os
-
 from iribaker import to_iri
 from rdflib import Dataset, Namespace, OWL
 from rdflib import URIRef, Literal

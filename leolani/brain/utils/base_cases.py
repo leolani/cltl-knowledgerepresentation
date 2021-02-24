@@ -476,7 +476,7 @@ statements_new_team = [
         "utterance": "Jaap has three teapots",
         "subject": {"label": "jaap", "type": "person"},
         "predicate": {"type": "have"},
-        "object": {"label": "teapot", "type": "artefact"},
+        "object": {"label": "teapot", "type": "artifact"},
         "perspective": {"certainty": 0.75, "polarity": 1, "sentiment": 0},
         "author": "lea",
         "chat": 8,
@@ -844,8 +844,9 @@ questions = [
 
 experiences = [
     {  # Leolani saw an apple
-        "subject": {"label": "", "type": ""},
-        "predicate": {"type": ""},
+        "utterance": "",
+        "subject": {"label": "leolani", "type": "robot"},
+        "predicate": {"type": "see"},
         "object": {"label": "apple", "type": "fruit"},
         "perspective": {"certainty": 1, "polarity": 1, "sentiment": 0},
         "author": "front_camera",

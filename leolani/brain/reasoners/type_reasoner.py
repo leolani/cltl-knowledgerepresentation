@@ -2,7 +2,7 @@ import requests
 from fuzzywuzzy import process
 
 from leolani.brain.basic_brain import BasicBrain
-from leolani.brain.utils.helper_functions import read_query, casefold_text
+from leolani.brain.utils.helper_functions import read_query, casefold_text, remove_articles
 
 
 class TypeReasoner(BasicBrain):
@@ -32,53 +32,50 @@ class TypeReasoner(BasicBrain):
         -------
 
         """
-        item_label = casefold_text(item, format='triple')
         # Default
         learned_type = None
         text = ' I am sorry, I could not learn anything on %s so I will not remember it' % item
 
         # Clean label
-        articles = ['a-', 'this-', 'the-']
-        for a in articles:
-            if item.startswith(a):
-                item = item.replace(a, '')
+        item_label = casefold_text(item, format='triple')
+        item = remove_articles(item)
 
         # Item is in the ontology already as a class
         if item_label in self.get_classes():
             learned_type = item
-            text = 'I know about %s. I will remember this object' % item
+            text = ' I know about %s. I will remember this object' % item
 
         # Item is in the ontology already as a label, return the type
-        mapping = self.get_labels_and_classes()
-        if item_label in list(mapping.keys()):
-            learned_type = mapping[item]
-            text = ' I know about %s. It is of type %s. I will remember this object' % (item, learned_type)
+        if not learned_type:
+            mapping = self.get_labels_and_classes()
+            if item_label in list(mapping.keys()):
+                learned_type = mapping[item]
+                text = ' I know about %s. It is of type %s. I will remember this object' % (item, learned_type)
 
         # Go at wikidata exact match
-        class_type, description = self._exact_match_wikidata(item)
-        if class_type is not None:
-            learned_type = casefold_text(class_type, format='triple')
-            text = ' I did not know what %s is, but I searched on Wikidata and I found that it is a %s. ' \
-                   'I will remember this object' % (item, class_type)
+        if not learned_type:
+            learned_type, description = self._exact_match_wikidata(item)
+            if learned_type:
+                text = ' I did not know what %s is, but I searched on Wikidata and I found that it is a %s. ' \
+                       'I will remember this object' % (item, learned_type)
 
         # Go at dbpedia exact match
-        class_type, description = self._exact_match_dbpedia(item)
-        if class_type is not None:
-            learned_type = casefold_text(class_type, format='triple')
-            text = ' I did not know what %s is, but I searched on Dbpedia and I found that it is a %s. ' \
-                   'I will remember this object' % (item, class_type)
+        if not learned_type:
+            learned_type, description = self._exact_match_dbpedia(item)
+            if learned_type:
+                text = ' I did not know what %s is, but I searched on Dbpedia and I found that it is a %s. ' \
+                       'I will remember this object' % (item, learned_type)
 
         # Second go at dbpedia, relaxed approach
-        if not exact_only:
-            class_type, description = self._keyword_match_dbpedia(item)
-            if class_type is not None:
-                learned_type = casefold_text(class_type, format='triple')
+        if not learned_type and not exact_only:
+            learned_type, description = self._keyword_match_dbpedia(item)
+            if learned_type:
                 text = ' I did not know what %s is, but I searched for fuzzy matches on the web and I found that it ' \
-                       'is a %s. I will remember this object' % (item, class_type)
+                       'is a %s. I will remember this object' % (item, learned_type)
 
         self._log.info("Reasoned type of {} to: {}".format(item, learned_type))
 
-        return learned_type, text
+        return casefold_text(learned_type, format='triple'), text
 
     def _exact_match_dbpedia(self, item):
         """
@@ -86,28 +83,44 @@ class TypeReasoner(BasicBrain):
         :param item:
         :return:
         """
+        url = 'http://dbpedia.org/sparql'
+
         # Gather combinations
         combinations = [item, item.capitalize(), item.lower(), item.title()]
 
         for comb in combinations:
             # Try exact matching query
-            query = read_query('typing/dbpedia_type_and_description') % comb
-            response = self._submit_query(query)
+            query = read_query('typing/dbpedia_type_and_description') % (comb, comb)
+
+            try:
+                r = requests.get(url, params={'format': 'json', 'query': query}, timeout=3)
+                data = r.json() if r.status_code != 500 else None
+            except:
+                self._log.warning("Failed to query DBpedia")
+                data = None
 
             # break if we have a hit
-            if response:
-                break
+            if data and data['results']['bindings']:
+                class_type = data['results']['bindings'][0]['label_type']['value'] \
+                    if 'label_type' in list(data['results']['bindings'][0].keys()) else None
+                description = data['results']['bindings'][0]['description']['value'] \
+                    if 'description' in list(data['results']['bindings'][0].keys()) else None
 
-        class_type = response[0]['label_type']['value'] if response else None
-        description = response[0]['description']['value'].split('.')[0] if response else None
+                return class_type, description
 
-        return class_type, description
+        return None, None
 
     @staticmethod
     def _keyword_match_dbpedia(item):
+        """
+        Query Dbpedia using keyword search
+        :param item:
+        :return:
+        """
+        url = 'http://lookup.dbpedia.org/api/search.asmx/KeywordSearch'
+
         # Query API
-        r = requests.get('http://lookup.dbpedia.org/api/search.asmx/KeywordSearch',
-                         params={'QueryString': item, 'MaxHits': '10'},
+        r = requests.get(url, params={'QueryString': item, 'MaxHits': '10'},
                          headers={'Accept': 'application/json'}).json()['results']
 
         # Fuzzy match
@@ -146,22 +159,18 @@ class TypeReasoner(BasicBrain):
             query = read_query('typing/wikidata_type_and_description') % comb
             try:
                 r = requests.get(url, params={'format': 'json', 'query': query}, timeout=3)
-                data = r.json() if r.status_code != 500 else None
+                data = r.json() if r.status_code == 200 else None
             except:
                 self._log.warning("Failed to query Wikidata")
                 data = None
 
             # break if we have a hit
-            if data:
-                break
+            if data and data['results']['bindings']:
+                class_type = data['results']['bindings'][0]['itemtypeLabel']['value'] \
+                    if 'itemtypeLabel' in list(data['results']['bindings'][0].keys()) else None
+                description = data['results']['bindings'][0]['itemDescription']['value'] \
+                    if 'itemDescription' in list(data['results']['bindings'][0].keys()) else None
 
-        if data is not None:
-            class_type = data['results']['bindings'][0]['itemtypeLabel']['value'] \
-                if 'itemtypeLabel' in list(data['results']['bindings'][0].keys()) else None
-            description = data['results']['bindings'][0]['itemDescription']['value'] \
-                if 'itemDescription' in list(data['results']['bindings'][0].keys()) else None
+                return class_type, description
 
-            return class_type, description
-
-        else:
-            return None, None
+        return None, None

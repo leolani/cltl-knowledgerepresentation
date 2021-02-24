@@ -1,14 +1,16 @@
-from datetime import date
 from random import choice, sample, randint, uniform
 
-from leolani.api import UtteranceType
-from leolani.framework.context import Context
-from leolani.framework.sensor.api import Face, UtteranceHypothesis
-from leolani.framework.sensor.obj import Object
-from leolani.language import Chat, Utterance
+from datetime import date
 
 from leolani.brain import RdfBuilder
+from pepper.api import UtteranceType
+from pepper.framework.context.api import Context
+from pepper.framework.sensor.api import UtteranceHypothesis
+from pepper.framework.sensor.face import Face
+from pepper.framework.sensor.obj import Object
+from pepper.language import Chat, Utterance
 
+name = 'Leolani'
 places = ['Forest', 'Playground', 'Monastery', 'House', 'University', 'Hotel', 'Office']
 friends = ['Piek', 'Lenka', 'Bram', 'Suzana', 'Selene', 'Lea', 'Thomas', 'Jaap', 'Tae']
 
@@ -16,117 +18,147 @@ signal = False
 binary_values = [True, False]
 
 capsule_knows = {
-    "utterance": "dimitris knows piek",
-    "subject": {
-        "label": "dimitris",
-        "type": "person"
-    },
-    "predicate": {
-        "type": "knows"
-    },
-    "object": {
-        "label": "piek",
-        "type": "person"
-    },
-    "author": "tom",
-    "turn": 1,
-    "position": "0-25",
-    "date": date(2019, 1, 24)
+    "utterance": "Bram knows Lenka",
+    "subject": {"label": "bram", "type": "person"},
+    "predicate": {"type": "know"},
+    "object": {"label": "lenka", "type": "person"},
+    "perspective": {"certainty": 1, "polarity": 1, "sentiment": 0},
+    "author": "suzana",
+    "chat": 6,
+    "turn": 4,
+    "position": "0-16",
+    "date": date(2019, 3, 19)
 }
 
 capsule_is_from = {
-    "utterance": "bram is from mongolia",
-    "subject": {
-        "label": "bram",
-        "type": "person"
-    },
-    "predicate": {
-        "type": "be-from"
-    },
-    "object": {
-        "label": "netherlands",
-        "type": "location"
-    },
-    "author": "bram",
+    "utterance": "Lenka is from Serbia",
+    "subject": {"label": "lenka", "type": "person"},
+    "predicate": {"type": "be-from"},
+    "object": {"label": "serbia", "type": "location"},
+    "perspective": {"certainty": 1, "polarity": 1, "sentiment": 0},
+    "author": "piek",
     "chat": 1,
     "turn": 1,
     "position": "0-25",
-    "date": date(2018, 3, 19)
+    "date": date(2017, 10, 24)
 }
 
 capsule_is_from_2 = {
-    "utterance": "bram is from mongolia",
-    "subject": {
-        "label": "bram",
-        "type": "person"
-    },
-    "predicate": {
-        "type": "be-from"
-    },
-    "object": {
-        "label": "mongolia",
-        "type": "location"
-    },
-    "author": "lenka",
+    "utterance": "Bram is from the Netherlands",
+    "subject": {"label": "bram", "type": "person"},
+    "predicate": {"type": "be-from"},
+    "object": {"label": "netherlands", "type": "location"},
+    "perspective": {"certainty": 1, "polarity": 1, "sentiment": 0},
+    "author": "piek",
     "chat": 1,
-    "turn": 1,
+    "turn": 2,
     "position": "0-25",
-    "date": date(2018, 3, 25)
+    "date": date(2017, 10, 24)
 }
 
 capsule_is_from_3 = {
-    "utterance": "bram is from mongolia",
-    "subject": {
-        "label": "piek",
-        "type": "person"
-    },
-    "predicate": {
-        "type": "be-from"
-    },
-    "object": {
-        "label": "netherlands",
-        "type": "location"
-    },
-    "author": "bram",
+    "utterance": "Selene is from Mexico",
+    "subject": {"label": "selene", "type": "person"},
+    "predicate": {"type": "be-from"},
+    "object": {"label": "mexico", "type": "location"},
+    "perspective": {"certainty": 1, "polarity": 1, "sentiment": 0},
+    "author": "piek",
     "chat": 1,
-    "turn": 1,
+    "turn": 3,
     "position": "0-25",
-    "date": date(2018, 3, 25)
+    "date": date(2017, 10, 24)
 }
 
+capsules = [capsule_is_from, capsule_is_from_2, capsule_is_from_3, capsule_knows]
 
-def fake_objects(empty=False, no_people=False, place=False):
-    if choice(binary_values):
-        faces = {Face('Selene', 0.90, None, None, None), Face('Stranger', 0.90, None, None, None)}
+
+def random_flags():
+    """
+    Determine if the scene will be modelled with objects, people and/or a known place
+    :return:
+    """
+    objects_flag = choice(binary_values)
+    people_flag = choice(binary_values)
+    places_flag = choice(binary_values)
+
+    return objects_flag, people_flag, places_flag
+
+
+def fake_context(objects_flag=False, people_flag=False, places_flag=False):
+    """
+    Create a Context object representing a scene taking place in a location, with objects, people
+    :param objects_flag: Whether there are objects in the scene
+    :param people_flag: Whether there are people in the scene
+    :param places_flag: Whether the in the scene is known or not
+    :return: Context object
+    """
+    context = Context(name, friends)
+
+    # Set place
+    if places_flag:
+        place = fake_place()
+        context.location._label = place
+
+    # Set objects
+    if objects_flag:
+        objects = fake_objects(context)
+        context.add_objects(objects)
+
+    # Set people
+    if people_flag:
+        faces = fake_people()
+        context.add_people(faces)
+
+    return context
+
+
+def fake_place():
+    """
+    Select a location randomly
+    :return: place where scene takes place
+    """
+    place = choice(places)
+
+    return place
+
+
+def fake_objects(context):
+    """
+    Create objects, related to the location if possible
+    :param context: Context object containing information about the ongoing scene
+    :return: List of Object objects that are in the scene
+    """
+    # Office
+    if context.location.label == 'Office':
+        if choice(binary_values):
+            objects = [Object('person', 0.79, None, None), Object('laptop', 0.88, None, None),
+                       Object('chair', 0.88, None, None), Object('laptop', 0.51, None, None),
+                       Object('bottle', 0.88, None, None)]
+        else:
+            objects = [Object('person', 0.79, None, None), Object('plant', 0.88, None, None),
+                       Object('chair', 0.88, None, None), Object('laptop', 0.51, None, None)]
+
+    # Market
+    elif context.location.label == 'Market':
+        if choice(binary_values):
+            objects = [Object('apple', 0.79, None, None), Object('banana', 0.88, None, None),
+                       Object('avocado', 0.51, None, None), Object('banana', 0.88, None, None)]
+        else:
+            objects = [Object('apple', 0.79, None, None), Object('banana', 0.88, None, None),
+                       Object('avocado', 0.51, None, None), Object('strawberry', 0.88, None, None)]
+
+    # Playground
+    elif context.location.label == 'Playground':
+        if choice(binary_values):
+            objects = [Object('person', 0.79, None, None), Object('teddy bear', 0.88, None, None),
+                       Object('teddy bear', 0.88, None, None), Object('cat', 0.51, None, None)]
+        else:
+            objects = [Object('apple', 0.79, None, None), Object('banana', 0.88, None, None),
+                       Object('cat', 0.51, None, None), Object('banana', 0.88, None, None)]
+
+    # Anywhere else
     else:
-        faces = {Face('Selene', 0.90, None, None, None), Face('Piek', 0.90, None, None, None)}
-
-    context = Context("Leolani", [])
-    if place:
-        context.location._label = choice(places)
-
-    if choice(binary_values) and not signal and context.location.label == 'Office':
-        objects = [Object('person', 0.79, None, None), Object('laptop', 0.88, None, None),
-                   Object('chair', 0.88, None, None), Object('laptop', 0.51, None, None),
-                   Object('bottle', 0.88, None, None)]
-    elif choice(binary_values) and context.location.label == 'Office':
-        objects = [Object('person', 0.79, None, None), Object('plant', 0.88, None, None),
-                   Object('chair', 0.88, None, None), Object('laptop', 0.51, None, None)]
-    elif choice(binary_values) and not signal and context.location.label == 'Market':
-        objects = [Object('apple', 0.79, None, None), Object('banana', 0.88, None, None),
-                   Object('avocado', 0.51, None, None), Object('banana', 0.88, None, None)]
-    elif choice(binary_values) and not signal and context.location.label == 'Market':
-        objects = [Object('apple', 0.79, None, None), Object('banana', 0.88, None, None),
-                   Object('avocado', 0.51, None, None), Object('strawberry', 0.88, None, None)]
-    elif choice(binary_values) and not signal and context.location.label == 'Playground':
-        objects = [Object('person', 0.79, None, None), Object('teddy bear', 0.88, None, None),
-                   Object('teddy bear', 0.88, None, None), Object('cat', 0.51, None, None)]
-    elif choice(binary_values) and not signal and context.location.label == 'Playground':
-        objects = [Object('apple', 0.79, None, None), Object('banana', 0.88, None, None),
-                   Object('cat', 0.51, None, None), Object('banana', 0.88, None, None)]
-        # signal = True
-    else:
-        if context.location.label != 'Market':
+        if choice(binary_values):
             objects = [Object('teddy bear', 0.79, None, None), Object('dog', 0.88, None, None),
                        Object('cat', 0.51, None, None), Object('dog', 0.88, None, None)]
         else:
@@ -137,6 +169,10 @@ def fake_objects(empty=False, no_people=False, place=False):
 
 
 def fake_people():
+    """
+    Create people present in the scene
+    :return: List of Face objects present in the scene
+    """
     num_people = randint(0, len(friends))
     people = sample(friends, num_people)
 
@@ -154,28 +190,13 @@ def fake_people():
     return faces
 
 
-def fake_context(empty=False, no_people=False, place=False):
-    context = Context()
-
-    # Set place
-    if place:
-        context.location._label = choice(places)
-
-    faces = fake_people()
-    objects = fake_objects(context)
-
-    # Set objects
-    if not empty:
-        context.add_objects(objects)
-        context.add_people(faces)
-
-    if not no_people:
-        context.add_objects(objects)
-
-    return context
-
-
 def fake_chat(capsule, context):
+    """
+    Create a Chat object, given a JSON representation and a Context object
+    :param capsule: JSON
+    :param context: Context object
+    :return: Chat object
+    """
     chat = Chat(capsule['author'], context)
     chat.set_id(capsule['chat'])
 
@@ -183,6 +204,12 @@ def fake_chat(capsule, context):
 
 
 def fake_utterance(capsule, chat):
+    """
+    Create an Utterance object, given a JSON representation and a Chat object
+    :param capsule: JSON
+    :param chat: Chat object
+    :return: Utterance object
+    """
     hyp = UtteranceHypothesis(capsule['utterance'], 0.99)
 
     utt = Utterance(chat, [hyp], False, capsule['turn'])
@@ -193,6 +220,12 @@ def fake_utterance(capsule, chat):
 
 
 def fake_triple(capsule, utt):
+    """
+    Create a Triple object given a JSON representation, and associate it to a given Utterance
+    :param capsule: JSON
+    :param utt: Utterance object
+    :return:
+    """
     builder = RdfBuilder()
 
     triple = builder.fill_triple(capsule['subject'], capsule['predicate'], capsule['object'])
@@ -201,8 +234,17 @@ def fake_triple(capsule, utt):
     utt.pack_perspective(capsule['perspective'])
 
 
-def transform_capsule(capsule, empty=False, no_people=False, place=False):
-    context = fake_context(empty=empty, no_people=no_people, place=place)
+def transform_capsule(capsule, objects_flag=False, people_flag=False, places_flag=False):
+    """
+    Take a JSON representation and create an Utterance object
+    :param capsule: JSON
+    :param objects_flag: Whether there are objects in the scene
+    :param people_flag: Whether there are people in the scene
+    :param places_flag: Whether the in the scene is known or not
+    :return: Utterance object
+    """
+
+    context = fake_context(objects_flag=objects_flag, people_flag=people_flag, places_flag=places_flag)
     context.set_datetime(capsule['date'])
 
     chat = fake_chat(capsule, context)

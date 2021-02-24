@@ -1,9 +1,9 @@
 import random
-from datetime import date, datetime
-from typing import List, Optional
 
+from datetime import date, datetime
 from nltk.stem import WordNetLemmatizer
 from rdflib import Literal
+from typing import List, Optional
 
 from leolani.brain.utils.constants import NOT_TO_MENTION_TYPES
 from leolani.brain.utils.helper_functions import hash_claim_id, is_proper_noun, casefold_text
@@ -966,9 +966,12 @@ class Thoughts(object):
             c.casefold(format)
         for c in self._complement_conflict:
             c.casefold(format)
-        self._subject_gaps.casefold(format)
-        self._complement_gaps.casefold(format)
-        self._overlaps.casefold(format)
+        if self._subject_gaps:
+            self._subject_gaps.casefold(format)
+        if self._complement_gaps:
+            self._complement_gaps.casefold(format)
+        if self._overlaps:
+            self._overlaps.casefold(format)
 
     def __repr__(self):
         representation = {'statement_novelty': self._statement_novelty, 'entity_novelty': self._entity_novelty,

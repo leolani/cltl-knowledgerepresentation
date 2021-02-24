@@ -4,7 +4,7 @@ from leolani.brain.basic_brain import BasicBrain
 from leolani.brain.infrastructure import Thoughts
 from leolani.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
 from leolani.brain.utils.helper_functions import read_query, casefold_text
-from leolani.framework.infra.di_container import DIContainer
+from pepper.framework.infra.di_container import DIContainer
 
 
 class BrainContainer(DIContainer):
@@ -42,6 +42,7 @@ class LongTermMemory(BasicBrain):
 
     #################################### Main functions to interact with the brain ####################################
     def get_thoughts_on_entity(self, entity_label, reason_types=False):
+        # TODO: Ongoing work
         if entity_label is not None and entity_label != '':
             # Casefold
             entity_label = casefold_text(entity_label, format='triple')
@@ -56,7 +57,6 @@ class LongTermMemory(BasicBrain):
             else:
                 entity = self._rdf_builder.fill_entity_from_label(entity_label, 'N2MU')
 
-            # TODO: Ongoing work
             triple = self._rdf_builder.fill_triple_from_label('leolani', 'see', entity_label)
 
             # Check how many items of the same type as subject and complement we have
@@ -66,7 +66,7 @@ class LongTermMemory(BasicBrain):
             entity_gaps = self.thought_generator.get_entity_gaps(entity)
 
             # Create JSON output
-            thoughts = Thoughts([], entity_novelty, [], [], entity_gaps, entity_gaps, [], None)
+            thoughts = Thoughts([], entity_novelty, [], [], None, entity_gaps, None, None)
             output = {'response': 200, 'entity': entity, 'thoughts': thoughts}
 
         else:

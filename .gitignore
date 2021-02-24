@@ -134,3 +134,6 @@ dmypy.json
 
 # 2to3
 *.bak
+
+# RDF dumps (brain logs)
+leolani/brain/logs/*.trig

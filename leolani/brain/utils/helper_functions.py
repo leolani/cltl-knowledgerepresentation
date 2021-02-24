@@ -5,7 +5,7 @@ from datetime import date
 
 import numpy as np
 
-from leolani.api import Emotion
+from pepper.api import Emotion
 from leolani.brain.utils.constants import CAPITALIZED_TYPES
 
 
@@ -30,7 +30,18 @@ def is_proper_noun(types):
     return any(i in types for i in CAPITALIZED_TYPES)
 
 
+def remove_articles(text):
+    articles = ['a-', 'this-', 'the-']
+    for a in articles:
+        if text.startswith(a):
+            text = text.replace(a, '')
+    return text
+
+
 def casefold_text(text, format='triple'):
+    if not text:
+        return None
+
     if format == 'triple':
         if isinstance(text, str):
             for sign in string.punctuation:
@@ -79,6 +90,7 @@ def hash_claim_id(triple):
 
 def confidence_to_certainty_value(confidence):
     if confidence is not None:
+        confidence = float(confidence)
         if confidence > .90:
             return 'CERTAIN'
         elif confidence >= .50:
@@ -90,6 +102,7 @@ def confidence_to_certainty_value(confidence):
 
 def polarity_to_polarity_value(polarity):
     if polarity is not None:
+        polarity = float(polarity)
         if polarity > 0:
             return 'POSITIVE'
         elif polarity < 0:
@@ -99,6 +112,7 @@ def polarity_to_polarity_value(polarity):
 
 def sentiment_to_sentiment_value(sentiment):
     if sentiment is not None:
+        sentiment = float(sentiment)
         if sentiment > 0:
             return 'POSITIVE'
         elif sentiment < 0:

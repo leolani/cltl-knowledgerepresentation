@@ -142,14 +142,14 @@ class LocationReasoner(BasicBrain):
             memory.sort(key=lambda x: x['overlap'])
             best_guess = memory[0]
             guess = best_guess['place'] \
-                if best_guess['overlap'] > 0.5 and best_guess['place'] != cntxt.location.UNKNOWN else None
+                if best_guess['overlap'] > 0.5 \
+                   and best_guess['place'].lower() != cntxt.location.UNKNOWN.lower() else None
 
-            self._log.info("Reasoned location to: {}".format(guess))
+            self._log.info("Reasoned location to: {} with {} overlap".format(guess, best_guess['overlap']))
 
         return guess
 
     def set_location_label(self, label, default='Unknown'):
-        # https: // www.semanticarts.com / sparql - changing - instance - uris /
         # Replace as subject, replace label, replace as object in the database (long term memory)
 
         queries = read_query('context/rename_location') % (default, label,

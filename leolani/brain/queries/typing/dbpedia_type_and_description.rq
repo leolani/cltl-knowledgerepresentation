@@ -1,20 +1,25 @@
 PREFIX dbo: <http://dbpedia.org/ontology/>
-PREFIX dbr: <http://dbpedia.org/resource/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
-SELECT DISTINCT ?label_type ?description
-WHERE {
-    SERVICE <http://dbpedia.org/sparql> {
-        ?thing rdf:type owl:Thing ;
-               rdfs:label "%s"@en ;
-               dbo:abstract ?description ;
-               rdf:type ?type .
-        ?type rdfs:label ?label_type
-    filter(regex(str(?type), "dbpedia"))
-        filter(langMatches(lang(?description),"EN"))
-        filter(langMatches(lang(?label_type),"EN"))
-    }
-}
+SELECT DISTINCT ?label_type ?description WHERE {
+  # Get type
+  ?thing rdfs:label "%s"@en;
+    rdf:type ?type.
+
+  # Rank types
+  BIND(IF(REGEX(STR(?type), STR(dbo:)), "DB type"@en, "not DB type"@en) AS ?db_type)
+
+  # Get label of type
+  OPTIONAL { ?type rdfs:label ?lt. }
+  BIND(IF(!(BOUND(?lt)), "%s"@en, ?lt) AS ?label_type)
+  FILTER(LANGMATCHES(LANG(?label_type), "EN"))
+
+  # Get description
+  OPTIONAL {
+    ?thing dbo:abstract ?description.
+    FILTER(LANGMATCHES(LANG(?description), "EN"))
+  }
+
+}ORDER BY ?db_type
 LIMIT 1

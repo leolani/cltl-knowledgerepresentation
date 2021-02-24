@@ -1,14 +1,14 @@
 # coding=utf-8
 
+import pathlib
+
 from leolani.brain.fame_aware import FameAwareMemory
 
 if __name__ == "__main__":
-
     # Create brain connection
-    brain = FameAwareMemory("http://localhost:7200/repositories/famous")
+    log_path = pathlib.Path.cwd().parent / 'leolani' / 'brain' / 'logs'
+    brain = FameAwareMemory(address="http://localhost:7200/repositories/sandbox",
+                            log_dir=str(log_path),
+                            clear_all=True)
 
-    people = ["Máxima of the Netherlands", "Brexit"]
-
-    for elem in people:
-        x = brain.lookup_person_wikidata(elem)
-
+    response = brain.lookup_person_wikidata("Queen Máxima of the Netherlands")

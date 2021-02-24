@@ -1,25 +1,67 @@
-from random import choice
-
-from leolani.language.generation.thoughts_phrasing import phrase_thoughts
-from test_manual.brain.utils import transform_capsule, binary_values, capsule_is_from, capsule_is_from_2, \
-    capsule_is_from_3, capsule_knows
+import pathlib
 
 from leolani.brain import LongTermMemory
+from pepper.language.generation.thoughts_phrasing import phrase_thoughts, _phrase_cardinality_conflicts, \
+    _phrase_negation_conflicts, _phrase_statement_novelty, _phrase_type_novelty, _phrase_subject_gaps, \
+    _phrase_complement_gaps, _phrase_overlaps, _phrase_trust
+from tests.utils import transform_capsule, random_flags, capsules
 
 if __name__ == "__main__":
 
     # Create brain connection
-    brain = LongTermMemory(clear_all=True)
+    log_path = pathlib.Path.cwd().parent / 'leolani' / 'brain' / 'logs'
+    brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
+                           log_dir=str(log_path),
+                           clear_all=True)
 
-    capsules = [capsule_is_from, capsule_is_from_2, capsule_is_from_3, capsule_knows]
+    for elem in capsules:
 
-    for capsule in capsules:
+        # Create Utterance object
+        objects_flag, people_flag, places_flag = random_flags()
+        capsule = transform_capsule(elem, objects_flag=objects_flag, people_flag=people_flag,
+                                    places_flag=places_flag)
+
         say = ''
-        em = choice(binary_values)
-        np = choice(binary_values)
-        p = choice(binary_values)
-        capsule = transform_capsule(capsule, empty=em, no_people=np, place=p)
         x = brain.update(capsule, reason_types=True)
+        thoughts = x['thoughts']
+        utterance = x['statement']
 
-        for x in range(10):
-            print((phrase_thoughts(x, True, True)))
+        print('\n\n---------------------------------------------------------------\n{}\n'.format(capsule.triple))
+
+        try:
+            print(('\tcardinality conflicts: ' + _phrase_cardinality_conflicts(thoughts.complement_conflicts(),
+                                                                               utterance)))
+        except:
+            print(('\tcardinality conflicts: ' + 'No say'))
+        try:
+            print(('\tnegation conflicts: ' + _phrase_negation_conflicts(thoughts.negation_conflicts(), utterance)))
+        except:
+            print(('\tnegation conflicts: ' + 'No say'))
+        try:
+            print(('\tstatement novelty: ' + _phrase_statement_novelty(thoughts.statement_novelties(), utterance)))
+        except:
+            print('\tstatement novelty: ' 'No say')
+        try:
+            print(('\ttype novelty: ' + _phrase_type_novelty(thoughts.entity_novelty(), utterance)))
+        except:
+            print(('\ttype novelty: ' + 'No say'))
+        try:
+            print(('\tsubject gaps: ' + _phrase_subject_gaps(thoughts.subject_gaps(), utterance)))
+        except:
+            print(('\tsubject gaps: ' + 'No say'))
+        try:
+            print(('\tobject gaps: ' + _phrase_complement_gaps(thoughts.complement_gaps(), utterance)))
+        except:
+            print(('\tobject gaps: ' + 'No say'))
+        try:
+            print(('\toverlaps: ' + _phrase_overlaps(thoughts.overlaps(), utterance)))
+        except:
+            print(('\toverlaps: ' + 'No say'))
+        try:
+            print(('\ttrust: ' + _phrase_trust(thoughts.trust())))
+        except:
+            print(('\ttrust: ' + 'No say'))
+        try:
+            print(('\t\t\tFINAL SAY: ' + phrase_thoughts(x, proactive=True, persist=True)))
+        except:
+            print(('\t\t\tFINAL SAY: ' + 'No say'))

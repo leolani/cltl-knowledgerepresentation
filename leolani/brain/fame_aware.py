@@ -1,8 +1,8 @@
 import requests
 
-from leolani.brain.utils.helper_functions import read_query, casefold_text
-from leolani.brain.long_term_memory import LongTermMemory
 from leolani.brain.LTM_statement_processing import _link_entity, create_claim_graph
+from leolani.brain.long_term_memory import LongTermMemory
+from leolani.brain.utils.helper_functions import read_query, casefold_text
 
 
 class FameAwareMemory(LongTermMemory):
@@ -29,58 +29,54 @@ class FameAwareMemory(LongTermMemory):
 
         # Gather combinations
         combinations = [person_name, person_name.capitalize(), person_name.lower(), person_name.title()]
-        data = {}
 
         for comb in combinations:
             # Try exact matching query
             query = read_query('famous_person') % (comb, comb, comb)
             try:
                 r = requests.get(url, params={'format': 'json', 'query': query}, timeout=3)
-                data = r.json() if r.status_code != 500 else None
+                data = r.json() if r.status_code == 200 else None
             except:
                 self._log.exception("Failed to query Wikidata")
                 data = None
 
             # break if we have a hit
             if data and data['results']['bindings']:
-                break
+                # Report on size of graph found
+                total_triples = len(data['results']['bindings'])
+                self._log.info("{} triples found for {}".format(total_triples, comb))
 
-        if data and data['results']['bindings']:
-            # Report on size of graph found
-            total_triples = len(data['results']['bindings'])
-            self._log.info("{} triples found for {}".format(total_triples, comb))
+                for triple in data['results']['bindings']:
+                    # Add claim to the dataset
+                    self.add_triple(triple)
 
-            for triple in data['results']['bindings']:
-                # Parse subject
-                s_preprocessed_types = self._rdf_builder.clean_aggregated_types(triple['subjectTypesLabel']['value'])
-                s = self._rdf_builder.fill_entity(casefold_text(triple['subjectLabel']['value'], format='triple'),
-                                                  s_preprocessed_types, uri=triple['subject']['value'])
-                _link_entity(self, s, self.instance_graph)
+                # Finish process of uploading new knowledge to the triple store
+                data = self._serialize(self._brain_log)
+                code = self._upload_to_brain(data)
 
-                # Parse predicate
-                p = self._rdf_builder.fill_predicate(casefold_text(triple['propLabel']['value'], format='triple'),
-                                                     uri=triple['property']['value'])
+                return {'response': code, 'label': person_name}
 
-                # Parse object
-                if 'literal' not in triple['objectTypesLabel']['value']:
-                    o_preprocessed_types = self._rdf_builder.clean_aggregated_types(triple['objectTypesLabel']['value'])
-                    o = self._rdf_builder.fill_entity(casefold_text(triple['objectLabel']['value'], format='triple'),
-                                                      o_preprocessed_types, uri=triple['object']['value'])
-                    _link_entity(self, o, self.instance_graph)
-                else:
-                    o = self._rdf_builder.fill_literal(casefold_text(triple['objectLabel']['value'], format='triple'))
-                    # TODO: special logic for alternative labels
+        return {'response': None, 'label': person_name}
 
-                # Add claim to the dataset
-                create_claim_graph(self, s, p, o)
+    def add_triple(self, triple):
 
-            # Finish process of uploading new knowledge to the triple store
-            data = self._serialize(self._brain_log)
-            code = self._upload_to_brain(data)
+        # Parse subject
+        s_types = self._rdf_builder.clean_aggregated_types(triple['subjectTypesLabel']['value'])
+        s = self._rdf_builder.fill_entity(casefold_text(triple['subjectLabel']['value'], format='triple'),
+                                          s_types, uri=triple['subject']['value'])
+        _link_entity(self, s, self.instance_graph)
 
-            output = {'response': code, 'label': person_name}
+        # Parse predicate
+        p = self._rdf_builder.fill_predicate(casefold_text(triple['propLabel']['value'], format='triple'),
+                                             uri=triple['property']['value'])
 
+        # Parse object
+        if 'literal' in triple['objectTypesLabel']['value']:
+            o = self._rdf_builder.fill_literal(casefold_text(triple['objectLabel']['value'], format='triple'))
+            self.instance_graph.add((s.id, p.id, o))
         else:
-            output = {'response': None, 'label': person_name}
-
-        return output
+            o_types = self._rdf_builder.clean_aggregated_types(triple['objectTypesLabel']['value'])
+            o = self._rdf_builder.fill_entity(casefold_text(triple['objectLabel']['value'], format='triple'),
+                                              o_types, uri=triple['object']['value'])
+            _link_entity(self, o, self.instance_graph)
+            create_claim_graph(self, s, p, o)

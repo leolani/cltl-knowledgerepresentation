@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 from datetime import datetime
@@ -149,6 +150,43 @@ class BasicBrain(object):
             temp[r['l']['value']] = r['type']['value'].split('/')[-1]
 
         return temp
+
+    def get_ontology_elements(self):
+        """
+        Get classes, object and data properties in ontology
+        :return:
+        """
+        query = read_query('structure exploration/ontology_elements')
+        response = self._submit_query(query)
+
+        temp = dict()
+        for r in response:
+            temp[r['name']['value']] = r['prefixedName']['value']
+
+        return temp
+
+    def get_jsonld_context(self, save_path=False):
+        """
+        Create context for json ld interpretation
+        :param save_path: file path to save JSON, if false then JSON is only returned as string
+        :return: str
+        """
+        # Create JSON LD
+        namespaces = dict()
+        for k, v in self.namespaces.items():
+            namespaces[k.lower()] = str(v)
+
+        ontology = self.get_ontology_elements()
+
+        my_jsonld = {**namespaces, **ontology}
+
+        if save_path:
+            with open(save_path, 'w') as f:
+                json.dump(my_jsonld, f, indent=4)
+
+        final = json.dumps(my_jsonld, indent=4)
+
+        return final
 
     ########## learned facts exploration ##########
     def count_statements(self):

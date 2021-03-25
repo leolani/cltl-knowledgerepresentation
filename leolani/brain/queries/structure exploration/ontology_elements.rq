@@ -1,0 +1,33 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX ceo: <http://www.newsreader-project.eu/domain-ontology#>
+PREFIX eps: <http://cltl.nl/episodicawareness/>
+PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
+PREFIX gaf: <http://groundedannotationframework.org/gaf#>
+PREFIX grasp: <http://groundedannotationframework.org/grasp#>
+PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
+
+SELECT ?type ?c
+		?prefixedName
+		?prefix
+		?name
+
+WHERE {
+    ?c rdf:type ?type.
+    FILTER(?type IN (owl:Class, owl:ObjectProperty, owl:DatatypeProperty) ).
+
+    BIND(
+        IF(STRSTARTS(STR(?c), STR(ceo:)), replace(str(?c), str(ceo:), "ceo:"),
+        IF(STRSTARTS(STR(?c), STR(eps:)), replace(str(?c), str(eps:), "eps:"),
+        IF(STRSTARTS(STR(?c), STR(n2mu:)), replace(str(?c), str(n2mu:), "n2mu:"),
+        IF(STRSTARTS(STR(?c), STR(gaf:)), replace(str(?c), str(gaf:), "gaf:"),
+        IF(STRSTARTS(STR(?c), STR(grasp:)), replace(str(?c), str(grasp:), "grasp:"),
+        IF(STRSTARTS(STR(?c), STR(sem:)), replace(str(?c), str(sem:), "sem:"), ?c ))))))
+        as ?prefixedName)
+
+    BIND(STRBEFORE(?prefixedName, ":") AS ?prefix)
+	BIND(STRAFTER(?prefixedName, ":") AS ?name)
+
+    FILTER(BOUND(?prefix))
+}
+ORDER BY (?prefix)

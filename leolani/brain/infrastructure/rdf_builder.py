@@ -36,6 +36,8 @@ class RdfBuilder(object):
         # Namespaces for the instance layer
         instance_vocab = 'http://cltl.nl/leolani/n2mu/'
         self.namespaces['N2MU'] = Namespace(instance_vocab)
+        ceo = 'http://www.newsreader-project.eu/domain-ontology#'
+        self.namespaces['CEO'] = Namespace(ceo)
         instance_resource = 'http://cltl.nl/leolani/world/'
         self.namespaces['LW'] = Namespace(instance_resource)
 
@@ -95,6 +97,7 @@ class RdfBuilder(object):
         :return:
         """
         self.dataset.bind('n2mu', self.namespaces['N2MU'])
+        self.dataset.bind('ceo', self.namespaces['CEO'])
         self.dataset.bind('leolaniWorld', self.namespaces['LW'])
 
         self.dataset.bind('gaf', self.namespaces['GAF'])

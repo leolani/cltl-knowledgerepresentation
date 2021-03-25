@@ -11,11 +11,11 @@ from pepper.framework.sensor.obj import Object
 from pepper.language import Chat, Utterance
 
 name = 'Leolani'
-places = ['Forest', 'Playground', 'Monastery', 'House', 'University', 'Hotel', 'Office']
-friends = ['Piek', 'Lenka', 'Bram', 'Suzana', 'Selene', 'Lea', 'Thomas', 'Jaap', 'Tae']
+# places = ['Forest', 'Playground', 'Monastery', 'House', 'University', 'Hotel', 'Office']
+# friends = ['Piek', 'Lenka', 'Bram', 'Suzana', 'Selene', 'Lea', 'Thomas', 'Jaap', 'Tae']
 
 signal = False
-binary_values = [True, False]
+binary_values = [True]
 
 capsule_knows = {
     "utterance": "Bram knows Lenka",
@@ -69,7 +69,49 @@ capsule_is_from_3 = {
     "date": date(2017, 10, 24)
 }
 
-capsules = [capsule_is_from, capsule_is_from_2, capsule_is_from_3, capsule_knows]
+# capsules = [capsule_is_from, capsule_is_from_2, capsule_is_from_3, capsule_knows]
+
+carl = [
+    {
+        "utterance": "I need to take my pills, but I cannot find them.",
+        "subject": {"label": "carl", "type": "person"},
+        "predicate": {"type": "sees"},
+        "object": {"label": "pills", "type": "object"},
+        "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},
+        "author": "carl",
+        "chat": 1,
+        "turn": 1,
+        "position": "0-25",
+        "date": date(2021, 3, 12)
+    },
+    {
+        "utterance": "I found them. They are under the table.",
+        "subject": {"label": "pills", "type": "object"},
+        "predicate": {"type": "locatedUnder"},
+        "object": {"label": "table", "type": "object"},
+        "perspective": {"certainty": 1, "polarity": 1, "sentiment": 0},
+        "author": "leolani",
+        "chat": 1,
+        "turn": 2,
+        "position": "0-25",
+        "date": date(2021, 3, 12)
+    },
+    {
+        "utterance": "Oh! Got it. Thank you.",
+        "subject": {"label": "carl", "type": "person"},
+        "predicate": {"type": "sees"},
+        "object": {"label": "pills", "type": "object"},
+        "perspective": {"certainty": 1, "polarity": 1, "sentiment": 1},
+        "author": "carl",
+        "chat": 1,
+        "turn": 3,
+        "position": "0-25",
+        "date": date(2021, 3, 12)
+    }
+]
+capsules = carl
+friends = ['carl']
+places = ['Home']
 
 
 def random_flags():
@@ -155,6 +197,11 @@ def fake_objects(context):
         else:
             objects = [Object('apple', 0.79, None, None), Object('banana', 0.88, None, None),
                        Object('cat', 0.51, None, None), Object('banana', 0.88, None, None)]
+
+    # Home
+    elif context.location.label == 'Home':
+        objects = [Object('table', 0.89, None, None), Object('pills', 0.88, None, None),
+                   Object('tv', 0.51, None, None), Object('potted plant', 0.68, None, None)]
 
     # Anywhere else
     else:

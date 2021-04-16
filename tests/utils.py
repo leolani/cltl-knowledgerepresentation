@@ -1,6 +1,7 @@
 from random import choice, sample, randint, uniform
 
 from datetime import date
+import numpy as np
 
 from leolani.brain import RdfBuilder
 from pepper.api import UtteranceType
@@ -8,11 +9,15 @@ from pepper.framework.context.api import Context
 from pepper.framework.sensor.api import UtteranceHypothesis
 from pepper.framework.sensor.face import Face
 from pepper.framework.sensor.obj import Object
+from pepper.framework.infra.util import Bounds
 from pepper.language import Chat, Utterance
 
+TEST_IMG = np.zeros((128,))
+TEST_BOUNDS = Bounds(0.0, 0.0, 1.0, 1.0)
+
 name = 'Leolani'
-# places = ['Forest', 'Playground', 'Monastery', 'House', 'University', 'Hotel', 'Office']
-# friends = ['Piek', 'Lenka', 'Bram', 'Suzana', 'Selene', 'Lea', 'Thomas', 'Jaap', 'Tae']
+places = ['Forest', 'Playground', 'Monastery', 'House', 'University', 'Hotel', 'Office']
+friends = ['Piek', 'Lenka', 'Bram', 'Suzana', 'Selene', 'Lea', 'Thomas', 'Jaap', 'Tae']
 
 signal = False
 binary_values = [True]
@@ -109,9 +114,9 @@ carl = [
         "date": date(2021, 3, 12)
     }
 ]
-capsules = carl
-friends = ['carl']
-places = ['Home']
+# capsules = carl
+# friends = ['carl']
+# places = ['Home']
 
 
 def random_flags():
@@ -173,44 +178,45 @@ def fake_objects(context):
     # Office
     if context.location.label == 'Office':
         if choice(binary_values):
-            objects = [Object('person', 0.79, None, None), Object('laptop', 0.88, None, None),
-                       Object('chair', 0.88, None, None), Object('laptop', 0.51, None, None),
-                       Object('bottle', 0.88, None, None)]
+            objects = [Object('person', 0.79, TEST_BOUNDS, TEST_IMG), Object('laptop', 0.88, TEST_BOUNDS, TEST_IMG),
+                       Object('chair', 0.88, TEST_BOUNDS, TEST_IMG), Object('laptop', 0.51, TEST_BOUNDS, TEST_IMG),
+                       Object('bottle', 0.88, TEST_BOUNDS, TEST_IMG)]
         else:
-            objects = [Object('person', 0.79, None, None), Object('plant', 0.88, None, None),
-                       Object('chair', 0.88, None, None), Object('laptop', 0.51, None, None)]
+            objects = [Object('person', 0.79, TEST_BOUNDS, TEST_IMG), Object('plant', 0.88, TEST_BOUNDS, TEST_IMG),
+                       Object('chair', 0.88, TEST_BOUNDS, TEST_IMG), Object('laptop', 0.51, TEST_BOUNDS, TEST_IMG)]
 
     # Market
     elif context.location.label == 'Market':
         if choice(binary_values):
-            objects = [Object('apple', 0.79, None, None), Object('banana', 0.88, None, None),
-                       Object('avocado', 0.51, None, None), Object('banana', 0.88, None, None)]
+            objects = [Object('apple', 0.79, TEST_BOUNDS, TEST_IMG), Object('banana', 0.88, TEST_BOUNDS, TEST_IMG),
+                       Object('avocado', 0.51, TEST_BOUNDS, TEST_IMG), Object('banana', 0.88, TEST_BOUNDS, TEST_IMG)]
         else:
-            objects = [Object('apple', 0.79, None, None), Object('banana', 0.88, None, None),
-                       Object('avocado', 0.51, None, None), Object('strawberry', 0.88, None, None)]
+            objects = [Object('apple', 0.79, TEST_BOUNDS, TEST_IMG), Object('banana', 0.88, TEST_BOUNDS, TEST_IMG),
+                       Object('avocado', 0.51, TEST_BOUNDS, TEST_IMG),
+                       Object('strawberry', 0.88, TEST_BOUNDS, TEST_IMG)]
 
     # Playground
     elif context.location.label == 'Playground':
         if choice(binary_values):
-            objects = [Object('person', 0.79, None, None), Object('teddy bear', 0.88, None, None),
-                       Object('teddy bear', 0.88, None, None), Object('cat', 0.51, None, None)]
+            objects = [Object('person', 0.79, TEST_BOUNDS, TEST_IMG), Object('teddy bear', 0.88, TEST_BOUNDS, TEST_IMG),
+                       Object('teddy bear', 0.88, TEST_BOUNDS, TEST_IMG), Object('cat', 0.51, TEST_BOUNDS, TEST_IMG)]
         else:
-            objects = [Object('apple', 0.79, None, None), Object('banana', 0.88, None, None),
-                       Object('cat', 0.51, None, None), Object('banana', 0.88, None, None)]
+            objects = [Object('apple', 0.79, TEST_BOUNDS, TEST_IMG), Object('banana', 0.88, TEST_BOUNDS, TEST_IMG),
+                       Object('cat', 0.51, TEST_BOUNDS, TEST_IMG), Object('banana', 0.88, TEST_BOUNDS, TEST_IMG)]
 
     # Home
     elif context.location.label == 'Home':
-        objects = [Object('table', 0.89, None, None), Object('pills', 0.88, None, None),
-                   Object('tv', 0.51, None, None), Object('potted plant', 0.68, None, None)]
+        objects = [Object('table', 0.89, TEST_BOUNDS, TEST_IMG), Object('pills', 0.88, TEST_BOUNDS, TEST_IMG)]
 
     # Anywhere else
     else:
         if choice(binary_values):
-            objects = [Object('teddy bear', 0.79, None, None), Object('dog', 0.88, None, None),
-                       Object('cat', 0.51, None, None), Object('dog', 0.88, None, None)]
+            objects = [Object('teddy bear', 0.79, TEST_BOUNDS, TEST_IMG), Object('dog', 0.88, TEST_BOUNDS, TEST_IMG),
+                       Object('cat', 0.51, TEST_BOUNDS, TEST_IMG), Object('dog', 0.88, TEST_BOUNDS, TEST_IMG)]
         else:
-            objects = [Object('apple', 0.79, None, None), Object('banana', 0.88, None, None),
-                       Object('avocado', 0.51, None, None), Object('strawberry', 0.88, None, None)]
+            objects = [Object('apple', 0.79, TEST_BOUNDS, TEST_IMG), Object('banana', 0.88, TEST_BOUNDS, TEST_IMG),
+                       Object('avocado', 0.51, TEST_BOUNDS, TEST_IMG),
+                       Object('strawberry', 0.88, TEST_BOUNDS, TEST_IMG)]
 
     return objects
 
@@ -226,13 +232,13 @@ def fake_people():
     faces = set()
     for peep in people:
         confidence = uniform(0, 1)
-        f = Face(peep, confidence, None, None, None)
+        f = Face(peep, confidence, .90, TEST_BOUNDS, TEST_IMG)
         faces.add(f)
 
     # Add strangers?
     if choice(binary_values):
         confidence = uniform(0, 1)
-        faces.add(Face('Stranger', confidence, None, None, None))
+        faces.add(Face('Stranger', confidence, .76, TEST_BOUNDS, TEST_IMG))
 
     return faces
 

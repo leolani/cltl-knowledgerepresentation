@@ -137,3 +137,4 @@ dmypy.json
 
 # RDF dumps (brain logs)
 leolani/brain/logs/*.trig
+leolani/brain/logs/*.jsonld

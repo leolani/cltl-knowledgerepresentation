@@ -1,14 +1,14 @@
 import pathlib
 
-from leolani.brain.long_term_memory import LongTermMemory
-from leolani.brain.utils.base_cases import visuals, experiences
+from cltl.brain.long_term_memory import LongTermMemory
+from cltl.brain.utils.base_cases import visuals, experiences
 from pepper.language.generation.thoughts_phrasing import phrase_thoughts
 from tests.utils import transform_capsule, random_flags
 
 if __name__ == "__main__":
 
     # Create brain connection
-    log_path = pathlib.Path.cwd().parent / 'leolani' / 'brain' / 'logs'
+    log_path = pathlib.Path.cwd().parent / 'src' / 'cltl' / 'brain' / 'logs'
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=str(log_path),
                            clear_all=True)

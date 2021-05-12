@@ -6,7 +6,7 @@ from datetime import date
 import numpy as np
 
 from pepper.api import Emotion
-from leolani.brain.utils.constants import CAPITALIZED_TYPES
+from cltl.brain.utils.constants import CAPITALIZED_TYPES
 
 
 def read_query(query_filename):

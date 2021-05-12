@@ -3,8 +3,8 @@ import logging
 import os
 from datetime import datetime
 
-from leolani.brain.infrastructure import StoreConnector, RdfBuilder
-from leolani.brain.utils.helper_functions import read_query
+from cltl.brain.infrastructure import StoreConnector, RdfBuilder
+from cltl.brain.utils.helper_functions import read_query
 
 logger = logging.getLogger(__name__)
 

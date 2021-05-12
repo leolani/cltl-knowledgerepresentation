@@ -3,7 +3,7 @@ from random import choice, sample, randint, uniform
 from datetime import date
 import numpy as np
 
-from leolani.brain import RdfBuilder
+from cltl.brain import RdfBuilder
 from pepper.api import UtteranceType
 from pepper.framework.context.api import Context
 from pepper.framework.sensor.api import UtteranceHypothesis

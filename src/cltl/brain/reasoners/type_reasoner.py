@@ -1,8 +1,8 @@
 import requests
 from fuzzywuzzy import process
 
-from leolani.brain.basic_brain import BasicBrain
-from leolani.brain.utils.helper_functions import read_query, casefold_text, remove_articles
+from cltl.brain.basic_brain import BasicBrain
+from cltl.brain.utils.helper_functions import read_query, casefold_text, remove_articles
 
 
 class TypeReasoner(BasicBrain):

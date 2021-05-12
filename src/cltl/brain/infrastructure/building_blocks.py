@@ -5,8 +5,8 @@ from nltk.stem import WordNetLemmatizer
 from rdflib import Literal
 from typing import List, Optional
 
-from leolani.brain.utils.constants import NOT_TO_MENTION_TYPES
-from leolani.brain.utils.helper_functions import hash_claim_id, is_proper_noun, casefold_text
+from cltl.brain.utils.constants import NOT_TO_MENTION_TYPES
+from cltl.brain.utils.helper_functions import hash_claim_id, is_proper_noun, casefold_text
 
 
 class RDFBase(object):

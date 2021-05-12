@@ -1,5 +1,5 @@
-from leolani.brain.basic_brain import BasicBrain
-from leolani.brain.utils.helper_functions import read_query, casefold_text
+from cltl.brain.basic_brain import BasicBrain
+from cltl.brain.utils.helper_functions import read_query, casefold_text
 
 
 class LocationReasoner(BasicBrain):

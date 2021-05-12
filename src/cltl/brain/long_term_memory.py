@@ -1,9 +1,9 @@
-from leolani.brain.LTM_question_processing import create_query
-from leolani.brain.LTM_statement_processing import model_graphs
-from leolani.brain.basic_brain import BasicBrain
-from leolani.brain.infrastructure import Thoughts
-from leolani.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
-from leolani.brain.utils.helper_functions import read_query, casefold_text
+from cltl.brain.LTM_question_processing import create_query
+from cltl.brain.LTM_statement_processing import model_graphs
+from cltl.brain.basic_brain import BasicBrain
+from cltl.brain.infrastructure import Thoughts
+from cltl.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
+from cltl.brain.utils.helper_functions import read_query, casefold_text
 from pepper.framework.infra.di_container import DIContainer
 
 

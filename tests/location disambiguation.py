@@ -1,12 +1,12 @@
 import pathlib
 
-from leolani.brain import LongTermMemory
+from cltl.brain import LongTermMemory
 from tests.utils import random_flags, transform_capsule, fake_place, capsules
 
 if __name__ == "__main__":
 
     # Create brain connection
-    log_path = pathlib.Path.cwd().parent / 'leolani' / 'brain' / 'logs'
+    log_path = pathlib.Path.cwd().parent / 'src' / 'cltl' / 'brain' / 'logs'
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=str(log_path),
                            clear_all=True)

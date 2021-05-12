@@ -1,7 +1,7 @@
 from rdflib import RDF, RDFS, OWL
 
-from leolani.brain.utils.constants import NAMESPACE_MAPPING
-from leolani.brain.utils.helper_functions import hash_claim_id, casefold_text, get_object_id, \
+from cltl.brain.utils.constants import NAMESPACE_MAPPING
+from cltl.brain.utils.helper_functions import hash_claim_id, casefold_text, get_object_id, \
     confidence_to_certainty_value, \
     polarity_to_polarity_value, sentiment_to_sentiment_value, emotion_to_emotion_value
 from pepper.api import UtteranceType

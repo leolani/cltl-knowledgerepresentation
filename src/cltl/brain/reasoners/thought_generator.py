@@ -1,9 +1,9 @@
 import random
 
-from leolani.brain.basic_brain import BasicBrain
-from leolani.brain.infrastructure import CardinalityConflict, NegationConflict, StatementNovelty, EntityNovelty, \
+from cltl.brain.basic_brain import BasicBrain
+from cltl.brain.infrastructure import CardinalityConflict, NegationConflict, StatementNovelty, EntityNovelty, \
     Gap, Gaps, Overlap, Overlaps
-from leolani.brain.utils.helper_functions import read_query
+from cltl.brain.utils.helper_functions import read_query
 
 
 class ThoughtGenerator(BasicBrain):

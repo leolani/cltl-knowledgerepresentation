@@ -1,8 +1,7 @@
 import logging
 import os
 from iribaker import to_iri
-from rdflib import Dataset, Namespace, OWL
-from rdflib import URIRef, Literal
+from rdflib import Dataset, Namespace, OWL, URIRef, Literal
 
 from leolani.brain.infrastructure import Predicate, Entity, Triple, Provenance
 from leolani.brain.utils.helper_functions import casefold_text
@@ -203,7 +202,7 @@ class RdfBuilder(object):
         if namespace in list(self.namespaces.keys()):
             uri = URIRef(to_iri(self.namespaces[namespace] + resource_name))
         else:
-            uri = URIRef(to_iri('{}:{}'.format(namespace, resource_name)))
+            uri = URIRef(to_iri(f'{namespace}:{resource_name}'))
 
         return uri
 
@@ -245,7 +244,7 @@ class RdfBuilder(object):
             Entity object with given label
         """
         if types in [None, ''] and label != '':
-            self._log.warning('Unknown type: {}'.format(label))
+            self._log.warning(f'Unknown type: {label}')
             return self.fill_entity_from_label(label, namespace)
         else:
             entity_id = self.create_resource_uri(namespace, label) if not uri else URIRef(to_iri(uri))

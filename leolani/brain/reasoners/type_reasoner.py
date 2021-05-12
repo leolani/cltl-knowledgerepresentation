@@ -50,30 +50,33 @@ class TypeReasoner(BasicBrain):
             mapping = self.get_labels_and_classes()
             if item_label in list(mapping.keys()):
                 learned_type = mapping[item]
-                text = ' I know about %s. It is of type %s. I will remember this object' % (item, learned_type)
+                text = f' I know about {item}. It is of type {learned_type}. I will remember this object'
 
         # Go at wikidata exact match
         if not learned_type:
             learned_type, description = self._exact_match_wikidata(item)
             if learned_type:
-                text = ' I did not know what %s is, but I searched on Wikidata and I found that it is a %s. ' \
-                       'I will remember this object' % (item, learned_type)
+                text = f' I did not know what {item} is,' \
+                       f' but I searched on Wikidata and I found that it is a {learned_type}.' \
+                       f' I will remember this object'
 
         # Go at dbpedia exact match
         if not learned_type:
             learned_type, description = self._exact_match_dbpedia(item)
             if learned_type:
-                text = ' I did not know what %s is, but I searched on Dbpedia and I found that it is a %s. ' \
-                       'I will remember this object' % (item, learned_type)
+                text = f' I did not know what {item} is,' \
+                       f' but I searched on Dbpedia and I found that it is a {learned_type}.' \
+                       f' I will remember this object'
 
         # Second go at dbpedia, relaxed approach
         if not learned_type and not exact_only:
             learned_type, description = self._keyword_match_dbpedia(item)
             if learned_type:
-                text = ' I did not know what %s is, but I searched for fuzzy matches on the web and I found that it ' \
-                       'is a %s. I will remember this object' % (item, learned_type)
+                text = f' I did not know what {item} is,' \
+                       f' but I searched for fuzzy matches on the web and I found that it is a {learned_type}.' \
+                       f' I will remember this object'
 
-        self._log.info("Reasoned type of {} to: {}".format(item, learned_type))
+        self._log.info(f"Reasoned type of {item} to: {learned_type}")
 
         return casefold_text(learned_type, format='triple'), text
 

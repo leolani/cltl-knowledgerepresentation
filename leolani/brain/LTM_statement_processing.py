@@ -69,7 +69,7 @@ def _create_detections(self, cntxt, context):
             # Create instance
             mem_id, memory = get_object_id(memory, item.name)
             objct_id = self._rdf_builder.fill_literal(mem_id, datatype=self.namespaces['XML']['string'])
-            objct = self._rdf_builder.fill_entity(casefold_text('%s %s' % (item.name, objct_id), format='triple'),
+            objct = self._rdf_builder.fill_entity(casefold_text(f'{item.name} {objct_id}', format='triple'),
                                                   [casefold_text(item.name, format='triple'), 'Instance', 'object'],
                                                   'LW')
 
@@ -148,7 +148,7 @@ def _create_context(self, cntxt):
 
         if cntxt.location.label.lower() == cntxt.location.UNKNOWN.lower():
             # All unknowns have label Unknown, different ids but iri with id
-            uri_suffix = casefold_text('%s%s' % (cntxt.location.label, cntxt.location.id), format='triple')
+            uri_suffix = casefold_text(f'{cntxt.location.label}{cntxt.location.id}', format='triple')
             location_uri = self._rdf_builder.create_resource_uri('LC', uri_suffix)
             location = self._rdf_builder.fill_entity(location_label, ['location', 'Place'], 'LC', uri=location_uri)
 
@@ -206,8 +206,8 @@ def _create_actor(self, utterance, claim_type):
 def _create_events(self, utterance, claim_type, context):
     # Chat or Visual
     event_id = self._rdf_builder.fill_literal(utterance.chat.id, datatype=self.namespaces['XML']['string'])
-    event_type = '%s' % ('chat' if claim_type == UtteranceType.STATEMENT else 'visual')
-    eventt_label = '%s%s' % (event_type, str(event_id))
+    event_type = 'chat' if claim_type == UtteranceType.STATEMENT else 'visual'
+    eventt_label = f'{event_type}{event_id}'
     event = self._rdf_builder.fill_entity(eventt_label, ['Event', '%s' % event_type.title()], 'LTa')
     _link_entity(self, event, self.interaction_graph)
     self.interaction_graph.add((event.id, self.namespaces['N2MU']['id'], event_id))
@@ -215,9 +215,9 @@ def _create_events(self, utterance, claim_type, context):
 
     # Utterance or Detection are events and instances  # TODO incremental detection instead of id of utterance
     subevent_id = self._rdf_builder.fill_literal(utterance.turn, datatype=self.namespaces['XML']['string'])
-    subevent_type = '%s' % ('utterance' if claim_type == UtteranceType.STATEMENT else 'detection')
-    subevent_label = '%s_%s%s' % (str(event.label), subevent_type, str(subevent_id))
-    subevent = self._rdf_builder.fill_entity(subevent_label, ['Event', '%s' % subevent_type.title()], 'LTa')
+    subevent_type = 'utterance' if claim_type == UtteranceType.STATEMENT else 'detection'
+    subevent_label = f'{str(event.label)}_{subevent_type}{str(subevent_id)}'
+    subevent = self._rdf_builder.fill_entity(subevent_label, ['Event', f'{subevent_type.title()}'], 'LTa')
     _link_entity(self, subevent, self.interaction_graph)
 
     # Actor
@@ -241,7 +241,7 @@ def _create_mention(self, utterance, subevent, claim_type, detection):
         mention_position = '0-%s' % len(scores)
 
     # Mention
-    mention_label = '%s_%s%s' % (subevent.label, mention_unit, mention_position)
+    mention_label = f'{subevent.label}_{mention_unit}{mention_position}'
     mention = self._rdf_builder.fill_entity(mention_label, ['Mention', claim_type.name.title()], 'LTa')
     _link_entity(self, mention, self.perspective_graph)
 
@@ -272,7 +272,7 @@ def _create_attribution(self, utterance, mention, claim, claim_type=None, perspe
         emotion_value = emotion_to_emotion_value(utterance.perspective.emotion)
         perspective_values = {'CertaintyValue': certainty_value, 'PolarityValue': polarity_value,
                               'SentimentValue': sentiment_value, 'EmotionValue': emotion_value}
-        attribution_suffix = '%s-%s-%s-%s' % (certainty_value, polarity_value, sentiment_value, emotion_value)
+        attribution_suffix = f'{certainty_value}-{polarity_value}-{sentiment_value}-{emotion_value}'
     else:
         scores = [x.confidence for x in utterance.context.objects] + [x.confidence for x in
                                                                       utterance.context.people]
@@ -403,6 +403,6 @@ def model_graphs(self, utterance):
     # Leolani talk (includes interaction and perspective graphs)
     create_interaction_graph(self, utterance, claim)
 
-    self._log.info("Triple in statement: {}".format(utterance.triple))
+    self._log.info(f"Triple in statement: {utterance.triple}")
 
     return claim

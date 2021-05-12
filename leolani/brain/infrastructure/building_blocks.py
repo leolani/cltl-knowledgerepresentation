@@ -72,7 +72,7 @@ class RDFBase(object):
             self._label = casefold_text(self.label, format=format)
 
     def __repr__(self):
-        return '{}'.format(self.label)
+        return f'{self.label}'
 
 
 class Entity(RDFBase):
@@ -334,18 +334,19 @@ class Triple(object):
         return iter([('subject', self.subject), ('predicate', self.predicate), ('complement', self.complement)])
 
     def __repr__(self):
-        return '{} [{}])'.format(hash_claim_id([self.subject_name
-                                                if self.subject_name is not None
-                                                   and self.subject_name not in ['', Literal('')] else '?',
-                                                self.predicate_name
-                                                if self.predicate_name is not None
-                                                   and self.predicate_name not in ['', Literal('')] else '?',
-                                                self.complement_name
-                                                if self.complement_name is not None
-                                                   and self.complement_name not in ['', Literal('')] else '?']),
-                                 hash_claim_id([self.subject_types if self.subject_types is not None else '?',
-                                                '->',
-                                                self.complement_types if self.complement_types is not None else '?']))
+        hashed_triple = hash_claim_id([self.subject_name
+                                       if self.subject_name is not None
+                                          and self.subject_name not in ['', Literal('')] else '?',
+                                       self.predicate_name
+                                       if self.predicate_name is not None
+                                          and self.predicate_name not in ['', Literal('')] else '?',
+                                       self.complement_name
+                                       if self.complement_name is not None
+                                          and self.complement_name not in ['', Literal('')] else '?'])
+        hashed_types = hash_claim_id([self.subject_types if self.subject_types is not None else '?',
+                                      '->',
+                                      self.complement_types if self.complement_types is not None else '?'])
+        return f'{hashed_triple} [{hashed_types}])'
 
 
 class Perspective(object):
@@ -466,7 +467,7 @@ class Provenance(object):
             self._author = self.author.lower().replace("_", " ")
 
     def __repr__(self):
-        return '{} on {}'.format(self.author, self.date.strftime("%B,%Y"))
+        return f'{self.author} on {self.date.strftime("%B,%Y")}'
 
 
 class CardinalityConflict(object):
@@ -525,7 +526,7 @@ class CardinalityConflict(object):
         self._complement.casefold(format)
 
     def __repr__(self):
-        return '{} about {}'.format(self._provenance.__repr__(), self.complement_name)
+        return f'{self._provenance.__repr__()} about {self.complement_name}'
 
 
 class NegationConflict(object):
@@ -581,7 +582,7 @@ class NegationConflict(object):
         # self._polarity_value.casefold(format)
 
     def __repr__(self):
-        return '{} about {}'.format(self._provenance.__repr__(), self.polarity_value)
+        return f'{self._provenance.__repr__()} about {self.polarity_value}'
 
 
 # TODO revise overlap with provenance
@@ -627,7 +628,7 @@ class StatementNovelty(object):
         self._provenance.casefold(format)
 
     def __repr__(self):
-        return '{}'.format(self._provenance.__repr__())
+        return f'{self._provenance.__repr__()}'
 
 
 class EntityNovelty(object):
@@ -656,9 +657,9 @@ class EntityNovelty(object):
         return self._complement
 
     def __repr__(self):
-        subject = '{} subject'.format('new' if self.subject else 'existing')
-        complement = '{} object'.format('new' if self.complement else 'existing')
-        return '{} - {}'.format(subject, complement)
+        subject = 'new' if self.subject else 'existing'
+        complement = 'new' if self.complement else 'existing'
+        return f'{subject} subject - {complement} object'
 
 
 class Gap(object):
@@ -717,7 +718,7 @@ class Gap(object):
         self._predicate.casefold(self.entity, None, format)
 
     def __repr__(self):
-        return '{} {}'.format(self.predicate_name, self.entity_range_name)
+        return f'{self.predicate_name} {self.entity_range_name}'
 
 
 class Gaps(object):
@@ -765,8 +766,8 @@ class Gaps(object):
     def __repr__(self):
         s = random.choice(self._subject) if self._subject else ''
         o = random.choice(self._complement) if self._complement else ''
-        return '{} subject gaps: e.g. {} - ' \
-               '{} object gaps: e.g. {}'.format(len(self._subject), s.__repr__(), len(self._complement), o.__repr__())
+        return f'{len(self._subject)} subject gaps: e.g. {s.__repr__()} - ' \
+               f'{len(self._complement)} object gaps: e.g. {o.__repr__()}'
 
 
 class Overlap(object):
@@ -828,7 +829,7 @@ class Overlap(object):
         self._entity.casefold(format)
 
     def __repr__(self):
-        return '{} about {}'.format(self._provenance.__repr__(), self.entity_name)
+        return f'{self._provenance.__repr__()} about {self.entity_name}'
 
 
 class Overlaps(object):
@@ -876,9 +877,8 @@ class Overlaps(object):
     def __repr__(self):
         s = random.choice(self._subject) if self._subject else ''
         o = random.choice(self._complement) if self._complement else ''
-        return '{} subject overlaps: e.g. {} - ' \
-               '{} object overlaps: e.g. {}'.format(len(self._subject), s.__repr__(),
-                                                    len(self._complement), o.__repr__())
+        return f'{len(self._subject)} subject overlaps: e.g. {s.__repr__()} - ' \
+               f'{len(self._complement)} object overlaps: e.g. {o.__repr__()}'
 
 
 class Thoughts(object):
@@ -980,4 +980,4 @@ class Thoughts(object):
                           'subject_gaps': self._subject_gaps, 'complement_gaps': self._complement_gaps,
                           'overlaps': self._overlaps}
 
-        return '{}'.format(representation)
+        return f'{representation}'

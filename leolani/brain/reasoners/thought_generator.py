@@ -60,7 +60,7 @@ class ThoughtGenerator(BasicBrain):
         entity_novelty = EntityNovelty(subject_novelty, complement_novelty)
 
         if entity_novelty.subject or entity_novelty.complement:
-            self._log.info("Entity Novelty: {} ".format(entity_novelty.__str__()))
+            self._log.info(f"Entity Novelty: {entity_novelty.__str__()} ")
 
         return entity_novelty
 
@@ -87,7 +87,7 @@ class ThoughtGenerator(BasicBrain):
 
         if novelties:
             n = random.choice(novelties)
-            self._log.info("Statement Novelty: {} times, e.g. {}".format(len(response), n.__str__()))
+            self._log.info(f"Statement Novelty: {len(response)} times, e.g. {n.__str__()}")
 
         return novelties
 
@@ -168,7 +168,7 @@ class ThoughtGenerator(BasicBrain):
         gaps = Gaps(subject_gaps, complement_gaps)
 
         if len(subject_gaps) > 0 or len(complement_gaps) > 0:
-            self._log.info("Gaps: {}".format(gaps.__str__()))
+            self._log.info(f"Gaps: {gaps.__str__()}")
 
         return gaps
 
@@ -230,7 +230,7 @@ class ThoughtGenerator(BasicBrain):
         overlaps = Overlaps(subject_overlap, complement_overlap)
 
         if len(subject_overlap) > 0 or len(complement_overlap) > 0:
-            self._log.info("Overlaps: {}".format(overlaps.__str__()))
+            self._log.info(f"Overlaps: {overlaps.__str__()}")
 
         return overlaps
 
@@ -329,7 +329,7 @@ class ThoughtGenerator(BasicBrain):
 
         if conflicts:
             c = random.choice(conflicts)
-            self._log.info("Cardinality Conflict: {}".format(c.__str__()))
+            self._log.info(f"Cardinality Conflict: {c.__str__()}")
 
         return conflicts
 
@@ -358,6 +358,6 @@ class ThoughtGenerator(BasicBrain):
         if conflicts:
             # TODO check if there are both positive and negative views on this statement
             c = random.choice(conflicts)
-            self._log.info("Negation Conflicts: {}".format(c.__str__()))
+            self._log.info(f"Negation Conflicts: {c.__str__()}")
 
         return conflicts

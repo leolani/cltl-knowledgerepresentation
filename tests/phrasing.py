@@ -26,7 +26,7 @@ if __name__ == "__main__":
         thoughts = x['thoughts']
         utterance = x['statement']
 
-        print('\n\n---------------------------------------------------------------\n{}\n'.format(capsule.triple))
+        print('\n\n---------------------------------------------------------------\n{capsule.triple)}\n')
 
         try:
             print(('\tcardinality conflicts: ' + _phrase_cardinality_conflicts(thoughts.complement_conflicts(),

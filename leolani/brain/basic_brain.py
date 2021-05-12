@@ -36,7 +36,7 @@ class BasicBrain(object):
         self._log = logger.getChild(self.__class__.__name__)
         self._log.debug("Booted")
 
-        self._brain_log = os.path.join(log_dir, "brain_log_{}".format(datetime.now().strftime('%Y-%m-%d-%H-%M')))
+        self._brain_log = os.path.join(log_dir, f"brain_log_{datetime.now().strftime('%Y-%m-%d-%H-%M')}")
 
         # Start with a clean local memory
         self.clean_local_memory()
@@ -86,7 +86,7 @@ class BasicBrain(object):
         :return: serialized data as string
         """
         # Save to file but return the python representation
-        with open(file_path + '.' + self._connection.format, 'wb') as f:
+        with open(f'{file_path}.{self._connection.format}', 'wb') as f:
             self.dataset.serialize(f, format=self._connection.format)
 
         data = self.dataset.serialize(format=self._connection.format)

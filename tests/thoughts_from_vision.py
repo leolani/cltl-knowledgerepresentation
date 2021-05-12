@@ -33,7 +33,7 @@ if __name__ == "__main__":
 
         # Phrase thoughts
 
-        print('\n\n---------------------------------------------------------------\n{}\n'.format(capsule.triple))
+        print(f'\n\n---------------------------------------------------------------\n{capsule.triple}\n')
 
         try:
             print(('\t\t\tFINAL SAY: ' + phrase_thoughts(x, entity_only=True, proactive=True, persist=True)))

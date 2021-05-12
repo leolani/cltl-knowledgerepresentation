@@ -145,7 +145,7 @@ class LocationReasoner(BasicBrain):
                 if best_guess['overlap'] > 0.5 \
                    and best_guess['place'].lower() != cntxt.location.UNKNOWN.lower() else None
 
-            self._log.info("Reasoned location to: {} with {} overlap".format(guess, best_guess['overlap']))
+            self._log.info(f"Reasoned location to: {guess} with {best_guess['overlap']} overlap")
 
         return guess
 
@@ -158,4 +158,4 @@ class LocationReasoner(BasicBrain):
         for query in queries.split(';'):
             response = self._submit_query(query, post=True)
 
-        self._log.info("Set location to: {}".format(label))
+        self._log.info(f"Set location to: {label}")

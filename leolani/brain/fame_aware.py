@@ -44,7 +44,7 @@ class FameAwareMemory(LongTermMemory):
             if data and data['results']['bindings']:
                 # Report on size of graph found
                 total_triples = len(data['results']['bindings'])
-                self._log.info("{} triples found for {}".format(total_triples, comb))
+                self._log.info(f"{total_triples} triples found for {comb}")
 
                 for triple in data['results']['bindings']:
                     # Add claim to the dataset

@@ -21,7 +21,8 @@ def read_query(query_filename):
     query: str the query with placeholders for the query parameters, as a string to be formatted
 
     """
-    with open(os.path.join(os.path.dirname(__file__), "../queries/{}.rq".format(query_filename))) as fr:
+    file_path = os.path.join(os.path.dirname(__file__), f"../queries/{query_filename}.rq")
+    with open(file_path) as fr:
         query = fr.read()
     return query
 

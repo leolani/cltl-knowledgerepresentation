@@ -17,4 +17,4 @@ if __name__ == "__main__":
         capsule = transform_capsule(elem, objects_flag=True, people_flag=True, places_flag=True)
         x = brain.update(capsule, reason_types=True)
 
-        print('\n\n---------------------------------------------------------------\n{}\n'.format(capsule.triple))
+        print(f'\n\n---------------------------------------------------------------\n{capsule.triple}\n')

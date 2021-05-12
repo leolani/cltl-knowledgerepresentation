@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
         x = brain.update(capsule, reason_types=True)
 
-        print('\n\n---------------------------------------------------------------\n{}\n'.format(capsule.triple))
+        print(f'\n\n---------------------------------------------------------------\n{capsule.triple}\n')
 
         try:
             print(('\t\t\tFINAL SAY: ' + phrase_thoughts(x, proactive=True, persist=True)))

@@ -18,7 +18,7 @@ setup(
     packages=find_namespace_packages(include=['cltl.*']),
     package_data={'brain': ['ontologies/*', 'queries/*']},
     python_requires='>=3.7.8',
-    install_requires=[
+    install_requires=['cltl.combot',
                       'requests==2.25.0',
                       'rdflib==5.0.0',
                       'sparqlwrapper==1.8.5',

@@ -5,7 +5,7 @@ from datetime import date
 
 import numpy as np
 
-from pepper.api import Emotion
+from cltl.brain_external import Emotion
 from cltl.brain.utils.constants import CAPITALIZED_TYPES
 
 

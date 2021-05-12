@@ -4,7 +4,7 @@ from cltl.brain.basic_brain import BasicBrain
 from cltl.brain.infrastructure import Thoughts
 from cltl.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
 from cltl.brain.utils.helper_functions import read_query, casefold_text
-from pepper.framework.infra.di_container import DIContainer
+from cltl.combot.infra.di_container import DIContainer
 
 
 class BrainContainer(DIContainer):

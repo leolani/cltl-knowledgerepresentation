@@ -4,12 +4,12 @@ from datetime import date
 import numpy as np
 
 from cltl.brain import RdfBuilder
-from pepper.api import UtteranceType
+from cltl.brain_external import UtteranceType
 from pepper.framework.context.api import Context
 from pepper.framework.sensor.api import UtteranceHypothesis
 from pepper.framework.sensor.face import Face
 from pepper.framework.sensor.obj import Object
-from pepper.framework.infra.util import Bounds
+from cltl.combot.infra.util import Bounds
 from pepper.language import Chat, Utterance
 
 TEST_IMG = np.zeros((128,))

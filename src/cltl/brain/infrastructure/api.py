@@ -181,7 +181,8 @@ class Predicate(RDFBase):
 
         subject_label = subject.label if subject is not None and subject.label not in ['', Literal('')] else (
             subject.types if subject is not None else '?')
-        complement_label = complement.label if complement is not None and complement.label not in ['', Literal('')] else (
+        complement_label = complement.label if complement is not None and complement.label not in ['',
+                                                                                                   Literal('')] else (
             complement.types if complement is not None else '?')
 
         if format == 'triple':
@@ -266,15 +267,30 @@ class Triple(object):
         # type: () -> Entity
         return self._subject
 
+    @subject.setter
+    def subject(self, new_subject):
+        # type: (Entity) -> None
+        self._subject = new_subject
+
     @property
     def predicate(self):
         # type: () -> Predicate
         return self._predicate
 
+    @predicate.setter
+    def predicate(self, new_predicate):
+        # type: (Predicate) -> None
+        self._predicate = new_predicate
+
     @property
     def complement(self):
         # type: () -> Entity
         return self._complement
+
+    @complement.setter
+    def complement(self, new_complement):
+        # type: (Entity) -> None
+        self._complement = new_complement
 
     @property
     def subject_name(self):
@@ -300,19 +316,6 @@ class Triple(object):
     def complement_types(self):
         # type: () -> str
         return self._complement.types_names if self._complement is not None else None
-
-    # TODO not good practice and not used, might think of deleting three setters below
-    def set_subject(self, subject):
-        # type: (Entity) -> ()
-        self._subject = subject
-
-    def set_predicate(self, predicate):
-        # type: (Predicate) -> ()
-        self._predicate = predicate
-
-    def set_complement(self, complement):
-        # type: (Entity) -> ()
-        self._complement = complement
 
     def casefold(self, format='triple'):
         # type (str) -> ()
@@ -379,45 +382,50 @@ class Perspective(object):
         # type: () -> float
         return self._certainty
 
+    @certainty.setter
+    def certainty(self, new_certainty):
+        # type: (float) -> ()
+        self._certainty = new_certainty
+
     @property
     def polarity(self):
         # type: () -> int
         return self._polarity
+
+    @polarity.setter
+    def polarity(self, new_polarity):
+        # type: (int) -> ()
+        self._polarity = new_polarity
 
     @property
     def sentiment(self):
         # type: () -> float
         return self._sentiment
 
+    @sentiment.setter
+    def sentiment(self, new_sentiment):
+        # type: (float) -> ()
+        self._sentiment = new_sentiment
+
     @property
     def time(self):
         # type: () -> Optional[Time]
         return self._time
+
+    @time.setter
+    def time(self, new_time):
+        # type: (Time) -> ()
+        self._time = new_time
 
     @property
     def emotion(self):
         # type: () -> Optional[Emotion]
         return self._emotion
 
-    def set_certainty(self, certainty):
-        # type: (float) -> ()
-        self._certainty = certainty
-
-    def set_polarity(self, polarity):
-        # type: (int) -> ()
-        self._polarity = polarity
-
-    def set_sentiment(self, sentiment):
-        # type: (float) -> ()
-        self._sentiment = sentiment
-
-    def set_time(self, time):
-        # type: (Time) -> ()
-        self._time = time
-
-    def set_emotion(self, emotion):
+    @emotion.setter
+    def emotion(self, new_emotion):
         # type: (Emotion) -> ()
-        self._emotion = emotion
+        self._emotion = new_emotion
 
 
 class Provenance(object):

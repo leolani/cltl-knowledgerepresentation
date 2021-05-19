@@ -1,6 +1,7 @@
 import enum
 
 
+# pepper.api package
 class Emotion(enum.Enum):
     """
     This will be used in the future to represent emotion

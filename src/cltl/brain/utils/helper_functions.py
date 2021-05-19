@@ -1,12 +1,12 @@
-import os
-import re
 import string
-from datetime import date
 
 import numpy as np
+import os
+import re
+from datetime import date
 
-from cltl.brain_external import Emotion
 from cltl.brain.utils.constants import CAPITALIZED_TYPES
+from cltl.brain_external import Emotion
 
 
 def read_query(query_filename):
@@ -140,6 +140,19 @@ def emotion_to_emotion_value(emotion):
         elif emotion == Emotion.NEUTRAL:
             return 'NEUTRAL'
     return 'UNDERSPECIFIED'
+
+
+def sentiment_value_to_sentiment(sentiment):
+    if type(sentiment) not in [float, int]:
+        # Gotta translate this
+        if sentiment.lower() == 'positive':
+            sentiment = 1.0
+        elif sentiment.lower() == 'negative':
+            sentiment = -1.0
+        elif sentiment.lower() == 'neutral':
+            sentiment = 0.0
+
+    return sentiment
 
 
 def replace_in_file(file, word, word_replacement):

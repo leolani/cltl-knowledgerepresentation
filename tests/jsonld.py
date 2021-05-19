@@ -1,5 +1,4 @@
 import pathlib
-import json
 
 from cltl.brain import LongTermMemory
 

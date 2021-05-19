@@ -1,19 +1,14 @@
 from random import choice, sample, randint, uniform
 
-from datetime import date
 import numpy as np
+from datetime import date
 
-from cltl.brain import RdfBuilder
-from cltl.brain_external import UtteranceType
-from pepper.framework.context.api import Context
-from pepper.framework.sensor.api import UtteranceHypothesis
-from pepper.framework.sensor.face import Face
-from pepper.framework.sensor.obj import Object
+from cltl.brain import RdfBuilder, Perspective
+from cltl.brain_external import Context, Face, Object, Chat, Utterance, UtteranceHypothesis, UtteranceType, Emotion
 from cltl.combot.infra.util import Bounds
-from pepper.language import Chat, Utterance
 
 TEST_IMG = np.zeros((128,))
-TEST_BOUNDS = Bounds(0.0, 0.0, 1.0, 1.0)
+TEST_BOUNDS = Bounds(0.0, 0.0, 0.5, 1.0)
 
 name = 'Leolani'
 places = ['Forest', 'Playground', 'Monastery', 'House', 'University', 'Hotel', 'Office']
@@ -74,49 +69,7 @@ capsule_is_from_3 = {
     "date": date(2017, 10, 24)
 }
 
-# capsules = [capsule_is_from, capsule_is_from_2, capsule_is_from_3, capsule_knows]
-
-carl = [
-    {
-        "utterance": "I need to take my pills, but I cannot find them.",
-        "subject": {"label": "carl", "type": "person"},
-        "predicate": {"type": "sees"},
-        "object": {"label": "pills", "type": "object"},
-        "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},
-        "author": "carl",
-        "chat": 1,
-        "turn": 1,
-        "position": "0-25",
-        "date": date(2021, 3, 12)
-    },
-    {
-        "utterance": "I found them. They are under the table.",
-        "subject": {"label": "pills", "type": "object"},
-        "predicate": {"type": "locatedUnder"},
-        "object": {"label": "table", "type": "object"},
-        "perspective": {"certainty": 1, "polarity": 1, "sentiment": 0},
-        "author": "leolani",
-        "chat": 1,
-        "turn": 2,
-        "position": "0-25",
-        "date": date(2021, 3, 12)
-    },
-    {
-        "utterance": "Oh! Got it. Thank you.",
-        "subject": {"label": "carl", "type": "person"},
-        "predicate": {"type": "sees"},
-        "object": {"label": "pills", "type": "object"},
-        "perspective": {"certainty": 1, "polarity": 1, "sentiment": 1},
-        "author": "carl",
-        "chat": 1,
-        "turn": 3,
-        "position": "0-25",
-        "date": date(2021, 3, 12)
-    }
-]
-# capsules = carl
-# friends = ['carl']
-# places = ['Home']
+capsules = [capsule_is_from, capsule_is_from_2, capsule_is_from_3, capsule_knows]
 
 
 def random_flags():
@@ -251,7 +204,7 @@ def fake_chat(capsule, context):
     :return: Chat object
     """
     chat = Chat(capsule['author'], context)
-    chat.set_id(capsule['chat'])
+    chat.id = capsule['chat']
 
     return chat
 
@@ -267,7 +220,7 @@ def fake_utterance(capsule, chat):
 
     utt = Utterance(chat, [hyp], False, capsule['turn'])
     utt._type = UtteranceType.STATEMENT
-    utt.set_turn(capsule['turn'])
+    utt.turn = capsule['turn']
 
     return utt
 
@@ -280,11 +233,20 @@ def fake_triple(capsule, utt):
     :return:
     """
     builder = RdfBuilder()
-
     triple = builder.fill_triple(capsule['subject'], capsule['predicate'], capsule['object'])
-    utt.set_triple(triple)
+    utt.triple = triple
 
-    utt.pack_perspective(capsule['perspective'])
+    pers = pack_perspective(capsule['perspective'])
+    utt.perspective = pers
+
+
+def pack_perspective(persp):
+    sentiment = persp.get('sentiment', 0.0)
+    emotion = persp.get('emotion', Emotion.NEUTRAL)
+
+    if type(emotion) != Emotion:
+        emotion = Emotion[emotion.upper()]
+    return Perspective(persp.get('certainty', 1), persp.get('polarity', 1), sentiment, emotion=emotion)
 
 
 def transform_capsule(capsule, objects_flag=False, people_flag=False, places_flag=False):

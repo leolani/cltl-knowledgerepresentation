@@ -1,12 +1,10 @@
-import string
-
 import numpy as np
 import os
-import re
 from datetime import date
 
 from cltl.brain.utils.constants import CAPITALIZED_TYPES
-from cltl.brain_external import Emotion
+from cltl.combot.backend.api.discrete import Emotion
+from cltl.combot.backend.utils.casefolding import casefold_text
 
 
 def read_query(query_filename):
@@ -37,47 +35,6 @@ def remove_articles(text):
         if text.startswith(a):
             text = text.replace(a, '')
     return text
-
-
-def casefold_text(text, format='triple'):
-    if not text:
-        return None
-
-    if format == 'triple':
-        if isinstance(text, str):
-            for sign in string.punctuation:
-                text = text.replace(sign, "-")
-
-            text = text.lower().replace(" ", "-").strip('-')
-
-        return re.sub('-+', '-', text)
-
-    elif format == 'natural':
-        return text.lower().replace("-", " ").strip() if isinstance(text, str) else text
-
-    else:
-        return text
-
-
-def casefold_capsule(capsule, format='triple'):
-    """
-    Function for formatting a capsule into triple format or natural language format
-    Parameters
-    ----------
-    capsule:
-    format
-
-    Returns
-    -------
-
-    """
-    for k, v in list(capsule.items()):
-        if isinstance(v, dict):
-            capsule[k] = casefold_capsule(v, format=format)
-        else:
-            capsule[k] = casefold_text(v, format=format)
-
-    return capsule
 
 
 def date_from_uri(uri):

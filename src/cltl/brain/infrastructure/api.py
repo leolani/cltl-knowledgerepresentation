@@ -6,7 +6,8 @@ from rdflib import Literal
 from typing import List, Optional
 
 from cltl.brain.utils.constants import NOT_TO_MENTION_TYPES
-from cltl.brain.utils.helper_functions import hash_claim_id, is_proper_noun, casefold_text
+from cltl.brain.utils.helper_functions import hash_claim_id, is_proper_noun
+from cltl.combot.backend.utils.casefolding import casefold_text
 
 
 class RDFBase(object):

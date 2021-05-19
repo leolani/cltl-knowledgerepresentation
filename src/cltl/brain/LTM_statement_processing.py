@@ -1,10 +1,10 @@
 from rdflib import RDF, RDFS, OWL
 
 from cltl.brain.utils.constants import NAMESPACE_MAPPING
-from cltl.brain.utils.helper_functions import hash_claim_id, casefold_text, get_object_id, \
-    confidence_to_certainty_value, \
-    polarity_to_polarity_value, sentiment_to_sentiment_value, emotion_to_emotion_value
-from cltl.brain_external import UtteranceType
+from cltl.brain.utils.helper_functions import hash_claim_id, get_object_id, \
+    confidence_to_certainty_value, polarity_to_polarity_value, sentiment_to_sentiment_value, emotion_to_emotion_value
+from cltl.combot.backend.api.discrete import UtteranceType
+from cltl.combot.backend.utils.casefolding import casefold_text
 
 
 ######################################## Helpers for statement processing ########################################

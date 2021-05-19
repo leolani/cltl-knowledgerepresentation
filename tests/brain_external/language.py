@@ -4,8 +4,8 @@ import logging
 from datetime import datetime
 from typing import List, Optional
 
-# from cltl.brain.utils.helper_functions import casefold_text
-from cltl.brain_external import UtteranceType
+from cltl.combot.backend.api.discrete import UtteranceType
+from cltl.combot.backend.utils.casefolding import casefold_text
 
 logger = logging.getLogger(__name__)
 
@@ -386,7 +386,7 @@ class Utterance(object):
 
         """
         self._triple.casefold(format)
-        # self._chat_speaker = casefold_text(self.chat_speaker, format)
+        self._chat_speaker = casefold_text(self.chat_speaker, format)
 
     def __repr__(self):
         author = self.chat.context.own_name if self.me else self.chat.speaker

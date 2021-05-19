@@ -6,8 +6,7 @@
 
 
 from .context import Context
-from .discrete import Emotion, Time, UtteranceType
 from .face import Face
+from .language import Chat, Utterance, UtteranceHypothesis
 from .location import Location
 from .obj import Object
-from .language import Chat, Utterance, UtteranceHypothesis

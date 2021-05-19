@@ -3,7 +3,8 @@ from cltl.brain.LTM_statement_processing import model_graphs
 from cltl.brain.basic_brain import BasicBrain
 from cltl.brain.infrastructure import Thoughts
 from cltl.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
-from cltl.brain.utils.helper_functions import read_query, casefold_text
+from cltl.brain.utils.helper_functions import read_query
+from cltl.combot.backend.utils.casefolding import casefold_text
 from cltl.combot.infra.di_container import DIContainer
 
 

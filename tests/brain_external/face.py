@@ -3,8 +3,8 @@ import numpy as np
 import os
 from typing import Dict
 
-from cltl.brain_external.obj import Object
 from cltl.combot.infra.util import Bounds
+from tests.brain_external.obj import Object
 
 logger = logging.getLogger(__name__)
 

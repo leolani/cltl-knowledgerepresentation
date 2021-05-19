@@ -4,7 +4,7 @@ from iribaker import to_iri
 from rdflib import Dataset, Namespace, OWL, URIRef, Literal
 
 from cltl.brain.infrastructure import Predicate, Entity, Triple, Provenance
-from cltl.brain.utils.helper_functions import casefold_text
+from cltl.combot.backend.utils.casefolding import casefold_text
 
 logger = logging.getLogger(__name__)
 

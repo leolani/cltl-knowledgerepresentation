@@ -7,8 +7,8 @@ from typing import Iterable
 from typing import List, Tuple, Dict
 from typing import Optional
 
-from cltl.brain_external.knowledge_objects import OBJECT_INFO
-from cltl.brain_external.location import Location
+from tests.brain_external.knowledge_objects import OBJECT_INFO
+from tests.brain_external.location import Location
 
 
 class Context(object):

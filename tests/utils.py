@@ -4,8 +4,9 @@ import numpy as np
 from datetime import date
 
 from cltl.brain import RdfBuilder, Perspective
-from cltl.brain_external import Context, Face, Object, Chat, Utterance, UtteranceHypothesis, UtteranceType, Emotion
+from cltl.combot.backend.api.discrete import UtteranceType, Emotion
 from cltl.combot.infra.util import Bounds
+from tests.brain_external import Context, Face, Object, Chat, Utterance, UtteranceHypothesis
 
 TEST_IMG = np.zeros((128,))
 TEST_BOUNDS = Bounds(0.0, 0.0, 0.5, 1.0)

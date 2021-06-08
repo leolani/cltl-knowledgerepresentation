@@ -1,7 +1,7 @@
 import pathlib
 
-from cltl.brain.long_term_memory import LongTermMemory
-from cltl.brain.utils.base_cases import visuals
+from cltl.brain import LongTermMemory
+from tests.utils import transform_capsule, random_flags, capsules
 
 if __name__ == "__main__":
 
@@ -11,13 +11,16 @@ if __name__ == "__main__":
                            log_dir=str(log_path),
                            clear_all=False)
 
-    # Get list of unique detections
-    unique_detections = set([item for detection in visuals for item in detection])
+    for capsule in capsules:
 
-    for detection in unique_detections:
-        # Create experience and get thoughts
-        response = brain.get_thoughts_on_entity(detection, reason_types=True)
-        print(f'\n\n---------------------------------------------------------------\n{response["triple"]}\n')
+        # Create Utterance object, with random context
+        objects_flag, people_flag, places_flag = random_flags()
+        utterance = transform_capsule(capsule, objects_flag=objects_flag, people_flag=people_flag,
+                                      places_flag=places_flag)
+
+        # Add information to the brain
+        response = brain.update(utterance, reason_types=True)
+        print(f'\n\n---------------------------------------------------------------\n{utterance.triple}\n')
 
         # Show different thoughts
         thoughts = response['thoughts']
@@ -50,6 +53,6 @@ if __name__ == "__main__":
         except:
             print(f'\toverlaps: No say')
         try:
-            print(f'\ttrust: {thoughts.trust()}')
+            print(f'\ttrust on {utterance.chat_speaker}: {thoughts.trust()}')
         except:
             print(f'\ttrust: No say')

@@ -24,7 +24,7 @@ carl_scenario = [
     {
         "utterance": "I found them. They are under the table.",
         "subject": {"label": "pills", "type": "object"},
-        "predicate": {"type": "locatedUnder"},
+        "predicate": {"type": "located under"},
         "object": {"label": "table", "type": "object"},
         "perspective": {"certainty": 1, "polarity": 1, "sentiment": 0},
         "author": "leolani",
@@ -51,13 +51,15 @@ if __name__ == "__main__":
 
     # Create brain connection
     log_path = pathlib.Path.cwd().parent / 'src' / 'cltl' / 'brain' / 'logs'
-
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=str(log_path),
-                           clear_all=False)
-    for capsule in carl_scenario:
-        # Create Utterance object
-        utterance = transform_capsule(capsule, objects_flag=True, people_flag=True, places_flag=True)
-        x = brain.update(utterance, reason_types=True)
+                           clear_all=True)
 
+    for capsule in carl_scenario:
+
+        # Create Utterance object
+        utterance = transform_capsule(capsule, objects_flag=True, people_flag=False, places_flag=True)
+
+        # Add information to the brain
+        response = brain.update(utterance, reason_types=True)
         print(f'\n\n---------------------------------------------------------------\n{utterance.triple}\n')

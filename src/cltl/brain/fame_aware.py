@@ -55,9 +55,9 @@ class FameAwareMemory(LongTermMemory):
                 data = self._serialize(self._brain_log)
                 code = self._upload_to_brain(data)
 
-                return {'response': code, 'label': person_name}
+                return {'response': code, 'label': person_name, 'data': data}
 
-        return {'response': None, 'label': person_name}
+        return {'response': None, 'label': person_name, 'data': None}
 
     def add_triple(self, triple):
 
@@ -81,3 +81,5 @@ class FameAwareMemory(LongTermMemory):
                                               o_types, uri=triple['object']['value'])
             _link_entity(self, o, self.instance_graph)
             create_claim_graph(self, s, p, o)
+
+        # self._log.info(f'Triple: {}')

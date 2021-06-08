@@ -1,5 +1,5 @@
 from cltl.brain.LTM_question_processing import create_query
-from cltl.brain.LTM_statement_processing import model_graphs
+from cltl.brain.LTM_statement_processing import model_graphs, _link_entity, create_claim_graph
 from cltl.brain.basic_brain import BasicBrain
 from cltl.brain.infrastructure import Thoughts
 from cltl.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
@@ -58,7 +58,11 @@ class LongTermMemory(BasicBrain):
             else:
                 entity = self._rdf_builder.fill_entity_from_label(entity_label, 'N2MU')
 
+            # Create graphs and triples
             triple = self._rdf_builder.fill_triple_from_label('leolani', 'see', entity_label)
+            _link_entity(self, triple.subject, self.instance_graph)
+            _link_entity(self, triple.complement, self.instance_graph)
+            create_claim_graph(self, triple.subject, triple.predicate, triple.complement)
 
             # Check how many items of the same type as subject and complement we have
             entity_novelty = self.thought_generator.fill_entity_novelty(entity.id, entity.id)
@@ -66,13 +70,17 @@ class LongTermMemory(BasicBrain):
             # Check for gaps, in case we want to be proactive
             entity_gaps = self.thought_generator.get_entity_gaps(entity)
 
+            # Finish process of uploading new knowledge to the triple store
+            data = self._serialize(self._brain_log)
+            code = self._upload_to_brain(data)
+
             # Create JSON output
             thoughts = Thoughts([], entity_novelty, [], [], None, entity_gaps, None, None)
-            output = {'response': 200, 'entity': entity, 'thoughts': thoughts}
+            output = {'response': code, 'triple': triple, 'thoughts': thoughts}
 
         else:
             # Create JSON output
-            output = {'response': None, 'entity': None, 'thoughts': None}
+            output = {'response': None, 'triple': None, 'thoughts': None}
 
         return output
 
@@ -162,6 +170,8 @@ class LongTermMemory(BasicBrain):
         """
         # Create graphs and triples
         _ = model_graphs(self, utterance)
+
+        # Finish process of uploading new knowledge to the triple store
         data = self._serialize(self._brain_log)
         code = self._upload_to_brain(data)
 

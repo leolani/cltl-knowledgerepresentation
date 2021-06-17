@@ -22,16 +22,38 @@ This package contains the necessary functionality for creating an RDF episodic k
 
 ## Installation
 
-This repository uses Python >= 3.7.8 To set ip up you can run:
+### Prerequisites
 
-```bash
-conda create --name cltl-knowledgerepresentation python=3.7
-conda activate cltl-knowledgerepresentation
-pip install -e .
+You will need to clone the [cltl-requirements](https://github.com/leolani/cltl-requirements.git) and
+the [cltl-combot](https://github.com/leolani/cltl-combot.git) repositories. If you
+checkout [cltl-combot](https://github.com/leolani/cltl-combot.git) including git submodules (that
+adds [cltl-build](https://github.com/leolani/cltl-build) in the utils folder), you should be able to create a `dist/`
+folder, in the [cltl-combot](https://github.com/leolani/cltl-combot.git) repository, containing the package.
+
 ```
+git clone https://github.com/leolani/cltl-requirements.git
+git clone https://github.com/leolani/cltl-combot.git
+cd cltl-combot
+git submodule update
+make build
+```
+
+and then can nstall the package with just `pip install dist/cltl.combot-xxx.tar.gz` (see next section)
 
 Additionally, you need to install [GraphDB](http://graphdb.ontotext.com/) with a repository named `leolani`. You will
 need to launch this before running the package.
+
+### Virtual environment
+
+This repository uses Python >= 3.7.8 To set ip up you can run:
+
+```bash
+cd cltl-knowledgerepresentation
+conda create --name cltl-knowledgerepresentation python=3.7
+conda activate cltl-knowledgerepresentation
+pip install <ABSOLUTE_PATH_TO_YOUR_COMBOT_REPO>/dist/cltl.combot-xxx.tar.gz
+pip install -e .
+```
 
 ### Test
 

@@ -1,7 +1,7 @@
 import pathlib
 
 from cltl.brain import LongTermMemory
-from tests.utils import transform_capsule, capsules
+from utils import transform_capsule, capsules
 
 if __name__ == "__main__":
 

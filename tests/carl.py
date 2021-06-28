@@ -2,7 +2,7 @@ import pathlib
 from datetime import date
 
 from cltl.brain import LongTermMemory
-from tests.utils import transform_capsule
+from utils import transform_capsule
 
 carl_scenario = [
     {

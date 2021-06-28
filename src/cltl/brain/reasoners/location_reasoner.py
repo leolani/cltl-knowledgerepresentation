@@ -80,7 +80,7 @@ class LocationReasoner(BasicBrain):
 
     def get_location_memory(self, cntxt):
         # brain object memories
-        query = read_query('context/ranked_object_ids_per_type') % cntxt.location.label
+        query = read_query('context/ranked_object_ids_per_type') % casefold_text(cntxt.location.label, format='triple')
         response = self._submit_query(query)
 
         location_memory = {}

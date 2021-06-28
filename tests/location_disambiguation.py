@@ -2,7 +2,7 @@ import pathlib
 from random import choice
 
 from cltl.brain import LongTermMemory
-from tests.utils import transform_capsule, places, capsules
+from utils import transform_capsule, places, capsules
 
 if __name__ == "__main__":
 

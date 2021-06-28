@@ -1,7 +1,7 @@
 import pathlib
 
 from cltl.brain.long_term_memory import LongTermMemory
-from tests.utils import unique_detections
+from utils import unique_detections
 
 if __name__ == "__main__":
 

@@ -2,7 +2,7 @@ import pathlib
 
 from cltl.brain.long_term_memory import LongTermMemory
 from cltl.brain.utils.base_cases import statements
-from tests.utils import transform_capsule
+from utils import transform_capsule
 
 if __name__ == "__main__":
 
@@ -10,7 +10,7 @@ if __name__ == "__main__":
     log_path = pathlib.Path.cwd().parent / 'src' / 'cltl' / 'brain' / 'logs'
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=str(log_path),
-                           clear_all=False)
+                           clear_all=True)
 
     for statement in statements:
         # Create Utterance object, with random context

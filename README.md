@@ -28,20 +28,24 @@ You will need to clone the [cltl-requirements](https://github.com/leolani/cltl-r
 the [cltl-combot](https://github.com/leolani/cltl-combot.git) repositories. If you
 checkout [cltl-combot](https://github.com/leolani/cltl-combot.git) including git submodules (that
 adds [cltl-build](https://github.com/leolani/cltl-build) in the utils folder), you should be able to create a `dist/`
-folder, in the [cltl-combot](https://github.com/leolani/cltl-combot.git) repository, containing the package.
+folder, in the [cltl-combot](https://github.com/leolani/cltl-combot.git) repository, containing the package. On a top
+directory (e.g. `leolani`), perform the next steps:
 
 ```
 git clone https://github.com/leolani/cltl-requirements.git
 git clone https://github.com/leolani/cltl-combot.git
 cd cltl-combot
+conda create --name cltl-combot python=3.7
+conda activate cltl-combot
+git submodule init
 git submodule update
 make build
 ```
 
 and then can install the package with just `pip install dist/cltl.combot-xxx.tar.gz` (see next section)
 
-Additionally, you need to install [GraphDB](http://graphdb.ontotext.com/) with a repository named `leolani`. You will
-need to launch this before running the package.
+Additionally, you need to install [GraphDB Free](http://graphdb.ontotext.com/) with a repository named `leolani`. You
+will need to launch this before running the package.
 
 ### Virtual environment
 
@@ -57,15 +61,15 @@ pip install -e .
 
 ### Test
 
-Please take a look at the tests provided to get an idea on how to run and use this package. For these test, you need a
-repository on GraphDB called `sandbox`
+Please take a look at the tests provided to get an idea on how to run and use this package. For these tests, you need a
+repository on GraphDB called `sandbox`. To run any test you first have to launch GraphDB, and you can run them
 
 ## To Do
 
 - Fix logging
-- Update brain to use JSON, not Utterance of other custom classes
-  - fix problem with objects/observations not being added
-  - Reason over object id from only vision input
 - Move brain_external to brain/infra/api . Modify typing in function signatures
+- Update brain to use JSON, not Utterance of other custom classes
+    - Fix problem with objects/observations not being added
+    - Reason over object id from only vision input
 - Document test as examples of repo functionality
-  - Specify perceptual triples vs conversation triples
+    - Specify perceptual triples vs conversation triples (check thoughts from vision)

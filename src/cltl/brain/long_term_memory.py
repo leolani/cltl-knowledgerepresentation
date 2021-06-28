@@ -1,9 +1,10 @@
 from cltl.brain.LTM_question_processing import create_query
-from cltl.brain.LTM_statement_processing import model_graphs, _link_entity, create_claim_graph
+from cltl.brain.LTM_statement_processing import model_graphs, _link_leolani, _link_entity, create_claim_graph
 from cltl.brain.basic_brain import BasicBrain
-from cltl.brain.infrastructure import Thoughts
+from cltl.brain.infrastructure import Thoughts, Triple
 from cltl.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
 from cltl.brain.utils.helper_functions import read_query
+from cltl.combot.backend.api.discrete import UtteranceType
 from cltl.combot.backend.utils.casefolding import casefold_text
 from cltl.combot.infra.di_container import DIContainer
 
@@ -45,24 +46,29 @@ class LongTermMemory(BasicBrain):
     def get_thoughts_on_entity(self, entity_label, reason_types=False):
         # TODO: Ongoing work
         if entity_label is not None and entity_label != '':
-            # Casefold
-            entity_label = casefold_text(entity_label, format='triple')
-            entity_type = None
 
+            # Try to figure out what this entity is
+            entity_type = None
             if reason_types:
-                # Try to figure out what this entity is
                 entity_type, _ = self.type_reasoner.reason_entity_type(entity_label, exact_only=True)
 
+            # Casefold
+            entity_label = casefold_text(entity_label, format='triple')
+
+            # Create entity
             if entity_type is not None:
-                entity = self._rdf_builder.fill_entity(entity_label, entity_type, 'LW')
+                entity_types = [casefold_text(entity_type, format='triple'), 'Instance', 'object']
             else:
-                entity = self._rdf_builder.fill_entity_from_label(entity_label, 'N2MU')
+                entity_types = [casefold_text(entity_label, format='triple'), 'Instance', 'object']
+
+            entity = self._rdf_builder.fill_entity(entity_label, entity_types, 'LW')
 
             # Create graphs and triples
-            triple = self._rdf_builder.fill_triple_from_label('leolani', 'see', entity_label)
-            _link_entity(self, triple.subject, self.instance_graph)
-            _link_entity(self, triple.complement, self.instance_graph)
-            create_claim_graph(self, triple.subject, triple.predicate, triple.complement)
+            _link_leolani(self)
+            predicate = self._rdf_builder.fill_predicate('see')
+            _link_entity(self, entity, self.instance_graph)
+            create_claim_graph(self, self.myself, predicate, entity, UtteranceType.EXPERIENCE)
+            triple = Triple(self.myself, predicate, entity)
 
             # Check how many items of the same type as subject and complement we have
             entity_novelty = self.thought_generator.fill_entity_novelty(entity.id, entity.id)
@@ -105,9 +111,6 @@ class LongTermMemory(BasicBrain):
         """
         if utterance.triple is not None:
 
-            # Casefold
-            utterance.casefold(format='triple')
-
             if reason_types:
                 # Try to figure out what this entity is
                 if not utterance.triple.complement.types:
@@ -119,6 +122,9 @@ class LongTermMemory(BasicBrain):
                     subject_type, _ = self.type_reasoner.reason_entity_type(str(utterance.triple.subject_name),
                                                                             exact_only=True)
                     utterance.triple.complement.add_types([subject_type])
+
+            # Casefold
+            utterance.casefold(format='triple')
 
             # Create graphs and triples
             instance = model_graphs(self, utterance)

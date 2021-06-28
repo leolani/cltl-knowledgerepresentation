@@ -1,6 +1,6 @@
 SELECT ?item ?itemLabel ?itemtype ?itemtypeLabel ?itemDescription
 WHERE {
-  ?item rdfs:label ?itemLabel.
+  ?item rdfs:label|skos:altLabel ?itemLabel.
   FILTER((LCASE(?itemLabel) = "%s"@en)).
   OPTIONAL{?item wdt:P31 ?itemtype . }
   OPTIONAL {?itemtype rdfs:label ?itemtypeLabel . }

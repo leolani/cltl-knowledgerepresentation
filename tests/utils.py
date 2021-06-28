@@ -1,12 +1,13 @@
+from datetime import date
 from random import choice, sample, randint, uniform
 
 import numpy as np
-from datetime import date
 
 from cltl.brain import RdfBuilder, Perspective
+from cltl.brain.utils.base_cases import visuals
 from cltl.combot.backend.api.discrete import UtteranceType, Emotion
 from cltl.combot.infra.util import Bounds
-from tests.brain_external import Context, Face, Object, Chat, Utterance, UtteranceHypothesis
+from brain_external import Context, Face, Object, Chat, Utterance, UtteranceHypothesis
 
 TEST_IMG = np.zeros((128,))
 TEST_BOUNDS = Bounds(0.0, 0.0, 0.5, 1.0)
@@ -14,9 +15,9 @@ TEST_BOUNDS = Bounds(0.0, 0.0, 0.5, 1.0)
 name = 'Leolani'
 places = ['Forest', 'Playground', 'Monastery', 'House', 'University', 'Hotel', 'Office']
 friends = ['Piek', 'Lenka', 'Bram', 'Suzana', 'Selene', 'Lea', 'Thomas', 'Jaap', 'Tae']
+unique_detections = set([item for detection in visuals for item in detection])
 
-signal = False
-binary_values = [True]
+binary_values = [True, False]
 
 capsule_knows = {
     "utterance": "Bram knows Lenka",
@@ -73,131 +74,93 @@ capsule_is_from_3 = {
 capsules = [capsule_is_from, capsule_is_from_2, capsule_is_from_3, capsule_knows]
 
 
-def random_flags():
+def set_place(capsule, context):
     """
-    Determine if the scene will be modelled with objects, people and/or a known place
-    :return:
+    Select a location randomly if not provided
+    :return: place where scene takes place
     """
-    objects_flag = choice(binary_values)
-    people_flag = choice(binary_values)
-    places_flag = choice(binary_values)
+    if capsule.get('place', None) is not None:
+        place = capsule['place']
+    else:
+        place = choice(places)
 
-    return objects_flag, people_flag, places_flag
-
-
-def fake_context(objects_flag=False, people_flag=False, places_flag=False):
-    """
-    Create a Context object representing a scene taking place in a location, with objects, people
-    :param objects_flag: Whether there are objects in the scene
-    :param people_flag: Whether there are people in the scene
-    :param places_flag: Whether the in the scene is known or not
-    :return: Context object
-    """
-    context = Context(name, friends)
-
-    # Set place
-    if places_flag:
-        place = fake_place()
-        context.location._label = place
-
-    # Set objects
-    if objects_flag:
-        objects = fake_objects(context)
-        context.add_objects(objects)
-
-    # Set people
-    if people_flag:
-        faces = fake_people()
-        context.add_people(faces)
+    context.location._label = place
 
     return context
 
 
-def fake_place():
-    """
-    Select a location randomly
-    :return: place where scene takes place
-    """
-    place = choice(places)
-
-    return place
-
-
-def fake_objects(context):
+def set_objects(capsule, context):
     """
     Create objects, related to the location if possible
     :param context: Context object containing information about the ongoing scene
+    :param capsule: JSON
     :return: List of Object objects that are in the scene
     """
-    # Office
-    if context.location.label == 'Office':
-        if choice(binary_values):
-            objects = [Object('person', 0.79, TEST_BOUNDS, TEST_IMG), Object('laptop', 0.88, TEST_BOUNDS, TEST_IMG),
-                       Object('chair', 0.88, TEST_BOUNDS, TEST_IMG), Object('laptop', 0.51, TEST_BOUNDS, TEST_IMG),
-                       Object('bottle', 0.88, TEST_BOUNDS, TEST_IMG)]
-        else:
-            objects = [Object('person', 0.79, TEST_BOUNDS, TEST_IMG), Object('plant', 0.88, TEST_BOUNDS, TEST_IMG),
-                       Object('chair', 0.88, TEST_BOUNDS, TEST_IMG), Object('laptop', 0.51, TEST_BOUNDS, TEST_IMG)]
-
-    # Market
-    elif context.location.label == 'Market':
-        if choice(binary_values):
-            objects = [Object('apple', 0.79, TEST_BOUNDS, TEST_IMG), Object('banana', 0.88, TEST_BOUNDS, TEST_IMG),
-                       Object('avocado', 0.51, TEST_BOUNDS, TEST_IMG), Object('banana', 0.88, TEST_BOUNDS, TEST_IMG)]
-        else:
-            objects = [Object('apple', 0.79, TEST_BOUNDS, TEST_IMG), Object('banana', 0.88, TEST_BOUNDS, TEST_IMG),
-                       Object('avocado', 0.51, TEST_BOUNDS, TEST_IMG),
-                       Object('strawberry', 0.88, TEST_BOUNDS, TEST_IMG)]
-
-    # Playground
-    elif context.location.label == 'Playground':
-        if choice(binary_values):
-            objects = [Object('person', 0.79, TEST_BOUNDS, TEST_IMG), Object('teddy bear', 0.88, TEST_BOUNDS, TEST_IMG),
-                       Object('teddy bear', 0.88, TEST_BOUNDS, TEST_IMG), Object('cat', 0.51, TEST_BOUNDS, TEST_IMG)]
-        else:
-            objects = [Object('apple', 0.79, TEST_BOUNDS, TEST_IMG), Object('banana', 0.88, TEST_BOUNDS, TEST_IMG),
-                       Object('cat', 0.51, TEST_BOUNDS, TEST_IMG), Object('banana', 0.88, TEST_BOUNDS, TEST_IMG)]
-
-    # Home
-    elif context.location.label == 'Home':
-        objects = [Object('table', 0.89, TEST_BOUNDS, TEST_IMG), Object('pills', 0.88, TEST_BOUNDS, TEST_IMG)]
-
-    # Anywhere else
+    if capsule.get('objects', None) is not None:
+        objects = [Object(obj[0], obj[1], TEST_BOUNDS, TEST_IMG) for obj in capsule['objects']]
     else:
-        if choice(binary_values):
-            objects = [Object('teddy bear', 0.79, TEST_BOUNDS, TEST_IMG), Object('dog', 0.88, TEST_BOUNDS, TEST_IMG),
-                       Object('cat', 0.51, TEST_BOUNDS, TEST_IMG), Object('dog', 0.88, TEST_BOUNDS, TEST_IMG)]
+        # Office
+        if context.location.label == 'Office':
+            possible_objects = ['person', 'chair', 'laptop', 'bottle', 'plant']
+
+        # Market
+        elif context.location.label == 'Market':
+            possible_objects = ['person', 'apple', 'banana', 'avocado', 'strawberry']
+
+        # Playground
+        elif context.location.label == 'Playground':
+            possible_objects = ['person', 'teddy bear', 'cat', 'apple', 'banana']
+
+        # Home
+        elif context.location.label == 'Home':
+            possible_objects = ['person', 'table', 'pills', 'chair']
+
+        # Anywhere else
         else:
-            objects = [Object('apple', 0.79, TEST_BOUNDS, TEST_IMG), Object('banana', 0.88, TEST_BOUNDS, TEST_IMG),
-                       Object('avocado', 0.51, TEST_BOUNDS, TEST_IMG),
-                       Object('strawberry', 0.88, TEST_BOUNDS, TEST_IMG)]
+            possible_objects = unique_detections
 
-    return objects
+        # Create and add objects
+        num_objects = randint(0, len(possible_objects))
+        objs = sample(possible_objects, num_objects)
+
+        objects = []
+        for ob in objs:
+            confidence = uniform(0, 1)
+            objects.append(Object(ob, confidence, TEST_BOUNDS, TEST_IMG))
+
+    context.add_objects(objects)
+
+    return context
 
 
-def fake_people():
+def set_people(capsule, context):
     """
     Create people present in the scene
     :return: List of Face objects present in the scene
     """
-    num_people = randint(0, len(friends))
-    people = sample(friends, num_people)
+    if capsule.get('people', None) is not None:
+        faces = [Face(face[0], face[1], None, TEST_BOUNDS, TEST_IMG) for face in capsule['people']]
+    else:
+        # Add friends
+        num_people = randint(0, len(friends))
+        people = sample(friends, num_people)
 
-    faces = set()
-    for peep in people:
-        confidence = uniform(0, 1)
-        f = Face(peep, confidence, .90, TEST_BOUNDS, TEST_IMG)
-        faces.add(f)
+        faces = set()
+        for peep in people:
+            confidence = uniform(0, 1)
+            faces.add(Face(peep, confidence, None, TEST_BOUNDS, TEST_IMG))
 
-    # Add strangers?
-    if choice(binary_values):
-        confidence = uniform(0, 1)
-        faces.add(Face('Stranger', confidence, .76, TEST_BOUNDS, TEST_IMG))
+        # Add strangers?
+        if choice(binary_values):
+            confidence = uniform(0, 1)
+            faces.add(Face('Stranger', confidence, None, TEST_BOUNDS, TEST_IMG))
 
-    return faces
+    context.add_people(faces)
+
+    return context
 
 
-def fake_chat(capsule, context):
+def set_chat(capsule, context):
     """
     Create a Chat object, given a JSON representation and a Context object
     :param capsule: JSON
@@ -210,7 +173,7 @@ def fake_chat(capsule, context):
     return chat
 
 
-def fake_utterance(capsule, chat):
+def set_utterance(capsule, chat):
     """
     Create an Utterance object, given a JSON representation and a Chat object
     :param capsule: JSON
@@ -226,7 +189,7 @@ def fake_utterance(capsule, chat):
     return utt
 
 
-def fake_triple(capsule, utt):
+def set_triple(capsule, utt):
     """
     Create a Triple object given a JSON representation, and associate it to a given Utterance
     :param capsule: JSON
@@ -237,11 +200,11 @@ def fake_triple(capsule, utt):
     triple = builder.fill_triple(capsule['subject'], capsule['predicate'], capsule['object'])
     utt.triple = triple
 
-    pers = pack_perspective(capsule['perspective'])
+    pers = set_perspective(capsule['perspective'])
     utt.perspective = pers
 
 
-def pack_perspective(persp):
+def set_perspective(persp):
     sentiment = persp.get('sentiment', 0.0)
     emotion = persp.get('emotion', Emotion.NEUTRAL)
 
@@ -250,22 +213,35 @@ def pack_perspective(persp):
     return Perspective(persp.get('certainty', 1), persp.get('polarity', 1), sentiment, emotion=emotion)
 
 
-def transform_capsule(capsule, objects_flag=False, people_flag=False, places_flag=False):
+def transform_capsule(capsule):
     """
     Take a JSON representation and create an Utterance object
     :param capsule: JSON
-    :param objects_flag: Whether there are objects in the scene
-    :param people_flag: Whether there are people in the scene
-    :param places_flag: Whether the in the scene is known or not
     :return: Utterance object
     """
 
-    context = fake_context(objects_flag=objects_flag, people_flag=people_flag, places_flag=places_flag)
+    # Fake context
+    context = Context(name, friends)
+
+    # Set people
+    context = set_people(capsule, context)
+
+    # Set objects
+    context = set_objects(capsule, context)
+
+    # Set place
+    context = set_place(capsule, context)
+
+    # Set date
     context.set_datetime(capsule['date'])
 
-    chat = fake_chat(capsule, context)
-    utt = fake_utterance(capsule, chat)
+    # Set chat
+    chat = set_chat(capsule, context)
 
-    fake_triple(capsule, utt)
+    # Set utterance
+    utt = set_utterance(capsule, chat)
+
+    # Set triple
+    set_triple(capsule, utt)
 
     return utt

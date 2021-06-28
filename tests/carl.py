@@ -2,7 +2,7 @@ import pathlib
 from datetime import date
 
 from cltl.brain import LongTermMemory
-from tests.utils import transform_capsule
+from utils import transform_capsule
 
 carl_scenario = [
     {
@@ -17,9 +17,10 @@ carl_scenario = [
         "turn": 1,  # segment of text signal
         "position": "0-25",  # segment of the annotation
         "date": date(2021, 3, 12),  # we take them from the temporal container of scenario
-        "objects": [('chair', 0.79)],  # Usually come from Vision, for now we take them from scenario['context']
-        "people": [('chair', 0.79)],  # Usually come from Vision, for now we take them from scenario['context']
-        "place": ""
+        "objects": [('chair', 0.68), ('table', 0.79)],
+        # Usually come from Vision, for now we take them from scenario['context']
+        "people": [('Carl', 0.94)],  # Usually come from Vision, for now we take them from scenario['context']
+        "place": "Carl's room"
     },
     {
         "utterance": "I found them. They are under the table.",
@@ -31,7 +32,10 @@ carl_scenario = [
         "chat": 1,
         "turn": 2,
         "position": "0-25",
-        "date": date(2021, 3, 12)
+        "date": date(2021, 3, 12),
+        "objects": [('chair', 0.56), ('table', 0.87), ('pillbox', 0.92)],
+        "people": [],
+        "place": "Carl's room"
     },
     {
         "utterance": "Oh! Got it. Thank you.",
@@ -43,7 +47,10 @@ carl_scenario = [
         "chat": 1,
         "turn": 3,
         "position": "0-25",
-        "date": date(2021, 3, 12)
+        "date": date(2021, 3, 12),
+        "objects": [('chair', 0.59), ('table', 0.73), ('pillbox', 0.32)],
+        "people": [('Carl', 0.98)],
+        "place": "Carl's room"
     }
 ]
 
@@ -56,9 +63,8 @@ if __name__ == "__main__":
                            clear_all=True)
 
     for capsule in carl_scenario:
-
         # Create Utterance object
-        utterance = transform_capsule(capsule, objects_flag=True, people_flag=False, places_flag=True)
+        utterance = transform_capsule(capsule)
 
         # Add information to the brain
         response = brain.update(utterance, reason_types=True)

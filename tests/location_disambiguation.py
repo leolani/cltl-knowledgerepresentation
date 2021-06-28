@@ -1,7 +1,8 @@
 import pathlib
+from random import choice
 
 from cltl.brain import LongTermMemory
-from tests.utils import random_flags, transform_capsule, fake_place, capsules
+from utils import transform_capsule, places, capsules
 
 if __name__ == "__main__":
 
@@ -14,9 +15,7 @@ if __name__ == "__main__":
     for capsule in capsules:
 
         # Create Utterance object, with random context
-        objects_flag, people_flag, places_flag = random_flags()
-        capsule = transform_capsule(capsule, objects_flag=objects_flag, people_flag=people_flag,
-                                    places_flag=False)
+        capsule = transform_capsule(capsule)
         # Add information to the brain
         response = brain.update(capsule, reason_types=True)
 
@@ -31,7 +30,7 @@ if __name__ == "__main__":
                 say = 'Having a talk at what I figured out is %s' % capsule.context.location.label
             else:
                 # Failed to reason, select a random place
-                place = fake_place()
+                place = choice(places)
                 brain.set_location_label(place)
                 capsule.context.location.label = place
                 say = 'I could not figure out where I am, so I will randomly call it %s' % capsule.context.location.label

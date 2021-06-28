@@ -1,7 +1,7 @@
 import pathlib
 
 from cltl.brain import LongTermMemory
-from tests.utils import transform_capsule, random_flags, capsules
+from utils import transform_capsule, capsules
 
 if __name__ == "__main__":
 
@@ -14,9 +14,7 @@ if __name__ == "__main__":
     for capsule in capsules:
 
         # Create Utterance object, with random context
-        objects_flag, people_flag, places_flag = random_flags()
-        utterance = transform_capsule(capsule, objects_flag=objects_flag, people_flag=people_flag,
-                                      places_flag=places_flag)
+        utterance = transform_capsule(capsule)
 
         # Add information to the brain
         response = brain.update(utterance, reason_types=True)

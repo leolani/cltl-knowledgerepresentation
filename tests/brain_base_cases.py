@@ -2,7 +2,7 @@ import pathlib
 
 from cltl.brain.long_term_memory import LongTermMemory
 from cltl.brain.utils.base_cases import statements
-from tests.utils import transform_capsule, random_flags
+from utils import transform_capsule
 
 if __name__ == "__main__":
 
@@ -14,9 +14,7 @@ if __name__ == "__main__":
 
     for statement in statements:
         # Create Utterance object, with random context
-        objects_flag, people_flag, places_flag = random_flags()
-        utterance = transform_capsule(statement, objects_flag=objects_flag, people_flag=people_flag,
-                                      places_flag=places_flag)
+        utterance = transform_capsule(statement)
 
         # Add information to the brain
         response = brain.update(utterance, reason_types=True)

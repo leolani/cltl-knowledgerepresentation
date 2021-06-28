@@ -139,7 +139,8 @@ class Context(object):
         """
         current_time = time()
 
-        return [person for person, t in list(self._people.values()) if (current_time - t) < Context.OBSERVATION_TIMEOUT]
+        return [person for person, t in list(self._people.values())
+                if (current_time - t) < Context.OBSERVATION_TIMEOUT]
 
     @property
     def friends(self):
@@ -170,7 +171,7 @@ class Context(object):
         current_time = time()
 
         return [person for person, t in list(self._people.values())
-                if current_time - t <= timeout and (not in_chat or t >= self._chat_start)]
+                if (current_time - t) <= timeout and (not in_chat or t >= self._chat_start)]
 
     @property
     def all_people(self):
@@ -196,7 +197,7 @@ class Context(object):
         objects: list of Object
             List of Objects seen within Observation Timeout
         """
-        return self._objects.instances
+        return self._objects.instances #[person for person, t in list(self._people.values())]
 
     @property
     def all_objects(self):
@@ -399,4 +400,4 @@ class ObjectObservations:
         observation: Object
         """
         # TODO put clustering functionality back
-        self._instances = [observation]
+        self._instances.append(observation)

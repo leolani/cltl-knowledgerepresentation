@@ -38,7 +38,7 @@ git submodule update
 make build
 ```
 
-and then can nstall the package with just `pip install dist/cltl.combot-xxx.tar.gz` (see next section)
+and then can install the package with just `pip install dist/cltl.combot-xxx.tar.gz` (see next section)
 
 Additionally, you need to install [GraphDB](http://graphdb.ontotext.com/) with a repository named `leolani`. You will
 need to launch this before running the package.
@@ -63,3 +63,9 @@ repository on GraphDB called `sandbox`
 ## To Do
 
 - Fix logging
+- Update brain to use JSON, not Utterance of other custom classes
+  - fix problem with objects/observations not being added
+  - Reason over object id from only vision input
+- Move brain_external to brain/infra/api . Modify typing in function signatures
+- Document test as examples of repo functionality
+  - Specify perceptual triples vs conversation triples

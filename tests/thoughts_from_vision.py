@@ -1,7 +1,7 @@
 import pathlib
 
 from cltl.brain.long_term_memory import LongTermMemory
-from cltl.brain.utils.base_cases import visuals
+from tests.utils import unique_detections
 
 if __name__ == "__main__":
 
@@ -10,9 +10,6 @@ if __name__ == "__main__":
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=str(log_path),
                            clear_all=False)
-
-    # Get list of unique detections
-    unique_detections = set([item for detection in visuals for item in detection])
 
     for detection in unique_detections:
         # Create experience and get thoughts

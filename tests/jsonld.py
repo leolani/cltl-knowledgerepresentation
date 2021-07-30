@@ -1,3 +1,4 @@
+"""TODO: DOCUMENT THIS SCRIPT."""
 import pathlib
 
 from cltl.brain import LongTermMemory

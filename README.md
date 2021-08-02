@@ -30,7 +30,6 @@ Be sure to run in a virtual python environment (e.g. conda, venv, mkvirtualenv, 
 1. In the root directory of this repo run
 
     ```python
-    pip install git+https://github.com/leolani/cltl-combot.git
     pip install -e .
     python -c "import nltk; nltk.download('wordnet')"
     ```

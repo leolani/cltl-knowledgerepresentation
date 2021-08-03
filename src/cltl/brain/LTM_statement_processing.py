@@ -2,7 +2,7 @@ from rdflib import RDF, RDFS, OWL
 
 from cltl.brain.utils.constants import NAMESPACE_MAPPING
 from cltl.brain.utils.helper_functions import hash_claim_id, get_object_id, \
-    confidence_to_certainty_value, polarity_to_polarity_value, sentiment_to_sentiment_value, emotion_to_emotion_value
+    confidence_to_certainty_value
 from cltl.combot.backend.api.discrete import UtteranceType
 from cltl.combot.backend.utils.casefolding import casefold_text
 
@@ -39,23 +39,15 @@ def _link_detections(self, context, dect, prdt):
     self.interaction_graph.add((context.id, self.namespaces['EPS']['hasDetection'], dect.id))
     self.instance_graph.add((dect.id, self.namespaces['EPS']['hasContext'], context.id))
     # Create detection
-    detection = create_claim_graph(self, self.myself, prdt, dect, UtteranceType.EXPERIENCE)
+    detection = create_claim_graph(self, self.myself, prdt, dect)
     self.claim_graph.add((detection.id, self.namespaces['EPS']['hasContext'], context.id))
 
     return detection
 
 
-def _create_detections(self, cntxt, context):
-    """
-
-    Parameters
-    ----------
-    self : brain
-    cntxt: Context
-    context: Entity
-    """
+def _create_detections(self, capsule, context):
     # Get ids of existing objects in this location
-    memory = self.location_reasoner.get_location_memory(cntxt)
+    memory = self.location_reasoner.get_location_memory(capsule)
 
     # Detections: objects
     _link_leolani(self)
@@ -64,13 +56,13 @@ def _create_detections(self, cntxt, context):
     instances = []
     observations = []
 
-    for item in cntxt.objects:
-        if item.name.lower() != 'person':
+    for item in capsule['objects']:
+        if item['type'].lower() != 'person':
             # Create instance
-            mem_id, memory = get_object_id(memory, item.name)
+            mem_id, memory = get_object_id(memory, item['type'])
             objct_id = self._rdf_builder.fill_literal(mem_id, datatype=self.namespaces['XML']['string'])
-            objct = self._rdf_builder.fill_entity(casefold_text(f'{item.name} {objct_id}', format='triple'),
-                                                  [casefold_text(item.name, format='triple'), 'Instance', 'object'],
+            objct = self._rdf_builder.fill_entity(casefold_text(f"{item['type']} {objct_id}", format='triple'),
+                                                  [casefold_text(item['type'], format='triple'), 'Instance', 'object'],
                                                   'LW')
 
             # Link detection to graph
@@ -84,14 +76,15 @@ def _create_detections(self, cntxt, context):
 
             # Open ended learning
             learnable_type = self._rdf_builder.create_resource_uri('N2MU',
-                                                                   casefold_text(item.name, format='triple'))
+                                                                   casefold_text(item['type'], format='triple'))
             self.ontology_graph.add((learnable_type, RDFS.subClassOf, object_type))
 
     # Detections: faces
-    for item in cntxt.people:
-        if item.name.lower() != item.UNKNOWN.lower():
+    for item in capsule['people']:
+        if item['name'].lower() != 'unknown':
             # Create instance
-            prsn = self._rdf_builder.fill_entity(casefold_text(item.name, format='triple'), ['person', 'Instance'],
+            prsn = self._rdf_builder.fill_entity(casefold_text(item['name'], format='triple'),
+                                                 ['person', 'Instance'],
                                                  'LW')
 
             # Link detection to graph
@@ -105,77 +98,72 @@ def _create_detections(self, cntxt, context):
     return instances, observations
 
 
-def _create_context(self, cntxt):
+def _create_context(self, capsule):
     # Create an episodic awareness by making a context
-    context_id = self._rdf_builder.fill_literal(cntxt.id, datatype=self.namespaces['XML']['string'])
-    context = self._rdf_builder.fill_entity('context%s' % cntxt.id, ['Context'], 'LC')
+    context_id = self._rdf_builder.fill_literal(capsule['context_id'], datatype=self.namespaces['XML']['string'])
+    context = self._rdf_builder.fill_entity(f"context{capsule['context_id']}", ['Context'], 'LC')
     _link_entity(self, context, self.interaction_graph)
     self.interaction_graph.add((context.id, self.namespaces['N2MU']['id'], context_id))
 
     # Time
-    time = self._rdf_builder.fill_entity(cntxt.datetime.strftime('%Y-%m-%d'), ['Time', 'DateTimeDescription'], 'LC')
+    time = self._rdf_builder.fill_entity(capsule['date'].strftime('%Y-%m-%d'), ['Time', 'DateTimeDescription'], 'LC')
     _link_entity(self, time, self.interaction_graph)
     self.interaction_graph.add((context.id, self.namespaces['SEM']['hasBeginTimeStamp'], time.id))
 
     # Set specifics of datetime
-    day = self._rdf_builder.fill_literal(cntxt.datetime.day, datatype=self.namespaces['XML']['gDay'])
-    month = self._rdf_builder.fill_literal(cntxt.datetime.month, datatype=self.namespaces['XML']['gMonthDay'])
-    year = self._rdf_builder.fill_literal(cntxt.datetime.year, datatype=self.namespaces['XML']['gYear'])
+    day = self._rdf_builder.fill_literal(capsule['date'].day, datatype=self.namespaces['XML']['gDay'])
+    month = self._rdf_builder.fill_literal(capsule['date'].month, datatype=self.namespaces['XML']['gMonthDay'])
+    year = self._rdf_builder.fill_literal(capsule['date'].year, datatype=self.namespaces['XML']['gYear'])
     time_unit = self._rdf_builder.create_resource_uri('TIME', 'unitDay')
     self.interaction_graph.add((time.id, self.namespaces['TIME']['day'], day))
     self.interaction_graph.add((time.id, self.namespaces['TIME']['month'], month))
     self.interaction_graph.add((time.id, self.namespaces['TIME']['year'], year))
     self.interaction_graph.add((time.id, self.namespaces['TIME']['unitType'], time_unit))
 
-    # Place
+    # City level
+    location_city = self._rdf_builder.fill_entity(capsule['city'], ['location', 'city', 'Place'], 'LW')
+    _link_entity(self, location_city, self.interaction_graph)
+    # Country level
+    location_country = self._rdf_builder.fill_entity(capsule['country'], ['location', 'country', 'Place'], 'LW')
+    _link_entity(self, location_country, self.interaction_graph)
+    # Region level
+    location_region = self._rdf_builder.fill_entity(capsule['region'], ['location', 'region', 'Place'], 'LW')
+    _link_entity(self, location_region, self.interaction_graph)
 
-    if cntxt.location is not None:
-        # City level
-        location_city = self._rdf_builder.fill_entity(cntxt.location.city, ['location', 'city', 'Place'], 'LW')
-        _link_entity(self, location_city, self.interaction_graph)
-        # Country level
-        location_country = self._rdf_builder.fill_entity(cntxt.location.country, ['location', 'country', 'Place'],
-                                                         'LW')
-        _link_entity(self, location_country, self.interaction_graph)
-        # Region level
-        location_region = self._rdf_builder.fill_entity(cntxt.location.region, ['location', 'region', 'Place'],
-                                                        'LW')
-        _link_entity(self, location_region, self.interaction_graph)
+    # Create location
+    location_label = casefold_text(f"{capsule['place']}", format='triple')
+    location_id = self._rdf_builder.fill_literal(capsule['place_id'], datatype=self.namespaces['XML']['string'])
 
-        # Create location
-        location_label = casefold_text('%s' % cntxt.location.label, format='triple')
-        location_id = self._rdf_builder.fill_literal(cntxt.location.id, datatype=self.namespaces['XML']['string'])
+    if capsule['place'] is None or capsule['place'].lower() == '':
+        # All unknowns have label Unknown, different ids but iri with id
+        uri_suffix = casefold_text(f"UNKNOWN{capsule['place_id']}", format='triple')
+        location_uri = self._rdf_builder.create_resource_uri('LC', uri_suffix)
+        location = self._rdf_builder.fill_entity(location_label, ['location', 'Place'], 'LC', uri=location_uri)
 
-        if cntxt.location.label.lower() == cntxt.location.UNKNOWN.lower():
-            # All unknowns have label Unknown, different ids but iri with id
-            uri_suffix = casefold_text(f'{cntxt.location.label}{cntxt.location.id}', format='triple')
-            location_uri = self._rdf_builder.create_resource_uri('LC', uri_suffix)
-            location = self._rdf_builder.fill_entity(location_label, ['location', 'Place'], 'LC', uri=location_uri)
+    else:
+        # If hospital exists and has an id then use that id, if it does not exist then add id
+        ids = self.get_id_of_instance(location_label)
+        if ids:
+            location_id = self._rdf_builder.fill_literal(ids[0], datatype=self.namespaces['XML']['string'])
 
-        else:
-            # If hospital exists and has an id then use that id, if it does not exist then add id
-            ids = self.get_id_of_instance(location_label)
-            if ids:
-                location_id = self._rdf_builder.fill_literal(ids[0], datatype=self.namespaces['XML']['string'])
+        location = self._rdf_builder.fill_entity(location_label, ['location', 'Place'], 'LC')
 
-            location = self._rdf_builder.fill_entity(location_label, ['location', 'Place'], 'LC')
-
-        _link_entity(self, location, self.interaction_graph)
-        self.interaction_graph.add((location.id, self.namespaces['N2MU']['id'], location_id))
-        self.interaction_graph.add((location.id, self.namespaces['N2MU']['in'], location_city.id))
-        self.interaction_graph.add((location.id, self.namespaces['N2MU']['in'], location_country.id))
-        self.interaction_graph.add((location.id, self.namespaces['N2MU']['in'], location_region.id))
-        self.interaction_graph.add((context.id, self.namespaces['SEM']['hasPlace'], location.id))
+    _link_entity(self, location, self.interaction_graph)
+    self.interaction_graph.add((location.id, self.namespaces['N2MU']['id'], location_id))
+    self.interaction_graph.add((location.id, self.namespaces['N2MU']['in'], location_city.id))
+    self.interaction_graph.add((location.id, self.namespaces['N2MU']['in'], location_country.id))
+    self.interaction_graph.add((location.id, self.namespaces['N2MU']['in'], location_region.id))
+    self.interaction_graph.add((context.id, self.namespaces['SEM']['hasPlace'], location.id))
 
     # Detections
-    instances, observations = _create_detections(self, cntxt, context)
+    instances, observations = _create_detections(self, capsule, context)
 
     return context, instances, observations
 
 
 def _create_actor(self, utterance, claim_type):
     if claim_type == UtteranceType.STATEMENT:
-        source = utterance.chat_speaker
+        source = utterance['author']
         source_type = 'person'
         ns = 'LF'
         pred = 'know'
@@ -192,11 +180,11 @@ def _create_actor(self, utterance, claim_type):
 
     # Add leolani knows/senses actor
     predicate = self._rdf_builder.fill_predicate(pred)
-    interaction = create_claim_graph(self, self.myself, predicate, actor, claim_type)
+    interaction = create_claim_graph(self, self.myself, predicate, actor)
 
     # Add actor (friend) is same as person(world)
     if 'person' in actor.types:
-        person = self._rdf_builder.fill_entity('%s' % actor.label, ['Instance', 'person'], 'LW')
+        person = self._rdf_builder.fill_entity(f"{actor.label}", ['Instance', 'person'], 'LW')
         _link_entity(self, person, self.instance_graph)
         self.claim_graph.add((actor.id, OWL.sameAs, person.id))
 
@@ -205,16 +193,16 @@ def _create_actor(self, utterance, claim_type):
 
 def _create_events(self, utterance, claim_type, context):
     # Chat or Visual
-    event_id = self._rdf_builder.fill_literal(utterance.chat.id, datatype=self.namespaces['XML']['string'])
+    event_id = self._rdf_builder.fill_literal(utterance['chat'], datatype=self.namespaces['XML']['string'])
     event_type = 'chat' if claim_type == UtteranceType.STATEMENT else 'visual'
     eventt_label = f'{event_type}{event_id}'
-    event = self._rdf_builder.fill_entity(eventt_label, ['Event', '%s' % event_type.title()], 'LTa')
+    event = self._rdf_builder.fill_entity(eventt_label, ['Event', f"{event_type.title()}"], 'LTa')
     _link_entity(self, event, self.interaction_graph)
     self.interaction_graph.add((event.id, self.namespaces['N2MU']['id'], event_id))
     self.interaction_graph.add((context.id, self.namespaces['SEM']['hasEvent'], event.id))
 
     # Utterance or Detection are events and instances  # TODO incremental detection instead of id of utterance
-    subevent_id = self._rdf_builder.fill_literal(utterance.turn, datatype=self.namespaces['XML']['string'])
+    subevent_id = self._rdf_builder.fill_literal(utterance['turn'], datatype=self.namespaces['XML']['string'])
     subevent_type = 'utterance' if claim_type == UtteranceType.STATEMENT else 'detection'
     subevent_label = f'{str(event.label)}_{subevent_type}{str(subevent_id)}'
     subevent = self._rdf_builder.fill_entity(subevent_label, ['Event', f'{subevent_type.title()}'], 'LTa')
@@ -232,13 +220,12 @@ def _create_events(self, utterance, claim_type, context):
 def _create_mention(self, utterance, subevent, claim_type, detection):
     if claim_type == UtteranceType.STATEMENT:
         mention_unit = 'char'
-        mention_position = '0-%s' % len(utterance.transcript)
-        transcript = self._rdf_builder.fill_literal(utterance.transcript, datatype=self.namespaces['XML']['string'])
+        mention_position = f"0-{len(utterance['utterance'])}"
+        transcript = self._rdf_builder.fill_literal(utterance['utterance'], datatype=self.namespaces['XML']['string'])
     else:
-        scores = [x.confidence for x in utterance.context.objects] + [x.confidence for x in
-                                                                      utterance.context.people]
+        scores = [x['confidence'] for x in utterance['objects']] + [x['confidence'] for x in utterance['people']]
         mention_unit = 'pixel'
-        mention_position = '0-%s' % len(scores)
+        mention_position = f"0-{len(scores)}"
 
     # Mention
     mention_label = f'{subevent.label}_{mention_unit}{mention_position}'
@@ -247,12 +234,12 @@ def _create_mention(self, utterance, subevent, claim_type, detection):
 
     # Bidirectional link between mention and individual instances
     if claim_type == UtteranceType.STATEMENT:
-        self.instance_graph.add((utterance.triple.subject.id, self.namespaces['GAF']['denotedIn'], mention.id))
-        self.instance_graph.add((utterance.triple.complement.id, self.namespaces['GAF']['denotedIn'], mention.id))
+        self.instance_graph.add((utterance['triple'].subject.id, self.namespaces['GAF']['denotedIn'], mention.id))
+        self.instance_graph.add((utterance['triple'].complement.id, self.namespaces['GAF']['denotedIn'], mention.id))
         self.perspective_graph.add(
-            (mention.id, self.namespaces['GAF']['containsDenotation'], utterance.triple.subject.id))
+            (mention.id, self.namespaces['GAF']['containsDenotation'], utterance['triple'].subject.id))
         self.perspective_graph.add(
-            (mention.id, self.namespaces['GAF']['containsDenotation'], utterance.triple.complement.id))
+            (mention.id, self.namespaces['GAF']['containsDenotation'], utterance['triple'].complement.id))
         self.perspective_graph.add((mention.id, RDF.value, transcript))
     else:
         self.instance_graph.add((detection.id, self.namespaces['GAF']['denotedIn'], mention.id))
@@ -261,40 +248,38 @@ def _create_mention(self, utterance, subevent, claim_type, detection):
     return mention
 
 
-def _create_attribution(self, utterance, mention, claim, claim_type=None, perspective_values=None):
-    if perspective_values:
-        attribution_suffix = '-'.join([perspective_values[k] for k in sorted(perspective_values)])
-
-    elif claim_type == UtteranceType.STATEMENT:
-        certainty_value = confidence_to_certainty_value(utterance.perspective.certainty)
-        polarity_value = polarity_to_polarity_value(utterance.perspective.polarity)
-        sentiment_value = sentiment_to_sentiment_value(utterance.perspective.sentiment)
-        emotion_value = emotion_to_emotion_value(utterance.perspective.emotion)
-        perspective_values = {'CertaintyValue': certainty_value, 'PolarityValue': polarity_value,
-                              'SentimentValue': sentiment_value, 'EmotionValue': emotion_value}
-        attribution_suffix = f'{certainty_value}-{polarity_value}-{sentiment_value}-{emotion_value}'
+def _create_attribution(self, capsule, mention, claim, claim_type=None):
+    if claim_type == UtteranceType.STATEMENT:
+        attribution_suffix = f"{capsule['perspective'].certainty.name}-" \
+                             f"{capsule['perspective'].polarity.name}-" \
+                             f"{capsule['perspective'].sentiment.name}-" \
+                             f"{capsule['perspective'].emotion.name}"
     else:
-        scores = [x.confidence for x in utterance.context.objects] + [x.confidence for x in
-                                                                      utterance.context.people]
+        scores = [x['confidence'] for x in capsule['objects']] + [x['confidence'] for x in capsule['people']]
         certainty_value = confidence_to_certainty_value(sum(scores) / float(len(scores)))
-        perspective_values = {'CertaintyValue': certainty_value}
-        attribution_suffix = '%s' % certainty_value
+        attribution_suffix = f"{certainty_value}"
 
-    attribution_label = claim.label + '_%s' % attribution_suffix
+    attribution_label = claim.label + f"_{attribution_suffix}"
     attribution = self._rdf_builder.fill_entity(attribution_label, ['Attribution'], 'LTa')
     _link_entity(self, attribution, self.perspective_graph)
 
-    for typ, val in perspective_values.items():
-        if typ in ['FactualityValue', 'CertaintyValue', 'TemporalValue', 'PolarityValue']:
+    for typ, val in vars(capsule['perspective']).items():
+        if val is None:
+            continue
+
+        if typ in ['_factuality', '_certainty', '_time', '_polarity']:
             ns = 'GRASPf'
-        elif typ in ['SentimentValue']:
+        elif typ in ['_sentiment']:
             ns = 'GRASPs'
-        elif typ in ['EmotionValue']:
+        elif typ in ['_emotion']:
             ns = 'GRASPe'
         else:
             ns = 'GRASP'
 
-        attribution_value = self._rdf_builder.fill_entity(val, ['AttributionValue', typ], ns)
+        attribution_value = self._rdf_builder.fill_entity(val.name,
+                                                          ['AttributionValue',
+                                                           casefold_text(f"{typ[1:].title()}Value", format='triple')],
+                                                          ns)
         _link_entity(self, attribution_value, self.perspective_graph)
         self.perspective_graph.add((attribution.id, RDF.value, attribution_value.id))
 
@@ -305,14 +290,14 @@ def _create_attribution(self, utterance, mention, claim, claim_type=None, perspe
     return attribution
 
 
-def create_instance_graph(self, utterance):
+def create_instance_graph(self, capsule):
     # type (Utterance) -> Graph, Graph, str, str, str
     """
     Create linked data related to what leolani learned/knows about the world
     Parameters
     ----------
     self:
-    utterance: Utterance
+    capsule: Utterance
 
     Returns
     -------
@@ -322,27 +307,27 @@ def create_instance_graph(self, utterance):
     """
     _link_leolani(self)
     # Subject
-    if utterance.type == UtteranceType.STATEMENT:
-        utterance.triple.subject.add_types(['Instance'])
-        _link_entity(self, utterance.triple.subject, self.instance_graph)
-    elif utterance.type == UtteranceType.EXPERIENCE:
+    if capsule['type'] == UtteranceType.STATEMENT:
+        capsule['triple'].subject.add_types(['Instance'])
+        _link_entity(self, capsule['triple'].subject, self.instance_graph)
+
+    elif capsule['type'] == UtteranceType.EXPERIENCE:
         _link_leolani(self)
 
     # Complement
-    utterance.triple.complement.add_types(['Instance'])
-    _link_entity(self, utterance.triple.complement, self.instance_graph)
+    capsule['triple'].complement.add_types(['Instance'])
+    _link_entity(self, capsule['triple'].complement, self.instance_graph)
 
     # Claim graph
-    predicate = utterance.triple.predicate if utterance.type == UtteranceType.STATEMENT \
+    predicate = capsule['triple'].predicate if capsule['type'] == UtteranceType.STATEMENT \
         else self._rdf_builder.fill_predicate('see')
 
-    claim = create_claim_graph(self, utterance.triple.subject, predicate, utterance.triple.complement,
-                               utterance.type)
+    claim = create_claim_graph(self, capsule['triple'].subject, predicate, capsule['triple'].complement)
 
     return claim
 
 
-def create_claim_graph(self, subject, predicate, complement, claim_type=UtteranceType.STATEMENT):
+def create_claim_graph(self, subject, predicate, complement):
     # Statement
     claim_label = hash_claim_id([subject.label, predicate.label, complement.label])
     claim = self._rdf_builder.fill_entity(claim_label, ['Event', 'Assertion'], 'LW')
@@ -355,20 +340,20 @@ def create_claim_graph(self, subject, predicate, complement, claim_type=Utteranc
     return claim
 
 
-def create_interaction_graph(self, utterance, claim):
+def create_interaction_graph(self, capsule, claim):
     # Add context
-    context, detections, observations = _create_context(self, utterance.context)
+    context, detections, observations = _create_context(self, capsule)
 
     # Subevents
-    experience, sensor, use_sensor = _create_events(self, utterance, UtteranceType.EXPERIENCE, context)
+    experience, sensor, use_sensor = _create_events(self, capsule, UtteranceType.EXPERIENCE, context)
     for detection, observation in zip(detections, observations):
-        mention, attribution = create_perspective_graph(self, utterance, claim, experience, UtteranceType.EXPERIENCE,
+        mention, attribution = create_perspective_graph(self, capsule, claim, experience, UtteranceType.EXPERIENCE,
                                                         detection=detection)
         interlink_graphs(self, mention, sensor, experience, observation, use_sensor)
 
-    if utterance.type == UtteranceType.STATEMENT:
-        statement, actor, make_friend = _create_events(self, utterance, UtteranceType.STATEMENT, context)
-        mention, attribution = create_perspective_graph(self, utterance, claim, statement, UtteranceType.STATEMENT)
+    if capsule['type'] == UtteranceType.STATEMENT:
+        statement, actor, make_friend = _create_events(self, capsule, UtteranceType.STATEMENT, context)
+        mention, attribution = create_perspective_graph(self, capsule, claim, statement, UtteranceType.STATEMENT)
         interlink_graphs(self, mention, actor, statement, claim, make_friend)
 
 
@@ -395,13 +380,13 @@ def interlink_graphs(self, mention, actor, subevent, claim, interaction):
     # self.claim_graph.add((interaction.id, self.namespaces['GAF']['denotedBy'], mention.id))
 
 
-def model_graphs(self, utterance):
+def model_graphs(self, capsule):
     # Leolani world (includes instance and claim graphs)
-    claim = create_instance_graph(self, utterance)
+    claim = create_instance_graph(self, capsule)
 
     # Leolani talk (includes interaction and perspective graphs)
-    create_interaction_graph(self, utterance, claim)
+    create_interaction_graph(self, capsule, claim)
 
-    self._log.info(f"Triple in statement: {utterance.triple}")
+    self._log.info(f"Triple in statement: {capsule['triple']}")
 
     return claim

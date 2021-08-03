@@ -4,7 +4,10 @@ import os
 from iribaker import to_iri
 from rdflib import Dataset, Namespace, OWL, URIRef, Literal
 
-from cltl.brain.infrastructure import Predicate, Entity, Triple, Provenance
+from cltl.brain.infrastructure import Predicate, Entity, Triple, Provenance, Perspective
+from cltl.brain.utils.helper_functions import confidence_to_certainty_value, polarity_to_polarity_value, \
+    sentiment_to_sentiment_value, emotion_to_emotion_value
+from cltl.combot.backend.api.discrete import Certainty, Polarity, Sentiment, Emotion
 from cltl.combot.backend.utils.casefolding import casefold_text
 
 logger = logging.getLogger(__name__)
@@ -147,42 +150,6 @@ class RdfBuilder(object):
         self.ontology_paths['sem'] = os.path.join(self.ONTOLOGY_ROOT, 'sem.rdf')
 
     ########## basic constructors ##########
-    def _fix_nlp_types(self, types):
-        # type: (list) -> list
-        """
-        Takes list of types incoming from the NLP pipeline and filters out types that are not semantic but
-        syntactic (e.g. adjective)
-        Parameters
-        ----------
-        types: list
-
-        Returns fixed_types: list
-        -------
-
-        """
-        # TODO here we know if two types are different category (aka noun and verb) we might need to split the triple
-        fixed_types = []
-        for el in types:
-            if len(el) == 1:
-                # this was just a char
-                fixed_types.append(types.split('.')[-1])
-                break
-            elif "article" in el or "prep" in el or "adj" in el or "verb" in el or "numeral" in el or "adv" in el or "modal" in el:
-                pass
-            elif "deictic" in el or "article:definite" in el or "pronoun" in el:
-                # need to corefer
-                pass
-            elif '.' in el:
-                fixed_types.append(el.split('.')[-1])
-            else:
-                fixed_types.append(el)
-
-        # Hand fixed mappings
-        if 'artifact' in fixed_types:
-            fixed_types.append('object')
-
-        return fixed_types
-
     def create_resource_uri(self, namespace, resource_name):
         # type: (str, str) -> str
         """
@@ -326,6 +293,31 @@ class RdfBuilder(object):
 
         return Provenance(author, date)
 
+    def fill_perspective(self, perpective_dict):
+        # type: (dict) -> Perspective
+        """
+        Structure perspective to provide factuality, sentiment and emotion values
+        Parameters
+        ----------
+        perpective_dict: dict
+            Dictionary with raw values for every perspective axis
+
+        Returns
+        -------
+            Perspective object containing factuality, sentiment and emotion values
+        """
+        certainty = perpective_dict.get('certainty', Certainty.UNDERSPECIFIED)
+        polarity = perpective_dict.get('polarity', Polarity.UNDERSPECIFIED)
+        sentiment = perpective_dict.get('sentiment', Sentiment.UNDERSPECIFIED)
+        emotion = perpective_dict.get('emotion', Emotion.UNDERSPECIFIED)
+
+        certainty_value = confidence_to_certainty_value(certainty)
+        polarity_value = polarity_to_polarity_value(polarity)
+        sentiment_value = sentiment_to_sentiment_value(sentiment)
+        emotion_value = emotion_to_emotion_value(emotion)
+
+        return Perspective(certainty_value, polarity_value, sentiment_value, emotion=emotion_value)
+
     def fill_triple(self, subject_dict, predicate_dict, object_dict, namespace='LW'):
         # type: (dict, dict, dict, str) -> Triple
         """
@@ -447,3 +439,39 @@ class RdfBuilder(object):
             clean_detections.append(detection_label)
 
         return clean_detections
+
+    def _fix_nlp_types(self, types):
+        # type: (list) -> list
+        """
+        Takes list of types incoming from the NLP pipeline and filters out types that are not semantic but
+        syntactic (e.g. adjective)
+        Parameters
+        ----------
+        types: list
+
+        Returns fixed_types: list
+        -------
+
+        """
+        # TODO here we know if two types are different category (aka noun and verb) we might need to split the triple
+        fixed_types = []
+        for el in types:
+            if len(el) == 1:
+                # this was just a char
+                fixed_types.append(types.split('.')[-1])
+                break
+            elif "article" in el or "prep" in el or "adj" in el or "verb" in el or "numeral" in el or "adv" in el or "modal" in el:
+                pass
+            elif "deictic" in el or "article:definite" in el or "pronoun" in el:
+                # need to corefer
+                pass
+            elif '.' in el:
+                fixed_types.append(el.split('.')[-1])
+            else:
+                fixed_types.append(el)
+
+        # Hand fixed mappings
+        if 'artifact' in fixed_types:
+            fixed_types.append('object')
+
+        return fixed_types

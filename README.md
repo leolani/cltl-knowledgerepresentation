@@ -59,6 +59,15 @@ pip install <ABSOLUTE_PATH_TO_YOUR_COMBOT_REPO>/dist/cltl.combot-xxx.tar.gz
 pip install -e .
 ```
 
+Additionally, please install the needed nltk resources, by running:
+
+
+```
+python
+import nltk
+nltk.download('wordnet')
+```
+
 ### Test
 
 Please take a look at the tests provided to get an idea on how to run and use this package. For these tests, you need a
@@ -66,6 +75,7 @@ repository on GraphDB called `sandbox`. To run any test you first have to launch
 
 ## To Do
 
+- Remove combot dependency
 - Fix logging
 - Move brain_external to brain/infra/api . Modify typing in function signatures
 - Update brain to use JSON, not Utterance of other custom classes

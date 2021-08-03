@@ -97,7 +97,7 @@ def set_objects(capsule, context):
     :return: List of Object objects that are in the scene
     """
     if capsule.get('objects', None) is not None:
-        objects = [Object(obj[0], obj[1], TEST_BOUNDS, TEST_IMG) for obj in capsule['objects']]
+        objects = [Object(obj['type'], obj['confidence'], TEST_BOUNDS, TEST_IMG) for obj in capsule['objects']]
     else:
         # Office
         if context.location.label == 'Office':
@@ -139,7 +139,7 @@ def set_people(capsule, context):
     :return: List of Face objects present in the scene
     """
     if capsule.get('people', None) is not None:
-        faces = [Face(face[0], face[1], None, TEST_BOUNDS, TEST_IMG) for face in capsule['people']]
+        faces = [Face(face['name'], face['confidence'], None, TEST_BOUNDS, TEST_IMG) for face in capsule['people']]
     else:
         # Add friends
         num_people = randint(0, len(friends))
@@ -205,12 +205,12 @@ def set_triple(capsule, utt):
 
 
 def set_perspective(persp):
-    sentiment = persp.get('sentiment', 0.0)
     emotion = persp.get('emotion', Emotion.NEUTRAL)
 
     if type(emotion) != Emotion:
         emotion = Emotion[emotion.upper()]
-    return Perspective(persp.get('certainty', 1), persp.get('polarity', 1), sentiment, emotion=emotion)
+    return Perspective(persp.get('certainty', 1), persp.get('polarity', 1), persp.get('sentiment', 0.0),
+                       emotion=emotion)
 
 
 def transform_capsule(capsule):

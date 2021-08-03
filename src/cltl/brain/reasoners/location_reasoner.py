@@ -78,9 +78,9 @@ class LocationReasoner(BasicBrain):
 
         return preprocessed_types, preprocessed_ids
 
-    def get_location_memory(self, cntxt):
+    def get_location_memory(self, capsule):
         # brain object memories
-        query = read_query('context/ranked_object_ids_per_type') % casefold_text(cntxt.location.label, format='triple')
+        query = read_query('context/ranked_object_ids_per_type') % casefold_text(capsule['place'], format='triple')
         response = self._submit_query(query)
 
         location_memory = {}
@@ -95,12 +95,12 @@ class LocationReasoner(BasicBrain):
                     location_memory[casefold_text(category, format='triple')] = temp
 
         # Local object memories
-        for item in cntxt.objects:  # Error, this skips the first element?
-            if item.name.lower() != 'person':
-                temp = location_memory.get(casefold_text(item.name, format='triple'),
-                                           {'brain_ids': [], 'local_ids': []})
-                temp['local_ids'].append(str(item.id))
-                location_memory[casefold_text(item.name, format='triple')] = temp
+        for item in capsule['objects']:
+            if item['type'].lower() != 'person':
+                temp = location_memory.get(casefold_text(item['type'], format='triple'), {'brain_ids': [],
+                                                                                          'local_ids': []})
+                temp['local_ids'].append(str(item['id']))
+                location_memory[casefold_text(item['type'], format='triple')] = temp
 
         # Merge giving priority to brain elements
         for cat, ids in list(location_memory.items()):

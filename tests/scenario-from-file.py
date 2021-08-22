@@ -14,10 +14,9 @@ def readCapsuleFromFile (jsonfile):
 if __name__ == "__main__":
 
     # Create brain connection
-#    log_path = pathlib.Path.cwd().parent / 'src' / 'cltl' / 'brain' / 'logs'
     log_path = pathlib.Path.cwd().parent / 'cltl' / 'brain' / 'logs'
     scenario_file_name = 'carlani-3.json'
-    scenario_json_file = pathlib.Path.cwd().parent.parent / scenario_file_name
+    scenario_json_file =  pathlib.Path.cwd().parent / 'test' / 'capsules' / scenario_file_name
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=str(log_path),
                            clear_all=False)

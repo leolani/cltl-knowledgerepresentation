@@ -3,7 +3,7 @@ import json
 import pathlib
 
 from cltl.brain import LongTermMemory
-from tests.utils import transform_capsule
+from utils import transform_capsule
 
 
 def readCapsuleFromFile (jsonfile):

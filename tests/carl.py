@@ -58,9 +58,7 @@ carl_scenario = [
 if __name__ == "__main__":
 
     # Create brain connection
-   # Piek: parent is the folder above the project, had to take it out
-   # log_path = pathlib.Path.cwd().parent / 'src' / 'cltl' / 'brain' / 'logs'
-    log_path = pathlib.Path.cwd() / 'src' / 'cltl' / 'brain' / 'logs'
+    log_path = pathlib.Path.cwd().parent / 'src' / 'cltl' / 'brain' / 'logs'
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=str(log_path),
                            clear_all=True)

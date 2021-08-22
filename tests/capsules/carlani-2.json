@@ -11,7 +11,8 @@
         "turn": 1,  
         "position": "0-25",
         "place": "",
-        "date": "2021:5:25"
+        "date": "2021:5:25",
+        "place": "Office"
     },
     {
         "utterance": "Who is Rusje.",
@@ -24,7 +25,8 @@
         "chat": 1,
         "turn": 2,
         "position": "0-25",
-        "date": "2021:5:25"
+        "date": "2021:5:25",
+        "place": "Office"
     },
     {
         "utterance": "Rusje is my cat.",
@@ -37,7 +39,7 @@
         "chat": 1,
         "turn": 3,
         "position": "0-25",
-        "place": "",
+        "place": "Office",
         "date": "2021:5:25"
     },
     {
@@ -51,7 +53,8 @@
         "chat": 1,
         "turn": 4,
         "position": "0-25",
-        "date": "2021:5:25"
+        "date": "2021:5:25",
+        "place": "Office"
     },
     {
         "utterance": "Oh! There she is.",
@@ -64,7 +67,8 @@
         "chat": 1,
         "turn": 5,
         "position": "0-25",
-        "date": "2021:5:25"
+        "date": "2021:5:25",
+        "place": "Office"
     }
 ]
 }

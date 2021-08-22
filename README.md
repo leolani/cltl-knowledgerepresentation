@@ -22,7 +22,7 @@ This package contains the necessary functionality for creating an RDF episodic k
 
 ## Installation
 
-This repository uses Python >= 3.7.8
+This repository uses Python >= 3.7
 
 Be sure to run in a virtual python environment (e.g. conda, venv, mkvirtualenv, etc.)
 ### Prerequisites

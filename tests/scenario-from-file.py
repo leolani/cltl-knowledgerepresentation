@@ -14,9 +14,9 @@ def readCapsuleFromFile (jsonfile):
 if __name__ == "__main__":
 
     # Create brain connection
-    log_path = pathlib.Path.cwd().parent / 'cltl' / 'brain' / 'logs'
-    scenario_file_name = 'carlani-3.json'
-    scenario_json_file =  pathlib.Path.cwd().parent / 'test' / 'capsules' / scenario_file_name
+    log_path = pathlib.Path.cwd().parent / 'src' / 'cltl' / 'brain' / 'logs'
+    scenario_file_name = 'carlani-4.json'
+    scenario_json_file = 'capsules/' + scenario_file_name
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=str(log_path),
                            clear_all=False)
@@ -27,8 +27,8 @@ if __name__ == "__main__":
         capsule['date']= datetime.datetime.strptime(capsule['date'], "%Y:%m:%d")
         print(capsule)
         if capsule['speech-act']=='statement':
-            utterance = transform_capsule(capsule, objects_flag=True, people_flag=True, places_flag=True)
-            x = brain.update_simple(utterance, reason_types=True)
+            utterance = transform_capsule(capsule)
+            x = brain.update(utterance, reason_types=True)
 
             print(f'\n\n---------------------------------------------------------------\n{utterance.triple}\n')
         else:

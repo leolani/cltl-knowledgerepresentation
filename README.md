@@ -22,64 +22,29 @@ This package contains the necessary functionality for creating an RDF episodic k
 
 ## Installation
 
+This repository uses Python >= 3.7.8
+
+Be sure to run in a virtual python environment (e.g. conda, venv, mkvirtualenv, etc.)
 ### Prerequisites
 
-You will need to clone the [cltl-requirements](https://github.com/leolani/cltl-requirements.git) and
-the [cltl-combot](https://github.com/leolani/cltl-combot.git) repositories. If you
-checkout [cltl-combot](https://github.com/leolani/cltl-combot.git) including git submodules (that
-adds [cltl-build](https://github.com/leolani/cltl-build) in the utils folder), you should be able to create a `dist/`
-folder, in the [cltl-combot](https://github.com/leolani/cltl-combot.git) repository, containing the package. On a top
-directory (e.g. `leolani`), perform the next steps:
+1. In the root directory of this repo run
 
-```
-git clone https://github.com/leolani/cltl-requirements.git
-git clone https://github.com/leolani/cltl-combot.git
-cd cltl-combot
-conda create --name cltl-combot python=3.7
-conda activate cltl-combot
-git submodule init
-git submodule update
-make build
-```
+    ```python
+    pip install -e .
+    python -c "import nltk; nltk.download('wordnet')"
+    ```
 
-and then can install the package with just `pip install dist/cltl.combot-xxx.tar.gz` (see next section)
-
-Additionally, you need to install [GraphDB Free](http://graphdb.ontotext.com/) with a repository named `leolani`. You
+2. Additionally, you need to install [GraphDB Free](http://graphdb.ontotext.com/) with a repository named `sandbox`. You
 will need to launch this before running the package.
 
-### Virtual environment
+### Examples
 
-This repository uses Python >= 3.7.8 To set ip up you can run:
+Please take a look at the example scripts provided to get an idea on how to run and use this package. For these example scripts, you need a
+repository on GraphDB called `sandbox`. To run any example script you first have to launch GraphDB, and you can run them.
 
-```bash
-cd cltl-knowledgerepresentation
-conda create --name cltl-knowledgerepresentation python=3.7
-conda activate cltl-knowledgerepresentation
-pip install <ABSOLUTE_PATH_TO_YOUR_COMBOT_REPO>/dist/cltl.combot-xxx.tar.gz
-pip install -e .
-```
-
-Additionally, please install the needed nltk resources, by running:
-
-
-```
-python
-import nltk
-nltk.download('wordnet')
-```
-
-### Test
-
-Please take a look at the tests provided to get an idea on how to run and use this package. For these tests, you need a
-repository on GraphDB called `sandbox`. To run any test you first have to launch GraphDB, and you can run them
+Change your current directory to `./examples/` and run some examples (e.g. `python brain_base_cases.py`)
 
 ## To Do
 
 - Remove combot dependency
 - Fix logging
-- Move brain_external to brain/infra/api . Modify typing in function signatures
-- Update brain to use JSON, not Utterance of other custom classes
-    - Fix problem with objects/observations not being added
-    - Reason over object id from only vision input
-- Document test as examples of repo functionality
-    - Specify perceptual triples vs conversation triples (check thoughts from vision)

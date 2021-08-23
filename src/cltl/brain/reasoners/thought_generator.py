@@ -9,7 +9,7 @@ from cltl.brain.utils.helper_functions import read_query
 class ThoughtGenerator(BasicBrain):
 
     def __init__(self, address, log_dir, clear_all=False):
-        # type: (str, str, bool) -> None
+        # type: (str, pathlib.Path, bool) -> None
         """
         Interact with Triple store
 
@@ -194,7 +194,7 @@ class ThoughtGenerator(BasicBrain):
 
         return Overlap(processed_provenance, processed_entity)
 
-    def get_overlaps(self, utterance):
+    def get_overlaps(self, capsule):
         """
         Query and build overlaps with regards to the subject and object of the heard statement
         Parameters
@@ -206,9 +206,9 @@ class ThoughtGenerator(BasicBrain):
             Overlaps containing shared information with the heard statement
         """
         # Role as subject
-        query = read_query('thoughts/object_overlap') % (
-            utterance.triple.predicate_name, utterance.triple.complement_name,
-            utterance.triple.subject_name)
+        query = read_query('thoughts/object_overlap') % (capsule['triple'].predicate_name,
+                                                         capsule['triple'].complement_name,
+                                                         capsule['triple'].subject_name)
         response = self._submit_query(query)
 
         if response and response[0]['types']['value'] != '':
@@ -217,9 +217,9 @@ class ThoughtGenerator(BasicBrain):
             complement_overlap = []
 
         # Role as object
-        query = read_query('thoughts/subject_overlap') % (
-            utterance.triple.predicate_name, utterance.triple.subject_name,
-            utterance.triple.complement_name)
+        query = read_query('thoughts/subject_overlap') % (capsule['triple'].predicate_name,
+                                                          capsule['triple'].subject_name,
+                                                          capsule['triple'].complement_name)
         response = self._submit_query(query)
 
         if response and response[0]['types']['value'] != '':
@@ -301,7 +301,7 @@ class ThoughtGenerator(BasicBrain):
 
         return conflicts
 
-    def get_complement_cardinality_conflicts(self, utterance):
+    def get_complement_cardinality_conflicts(self, capsule):
         """
         Query and build cardinality conflicts, meaning conflicts because predicates should be one to one but have
         multiple object values
@@ -314,12 +314,12 @@ class ThoughtGenerator(BasicBrain):
         conflicts: List[CardinalityConflict]
             List of Conflicts containing the object which creates the conflict, and their provenance
         """
-        if str(utterance.triple.predicate_name) not in self._ONE_TO_ONE_PREDICATES:
+        if str(capsule['triple'].predicate_name) not in self._ONE_TO_ONE_PREDICATES:
             return []
 
-        query = read_query('thoughts/object_cardinality_conflicts') % (utterance.triple.predicate_name,
-                                                                       utterance.triple.subject_name,
-                                                                       utterance.triple.complement_name)
+        query = read_query('thoughts/object_cardinality_conflicts') % (capsule['triple'].predicate_name,
+                                                                       capsule['triple'].subject_name,
+                                                                       capsule['triple'].complement_name)
 
         response = self._submit_query(query)
         if response and response[0] != {}:
@@ -333,7 +333,7 @@ class ThoughtGenerator(BasicBrain):
 
         return conflicts
 
-    def get_negation_conflicts(self, utterance):
+    def get_negation_conflicts(self, capsule):
         """
         Query and build negation conflicts, meaning conflicts because predicates are directly negated
         Parameters
@@ -345,9 +345,9 @@ class ThoughtGenerator(BasicBrain):
         conflicts: List[NegationConflict]
             List of Conflicts containing the predicate which creates the conflict, and their provenance
         """
-        query = read_query('thoughts/negation_conflicts') % (utterance.triple.predicate_name,
-                                                             utterance.triple.subject_name,
-                                                             utterance.triple.complement_name)
+        query = read_query('thoughts/negation_conflicts') % (capsule['triple'].predicate_name,
+                                                             capsule['triple'].subject_name,
+                                                             capsule['triple'].complement_name)
 
         response = self._submit_query(query)
         if response and response[0] != {}:
@@ -356,7 +356,6 @@ class ThoughtGenerator(BasicBrain):
             conflicts = []
 
         if conflicts:
-            # TODO check if there are both positive and negative views on this statement
             c = random.choice(conflicts)
             self._log.info(f"Negation Conflicts: {c.__str__()}")
 

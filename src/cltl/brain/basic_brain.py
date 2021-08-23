@@ -1,6 +1,6 @@
 import json
 import logging
-import os
+import pathlib
 from datetime import datetime
 
 from cltl.brain.infrastructure import StoreConnector, RdfBuilder
@@ -21,7 +21,7 @@ class BasicBrain(object):
     _NOT_TO_ASK_PREDICATES = ['faceID', 'name']
 
     def __init__(self, address, log_dir, clear_all=False, is_submodule=False):
-        # type: (str, str, bool, bool) -> None
+        # type: (str, pathlib.Path, bool, bool) -> None
         """
         Interact with Triple store
 
@@ -36,10 +36,11 @@ class BasicBrain(object):
         self._log = logger.getChild(self.__class__.__name__)
         self._log.debug("Booted")
 
-        self._brain_log = os.path.join(log_dir, f"brain_log_{datetime.now().strftime('%Y-%m-%d-%H-%M')}")
+        self.log_dir = log_dir.joinpath(f"{datetime.now().strftime('%Y-%m-%d-%H-%M')}")
+        self.log_dir.mkdir(parents=True, exist_ok=True)
 
         # Start with a clean local memory
-        self.clean_local_memory()
+        self.assign_local_memory()
 
         if not is_submodule:
             # Possible clear all contents (testing purposes)
@@ -78,6 +79,9 @@ class BasicBrain(object):
 
         return self._connection.query(query, ask=ask, post=post)
 
+    def _brain_log(self):
+        return self.log_dir.joinpath(f"brain_log_{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}")
+
     ########## brain structure exploration ##########
     def _serialize(self, file_path):
         """
@@ -85,12 +89,16 @@ class BasicBrain(object):
         :param file_path: path to where data will be saved
         :return: serialized data as string
         """
-        # Save to file but return the python representation
+        # Save to file and return the string representation
         with open(f'{file_path}.{self._connection.format}', 'wb') as f:
             self.dataset.serialize(f, format=self._connection.format)
 
         data = self.dataset.serialize(format=self._connection.format)
-        self.clean_local_memory()
+
+        # Clear local memory
+        # TODO fix bug
+        # self._rdf_builder.fresh_local_memory()
+        self.assign_local_memory()
 
         return data
 
@@ -103,7 +111,7 @@ class BasicBrain(object):
             self._rdf_builder.load_ontologies()
 
             self._log.info("Uploading ontology to brain")
-            data = self._serialize(self._brain_log)
+            data = self._serialize(self._brain_log())
             self._connection.upload(data)
 
     def ontology_is_uploaded(self):
@@ -334,13 +342,14 @@ class BasicBrain(object):
         query = "delete {?s ?p ?o} where {?s ?p ?o .}  "
         _ = self._connection.query(query, post=True)
 
-    def clean_local_memory(self):
+    def assign_local_memory(self):
         """
         Assign direct access to rdf builder attributes
         Returns
         -------
 
         """
+
         self.namespaces = self._rdf_builder.namespaces
         self.dataset = self._rdf_builder.dataset
 

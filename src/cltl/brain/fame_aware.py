@@ -7,8 +7,8 @@ from cltl.combot.backend.utils.casefolding import casefold_text
 
 
 class FameAwareMemory(LongTermMemory):
-    def __init__(self, address, log_dir=None, clear_all=False):
-        # type: (str, str, bool) -> None
+    def __init__(self, address, log_dir, clear_all=False):
+        # type: (str, pathlib.Path, bool) -> None
         """
         Interact with Triple store
 
@@ -52,7 +52,7 @@ class FameAwareMemory(LongTermMemory):
                     self.add_triple(triple)
 
                 # Finish process of uploading new knowledge to the triple store
-                data = self._serialize(self._brain_log)
+                data = self._serialize(self._brain_log())
                 code = self._upload_to_brain(data)
 
                 return {'response': code, 'label': person_name, 'data': data}

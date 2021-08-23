@@ -23,8 +23,16 @@
             "chat": 1,
             "turn": 1,
             "position": "0-25",
-            "date": "2021:3:12",
-            "place": "Office"
+            "context_id": 111,
+            "place": "Office",
+            "place_id": "",
+            "country": "Netherlands",
+            "region": "North Holland",
+            "city": "Amsterdam",
+            "date": "2021:5:25",
+            "objects": [{"type": "chair", "confidence": 0.68, "id": 1},
+                        {"type": "table", "confidence": 0.79, "id": 1}],
+            "people": [{"name": "Carl", "confidence": 0.94, "id": 1}]
         },
         {
             "utterance": "I found them. They are under the table.",
@@ -49,8 +57,16 @@
             "chat": 1,
             "turn": 2,
             "position": "0-25",
-            "date": "2021:3:12",
-            "place": "Office"
+            "context_id": 111,
+            "place": "Office",
+            "place_id": "",
+            "country": "Netherlands",
+            "region": "North Holland",
+            "city": "Amsterdam",
+            "date": "2021:5:25",
+            "objects": [{"type": "chair", "confidence": 0.68, "id": 1},
+                        {"type": "table", "confidence": 0.79, "id": 1}],
+            "people": [{"name": "Carl", "confidence": 0.94, "id": 1}]
         },
         {
             "utterance": "Oh! Got it. Thank you.",
@@ -75,8 +91,16 @@
             "chat": 1,
             "turn": 3,
             "position": "0-25",
-            "date": "2021:3:12",
-            "place": "Office"
+            "context_id": 111,
+            "place": "Office",
+            "place_id": "",
+            "country": "Netherlands",
+            "region": "North Holland",
+            "city": "Amsterdam",
+            "date": "2021:5:25",
+            "objects": [{"type": "chair", "confidence": 0.68, "id": 1},
+                        {"type": "table", "confidence": 0.79, "id": 1}],
+            "people": [{"name": "Carl", "confidence": 0.94, "id": 1}]
         }
     ]
 }

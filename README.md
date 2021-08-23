@@ -1,6 +1,6 @@
 # cltl-knowledgerepresentation
 
-A knowledge representation service (aka Leolani Brain). This service expects structures data and outputs an RDF graph.
+A knowledge representation service (aka Leolani's Brain). This service expects structures data and outputs an RDF graph.
 
 ### Description
 
@@ -20,36 +20,54 @@ This package contains the necessary functionality for creating an RDF episodic k
     - the number of new content the agent has provided,
     - the number of conflicting information it has provided
 
-## Installation
+## Getting started
 
-This repository uses Python >= 3.7.8
+### Prerequisites
+
+This repository uses Python >= 3.7
 
 Be sure to run in a virtual python environment (e.g. conda, venv, mkvirtualenv, etc.)
-### Prerequisites
+
+### Installation
 
 1. In the root directory of this repo run
 
-    ```python
+    ```bash
     pip install -e .
     python -c "import nltk; nltk.download('wordnet')"
     ```
 
 2. Additionally, you need to install [GraphDB Free](http://graphdb.ontotext.com/) with a repository named `sandbox`. You
-will need to launch this before running the package.
+   will need to launch this before running the package.
 
-### Test
+### Usage
 
-Please take a look at the tests provided to get an idea on how to run and use this package. For these tests, you need a
-repository on GraphDB called `sandbox`. To run any test you first have to launch GraphDB, and you can run them.
+For using this repository as a package different project:
 
-Change your current directory to `./tests/` and run some examples (e.g. `python brain_base_cases.py`)
+1. On a different virtual environment, you may run:
+
+    ```bash
+    pip install git+git://github.com/leolani/cltl-knowledgerepresentation.git@main
+    ```
+
+2. Then you can import it in a python script as:
+
+    ```python
+    import cltl.brain
+    ```
+
+### Examples
+
+Please take a look at the example scripts provided to get an idea on how to run and use this package. Each example has a
+comment at the top of the script describing the behaviour of the script.
+
+For these example scripts, you need
+
+1. A repository on [GraphDB Free](http://graphdb.ontotext.com/) called `sandbox`. To run any example script you first
+   have to launch GraphDB, and then you can run the example script.
+
+2. To change your current directory to `./examples/` and run some examples (e.g. `python carl.py`)
 
 ## To Do
 
 - Fix logging
-- Move brain_external to brain/infra/api . Modify typing in function signatures
-- Update brain to use JSON, not Utterance of other custom classes
-    - Fix problem with objects/observations not being added
-    - Reason over object id from only vision input
-- Document test as examples of repo functionality
-    - Specify perceptual triples vs conversation triples (check thoughts from vision)

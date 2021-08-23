@@ -1,12 +1,13 @@
 import random
-
 from datetime import date, datetime
+from typing import List, Optional
+
 from nltk.stem import WordNetLemmatizer
 from rdflib import Literal
-from typing import List, Optional
 
 from cltl.brain.utils.constants import NOT_TO_MENTION_TYPES
 from cltl.brain.utils.helper_functions import hash_claim_id, is_proper_noun
+from cltl.combot.backend.api.discrete import Certainty, Polarity, Sentiment, Emotion, Time
 from cltl.combot.backend.utils.casefolding import casefold_text
 
 
@@ -355,17 +356,17 @@ class Triple(object):
 
 class Perspective(object):
     def __init__(self, certainty, polarity, sentiment, time=None, emotion=None):
-        # type: (float, int, float, Time, Emotion) -> None
+        # type: (Certainty, Polarity, Sentiment, Time, Emotion) -> None
         """
         Construct Perspective Object
         Parameters
         ----------
-        certainty: float
-            Float between 0 and 1. 1 is the default value and things reflecting doubt affect it to make it less certain
-        polarity: int
-            Either 1 for positive polarity or -1 for negative polarity. This value directly affects the sentiment
+        certainty: Certainty
+            Enumerator representing certainty
+        polarity: Polarity
+            Enumerator representing polarity. Main flag to signal negation
         sentiment: float
-            Float between -1 and 1. Negative values represent negatuve sentiments while positive values represent
+            Enumerator representing sentiment
             positive sentiments.
         time: Time
             Enumerator representing time. This is extracted from the tense
@@ -380,32 +381,32 @@ class Perspective(object):
 
     @property
     def certainty(self):
-        # type: () -> float
+        # type: () -> Certainty
         return self._certainty
 
     @certainty.setter
     def certainty(self, new_certainty):
-        # type: (float) -> ()
+        # type: (Certainty) -> ()
         self._certainty = new_certainty
 
     @property
     def polarity(self):
-        # type: () -> int
+        # type: () -> Polarity
         return self._polarity
 
     @polarity.setter
     def polarity(self, new_polarity):
-        # type: (int) -> ()
+        # type: (Polarity) -> ()
         self._polarity = new_polarity
 
     @property
     def sentiment(self):
-        # type: () -> float
+        # type: () -> Sentiment
         return self._sentiment
 
     @sentiment.setter
     def sentiment(self, new_sentiment):
-        # type: (float) -> ()
+        # type: (Sentiment) -> ()
         self._sentiment = new_sentiment
 
     @property
@@ -775,8 +776,8 @@ class Gaps(object):
     def __repr__(self):
         s = random.choice(self._subject) if self._subject else ''
         o = random.choice(self._complement) if self._complement else ''
-        return f'{len(self._subject)} subject gaps: e.g. {s.__repr__()} - ' \
-               f'{len(self._complement)} object gaps: e.g. {o.__repr__()}'
+        return f'{len(self._subject)} gaps as subject: e.g. {s.__repr__()} - ' \
+               f'{len(self._complement)} gaps as object: e.g. {o.__repr__()}'
 
 
 class Overlap(object):

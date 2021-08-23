@@ -5,7 +5,7 @@ from cltl.brain.utils.helper_functions import read_query, sigmoid
 class TrustCalculator(BasicBrain):
 
     def __init__(self, address, log_dir, clear_all=False):
-        # type: (str, str, bool) -> None
+        # type: (str, pathlib.Path, bool) -> None
         """
         Interact with Triple store
 
@@ -110,7 +110,7 @@ class TrustCalculator(BasicBrain):
                     self.interaction_graph.add((actor.id, self.namespaces['N2MU']['hasTrustworthinessLevel'], trust))
 
                     # Finish process of uploading new knowledge to the triple store
-                    data = self._serialize(self._brain_log)
+                    data = self._serialize(self._brain_log())
                     code = self._upload_to_brain(data)
 
         self._log.info("Computed trust for all known agents")

@@ -1,9 +1,10 @@
-import numpy as np
 import os
 from datetime import date
 
+import numpy as np
+
 from cltl.brain.utils.constants import CAPITALIZED_TYPES
-from cltl.combot.backend.api.discrete import Emotion
+from cltl.combot.backend.api.discrete import Certainty, Polarity, Sentiment, Emotion
 from cltl.combot.backend.utils.casefolding import casefold_text
 
 
@@ -47,69 +48,49 @@ def hash_claim_id(triple):
 
 
 def confidence_to_certainty_value(confidence):
-    if confidence is not None:
+    if confidence is not None and type(confidence) != Certainty:
         confidence = float(confidence)
+
         if confidence > .90:
-            return 'CERTAIN'
+            return Certainty.CERTAIN
         elif confidence >= .50:
-            return 'PROBABLE'
+            return Certainty.PROBABLE
         elif confidence > 0:
-            return 'POSSIBLE'
-    return 'UNDERSPECIFIED'
+            return Certainty.POSSIBLE
+
+    return Certainty.UNDERSPECIFIED
 
 
 def polarity_to_polarity_value(polarity):
-    if polarity is not None:
+    if polarity is not None and type(polarity) != Polarity:
         polarity = float(polarity)
+
         if polarity > 0:
-            return 'POSITIVE'
+            return Polarity.POSITIVE
         elif polarity < 0:
-            return 'NEGATIVE'
-    return 'UNDERSPECIFIED'
+            return Polarity.NEGATIVE
+
+    return Polarity.UNDERSPECIFIED
 
 
 def sentiment_to_sentiment_value(sentiment):
-    if sentiment is not None:
+    if sentiment is not None and type(sentiment) != Sentiment:
         sentiment = float(sentiment)
+
         if sentiment > 0:
-            return 'POSITIVE'
+            return Sentiment.POSITIVE
         elif sentiment < 0:
-            return 'NEGATIVE'
+            return Sentiment.NEGATIVE
         elif sentiment == 0:
-            return 'NEUTRAL'
-    return 'UNDERSPECIFIED'
+            return Sentiment.NEUTRAL
+
+    return Sentiment.UNDERSPECIFIED
 
 
 def emotion_to_emotion_value(emotion):
-    if emotion is not None:
-        if emotion == Emotion.ANGER:
-            return 'ANGER'
-        elif emotion == Emotion.DISGUST:
-            return 'DISGUST'
-        elif emotion == Emotion.FEAR:
-            return 'FEAR'
-        elif emotion == Emotion.JOY:
-            return 'JOY'
-        elif emotion == Emotion.SADNESS:
-            return 'SADNESS'
-        elif emotion == Emotion.SURPRISE:
-            return 'SURPRISE'
-        elif emotion == Emotion.NEUTRAL:
-            return 'NEUTRAL'
-    return 'UNDERSPECIFIED'
-
-
-def sentiment_value_to_sentiment(sentiment):
-    if type(sentiment) not in [float, int]:
-        # Gotta translate this
-        if sentiment.lower() == 'positive':
-            sentiment = 1.0
-        elif sentiment.lower() == 'negative':
-            sentiment = -1.0
-        elif sentiment.lower() == 'neutral':
-            sentiment = 0.0
-
-    return sentiment
+    if emotion is not None and type(emotion) == str:
+        return Emotion[emotion.upper()]
+    return Emotion.UNDERSPECIFIED
 
 
 def replace_in_file(file, word, word_replacement):

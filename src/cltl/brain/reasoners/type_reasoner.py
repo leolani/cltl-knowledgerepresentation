@@ -9,7 +9,7 @@ from cltl.combot.backend.utils.casefolding import casefold_text
 class TypeReasoner(BasicBrain):
 
     def __init__(self, address, log_dir, clear_all=False):
-        # type: (str, str, bool) -> None
+        # type: (str, pathlib.Path, bool) -> None
         """
         Interact with Triple store
 
@@ -50,7 +50,7 @@ class TypeReasoner(BasicBrain):
         if not learned_type:
             mapping = self.get_labels_and_classes()
             if item_label in list(mapping.keys()):
-                learned_type = mapping[item]
+                learned_type = mapping[item_label]
                 text = f' I know about {item}. It is of type {learned_type}. I will remember this object'
 
         # Go at wikidata exact match

@@ -5,7 +5,7 @@ from cltl.combot.backend.utils.casefolding import casefold_text
 
 class LocationReasoner(BasicBrain):
     def __init__(self, address, log_dir, clear_all=False):
-        # type: (str, str, bool) -> None
+        # type: (str, pathlib.Path, bool) -> None
         """
         Interact with Triple store
 
@@ -78,9 +78,9 @@ class LocationReasoner(BasicBrain):
 
         return preprocessed_types, preprocessed_ids
 
-    def get_location_memory(self, cntxt):
+    def get_location_memory(self, capsule):
         # brain object memories
-        query = read_query('context/ranked_object_ids_per_type') % casefold_text(cntxt.location.label, format='triple')
+        query = read_query('context/ranked_object_ids_per_type') % casefold_text(capsule['place'], format='triple')
         response = self._submit_query(query)
 
         location_memory = {}
@@ -95,12 +95,12 @@ class LocationReasoner(BasicBrain):
                     location_memory[casefold_text(category, format='triple')] = temp
 
         # Local object memories
-        for item in cntxt.objects:  # Error, this skips the first element?
-            if item.name.lower() != 'person':
-                temp = location_memory.get(casefold_text(item.name, format='triple'),
-                                           {'brain_ids': [], 'local_ids': []})
-                temp['local_ids'].append(str(item.id))
-                location_memory[casefold_text(item.name, format='triple')] = temp
+        for item in capsule['objects']:
+            if item['type'].lower() != 'person':
+                temp = location_memory.get(casefold_text(item['type'], format='triple'), {'brain_ids': [],
+                                                                                          'local_ids': []})
+                temp['local_ids'].append(str(item['id']))
+                location_memory[casefold_text(item['type'], format='triple')] = temp
 
         # Merge giving priority to brain elements
         for cat, ids in list(location_memory.items()):
@@ -110,53 +110,54 @@ class LocationReasoner(BasicBrain):
 
         return location_memory
 
-    def reason_location(self, cntxt):
+    def reason_location(self, capsule):
 
-        guess = None
+        if capsule['place'] is None or capsule['place'].lower() == '':
+            guess = None
 
-        if cntxt.location.label != cntxt.location.UNKNOWN:
-            return cntxt.location.label
+            # Query all locations and detections (through context)
+            memory = self.get_episodic_memory()
 
-        # Query all locations and detections (through context)
-        memory = self.get_episodic_memory()
+            if memory:
+                # Generate set of current detections
+                observations = []
+                for item in capsule['objects']:
+                    if item['type'].lower() != 'person':
+                        observations.append(casefold_text(item['type'], format='triple'))
+                for item in capsule['people']:
+                    if item['name'].lower() != 'unknown':
+                        observations.append(casefold_text(item['name'], format='triple'))
 
-        if memory:
-            # Generate set of current detections
-            observations = []
-            for item in cntxt.objects:
-                if item.name.lower() != 'person':
-                    observations.append(casefold_text(item.name, format='triple'))
-            for item in cntxt.people:
-                if item.name.lower() != item.UNKNOWN.lower():
-                    observations.append(casefold_text(item.name, format='triple'))
-            observations.append(cntxt.location.city)
-            observations.append(cntxt.location.country)
-            observations.append(cntxt.location.region)
+                # Take geo information into account
+                observations.append(capsule['city'])
+                observations.append(capsule['country'])
+                observations.append(capsule['region'])
 
-            # Compare one by one and determine most similar
-            for mem in memory:
-                all = mem['detections']
-                all.extend(mem['geo'])
-                mem['overlap'] = self._measure_detection_overlap(all, observations)
+                # Compare one by one and determine most similar
+                for mem in memory:
+                    all = mem['detections']
+                    all.extend(mem['geo'])
+                    mem['overlap'] = self._measure_detection_overlap(all, observations)
 
-            # Pick most similar and determine equality based on a threshold
-            memory.sort(key=lambda x: x['overlap'])
-            best_guess = memory[0]
-            guess = best_guess['place'] \
-                if best_guess['overlap'] > 0.5 \
-                   and best_guess['place'].lower() != cntxt.location.UNKNOWN.lower() else None
+                # Pick most similar and determine equality based on a threshold
+                memory.sort(key=lambda x: x['overlap'], reverse=True)
+                best_guess = memory[0]
+                guess = best_guess['place'] \
+                    if best_guess['overlap'] > 0.5 and best_guess['place'].lower() not in ['', 'unknown', 'none'] \
+                    else None
 
-            self._log.info(f"Reasoned location to: {guess} with {best_guess['overlap']} overlap")
+                self._log.info(f"Reasoned location to: {guess} with {best_guess['overlap']} overlap")
 
-        return guess
+            return guess
 
-    def set_location_label(self, label, default='Unknown'):
+        else:
+            return capsule['place']
+
+    def set_location_label(self, context_id, label, old_label='unknown'):
         # Replace as subject, replace label, replace as object in the database (long term memory)
+        query = read_query('context/rename_location') % (old_label, label, context_id, old_label, label)
+        response = self._submit_query(query, post=True)
 
-        queries = read_query('context/rename_location') % (default, label,
-                                                           default, default, default, default, label,
-                                                           default, label)
-        for query in queries.split(';'):
-            response = self._submit_query(query, post=True)
+
 
         self._log.info(f"Set location to: {label}")

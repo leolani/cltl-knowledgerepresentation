@@ -17,16 +17,17 @@ setup(
     package_dir={'': 'src'},
     packages=find_namespace_packages(include=['cltl.*']),
     package_data={'brain': ['ontologies/*', 'queries/*']},
-    python_requires='>=3.7.8',
-    install_requires=['cltl.combot @ git+https://github.com/leolani/cltl-combot.git',
-                      'requests==2.25.0',
-                      'rdflib==5.0.0',
-                      'sparqlwrapper==1.8.5',
-                      'numpy==1.19.4',
-                      'fuzzywuzzy==0.18.0',
-                      'nltk==3.4.4',
-                      'iribaker==0.2',
-                      'rdflib-jsonld'
-                      ],
+    python_requires='>=3.7',
+    install_requires=[
+        # 'cltl.combot @ git+https://github.com/leolani/cltl-combot.git#e76f2baa4668d9546e93c7e5a5df102648d40c17',
+        'requests==2.25.0',
+        'rdflib==5.0.0',
+        'sparqlwrapper==1.8.5',
+        'numpy==1.20.0',
+        'fuzzywuzzy==0.18.0',
+        'nltk==3.4.4',
+        'iribaker==0.2',
+        'rdflib-jsonld'
+    ],
     setup_requires=['flake8']
 )

@@ -4,10 +4,9 @@ LEOLANI FINDS THEM THROUGH OBJECT RECOGNITION AND COMMUNICATES THIS TO CARL. CAR
 """
 
 import pathlib
+import requests
 from datetime import date
 from random import getrandbits
-
-import requests
 
 from cltl.brain.long_term_memory import LongTermMemory
 from cltl.combot.backend.api.discrete import UtteranceType

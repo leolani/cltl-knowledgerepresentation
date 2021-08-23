@@ -6,14 +6,6 @@ from cltl.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasone
 from cltl.brain.utils.helper_functions import read_query
 from cltl.combot.backend.api.discrete import UtteranceType
 from cltl.combot.backend.utils.casefolding import casefold_text
-from cltl.combot.infra.di_container import DIContainer
-
-
-class BrainContainer(DIContainer):
-    @property
-    def brain(self):
-        # type: () -> LongTermMemory
-        raise NotImplementedError("Brain not configured")
 
 
 class LongTermMemory(BasicBrain):

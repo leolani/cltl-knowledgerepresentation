@@ -1,6 +1,6 @@
 # cltl-knowledgerepresentation
 
-A knowledge representation service (aka Leolani Brain). This service expects structures data and outputs an RDF graph.
+A knowledge representation service (aka Leolani's Brain). This service expects structures data and outputs an RDF graph.
 
 ### Description
 
@@ -22,9 +22,10 @@ This package contains the necessary functionality for creating an RDF episodic k
 
 ## Installation
 
-This repository uses Python >= 3.7.8
+This repository uses Python >= 3.7
 
 Be sure to run in a virtual python environment (e.g. conda, venv, mkvirtualenv, etc.)
+
 ### Prerequisites
 
 1. In the root directory of this repo run
@@ -35,16 +36,16 @@ Be sure to run in a virtual python environment (e.g. conda, venv, mkvirtualenv, 
     ```
 
 2. Additionally, you need to install [GraphDB Free](http://graphdb.ontotext.com/) with a repository named `sandbox`. You
-will need to launch this before running the package.
+   will need to launch this before running the package.
 
 ### Examples
 
-Please take a look at the example scripts provided to get an idea on how to run and use this package. For these example scripts, you need a
-repository on GraphDB called `sandbox`. To run any example script you first have to launch GraphDB, and you can run them.
+Please take a look at the example scripts provided to get an idea on how to run and use this package. For these example
+scripts, you need a repository on GraphDB called `sandbox`. To run any example script you first have to launch GraphDB,
+and you can run them.
 
 Change your current directory to `./examples/` and run some examples (e.g. `python brain_base_cases.py`)
 
 ## To Do
 
-- Remove combot dependency
 - Fix logging

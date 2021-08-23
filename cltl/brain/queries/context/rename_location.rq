@@ -1,0 +1,24 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
+PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
+PREFIX leolaniTalk: <http://cltl.nl/leolani/talk/>
+PREFIX leolaniContext: <http://cltl.nl/leolani/context/>
+
+# Rename IRI
+DELETE {GRAPH leolaniTalk:Interactions {?s1 ?p1 ?oldURI . ?oldURI ?p2 ?o2 . ?oldURI rdfs:label "%s" .}}
+INSERT {GRAPH leolaniTalk:Interactions {?s1 ?p1 ?newURI . ?newURI ?p2 ?o2 . ?newURI rdfs:label "%s" .}}
+WHERE {
+    ?oldURI rdf:type n2mu:location .
+    ?oldURI rdf:type sem:Place .
+    leolaniContext:context%s sem:hasPlace ?oldURI .
+
+    ?s1 ?p1 ?oldURI .
+    ?oldURI ?p2 ?o2 .
+
+    ?oldURI rdfs:label ?oldLabel .
+
+    BIND (URI(REPLACE(STR(?oldURI), "%s.*", "%s")) AS ?newURI) .
+       }
+;
+
+

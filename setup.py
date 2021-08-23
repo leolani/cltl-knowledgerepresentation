@@ -14,7 +14,7 @@ setup(
         "Baez Santamaria": ("Selene Baez Santamaria", "s.baezsantamaria@vu.nl"),
         "Baier": ("Thomas Baier", "t.baier@vu.nl")
     },
-    package_dir={'': 'src'},
+    package_dir={'': 'cltl'},
     packages=find_namespace_packages(include=['cltl.*']),
     package_data={'brain': ['ontologies/*', 'queries/*']},
     python_requires='>=3.7.8',

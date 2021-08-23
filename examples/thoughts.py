@@ -18,7 +18,7 @@ from cltl.brain.utils.base_cases import statements, conflicting_statements
 
 if __name__ == "__main__":
     # Create brain connection
-    log_path = pathlib.Path.cwd().parent / 'cltl' / 'brain' / 'logs'
+    log_path = pathlib.Path.cwd().parent / 'src' / 'cltl' / 'brain' / 'logs'
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
                            clear_all=True)

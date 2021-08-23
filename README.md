@@ -20,17 +20,19 @@ This package contains the necessary functionality for creating an RDF episodic k
     - the number of new content the agent has provided,
     - the number of conflicting information it has provided
 
-## Installation
+## Getting started
+
+### Prerequisites
 
 This repository uses Python >= 3.7
 
 Be sure to run in a virtual python environment (e.g. conda, venv, mkvirtualenv, etc.)
 
-### Prerequisites
+### Installation
 
 1. In the root directory of this repo run
 
-    ```python
+    ```bash
     pip install -e .
     python -c "import nltk; nltk.download('wordnet')"
     ```
@@ -38,13 +40,33 @@ Be sure to run in a virtual python environment (e.g. conda, venv, mkvirtualenv, 
 2. Additionally, you need to install [GraphDB Free](http://graphdb.ontotext.com/) with a repository named `sandbox`. You
    will need to launch this before running the package.
 
+### Usage
+
+For using this repository as a package different project:
+
+1. On a different virtual environment, you may run:
+
+    ```bash
+    pip install git+git://github.com/leolani/cltl-knowledgerepresentation.git@main
+    ```
+
+2. Then you can import it as:
+
+    ```python
+    import cltl.brain
+    ```
+
 ### Examples
 
-Please take a look at the example scripts provided to get an idea on how to run and use this package. For these example
-scripts, you need a repository on GraphDB called `sandbox`. To run any example script you first have to launch GraphDB,
-and you can run them.
+Please take a look at the example scripts provided to get an idea on how to run and use this package. Each example has a
+comment at the top of the script describing the behaviour of the script.
 
-Change your current directory to `./examples/` and run some examples (e.g. `python brain_base_cases.py`)
+For these example scripts, you need
+
+1. A repository on [GraphDB Free](http://graphdb.ontotext.com/) called `sandbox`. To run any example script you first
+   have to launch GraphDB, and then you can run the example script.
+
+2. To change your current directory to `./examples/` and run some examples (e.g. `python brain_base_cases.py`)
 
 ## To Do
 

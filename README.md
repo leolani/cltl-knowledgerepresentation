@@ -50,7 +50,7 @@ For using this repository as a package different project:
     pip install git+git://github.com/leolani/cltl-knowledgerepresentation.git@main
     ```
 
-2. Then you can import it as:
+2. Then you can import it in a python script as:
 
     ```python
     import cltl.brain
@@ -66,7 +66,7 @@ For these example scripts, you need
 1. A repository on [GraphDB Free](http://graphdb.ontotext.com/) called `sandbox`. To run any example script you first
    have to launch GraphDB, and then you can run the example script.
 
-2. To change your current directory to `./examples/` and run some examples (e.g. `python brain_base_cases.py`)
+2. To change your current directory to `./examples/` and run some examples (e.g. `python carl.py`)
 
 ## To Do
 

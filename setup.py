@@ -15,8 +15,8 @@ setup(
         "Baier": ("Thomas Baier", "t.baier@vu.nl")
     },
     package_dir={'': 'src'},
-    packages=find_namespace_packages(include=['cltl.*']),
-    package_data={'brain': ['ontologies/*', 'queries/*']},
+    packages=find_namespace_packages(include=['cltl.*'], where='src'),
+    package_data={'cltl.brain': ['ontologies/*', 'queries/*']},
     python_requires='>=3.7',
     install_requires=[
         # 'cltl.combot @ git+https://github.com/leolani/cltl-combot.git#e76f2baa4668d9546e93c7e5a5df102648d40c17',

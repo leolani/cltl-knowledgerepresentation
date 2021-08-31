@@ -10,21 +10,21 @@ THERE ARE 8 TYPES OF THOUGHTS:
 7. OVERLAP: SHARED INFORMATION WITH EXISTING KNOWLEDGE IN THE BRAIN
 8. TRUST: PROXY FOR CONFIDENCE IN THE SOURCE OF THE INFORMATION
 """
-
-import pathlib
+import argparse
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from cltl.brain.long_term_memory import LongTermMemory
 from cltl.brain.utils.base_cases import statements, conflicting_statements
 
-if __name__ == "__main__":
+
+def main(log_path):
     # Create brain connection
-    log_path = pathlib.Path.cwd().parent / 'src' / 'cltl' / 'brain' / 'logs'
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
                            clear_all=True)
 
     capsules = statements + conflicting_statements
-
     for capsule in capsules:
         # Add information to the brain
         response = brain.update(capsule, reason_types=True)
@@ -48,3 +48,16 @@ if __name__ == "__main__":
 
         # Social
         print(f'\ttrust on {capsule["author"]}: {thoughts.trust()}')
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Carl-Leolani scenario')
+    parser.add_argument('--logs', type=str,
+                        help="Directory to store the brain log files. Must be specified to persist the log files.")
+    args, _ = parser.parse_known_args()
+
+    if args.logs:
+        main(Path(args.logs))
+    else:
+        with TemporaryDirectory(prefix="brain-log") as log_path:
+            main(Path(log_path))

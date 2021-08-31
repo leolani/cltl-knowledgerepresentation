@@ -5,12 +5,24 @@ comment at the top of the script describing the behaviour of the script.
 
 For these example scripts, you need
 
-1. A repository on [GraphDB Free](http://graphdb.ontotext.com/) called `sandbox`. To run any example script you first
+1. Setup a repository on [GraphDB Free](http://graphdb.ontotext.com/) called `sandbox`. To run any example script you first
    have to launch GraphDB, and then you can run the example script.
 
-2. To change your current directory to `./examples/`
+1. Install the package. It is recommended to do this in a virtual environment:
+   ```shell
+       > python -m venv examples/venv
+       > source examples/venv/bin/activate
+       (venv) > pip install .
+   ```
+   To exit and clean the virtual environment after use run
+   ```shell
+       (venv) > deactivate
+       > rm -rf examples/venv
+   ```
 
-3. Run some examples (e.g. `python carl.py`)
+1. Change your current directory to `./examples/`
+
+1. Run some examples (e.g. `python carl.py`)
 
 ### Capsules
 
@@ -50,17 +62,12 @@ you may use an empty string (``""``) or ``None``.
 ### Logs
 
 Please that note that initializing the ``LongTermMemory`` object requires a directory where to save the logging
-information. It is assumed that you are running the examples from the ```examples``` directory, and as such the log
-folder will be created under
+information. By default the example scripts will use a temporary directory to store the logs, which will be cleaned
+up after running the script. If you want to retain the logs you can specify a log folder with the `--logs` parameter
+in each example script, e.g.
 
-```
-LOCAL_PATH_TO_REPO/cltl-knowledgerepresentation/src/cltl/brain/logs
-```
-
-However, you can specify your own log directory anywhere you'd like as such
-
-```python
-log_path = pathlib.Path('/Users/selbaez/Documents/PhD/leolani/cltl-knowledgerepresentation/src/cltl/brain/logs')
+```shell
+> python carl.py --logs my_log_dir
 ```
 
 Every time a ``LongTermMemory`` object is initialized, a folder in the logs directory is created using the the current

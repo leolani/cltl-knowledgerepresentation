@@ -1,6 +1,8 @@
+import argparse
 import datetime
 import json
-import pathlib
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from cltl.brain import LongTermMemory
 
@@ -11,19 +13,15 @@ def readCapsuleFromFile(jsonfile):
     return scenario
 
 
-if __name__ == "__main__":
-
+def main(log_path):
     # Create brain connection
-    log_path = pathlib.Path.cwd().parent / 'src' / 'cltl' / 'brain' / 'logs'
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
                            clear_all=False)
-
     # Read scenario from file
     scenario_file_name = 'carlani-4.json'
     scenario_json_file = 'capsules/' + scenario_file_name
     scenario = readCapsuleFromFile(scenario_json_file)
-
     for capsule in scenario['scenario']:
         capsule['date'] = datetime.datetime.strptime(capsule['date'], "%Y:%m:%d")
 
@@ -36,3 +34,16 @@ if __name__ == "__main__":
             print(f'\n\n---------------------------------------------------------------\n{sa}\n')
 
         print(capsule)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Carl-Leolani scenario')
+    parser.add_argument('--logs', type=str,
+                        help="Directory to store the brain log files. Must be specified to persist the log files.")
+    args, _ = parser.parse_known_args()
+
+    if args.logs:
+        main(Path(args.logs))
+    else:
+        with TemporaryDirectory(prefix="brain-log") as log_path:
+            main(Path(log_path))

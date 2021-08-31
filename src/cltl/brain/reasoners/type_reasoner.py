@@ -99,8 +99,8 @@ class TypeReasoner(BasicBrain):
             try:
                 r = requests.get(url, params={'format': 'json', 'query': query}, timeout=3)
                 data = r.json() if r.status_code != 500 else None
-            except:
-                self._log.warning("Failed to query DBpedia")
+            except Exception as e:
+                self._log.warning("Failed to query DBpedia: %s", e)
                 data = None
 
             # break if we have a hit
@@ -164,8 +164,8 @@ class TypeReasoner(BasicBrain):
             try:
                 r = requests.get(url, params={'format': 'json', 'query': query}, timeout=3)
                 data = r.json() if r.status_code == 200 else None
-            except:
-                self._log.warning("Failed to query Wikidata")
+            except Exception as e:
+                self._log.warning("Failed to query Wikidata: %s", e)
                 data = None
 
             # break if we have a hit

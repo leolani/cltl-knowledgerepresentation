@@ -15,8 +15,8 @@ setup(
         "Baier": ("Thomas Baier", "t.baier@vu.nl")
     },
     package_dir={'': 'src'},
-    packages=find_namespace_packages(include=['cltl.*']),
-    package_data={'brain': ['ontologies/*', 'queries/*']},
+    packages=find_namespace_packages(include=['cltl.*'], where='src'),
+    package_data={'cltl.brain': ['ontologies/*', 'ontologies/**/*', 'queries/*', 'queries/**/*']},
     python_requires='>=3.7',
     install_requires=[
         # 'cltl.combot @ git+https://github.com/leolani/cltl-combot.git#e76f2baa4668d9546e93c7e5a5df102648d40c17',
@@ -27,7 +27,9 @@ setup(
         'fuzzywuzzy==0.18.0',
         'nltk==3.4.4',
         'iribaker==0.2',
-        'rdflib-jsonld'
+        'rdflib-jsonld==0.5.0',
+        'python-Levenshtein==0.12.2',
+        'importlib_resources==5.2.2'
     ],
     setup_requires=['flake8']
 )

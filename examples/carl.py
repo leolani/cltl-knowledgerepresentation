@@ -2,11 +2,13 @@
 THIS SCRIPT FILLS IN THE BRAIN WITH A CARL SCENARIO. IN THIS SCENARIO, CARL HAS TO TAKE HIS PILLS BUT CANNOT FIND THEM.
 LEOLANI FINDS THEM THROUGH OBJECT RECOGNITION AND COMMUNICATES THIS TO CARL. CARL THEN THANKS LEOLANI
 """
-
-import pathlib
-import requests
+import argparse
 from datetime import date
+from pathlib import Path
 from random import getrandbits
+from tempfile import TemporaryDirectory
+
+import requests
 
 from cltl.brain.long_term_memory import LongTermMemory
 from cltl.combot.backend.api.discrete import UtteranceType
@@ -86,15 +88,27 @@ carl_scenario = [
     }
 ]
 
-if __name__ == "__main__":
 
+def main(log_path):
     # Create brain connection
-    log_path = pathlib.Path.cwd().parent / 'src' / 'cltl' / 'brain' / 'logs'
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
                            clear_all=True)
 
     for capsule in carl_scenario:
         # Add information to the brain
-        response = brain.update(capsule, reason_types=True)
+        brain.update(capsule, reason_types=True)
         print(f"\n\n---------------------------------------------------------------\n{capsule['triple']}\n")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Carl-Leolani scenario')
+    parser.add_argument('--logs', type=str,
+                        help="Directory to store the brain log files. Must be specified to persist the log files.")
+    args, _ = parser.parse_known_args()
+
+    if args.logs:
+        main(Path(args.logs))
+    else:
+        with TemporaryDirectory(prefix="brain-log") as log_path:
+            main(Path(log_path))

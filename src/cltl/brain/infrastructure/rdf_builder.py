@@ -1,5 +1,6 @@
 import logging
 import os
+import importlib.resources as pkg_resources
 
 from iribaker import to_iri
 from rdflib import Dataset, Namespace, OWL, URIRef, Literal
@@ -14,12 +15,9 @@ logger = logging.getLogger(__name__)
 
 
 class RdfBuilder(object):
-    ONTOLOGY_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '../ontologies'))
-
     def __init__(self):
         # type: () -> None
 
-        self.ontology_paths = {}
         self.namespaces = {}
         self.dataset = Dataset()
 
@@ -145,18 +143,9 @@ class RdfBuilder(object):
         self.interaction_graph = self.dataset.graph(self.create_resource_uri('LTa', 'Interactions'))
 
     def load_ontologies(self):
-        self.ontology_graph.parse(location=os.path.join(self.ONTOLOGY_ROOT, 'integration.ttl'), format="turtle")
-        self.ontology_graph.parse(location=os.path.join(self.ONTOLOGY_ROOT, 'ceo_original.ttl'), format="turtle")
-
-    def _get_ontology_path(self):
-        """
-        Define ontology paths to key vocabularies
-        :return:
-        """
-        self.ontology_paths['n2mu'] = os.path.join(self.ONTOLOGY_ROOT, 'leolani.ttl')
-        self.ontology_paths['gaf'] = os.path.join(self.ONTOLOGY_ROOT, 'gaf.rdf')
-        self.ontology_paths['grasp'] = os.path.join(self.ONTOLOGY_ROOT, 'grasp.rdf')
-        self.ontology_paths['sem'] = os.path.join(self.ONTOLOGY_ROOT, 'sem.rdf')
+        with pkg_resources.path("cltl.brain", "ontologies") as ONTOLOGY_ROOT:
+            self.ontology_graph.parse(location=os.path.join(ONTOLOGY_ROOT, 'integration.ttl'), format="turtle")
+            self.ontology_graph.parse(location=os.path.join(ONTOLOGY_ROOT, 'ceo_original.ttl'), format="turtle")
 
     ########## basic constructors ##########
     def create_resource_uri(self, namespace, resource_name):

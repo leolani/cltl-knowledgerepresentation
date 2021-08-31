@@ -6,11 +6,12 @@ SECOND, AN UNKNOWN PLACE WITHOUT LABEL. FOR SHOWCASING PURPOSES WE ASSIGN A RAND
 THIRD, A KNOWN LOCATION WITHOUT A LABEL (A NON RECOGNIZED PLACE). THROUGH REASONING THIS PLACE IS RECOGNIZED
     AND THE NAME IS SET CORRECTLY IN THE BRAIN
 """
-
-import pathlib
+import argparse
 from datetime import date
+from pathlib import Path
 from random import choice
 from random import getrandbits
+from tempfile import TemporaryDirectory
 
 import requests
 
@@ -92,16 +93,14 @@ unknown_location_scenario = [
     },
 ]
 
-if __name__ == "__main__":
 
+def main(log_path):
     # Create brain connection
-    log_path = pathlib.Path.cwd().parent / 'src' / 'cltl' / 'brain' / 'logs'
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
                            clear_all=True)
 
     for capsule in unknown_location_scenario:
-
         # Reason about location
         if capsule['place'] is None or capsule['place'].lower() == '':
             potential_location = brain.reason_location(capsule)
@@ -112,13 +111,13 @@ if __name__ == "__main__":
                 say = 'Having a talk at what I figured out is %s' % capsule['place']
 
                 # Add information to the brain
-                response = brain.update(capsule, reason_types=True)
+                brain.update(capsule, reason_types=True)
 
                 # Set the location name
                 brain.set_location_label(capsule['context_id'], capsule['place'])
             else:
                 # Add information to the brain
-                response = brain.update(capsule, reason_types=True)
+                brain.update(capsule, reason_types=True)
 
                 # Failed to reason, select a random place
                 place = choice(places)
@@ -130,8 +129,21 @@ if __name__ == "__main__":
 
         else:
             # Add information to the brain
-            response = brain.update(capsule, reason_types=True)
+            brain.update(capsule, reason_types=True)
 
             say = 'I know I am at %s' % capsule['place']
 
         print(say)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Carl-Leolani scenario')
+    parser.add_argument('--logs', type=str,
+                        help="Directory to store the brain log files. Must be specified to persist the log files.")
+    args, _ = parser.parse_known_args()
+
+    if args.logs:
+        main(Path(args.logs))
+    else:
+        with TemporaryDirectory(prefix="brain-log") as log_path:
+            main(Path(log_path))

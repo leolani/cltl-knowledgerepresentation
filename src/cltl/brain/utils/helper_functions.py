@@ -1,8 +1,10 @@
-import os
+import importlib_resources as pkg_resources
+
 from datetime import date
 
 import numpy as np
 
+import cltl.brain
 from cltl.brain.utils.constants import CAPITALIZED_TYPES
 from cltl.combot.backend.api.discrete import Certainty, Polarity, Sentiment, Emotion
 from cltl.combot.backend.utils.casefolding import casefold_text
@@ -20,10 +22,9 @@ def read_query(query_filename):
     query: str the query with placeholders for the query parameters, as a string to be formatted
 
     """
-    file_path = os.path.join(os.path.dirname(__file__), f"../queries/{query_filename}.rq")
-    with open(file_path) as fr:
-        query = fr.read()
-    return query
+    resources = pkg_resources.files(cltl.brain)
+
+    return (resources / "queries" / f"{query_filename}.rq").read_text()
 
 
 def is_proper_noun(types):

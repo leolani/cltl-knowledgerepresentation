@@ -66,10 +66,6 @@ For these example scripts, you need
 1. A repository on [GraphDB Free](http://graphdb.ontotext.com/) called `sandbox`. To run any example script you first
    have to launch GraphDB, and then you can run the example script.
 
-2. To change your current directory to `./examples/` 
-   
+2. To change your current directory to `./examples/`
+
 3. Run some examples (e.g. `python carl.py`)
-
-## To Do
-
-- Fix logging

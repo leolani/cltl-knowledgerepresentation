@@ -8,13 +8,13 @@ For these example scripts, you need
 1. Setup a repository on [GraphDB Free](http://graphdb.ontotext.com/) called `sandbox`. To run any example script you first
    have to launch GraphDB, and then you can run the example script.
 
-1. Install the package. It is recommended to do this in a virtual environment:
+1. Install the package from the repository root. It is recommended to do this in a virtual environment:
    ```shell
        > python -m venv examples/venv
        > source examples/venv/bin/activate
        (venv) > pip install .
    ```
-   To exit and clean the virtual environment after use run
+   To exit and clean the virtual environment after use, run
    ```shell
        (venv) > deactivate
        > rm -rf examples/venv

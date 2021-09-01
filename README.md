@@ -42,19 +42,24 @@ Be sure to run in a virtual python environment (e.g. conda, venv, mkvirtualenv, 
 
 ### Usage
 
-For using this repository as a package different project:
+For using this repository as a package different project and on a different virtual environment, you may
 
-1. On a different virtual environment, you may run:
+- install a published version from PyPI:
+
+    ```bash
+    pip install cltl.brain
+    ```
+
+- or, for the latest snapshot, run:
 
     ```bash
     pip install git+git://github.com/leolani/cltl-knowledgerepresentation.git@main
     ```
 
-2. Then you can import it in a python script as:
+Then you can import it in a python script as:
 
-    ```python
     import cltl.brain
-    ```
+
 
 ### Examples
 

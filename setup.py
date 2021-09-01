@@ -3,9 +3,13 @@ from setuptools import setup, find_namespace_packages
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+with open("version.txt", "r") as fh:
+    version = fh.read().strip()
+
 setup(
     name="cltl.brain",
     description="The Leolani Brain module for knowledge representation",
+    version=version,
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/leolani/cltl-knowledgerepresentation",

@@ -24,16 +24,16 @@ setup(
     python_requires='>=3.7',
     install_requires=[
         # 'cltl.combot @ git+https://github.com/leolani/cltl-combot.git#e76f2baa4668d9546e93c7e5a5df102648d40c17',
-        'requests==2.25.0',
-        'rdflib==5.0.0',
-        'sparqlwrapper==1.8.5',
-        'numpy==1.20.0',
-        'fuzzywuzzy==0.18.0',
-        'nltk==3.4.4',
-        'iribaker==0.2',
-        'rdflib-jsonld==0.5.0',
-        'python-Levenshtein==0.12.2',
-        'importlib_resources==5.2.2'
+        'requests>=2.25',
+        'rdflib>=5.0',
+        'sparqlwrapper>=1.8',
+        'numpy>=1.20',
+        'fuzzywuzzy>=0.18',
+        'nltk>=3.4',
+        'iribaker>=0.2',
+        'rdflib-jsonld>=0.5',
+        'python-Levenshtein>=0.12',
+        'importlib_resources>=5.2'
     ],
     setup_requires=['flake8']
 )

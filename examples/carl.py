@@ -97,7 +97,7 @@ def main(log_path):
 
     for capsule in carl_scenario:
         # Add information to the brain
-        brain.update(capsule, reason_types=True)
+        brain.update_without_label(capsule, reason_types=True)
         print(f"\n\n---------------------------------------------------------------\n{capsule['triple']}\n")
 
 

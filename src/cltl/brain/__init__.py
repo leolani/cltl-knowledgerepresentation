@@ -1,5 +1,5 @@
 """
-The Pepper Brain Package contains the tools to submit and query the RDF database.
+The Leolani Brain Package contains the tools to submit and query the RDF database.
 """
 
 

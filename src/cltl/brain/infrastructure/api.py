@@ -211,7 +211,6 @@ class Predicate(RDFBase):
         -------
 
         """
-        # TODO: Copied from language.generation.phrasing, because of circular dependency issues...
         # TODO revise by Lenka
         new_predicate = ''
         if format == 'triple':

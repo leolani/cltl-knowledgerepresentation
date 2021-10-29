@@ -9,6 +9,7 @@ from random import getrandbits
 from tempfile import TemporaryDirectory
 
 import requests
+from tqdm import tqdm
 
 from cltl.brain.long_term_memory import LongTermMemory
 from cltl.combot.backend.api.discrete import UtteranceType
@@ -25,9 +26,9 @@ carl_scenario = [
         "utterance": "I need to take my pills, but I cannot find them.",  # sequence of mention
         "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",  # segment of the annotation
-        "subject": {"label": "carl", "type": "person"},  # annotations of type NER
+        "subject": {"label": "carl", "type": ["person"]},  # annotations of type NER
         "predicate": {"type": "see"},  # annotation of type x (still to be done)
-        "object": {"label": "pills", "type": "object"},  # annotations of type NER
+        "object": {"label": "pills", "type": ["object"]},  # annotations of type NER
         "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},  # annotation of type x (still to be done)
         "context_id": context_id,
         "date": date(2021, 3, 12),  # we take them from the temporal container of scenario
@@ -47,9 +48,9 @@ carl_scenario = [
         "utterance": "I found them. They are under the table.",
         "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
-        "subject": {"label": "pills", "type": "object"},
+        "subject": {"label": "pills", "type": ["object"]},
         "predicate": {"type": "located under"},
-        "object": {"label": "table", "type": "object"},
+        "object": {"label": "table", "type": ["object"]},
         "perspective": {"certainty": 1, "polarity": 1, "sentiment": 0},
         "context_id": context_id,
         "date": date(2021, 3, 12),
@@ -70,9 +71,9 @@ carl_scenario = [
         "utterance": "Oh! Got it. Thank you.",
         "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
-        "subject": {"label": "carl", "type": "person"},
+        "subject": {"label": "carl", "type": ["person"]},
         "predicate": {"type": "see"},
-        "object": {"label": "pills", "type": "object"},
+        "object": {"label": "pills", "type": ["object"]},
         "perspective": {"certainty": 1, "polarity": 1, "sentiment": 1},
         "context_id": context_id,
         "date": date(2021, 3, 12),
@@ -95,7 +96,7 @@ def main(log_path):
                            log_dir=log_path,
                            clear_all=True)
 
-    for capsule in carl_scenario:
+    for capsule in tqdm(carl_scenario):
         # Add information to the brain
         brain.update(capsule, reason_types=True, create_label=True)
         print(f"\n\n---------------------------------------------------------------\n{capsule['triple']}\n")

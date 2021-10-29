@@ -1,106 +1,154 @@
 {
-    "scenario": [
+  "scenario": [
+    {
+      "utterance": "I need to take my pills, but I cannot find them.",
+      "speech-act": "statement",
+      "subject": {
+        "label": "carl",
+        "type": ["person"]
+      },
+      "predicate": {
+        "type": "sees"
+      },
+      "object": {
+        "label": "pills",
+        "type": ["object"]
+      },
+      "perspective": {
+        "certainty": 1,
+        "polarity": -1,
+        "sentiment": -1
+      },
+      "author": "carl",
+      "chat": 1,
+      "turn": 1,
+      "position": "0-25",
+      "context_id": 111,
+      "place": "Office",
+      "place_id": "",
+      "country": "Netherlands",
+      "region": "North Holland",
+      "city": "Amsterdam",
+      "date": "2021:5:25",
+      "objects": [
         {
-            "utterance": "I need to take my pills, but I cannot find them.",
-            "speech-act":  "statement",
-            "subject": {
-                "label": "carl",
-                "type": "person"
-            },
-            "predicate": {
-                "type": "sees"
-            },
-            "object": {
-                "label": "pills",
-                "type": "object"
-            },
-            "perspective": {
-                "certainty": 1,
-                "polarity": -1,
-                "sentiment": -1
-            },
-            "author": "carl",
-            "chat": 1,
-            "turn": 1,
-            "position": "0-25",
-            "context_id": 111,
-            "place": "Office",
-            "place_id": "",
-            "country": "Netherlands",
-            "region": "North Holland",
-            "city": "Amsterdam",
-            "date": "2021:5:25",
-            "objects": [{"type": "chair", "confidence": 0.68, "id": 1},
-                        {"type": "table", "confidence": 0.79, "id": 1}],
-            "people": [{"name": "Carl", "confidence": 0.94, "id": 1}]
+          "type": "chair",
+          "confidence": 0.68,
+          "id": 1
         },
         {
-            "utterance": "I found them. They are under the table.",
-            "speech-act":  "statement",
-            "subject": {
-                "label": "pills",
-                "type": "object"
-            },
-            "predicate": {
-                "type": "locatedUnder"
-            },
-            "object": {
-                "label": "table",
-                "type": "object"
-            },
-            "perspective": {
-                "certainty": 1,
-                "polarity": 1,
-                "sentiment": 0
-            },
-            "author": "leolani",
-            "chat": 1,
-            "turn": 2,
-            "position": "0-25",
-            "context_id": 111,
-            "place": "Office",
-            "place_id": "",
-            "country": "Netherlands",
-            "region": "North Holland",
-            "city": "Amsterdam",
-            "date": "2021:5:25",
-            "objects": [{"type": "chair", "confidence": 0.68, "id": 1},
-                        {"type": "table", "confidence": 0.79, "id": 1}],
-            "people": [{"name": "Carl", "confidence": 0.94, "id": 1}]
-        },
-        {
-            "utterance": "Oh! Got it. Thank you.",
-            "speech-act":  "statement",
-            "subject": {
-                "label": "carl",
-                "type": "person"
-            },
-            "predicate": {
-                "type": "sees"
-            },
-            "object": {
-                "label": "pills",
-                "type": "object"
-            },
-            "perspective": {
-                "certainty": 1,
-                "polarity": 1,
-                "sentiment": 1
-            },
-            "author": "carl",
-            "chat": 1,
-            "turn": 3,
-            "position": "0-25",
-            "context_id": 111,
-            "place": "Office",
-            "place_id": "",
-            "country": "Netherlands",
-            "region": "North Holland",
-            "city": "Amsterdam",
-            "date": "2021:5:25",
-            "objects": [{"type": "chair", "confidence": 0.68, "id": 1},
-                        {"type": "table", "confidence": 0.79, "id": 1}],
-            "people": [{"name": "Carl", "confidence": 0.94, "id": 1}]
+          "type": "table",
+          "confidence": 0.79,
+          "id": 1
         }
-    ]
+      ],
+      "people": [
+        {
+          "name": "Carl",
+          "confidence": 0.94,
+          "id": 1
+        }
+      ]
+    },
+    {
+      "utterance": "I found them. They are under the table.",
+      "speech-act": "statement",
+      "subject": {
+        "label": "pills",
+        "type": ["object"]
+      },
+      "predicate": {
+        "type": "locatedUnder"
+      },
+      "object": {
+        "label": "table",
+        "type": ["object"]
+      },
+      "perspective": {
+        "certainty": 1,
+        "polarity": 1,
+        "sentiment": 0
+      },
+      "author": "leolani",
+      "chat": 1,
+      "turn": 2,
+      "position": "0-25",
+      "context_id": 111,
+      "place": "Office",
+      "place_id": "",
+      "country": "Netherlands",
+      "region": "North Holland",
+      "city": "Amsterdam",
+      "date": "2021:5:25",
+      "objects": [
+        {
+          "type": "chair",
+          "confidence": 0.68,
+          "id": 1
+        },
+        {
+          "type": "table",
+          "confidence": 0.79,
+          "id": 1
+        }
+      ],
+      "people": [
+        {
+          "name": "Carl",
+          "confidence": 0.94,
+          "id": 1
+        }
+      ]
+    },
+    {
+      "utterance": "Oh! Got it. Thank you.",
+      "speech-act": "statement",
+      "subject": {
+        "label": "carl",
+        "type": ["person"]
+      },
+      "predicate": {
+        "type": "sees"
+      },
+      "object": {
+        "label": "pills",
+        "type": ["object"]
+      },
+      "perspective": {
+        "certainty": 1,
+        "polarity": 1,
+        "sentiment": 1
+      },
+      "author": "carl",
+      "chat": 1,
+      "turn": 3,
+      "position": "0-25",
+      "context_id": 111,
+      "place": "Office",
+      "place_id": "",
+      "country": "Netherlands",
+      "region": "North Holland",
+      "city": "Amsterdam",
+      "date": "2021:5:25",
+      "objects": [
+        {
+          "type": "chair",
+          "confidence": 0.68,
+          "id": 1
+        },
+        {
+          "type": "table",
+          "confidence": 0.79,
+          "id": 1
+        }
+      ],
+      "people": [
+        {
+          "name": "Carl",
+          "confidence": 0.94,
+          "id": 1
+        }
+      ]
+    }
+  ]
 }

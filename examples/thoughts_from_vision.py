@@ -8,6 +8,8 @@ import argparse
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+from tqdm import tqdm
+
 from cltl.brain.long_term_memory import LongTermMemory
 from cltl.brain.utils.base_cases import visuals
 
@@ -18,7 +20,7 @@ def main(log_path):
                            log_dir=log_path,
                            clear_all=False)
 
-    for detection in visuals:
+    for detection in tqdm(visuals):
         # Create experience and get thoughts
         response = brain.get_thoughts_on_entity(detection, reason_types=True)
         print(f'\n\n---------------------------------------------------------------\n{response["triple"]}\n')

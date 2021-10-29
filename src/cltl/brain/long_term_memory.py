@@ -59,7 +59,7 @@ class LongTermMemory(BasicBrain):
             # Create graphs and triples
             _link_leolani(self)
             predicate = self._rdf_builder.fill_predicate('see')
-            _link_entity(self, entity, self.instance_graph)
+            _link_entity(self, entity, self.instance_graph, create_label=True)
             create_claim_graph(self, self.myself, predicate, entity)
             triple = Triple(self.myself, predicate, entity)
 

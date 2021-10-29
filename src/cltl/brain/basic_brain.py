@@ -8,10 +8,10 @@ from cltl.brain.infrastructure import StoreConnector, RdfBuilder
 from cltl.brain.utils.helper_functions import read_query
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.DEBUG)
+handler.setLevel(logging.INFO)
 formatter = logging.Formatter('\r%(asctime)s - %(levelname)8s - %(name)40s - %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)

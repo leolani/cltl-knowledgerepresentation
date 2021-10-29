@@ -65,7 +65,7 @@ class FameAwareMemory(LongTermMemory):
         s_types = self._rdf_builder.clean_aggregated_types(triple['subjectTypesLabel']['value'])
         s = self._rdf_builder.fill_entity(casefold_text(triple['subjectLabel']['value'], format='triple'),
                                           s_types, uri=triple['subject']['value'])
-        _link_entity(self, s, self.instance_graph)
+        _link_entity(self, s, self.instance_graph, create_label=True)
 
         # Parse predicate
         p = self._rdf_builder.fill_predicate(casefold_text(triple['propLabel']['value'], format='triple'),
@@ -79,7 +79,7 @@ class FameAwareMemory(LongTermMemory):
             o_types = self._rdf_builder.clean_aggregated_types(triple['objectTypesLabel']['value'])
             o = self._rdf_builder.fill_entity(casefold_text(triple['objectLabel']['value'], format='triple'),
                                               o_types, uri=triple['object']['value'])
-            _link_entity(self, o, self.instance_graph)
+            _link_entity(self, o, self.instance_graph, create_label=True)
             create_claim_graph(self, s, p, o)
 
         # self._log.info(f'Triple: {}')

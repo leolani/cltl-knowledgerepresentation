@@ -7,6 +7,8 @@ import argparse
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+from tqdm import tqdm
+
 from cltl.brain.long_term_memory import LongTermMemory
 from cltl.brain.utils.base_cases import statements
 
@@ -15,7 +17,7 @@ def main(log_path):
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
                            clear_all=True)
-    for statement in statements:
+    for statement in tqdm(statements):
         # Add information to the brain
         brain.update(statement, reason_types=True)
         print(f"\n\n---------------------------------------------------------------\n{statement['triple']}\n")

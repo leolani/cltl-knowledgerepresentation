@@ -13,12 +13,13 @@ def _link_leolani(self):
         # Create Leolani
         self.myself = self._rdf_builder.fill_entity('leolani', ['robot'], 'LW')
 
-    _link_entity(self, self.myself, self.instance_graph)
+    _link_entity(self, self.myself, self.instance_graph, create_label=True)
 
 
-def _link_entity(self, entity, graph, namespace_mapping=None):
+def _link_entity(self, entity, graph, create_label, namespace_mapping=None):
     # Set basics like label
-    graph.add((entity.id, RDFS.label, entity.label))
+    if create_label:
+        graph.add((entity.id, RDFS.label, entity.label))
 
     # Set types
     if entity.types == ['']:  # We only get the label
@@ -45,7 +46,7 @@ def _link_detections(self, context, dect, prdt):
     return detection
 
 
-def _create_detections(self, capsule, context):
+def _create_detections(self, capsule, context, create_label):
     # Get ids of existing objects in this location
     memory = self.location_reasoner.get_location_memory(capsule)
 
@@ -66,7 +67,7 @@ def _create_detections(self, capsule, context):
                                                   'LW')
 
             # Link detection to graph
-            _link_entity(self, objct, self.instance_graph)
+            _link_entity(self, objct, self.instance_graph, create_label=True)
             self.interaction_graph.add((objct.id, self.namespaces['N2MU']['id'], objct_id))
             instances.append(objct)
 
@@ -88,7 +89,7 @@ def _create_detections(self, capsule, context):
                                                  'LW')
 
             # Link detection to graph
-            _link_entity(self, prsn, self.instance_graph)
+            _link_entity(self, prsn, self.instance_graph, create_label)
             instances.append(prsn)
 
             # Link to context
@@ -98,16 +99,16 @@ def _create_detections(self, capsule, context):
     return instances, observations
 
 
-def _create_context(self, capsule):
+def _create_context(self, capsule, create_label):
     # Create an episodic awareness by making a context
     context_id = self._rdf_builder.fill_literal(capsule['context_id'], datatype=self.namespaces['XML']['string'])
     context = self._rdf_builder.fill_entity(f"context{capsule['context_id']}", ['Context'], 'LC')
-    _link_entity(self, context, self.interaction_graph)
+    _link_entity(self, context, self.interaction_graph, create_label=True)
     self.interaction_graph.add((context.id, self.namespaces['N2MU']['id'], context_id))
 
     # Time
     time = self._rdf_builder.fill_entity(capsule['date'].strftime('%Y-%m-%d'), ['Time', 'DateTimeDescription'], 'LC')
-    _link_entity(self, time, self.interaction_graph)
+    _link_entity(self, time, self.interaction_graph, create_label=True)
     self.interaction_graph.add((context.id, self.namespaces['SEM']['hasBeginTimeStamp'], time.id))
 
     # Set specifics of datetime
@@ -122,13 +123,13 @@ def _create_context(self, capsule):
 
     # City level
     location_city = self._rdf_builder.fill_entity(capsule['city'], ['location', 'city', 'Place'], 'LW')
-    _link_entity(self, location_city, self.interaction_graph)
+    _link_entity(self, location_city, self.interaction_graph, create_label=True)
     # Country level
     location_country = self._rdf_builder.fill_entity(capsule['country'], ['location', 'country', 'Place'], 'LW')
-    _link_entity(self, location_country, self.interaction_graph)
+    _link_entity(self, location_country, self.interaction_graph, create_label=True)
     # Region level
     location_region = self._rdf_builder.fill_entity(capsule['region'], ['location', 'region', 'Place'], 'LW')
-    _link_entity(self, location_region, self.interaction_graph)
+    _link_entity(self, location_region, self.interaction_graph, create_label=True)
 
     # Create location
     location_label = casefold_text(f"{capsule['place']}", format='triple')
@@ -149,7 +150,7 @@ def _create_context(self, capsule):
 
         location = self._rdf_builder.fill_entity(location_label, ['location', 'Place'], 'LC')
 
-    _link_entity(self, location, self.interaction_graph)
+    _link_entity(self, location, self.interaction_graph, create_label=True)
     self.interaction_graph.add((location.id, self.namespaces['N2MU']['id'], location_id))
     self.interaction_graph.add((location.id, self.namespaces['N2MU']['in'], location_city.id))
     self.interaction_graph.add((location.id, self.namespaces['N2MU']['in'], location_country.id))
@@ -157,12 +158,12 @@ def _create_context(self, capsule):
     self.interaction_graph.add((context.id, self.namespaces['SEM']['hasPlace'], location.id))
 
     # Detections
-    instances, observations = _create_detections(self, capsule, context)
+    instances, observations = _create_detections(self, capsule, context, create_label)
 
     return context, instances, observations
 
 
-def _create_actor(self, utterance, claim_type):
+def _create_actor(self, utterance, claim_type, create_label):
     if claim_type == UtteranceType.STATEMENT:
         source = utterance['author']
         source_type = 'person'
@@ -177,7 +178,7 @@ def _create_actor(self, utterance, claim_type):
 
     # Actor
     actor = self._rdf_builder.fill_entity(source, ['Instance', 'Source', 'Actor', source_type], ns)
-    _link_entity(self, actor, self.interaction_graph)
+    _link_entity(self, actor, self.interaction_graph, create_label=True)
 
     # Add leolani knows/senses actor
     predicate = self._rdf_builder.fill_predicate(pred)
@@ -186,19 +187,19 @@ def _create_actor(self, utterance, claim_type):
     # Add actor (friend) is same as person(world)
     if 'person' in actor.types:
         person = self._rdf_builder.fill_entity(f"{actor.label}", ['Instance', 'person'], 'LW')
-        _link_entity(self, person, self.instance_graph)
+        _link_entity(self, person, self.instance_graph, create_label)
         self.claim_graph.add((actor.id, OWL.sameAs, person.id))
 
     return actor, interaction
 
 
-def _create_events(self, utterance, claim_type, context):
+def _create_events(self, utterance, claim_type, context, create_label):
     # Chat or Visual
     event_id = self._rdf_builder.fill_literal(utterance['chat'], datatype=self.namespaces['XML']['string'])
     event_type = 'chat' if claim_type == UtteranceType.STATEMENT else 'visual'
     eventt_label = f'{event_type}{event_id}'
     event = self._rdf_builder.fill_entity(eventt_label, ['Event', f"{event_type.title()}"], 'LTa')
-    _link_entity(self, event, self.interaction_graph)
+    _link_entity(self, event, self.interaction_graph, create_label=True)
     self.interaction_graph.add((event.id, self.namespaces['N2MU']['id'], event_id))
     self.interaction_graph.add((context.id, self.namespaces['SEM']['hasEvent'], event.id))
 
@@ -207,10 +208,10 @@ def _create_events(self, utterance, claim_type, context):
     subevent_type = 'utterance' if claim_type == UtteranceType.STATEMENT else 'detection'
     subevent_label = f'{str(event.label)}_{subevent_type}{str(subevent_id)}'
     subevent = self._rdf_builder.fill_entity(subevent_label, ['Event', f'{subevent_type.title()}'], 'LTa')
-    _link_entity(self, subevent, self.interaction_graph)
+    _link_entity(self, subevent, self.interaction_graph, create_label=True)
 
     # Actor
-    actor, interaction = _create_actor(self, utterance, claim_type)
+    actor, interaction = _create_actor(self, utterance, claim_type, create_label)
     self.interaction_graph.add((subevent.id, self.namespaces['N2MU']['id'], subevent_id))
     self.interaction_graph.add((subevent.id, self.namespaces['SEM']['hasActor'], actor.id))
     self.interaction_graph.add((event.id, self.namespaces['SEM']['hasSubEvent'], subevent.id))
@@ -231,7 +232,7 @@ def _create_mention(self, utterance, subevent, claim_type, detection):
     # Mention
     mention_label = f'{subevent.label}_{mention_unit}{mention_position}'
     mention = self._rdf_builder.fill_entity(mention_label, ['Mention', claim_type.name.title()], 'LTa')
-    _link_entity(self, mention, self.perspective_graph)
+    _link_entity(self, mention, self.perspective_graph, create_label=True)
 
     # Bidirectional link between mention and individual instances
     if claim_type == UtteranceType.STATEMENT:
@@ -262,7 +263,7 @@ def _create_attribution(self, capsule, mention, claim, claim_type=None):
 
     attribution_label = claim.label + f"_{attribution_suffix}"
     attribution = self._rdf_builder.fill_entity(attribution_label, ['Attribution'], 'LTa')
-    _link_entity(self, attribution, self.perspective_graph)
+    _link_entity(self, attribution, self.perspective_graph, create_label=True)
 
     for typ, val in vars(capsule['perspective']).items():
         if val is None:
@@ -278,7 +279,7 @@ def _create_attribution(self, capsule, mention, claim, claim_type=None):
             ns = 'GRASP'
 
         attribution_value = self._rdf_builder.fill_entity(val.name, ['AttributionValue', f"{typ[1:].title()}Value"], ns)
-        _link_entity(self, attribution_value, self.perspective_graph)
+        _link_entity(self, attribution_value, self.perspective_graph, create_label=True)
         self.perspective_graph.add((attribution.id, RDF.value, attribution_value.id))
 
     # Bidirectional link between mention and attribution
@@ -288,7 +289,7 @@ def _create_attribution(self, capsule, mention, claim, claim_type=None):
     return attribution
 
 
-def create_instance_graph(self, capsule):
+def create_instance_graph(self, capsule, create_label):
     # type (Utterance) -> Graph, Graph, str, str, str
     """
     Create linked data related to what leolani learned/knows about the world
@@ -307,14 +308,14 @@ def create_instance_graph(self, capsule):
     # Subject
     if capsule['type'] == UtteranceType.STATEMENT:
         capsule['triple'].subject.add_types(['Instance'])
-        _link_entity(self, capsule['triple'].subject, self.instance_graph)
+        _link_entity(self, capsule['triple'].subject, self.instance_graph, create_label)
 
     elif capsule['type'] == UtteranceType.EXPERIENCE:
         _link_leolani(self)
 
     # Complement
     capsule['triple'].complement.add_types(['Instance'])
-    _link_entity(self, capsule['triple'].complement, self.instance_graph)
+    _link_entity(self, capsule['triple'].complement, self.instance_graph, create_label)
 
     # Claim graph
     predicate = capsule['triple'].predicate if capsule['type'] == UtteranceType.STATEMENT \
@@ -329,7 +330,7 @@ def create_claim_graph(self, subject, predicate, complement):
     # Statement
     claim_label = hash_claim_id([subject.label, predicate.label, complement.label])
     claim = self._rdf_builder.fill_entity(claim_label, ['Event', 'Assertion'], 'LW')
-    _link_entity(self, claim, self.claim_graph)
+    _link_entity(self, claim, self.claim_graph, create_label=True)
 
     # Create graph and add triple
     graph = self.dataset.graph(claim.id)
@@ -338,19 +339,19 @@ def create_claim_graph(self, subject, predicate, complement):
     return claim
 
 
-def create_interaction_graph(self, capsule, claim):
+def create_interaction_graph(self, capsule, claim, create_label):
     # Add context
-    context, detections, observations = _create_context(self, capsule)
+    context, detections, observations = _create_context(self, capsule, create_label)
 
     # Subevents
-    experience, sensor, use_sensor = _create_events(self, capsule, UtteranceType.EXPERIENCE, context)
+    experience, sensor, use_sensor = _create_events(self, capsule, UtteranceType.EXPERIENCE, context, create_label)
     for detection, observation in zip(detections, observations):
         mention, attribution = create_perspective_graph(self, capsule, claim, experience, UtteranceType.EXPERIENCE,
                                                         detection=detection)
         interlink_graphs(self, mention, sensor, experience, observation, use_sensor)
 
     if capsule['type'] == UtteranceType.STATEMENT:
-        statement, actor, make_friend = _create_events(self, capsule, UtteranceType.STATEMENT, context)
+        statement, actor, make_friend = _create_events(self, capsule, UtteranceType.STATEMENT, context, create_label)
         mention, attribution = create_perspective_graph(self, capsule, claim, statement, UtteranceType.STATEMENT)
         interlink_graphs(self, mention, actor, statement, claim, make_friend)
 
@@ -378,12 +379,12 @@ def interlink_graphs(self, mention, actor, subevent, claim, interaction):
     # self.claim_graph.add((interaction.id, self.namespaces['GAF']['denotedBy'], mention.id))
 
 
-def model_graphs(self, capsule):
+def model_graphs(self, capsule, create_label):
     # Leolani world (includes instance and claim graphs)
-    claim = create_instance_graph(self, capsule)
+    claim = create_instance_graph(self, capsule, create_label)
 
     # Leolani talk (includes interaction and perspective graphs)
-    create_interaction_graph(self, capsule, claim)
+    create_interaction_graph(self, capsule, claim, create_label)
 
     self._log.info(f"Triple in statement: {capsule['triple']}")
 

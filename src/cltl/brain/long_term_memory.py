@@ -1,5 +1,6 @@
 from cltl.brain.LTM_question_processing import create_query
-from cltl.brain.LTM_statement_processing import model_graphs, _link_leolani, _link_entity, create_claim_graph
+from cltl.brain.LTM_statement_processing import model_graphs, _link_leolani, _link_entity, \
+    create_claim_graph
 from cltl.brain.basic_brain import BasicBrain
 from cltl.brain.infrastructure import Thoughts, Triple
 from cltl.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
@@ -82,7 +83,7 @@ class LongTermMemory(BasicBrain):
 
         return output
 
-    def update(self, capsule, reason_types=False):
+    def update(self, capsule, reason_types=False, create_label=False):
         # type (Utterance) -> Thoughts
         """
         Main function to interact with if a statement is coming into the brain. Takes in an Utterance containing a
@@ -93,6 +94,8 @@ class LongTermMemory(BasicBrain):
             Contains all necessary information regarding a statement just made.
         reason_types: Boolean
             Signal to entity linking over the semantic web
+        create_label: Boolean
+            Turn automatic rdfs:label on or off for instance graph entities
 
         Returns
         -------
@@ -125,7 +128,7 @@ class LongTermMemory(BasicBrain):
             capsule['author'] = casefold_text(capsule['author'], format='triple')
 
             # Create graphs and triples
-            instance = model_graphs(self, capsule)
+            instance = model_graphs(self, capsule, create_label)
 
             # Check if this knowledge already exists on the brain
             statement_novelty = self.thought_generator.get_statement_novelty(instance.id)
@@ -164,6 +167,7 @@ class LongTermMemory(BasicBrain):
             output = {'response': None, 'statement': capsule, 'thoughts': None}
 
         return output
+
 
     def experience(self, utterance):
         """

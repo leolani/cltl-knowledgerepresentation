@@ -139,7 +139,7 @@ chat_1 = [
         "utterance": "Selene Kolman is from the Netherlands",
         "position": "0-25",
         "subject": {
-            "label": "selene-kolman",
+            "label": "selene",
             "type": "person"
         },
         "predicate": {

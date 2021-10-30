@@ -105,7 +105,8 @@ class LongTermMemory(BasicBrain):
         """
 
         capsule['triple'] = self._rdf_builder.fill_triple(capsule['subject'], capsule['predicate'], capsule['object'])
-        capsule['perspective'] = self._rdf_builder.fill_perspective(capsule['perspective'])
+        capsule['perspective'] = self._rdf_builder.fill_perspective(capsule['perspective']) \
+            if 'perspective' in capsule.keys() else self._rdf_builder.fill_perspective({})
         capsule['type'] = UtteranceType.STATEMENT
 
         if capsule['triple'] is not None:

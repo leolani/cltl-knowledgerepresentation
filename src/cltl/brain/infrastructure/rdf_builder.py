@@ -376,6 +376,7 @@ class RdfBuilder(object):
 
     ########## basic reverse engineer ##########
     def label_from_uri(self, uri, namespace='LTi'):
+        # type: (str, str) -> str
         """
         Extract a label from a resource, by removing the namespace
         Parameters
@@ -390,7 +391,6 @@ class RdfBuilder(object):
             Label of the entity without the namespace
 
         """
-        # type: (str, str) -> str
         return uri.strip(self.namespaces[namespace])
 
     def clean_aggregated_types(self, aggregated_types):

@@ -112,13 +112,13 @@ def main(log_path):
                 say = 'Having a talk at what I figured out is %s' % capsule['place']
 
                 # Add information to the brain
-                brain.update(capsule, reason_types=True)
+                response = brain.update(capsule, reason_types=True, create_label=True)
 
                 # Set the location name
                 brain.set_location_label(capsule['context_id'], capsule['place'])
             else:
                 # Add information to the brain
-                brain.update(capsule, reason_types=True)
+                response = brain.update(capsule, reason_types=True, create_label=True)
 
                 # Failed to reason, select a random place
                 place = choice(places)
@@ -130,7 +130,7 @@ def main(log_path):
 
         else:
             # Add information to the brain
-            brain.update(capsule, reason_types=True)
+            response = brain.update(capsule, reason_types=True, create_label=True)
 
             say = 'I know I am at %s' % capsule['place']
 

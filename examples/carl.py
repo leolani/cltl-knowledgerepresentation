@@ -3,6 +3,7 @@ THIS SCRIPT FILLS IN THE BRAIN WITH A CARL SCENARIO. IN THIS SCENARIO, CARL HAS 
 LEOLANI FINDS THEM THROUGH OBJECT RECOGNITION AND COMMUNICATES THIS TO CARL. CARL THEN THANKS LEOLANI
 """
 import argparse
+import json
 from datetime import date
 from pathlib import Path
 from random import getrandbits
@@ -12,6 +13,7 @@ import requests
 from tqdm import tqdm
 
 from cltl.brain.long_term_memory import LongTermMemory
+from cltl.brain.utils.helper_functions import brain_response_to_json
 from cltl.combot.backend.api.discrete import UtteranceType
 
 context_id = getrandbits(8)
@@ -28,7 +30,7 @@ carl_scenario = [
         "position": "0-25",  # segment of the annotation
         "subject": {"label": "carl", "type": ["person"]},  # annotations of type NER
         "predicate": {"type": "see"},  # annotation of type x (still to be done)
-        "object": {"label": "pills", "type": ["object"]},  # annotations of type NER
+        "object": {"label": "pills", "type": ["object", "medicine"]},  # annotations of type NER
         "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},  # annotation of type x (still to be done)
         "context_id": context_id,
         "date": date(2021, 3, 12),  # we take them from the temporal container of scenario
@@ -95,11 +97,17 @@ def main(log_path):
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
                            clear_all=True)
-
+    data = []
     for capsule in tqdm(carl_scenario):
         # Add information to the brain
-        brain.update(capsule, reason_types=True, create_label=True)
+        response = brain.update(capsule, reason_types=True, create_label=True)
         print(f"\n\n---------------------------------------------------------------\n{capsule['triple']}\n")
+
+        response_json = brain_response_to_json(response)
+        data.append(response_json)
+
+    f = open("./capsules/carl-responses.json", "w")
+    json.dump(data, f)
 
 
 if __name__ == "__main__":

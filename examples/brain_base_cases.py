@@ -17,9 +17,10 @@ def main(log_path):
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
                            clear_all=True)
+
     for statement in tqdm(statements):
         # Add information to the brain
-        brain.update(statement, reason_types=True)
+        response = brain.update(statement, reason_types=True)
         print(f"\n\n---------------------------------------------------------------\n{statement['triple']}\n")
 
 

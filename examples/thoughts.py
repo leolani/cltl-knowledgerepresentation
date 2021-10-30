@@ -24,12 +24,12 @@ def main(log_path):
     # Create brain connection
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
-                           clear_all=True)
+                           clear_all=False)
 
     capsules = statements + conflicting_statements
     for capsule in tqdm(capsules):
         # Add information to the brain
-        response = brain.update(capsule, reason_types=True)
+        response = brain.update(capsule, reason_types=True, create_label=True)
         print(f"\n\n---------------------------------------------------------------\n{capsule['triple']}\n")
 
         # Show different thoughts

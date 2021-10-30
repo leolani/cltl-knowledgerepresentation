@@ -1,8 +1,9 @@
-import importlib_resources as pkg_resources
-
+import enum
 from datetime import date
 
+import importlib_resources as pkg_resources
 import numpy as np
+from rdflib import URIRef, Literal
 
 import cltl.brain
 from cltl.brain.utils.constants import CAPITALIZED_TYPES
@@ -113,3 +114,26 @@ def get_object_id(memory, category):
 
 def sigmoid(z, growth_rate=1):
     return 1 / (1 + np.exp(-z * growth_rate))
+
+
+def element_to_json(v):
+    if type(v) in [str, int, float] or v is None:
+        pass
+    elif type(v) in [URIRef, Literal, bool]:
+        v = str(v)
+    elif isinstance(v, date):
+        v = v.isoformat()
+    elif isinstance(v, enum.Enum):
+        v = v.name
+    elif isinstance(v, list):
+        v = [element_to_json(el) for el in v]
+    elif isinstance(v, dict):
+        v = {inner_k: element_to_json(inner_v) for inner_k, inner_v in v.items()}
+    else:
+        v = {inner_k: element_to_json(inner_v) for inner_k, inner_v in v.__dict__.items()}
+
+    return v
+
+
+def brain_response_to_json(capsule):
+    return {k: element_to_json(v) for k, v in capsule.items()}

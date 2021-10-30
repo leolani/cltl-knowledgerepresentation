@@ -28,7 +28,7 @@ def main(log_path):
         capsule['date'] = datetime.datetime.strptime(capsule['date'], "%Y:%m:%d")
 
         if capsule['speech-act'] == 'statement':
-            x = brain.update(capsule, reason_types=True)
+            x = brain.update(capsule, reason_types=True, create_label=True)
 
             print(f'\n\n---------------------------------------------------------------\n{capsule["triple"]}\n')
         else:

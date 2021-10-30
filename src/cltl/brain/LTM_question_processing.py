@@ -1,10 +1,13 @@
+from rdflib import Literal
+
+
 ######################################### Helpers for question processing #########################################
 
 def create_query(self, utterance):
-    empty = self._rdf_builder.fill_literal('')
+    empty = ['', Literal(''), 'unknown', 'none']
 
     # Query subject
-    if utterance.triple.subject_name == empty:
+    if utterance['subject']['label'] is None or utterance['subject']['label'].lower() in empty:
         query = """
                    SELECT distinct ?slabel ?authorlabel ?certaintyValue ?polarityValue ?sentimentValue ?emotionValue ?temporalValue
                            WHERE { 
@@ -19,32 +22,43 @@ def create_query(self, utterance):
                                ?author rdfs:label ?authorlabel .
 
                                ?m grasp:hasAttribution ?att .
+                               
+                               OPTIONAL {
                                ?att rdf:value ?certainty .
                                ?certainty rdf:type graspf:CertaintyValue .
                                ?certainty rdfs:label ?certaintyValue .
+                               }
 
+                               OPTIONAL {
                                ?att rdf:value ?polarity .
                                ?polarity rdf:type graspf:PolarityValue .
                                ?polarity rdfs:label ?polarityValue .
+                               }
 
+                               OPTIONAL {
                                ?att rdf:value ?temporal .
                                ?temporal rdf:type graspf:TemporalValue .
                                ?temporal rdfs:label ?temporalValue .
+                               }
 
+                               OPTIONAL {
                                ?att rdf:value ?emotion .
                                ?emotion rdf:type graspe:EmotionValue .
                                ?emotion rdfs:label ?emotionValue .
+                               }
 
+                               OPTIONAL {
                                ?att rdf:value ?sentiment .
                                ?sentiment rdf:type grasps:SentimentValue .
                                ?sentiment rdfs:label ?sentimentValue .
+                               }
                            }
-                   """ % (utterance.triple.predicate_name,
-                          utterance.triple.complement_name,
-                          utterance.triple.predicate_name)
+                   """ % (utterance['predicate']['type'],
+                          utterance['object']['label'],
+                          utterance['predicate']['type'])
 
     # Query complement
-    elif utterance.triple.complement_name == empty:
+    elif utterance['object']['label'] is None or utterance['object']['label'].lower() in empty:
         query = """
                    SELECT distinct ?olabel ?authorlabel ?certaintyValue ?polarityValue ?sentimentValue ?emotionValue ?temporalValue
                            WHERE { 
@@ -59,29 +73,40 @@ def create_query(self, utterance):
                                ?author rdfs:label ?authorlabel .
 
                                ?m grasp:hasAttribution ?att .
+                               
+                               OPTIONAL {
                                ?att rdf:value ?certainty .
                                ?certainty rdf:type graspf:CertaintyValue .
                                ?certainty rdfs:label ?certaintyValue .
+                               }
 
+                               OPTIONAL {
                                ?att rdf:value ?polarity .
                                ?polarity rdf:type graspf:PolarityValue .
                                ?polarity rdfs:label ?polarityValue .
+                               }
 
+                               OPTIONAL {
                                ?att rdf:value ?temporal .
                                ?temporal rdf:type graspf:TemporalValue .
                                ?temporal rdfs:label ?temporalValue .
+                               }
 
+                               OPTIONAL {
                                ?att rdf:value ?emotion .
                                ?emotion rdf:type graspe:EmotionValue .
                                ?emotion rdfs:label ?emotionValue .
+                               }
 
+                               OPTIONAL {
                                ?att rdf:value ?sentiment .
                                ?sentiment rdf:type grasps:SentimentValue .
                                ?sentiment rdfs:label ?sentimentValue .
+                               }
                            }
-                   """ % (utterance.triple.predicate_name,
-                          utterance.triple.subject_name,
-                          utterance.triple.predicate_name)
+                   """ % (utterance['predicate']['type'],
+                          utterance['subject']['label'],
+                          utterance['predicate']['type'])
 
     # Query existence
     else:
@@ -99,33 +124,44 @@ def create_query(self, utterance):
                                ?author rdfs:label ?authorlabel .
 
                                ?m grasp:hasAttribution ?att .
+                               
+                               OPTIONAL {
                                ?att rdf:value ?certainty .
                                ?certainty rdf:type graspf:CertaintyValue .
                                ?certainty rdfs:label ?certaintyValue .
+                               }
 
+                               OPTIONAL {
                                ?att rdf:value ?polarity .
                                ?polarity rdf:type graspf:PolarityValue .
                                ?polarity rdfs:label ?polarityValue .
+                               }
 
+                               OPTIONAL {
                                ?att rdf:value ?temporal .
                                ?temporal rdf:type graspf:TemporalValue .
                                ?temporal rdfs:label ?temporalValue .
+                               }
 
+                               OPTIONAL {
                                ?att rdf:value ?emotion .
                                ?emotion rdf:type graspe:EmotionValue .
                                ?emotion rdfs:label ?emotionValue .
+                               }
 
+                               OPTIONAL {
                                ?att rdf:value ?sentiment .
                                ?sentiment rdf:type grasps:SentimentValue .
                                ?sentiment rdfs:label ?sentimentValue .
+                               }
                            }
-                   """ % (utterance.triple.predicate_name,
-                          utterance.triple.subject_name,
-                          utterance.triple.complement_name,
-                          utterance.triple.predicate_name)
+                   """ % (utterance['predicate']['type'],
+                          utterance['subject']['label'],
+                          utterance['object']['label'],
+                          utterance['predicate']['type'])
 
     query = self.query_prefixes + query
 
-    self._log.info(f"Triple in question: {utterance.triple}")
+    self._log.info(f"Triple in question: {utterance['triple']}")
 
     return query

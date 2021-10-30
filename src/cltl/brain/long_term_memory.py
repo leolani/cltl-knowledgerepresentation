@@ -37,7 +37,6 @@ class LongTermMemory(BasicBrain):
 
     #################################### Main functions to interact with the brain ####################################
     def get_thoughts_on_entity(self, entity_label, reason_types=False):
-        # TODO: Ongoing work
         if entity_label is not None and entity_label != '':
 
             # Try to figure out what this entity is
@@ -168,7 +167,6 @@ class LongTermMemory(BasicBrain):
 
         return output
 
-
     def experience(self, utterance):
         """
         Main function to interact with if an experience is coming into the brain. Takes in a structured utterance
@@ -188,21 +186,22 @@ class LongTermMemory(BasicBrain):
 
         return output
 
-    def query_brain(self, utterance):
+    def query_brain(self, capsule):
         """
         Main function to interact with if a question is coming into the brain. Takes in a structured parsed question,
         transforms it into a query, and queries the triple store for a response
         :param utterance: Structured data of a parsed question
         :return: json response containing the results of the query, and the original question
         """
+        capsule['triple'] = self._rdf_builder.fill_triple(capsule['subject'], capsule['predicate'], capsule['object'])
 
         # Generate query
-        query = create_query(self, utterance)
+        query = create_query(self, capsule)
 
         # Perform query
         response = self._submit_query(query)
 
         # Create JSON output
-        output = {'response': response, 'question': utterance}
+        output = {'response': response, 'question': capsule}
 
         return output

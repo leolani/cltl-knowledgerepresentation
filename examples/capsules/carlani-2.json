@@ -1,118 +1,249 @@
-{"scenario": [
+{
+  "scenario": [
     {
-        "utterance": "I need to leave, but where is Rusje.",
-        "speech-act":  "statement",
-        "subject": {"label": "carl", "type": "person"},
-        "predicate": {"type": "sees"},
-        "object": {"label": "Rusje", "type": "cat"},
-        "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},
-        "author": "carl",
-        "chat": 1,
-        "turn": 1,
-        "position": "0-25",
-        "context_id": 321,
-        "place": "Office",
-        "place_id": "",
-        "country": "Netherlands",
-        "region": "North Holland",
-        "city": "Amsterdam",
-        "date": "2021:5:25",
-        "objects": [{"type": "chair", "confidence": 0.59, "id": 1},
-                    {"type": "table", "confidence": 0.73, "id": 1},
-                    {"type": "chair", "confidence": 0.82, "id": 2}],
-        "people": []
+      "utterance": "I need to leave, but where is Rusje.",
+      "speech-act": "statement",
+      "subject": {
+        "label": "carl",
+        "type": ["person"]
+      },
+      "predicate": {
+        "type": "sees"
+      },
+      "object": {
+        "label": "Rusje",
+        "type": ["cat"]
+      },
+      "perspective": {
+        "certainty": 1,
+        "polarity": -1,
+        "sentiment": -1
+      },
+      "author": "carl",
+      "chat": 1,
+      "turn": 1,
+      "position": "0-25",
+      "context_id": 321,
+      "place": "Office",
+      "place_id": "",
+      "country": "Netherlands",
+      "region": "North Holland",
+      "city": "Amsterdam",
+      "date": "2021:5:25",
+      "objects": [
+        {
+          "type": "chair",
+          "confidence": 0.59,
+          "id": 1
+        },
+        {
+          "type": "table",
+          "confidence": 0.73,
+          "id": 1
+        },
+        {
+          "type": "chair",
+          "confidence": 0.82,
+          "id": 2
+        }
+      ],
+      "people": []
     },
     {
-        "utterance": "Who is Rusje.",
-        "speech-act":  "question",
-        "subject": {"label": "Rusje", "type": "animal"},
-        "predicate": {"type": "label"},
-        "object": {"label": "Rusje", "type": "string"},
-        "perspective": {"certainty": 1, "polarity": 1, "sentiment": 0},
-        "author": "leolani",
-        "chat": 1,
-        "turn": 2,
-        "position": "0-25",
-        "context_id": 321,
-        "place": "Office",
-        "place_id": "",
-        "country": "Netherlands",
-        "region": "North Holland",
-        "city": "Amsterdam",
-        "date": "2021:5:25",
-        "objects": [{"type": "chair", "confidence": 0.59, "id": 1},
-                    {"type": "table", "confidence": 0.73, "id": 1},
-                    {"type": "chair", "confidence": 0.82, "id": 2}],
-        "people": []
+      "utterance": "Who is Rusje.",
+      "speech-act": "question",
+      "subject": {
+        "label": "Rusje",
+        "type": ["animal"]
+      },
+      "predicate": {
+        "type": "label"
+      },
+      "object": {
+        "label": "Rusje",
+        "type": ["string"]
+      },
+      "perspective": {
+        "certainty": 1,
+        "polarity": 1,
+        "sentiment": 0
+      },
+      "author": "leolani",
+      "chat": 1,
+      "turn": 2,
+      "position": "0-25",
+      "context_id": 321,
+      "place": "Office",
+      "place_id": "",
+      "country": "Netherlands",
+      "region": "North Holland",
+      "city": "Amsterdam",
+      "date": "2021:5:25",
+      "objects": [
+        {
+          "type": "chair",
+          "confidence": 0.59,
+          "id": 1
+        },
+        {
+          "type": "table",
+          "confidence": 0.73,
+          "id": 1
+        },
+        {
+          "type": "chair",
+          "confidence": 0.82,
+          "id": 2
+        }
+      ],
+      "people": []
     },
     {
-        "utterance": "Rusje is my cat.",
-        "speech-act":  "statement",
-        "subject": {"label": "Rusje", "type": "cat"},
-        "predicate": {"type": "a"},
-        "object": {"label": "cat", "type": "cat"},
-        "perspective": {"certainty": 1, "polarity": 1, "sentiment": -1},
-        "author": "carl",
-        "chat": 1,
-        "turn": 3,
-        "position": "0-25",
-        "context_id": 321,
-        "place": "Office",
-        "place_id": "",
-        "country": "Netherlands",
-        "region": "North Holland",
-        "city": "Amsterdam",
-        "date": "2021:5:25",
-        "objects": [{"type": "chair", "confidence": 0.59, "id": 1},
-                    {"type": "table", "confidence": 0.73, "id": 1},
-                    {"type": "chair", "confidence": 0.82, "id": 2}],
-        "people": []
+      "utterance": "Rusje is my cat.",
+      "speech-act": "statement",
+      "subject": {
+        "label": "Rusje",
+        "type": ["cat"]
+      },
+      "predicate": {
+        "type": "a"
+      },
+      "object": {
+        "label": "cat",
+        "type": ["cat"]
+      },
+      "perspective": {
+        "certainty": 1,
+        "polarity": 1,
+        "sentiment": -1
+      },
+      "author": "carl",
+      "chat": 1,
+      "turn": 3,
+      "position": "0-25",
+      "context_id": 321,
+      "place": "Office",
+      "place_id": "",
+      "country": "Netherlands",
+      "region": "North Holland",
+      "city": "Amsterdam",
+      "date": "2021:5:25",
+      "objects": [
+        {
+          "type": "chair",
+          "confidence": 0.59,
+          "id": 1
+        },
+        {
+          "type": "table",
+          "confidence": 0.73,
+          "id": 1
+        },
+        {
+          "type": "chair",
+          "confidence": 0.82,
+          "id": 2
+        }
+      ],
+      "people": []
     },
     {
-        "utterance": "I found her. She is in the garden.",
-        "speech-act":  "statement",
-        "subject": {"label": "Rusje", "type": "cat"},
-        "predicate": {"type": "locatedAt"},
-        "object": {"label": "garden", "type": "area"},
-        "perspective": {"certainty": 1, "polarity": 1, "sentiment": 0},
-        "author": "leolani",
-        "chat": 1,
-        "turn": 4,
-        "position": "0-25",
-        "context_id": 321,
-        "place": "Office",
-        "place_id": "",
-        "country": "Netherlands",
-        "region": "North Holland",
-        "city": "Amsterdam",
-        "date": "2021:5:25",
-        "objects": [{"type": "chair", "confidence": 0.59, "id": 1},
-                    {"type": "table", "confidence": 0.73, "id": 1},
-                    {"type": "chair", "confidence": 0.82, "id": 2}],
-        "people": []
+      "utterance": "I found her. She is in the garden.",
+      "speech-act": "statement",
+      "subject": {
+        "label": "Rusje",
+        "type": ["cat"]
+      },
+      "predicate": {
+        "type": "locatedAt"
+      },
+      "object": {
+        "label": "garden",
+        "type": ["area"]
+      },
+      "perspective": {
+        "certainty": 1,
+        "polarity": 1,
+        "sentiment": 0
+      },
+      "author": "leolani",
+      "chat": 1,
+      "turn": 4,
+      "position": "0-25",
+      "context_id": 321,
+      "place": "Office",
+      "place_id": "",
+      "country": "Netherlands",
+      "region": "North Holland",
+      "city": "Amsterdam",
+      "date": "2021:5:25",
+      "objects": [
+        {
+          "type": "chair",
+          "confidence": 0.59,
+          "id": 1
+        },
+        {
+          "type": "table",
+          "confidence": 0.73,
+          "id": 1
+        },
+        {
+          "type": "chair",
+          "confidence": 0.82,
+          "id": 2
+        }
+      ],
+      "people": []
     },
     {
-        "utterance": "Oh! There she is.",
-        "speech-act":  "statement",
-        "subject": {"label": "carl", "type": "person"},
-        "predicate": {"type": "sees"},
-        "object": {"label": "Rusje", "type": "cat"},
-        "perspective": {"certainty": 1, "polarity": 1, "sentiment": 1},
-        "author": "carl",
-        "chat": 1,
-        "turn": 5,
-        "position": "0-25",
-        "context_id": 321,
-        "place": "Office",
-        "place_id": "",
-        "country": "Netherlands",
-        "region": "North Holland",
-        "city": "Amsterdam",
-        "date": "2021:5:25",
-        "objects": [{"type": "chair", "confidence": 0.59, "id": 1},
-                    {"type": "table", "confidence": 0.73, "id": 1},
-                    {"type": "chair", "confidence": 0.82, "id": 2}],
-        "people": []
+      "utterance": "Oh! There she is.",
+      "speech-act": "statement",
+      "subject": {
+        "label": "carl",
+        "type": ["person"]
+      },
+      "predicate": {
+        "type": "sees"
+      },
+      "object": {
+        "label": "Rusje",
+        "type": ["cat"]
+      },
+      "perspective": {
+        "certainty": 1,
+        "polarity": 1,
+        "sentiment": 1
+      },
+      "author": "carl",
+      "chat": 1,
+      "turn": 5,
+      "position": "0-25",
+      "context_id": 321,
+      "place": "Office",
+      "place_id": "",
+      "country": "Netherlands",
+      "region": "North Holland",
+      "city": "Amsterdam",
+      "date": "2021:5:25",
+      "objects": [
+        {
+          "type": "chair",
+          "confidence": 0.59,
+          "id": 1
+        },
+        {
+          "type": "table",
+          "confidence": 0.73,
+          "id": 1
+        },
+        {
+          "type": "chair",
+          "confidence": 0.82,
+          "id": 2
+        }
+      ],
+      "people": []
     }
-]
+  ]
 }

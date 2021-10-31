@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+from tqdm import tqdm
+
 from cltl.brain import LongTermMemory
 
 
@@ -22,11 +24,11 @@ def main(log_path):
     scenario_file_name = 'carlani-4.json'
     scenario_json_file = 'capsules/' + scenario_file_name
     scenario = readCapsuleFromFile(scenario_json_file)
-    for capsule in scenario['scenario']:
+    for capsule in tqdm(scenario['scenario']):
         capsule['date'] = datetime.datetime.strptime(capsule['date'], "%Y:%m:%d")
 
         if capsule['speech-act'] == 'statement':
-            x = brain.update(capsule, reason_types=True)
+            x = brain.update(capsule, reason_types=True, create_label=True)
 
             print(f'\n\n---------------------------------------------------------------\n{capsule["triple"]}\n')
         else:

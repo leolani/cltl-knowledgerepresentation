@@ -12,14 +12,14 @@ chat_1 = [
         "position": "0-25",
         "subject": {
             "label": "lenka",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "serbia",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -44,14 +44,14 @@ chat_1 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "netherlands",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -76,14 +76,14 @@ chat_1 = [
         "position": "0-25",
         "subject": {
             "label": "selene",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "mexico",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -108,14 +108,14 @@ chat_1 = [
         "position": "0-25",
         "subject": {
             "label": "suzana",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "croatia",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -140,14 +140,14 @@ chat_1 = [
         "position": "0-25",
         "subject": {
             "label": "selene",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "netherlands",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -175,14 +175,14 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "lenka",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "serbia",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 0.5,
@@ -207,14 +207,14 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "goulash",
-            "type": "dish"
+            "type": ["dish"]
         },
         "perspective": {
             "certainty": 1,
@@ -239,14 +239,14 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "romantic-movies",
-            "type": "film-genre"
+            "type": ["film-genre"]
         },
         "perspective": {
             "certainty": 1,
@@ -271,14 +271,14 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "lenka",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "ice-cream",
-            "type": "dish"
+            "type": ["dish"]
         },
         "perspective": {
             "certainty": 1,
@@ -303,14 +303,14 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "lenka",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "harry-potter",
-            "type": "movie"
+            "type": ["movie"]
         },
         "perspective": {
             "certainty": 1,
@@ -335,14 +335,14 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "lenka",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "action-movies",
-            "type": "film-genre"
+            "type": ["film-genre"]
         },
         "perspective": {
             "certainty": 1,
@@ -367,14 +367,14 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "piek",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "balkenbrij",
-            "type": "dish"
+            "type": ["dish"]
         },
         "perspective": {
             "certainty": 1,
@@ -399,14 +399,14 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "piek",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "sailing",
-            "type": "sport"
+            "type": ["sport"]
         },
         "perspective": {
             "certainty": 1,
@@ -431,14 +431,14 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "selene",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "tacos",
-            "type": "dish"
+            "type": ["dish"]
         },
         "perspective": {
             "certainty": 1,
@@ -463,14 +463,14 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "suzana",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "pizza",
-            "type": "dish"
+            "type": ["dish"]
         },
         "perspective": {
             "certainty": 1,
@@ -495,14 +495,14 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "leolani",
-            "type": "robot"
+            "type": ["robot"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "france",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -529,15 +529,15 @@ chat_3 = [
         "utterance": "Lenka's mother is Ljubica ",
         "position": "0-25",
         "subject": {
-            "type": "person",
+            "type": ["person"],
             "label": "lenka"
         },
         "predicate": {
             "type": "mother-is"
         },
         "object": {
-            "type": "person",
-            "label": "ljubica"
+            "label": "ljubica",
+            "type": ["person"]
         },
         "perspective": {
             "certainty": 1,
@@ -560,15 +560,15 @@ chat_3 = [
         "utterance": "My favorite food is cake ",
         "position": "0-25",
         "subject": {
-            "type": "person",
+            "type": ["person"],
             "label": "lenka"
         },
         "predicate": {
             "type": "favorite-is"
         },
         "object": {
-            "type": "dish",
-            "label": "cake"
+            "label": "cake",
+            "type": ["dish"]
         },
         "perspective": {
             "certainty": 1,
@@ -592,14 +592,14 @@ chat_3 = [
         "position": "0-25",
         "subject": {
             "label": "selene",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "coco",
-            "type": "movie"
+            "type": ["movie"]
         },
         "perspective": {
             "certainty": 1,
@@ -623,14 +623,14 @@ chat_3 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "the_big-lebowski",
-            "type": "movie"
+            "type": ["movie"]
         },
         "perspective": {
             "certainty": 1,
@@ -654,14 +654,14 @@ chat_3 = [
         "position": "0-25",
         "subject": {
             "label": "piek",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "2001_a_space-odyssey",
-            "type": "movie"
+            "type": ["movie"]
         },
         "perspective": {
             "certainty": 1,
@@ -685,14 +685,14 @@ chat_3 = [
         "position": "0-25",
         "subject": {
             "label": "piek",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "horror-movies",
-            "type": "film-genre"
+            "type": ["film-genre"]
         },
         "perspective": {
             "certainty": 1,
@@ -718,15 +718,15 @@ chat_4 = [
         "utterance": "I like action movies ",
         "position": "0-25",
         "subject": {
-            "type": "person",
-            "label": "bram"
+            "label": "bram",
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
-            "type": "film-genre",
-            "label": "action-movies"
+            "label": "action-movies",
+            "type": ["film-genre"]
         },
         "perspective": {
             "certainty": 1,
@@ -749,15 +749,15 @@ chat_4 = [
         "utterance": "I am from Italy ",
         "position": "0-25",
         "subject": {
-            "type": "person",
-            "label": "bram"
+            "label": "bram",
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
-            "type": "location",
-            "label": "italy"
+            "label": "italy",
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -781,14 +781,14 @@ chat_4 = [
         "position": "0-21",
         "subject": {
             "label": "bram",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "goulash",
-            "type": "dish"
+            "type": ["dish"]
         },
         "perspective": {
             "certainty": 1,
@@ -812,14 +812,14 @@ chat_4 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "baseball",
-            "type": "sport"
+            "type": ["sport"]
         },
         "perspective": {
             "certainty": 1,
@@ -843,14 +843,14 @@ chat_4 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "apple-pie",
-            "type": "dish"
+            "type": ["dish"]
         },
         "perspective": {
             "certainty": 1,
@@ -874,14 +874,14 @@ chat_4 = [
         "position": "0-25",
         "subject": {
             "label": "selene",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "animated-movies",
-            "type": "film-genre"
+            "type": ["film-genre"]
         },
         "perspective": {
             "certainty": 1,
@@ -905,14 +905,14 @@ chat_4 = [
         "position": "0-25",
         "subject": {
             "label": "lenka",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "acrobatics",
-            "type": "sport"
+            "type": ["sport"]
         },
         "perspective": {
             "certainty": 1,
@@ -936,14 +936,14 @@ chat_4 = [
         "position": "0-25",
         "subject": {
             "label": "leolani",
-            "type": "robot"
+            "type": ["robot"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "japan",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -969,15 +969,15 @@ chat_5 = [
         "utterance": "Bram likes romantic movies",
         "position": "0-25",
         "subject": {
-            "type": "person",
-            "label": "bram"
+            "label": "bram",
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
-            "type": "film-genre",
-            "label": "romantic-movies"
+            "label": "romantic-movies",
+            "type": ["film-genre"]
         },
         "perspective": {
             "certainty": 1,
@@ -1001,14 +1001,14 @@ chat_5 = [
         "position": "0-26",
         "subject": {
             "label": "selene",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "tacos",
-            "type": "dish"
+            "type": ["dish"]
         },
         "perspective": {
             "certainty": 1,
@@ -1032,14 +1032,14 @@ chat_5 = [
         "position": "0-12",
         "subject": {
             "label": "piek",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "tacos",
-            "type": "dish"
+            "type": ["dish"]
         },
         "perspective": {
             "certainty": 1,
@@ -1066,14 +1066,14 @@ chat_6 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "netherlands",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -1097,14 +1097,14 @@ chat_6 = [
         "position": "0-25",
         "subject": {
             "label": "piek",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "netherlands",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -1128,14 +1128,14 @@ chat_6 = [
         "position": "0-25",
         "subject": {
             "label": "selene",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "soccer",
-            "type": "sport"
+            "type": ["sport"]
         },
         "perspective": {
             "certainty": 1,
@@ -1159,14 +1159,14 @@ chat_6 = [
         "position": "0-16",
         "subject": {
             "label": "bram",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "know"
         },
         "object": {
             "label": "lenka",
-            "type": "person"
+            "type": ["person"]
         },
         "perspective": {
             "certainty": 1,
@@ -1190,14 +1190,14 @@ chat_6 = [
         "position": "0-16",
         "subject": {
             "label": "selene",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "know"
         },
         "object": {
             "label": "lenka",
-            "type": "person"
+            "type": ["person"]
         },
         "perspective": {
             "certainty": 1,
@@ -1224,14 +1224,14 @@ chat_7 = [
         "position": "0-27",
         "subject": {
             "label": "selene",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "peru",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 0.5,
@@ -1249,7 +1249,6 @@ chat_7 = [
         "people": []}
 ]
 
-
 context_id = getrandbits(8)
 chat_8 = [
     {
@@ -1260,14 +1259,14 @@ chat_8 = [
         "position": "0-22",
         "subject": {
             "label": "jaap",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "have"
         },
         "object": {
             "label": "teapot",
-            "type": "artifact"
+            "type": ["artifact"]
         },
         "perspective": {
             "certainty": 0.75,
@@ -1291,14 +1290,14 @@ chat_8 = [
         "position": "0-27",
         "subject": {
             "label": "lea",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "favorite-color-is"
         },
         "object": {
             "label": "blue",
-            "type": "adj.all"
+            "type": ["adj.all"]
         },
         "perspective": {
             "certainty": 1,
@@ -1322,14 +1321,14 @@ chat_8 = [
         "position": "0-22",
         "subject": {
             "label": "selene",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be"
         },
         "object": {
             "label": "tall",
-            "type": "adj.all"
+            "type": ["adj.all"]
         },
         "perspective": {
             "certainty": 0.4,
@@ -1353,14 +1352,14 @@ chat_8 = [
         "position": "0-26",
         "subject": {
             "label": "lea",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "swimming-and-biking",
-            "type": "act"
+            "type": ["act"]
         },
         "perspective": {
             "certainty": 0.8,
@@ -1384,14 +1383,14 @@ chat_8 = [
         "position": "0-27",
         "subject": {
             "label": "lea",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "dusseldorf",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -1415,14 +1414,14 @@ chat_8 = [
         "position": "0-19",
         "subject": {
             "label": "lea",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "celery",
-            "type": "food"
+            "type": ["food"]
         },
         "perspective": {
             "certainty": 0.9,
@@ -1449,14 +1448,14 @@ chat_9 = [
         "position": "0-26",
         "subject": {
             "label": "thomas",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "live-in"
         },
         "object": {
             "label": "berlin",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -1480,14 +1479,14 @@ chat_9 = [
         "position": "0-16",
         "subject": {
             "label": "thomas",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "munich",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -1511,14 +1510,14 @@ chat_9 = [
         "position": "0-21",
         "subject": {
             "label": "thomas",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "study-in"
         },
         "object": {
             "label": "budapest",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -1542,14 +1541,14 @@ chat_9 = [
         "position": "0-17",
         "subject": {
             "label": "thomas",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "asian-food",
-            "type": "cuisine"
+            "type": ["cuisine"]
         },
         "perspective": {
             "certainty": 1,
@@ -1573,14 +1572,14 @@ chat_9 = [
         "position": "0-23",
         "subject": {
             "label": "thomas",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "electronic-music",
-            "type": "music"
+            "type": ["music"]
         },
         "perspective": {
             "certainty": 1,
@@ -1607,14 +1606,14 @@ chat_10 = [
         "position": "0-25",
         "subject": {
             "label": "lea",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "hate"
         },
         "object": {
             "label": "cheese",
-            "type": "food"
+            "type": ["food"]
         },
         "perspective": {
             "certainty": 0.6,
@@ -1638,14 +1637,14 @@ chat_10 = [
         "position": "0-20",
         "subject": {
             "label": "selene",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "dancing",
-            "type": "act"
+            "type": ["act"]
         },
         "perspective": {
             "certainty": 0.8,
@@ -1669,14 +1668,14 @@ chat_10 = [
         "position": "0-18",
         "subject": {
             "label": "jaap",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "have"
         },
         "object": {
             "label": "two-teapots",
-            "type": "artifact"
+            "type": ["artifact"]
         },
         "perspective": {
             "certainty": 1,
@@ -1700,14 +1699,14 @@ chat_10 = [
         "position": "0-36",
         "subject": {
             "label": "jaap",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "chocolate-with-sea-salt",
-            "type": "food"
+            "type": ["food"]
         },
         "perspective": {
             "certainty": 1,
@@ -1731,14 +1730,14 @@ chat_10 = [
         "position": "0-38",
         "subject": {
             "label": "lea",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "swimming-and-vikings",
-            "type": "act"
+            "type": ["act"]
         },
         "perspective": {
             "certainty": 0.2,
@@ -1762,14 +1761,14 @@ chat_10 = [
         "position": "0-17",
         "subject": {
             "label": "tae",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "speak"
         },
         "object": {
             "label": "german",
-            "type": "adj.all"
+            "type": ["adj.all"]
         },
         "perspective": {
             "certainty": 1,
@@ -1796,14 +1795,14 @@ chat_11 = [
         "position": "0-20",
         "subject": {
             "label": "tae",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "drinking-beer",
-            "type": "interest"
+            "type": ["interest"]
         },
         "perspective": {
             "certainty": 1,
@@ -1827,14 +1826,14 @@ chat_11 = [
         "position": "0-21",
         "subject": {
             "label": "tae",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "south-korea",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -1858,14 +1857,14 @@ chat_11 = [
         "position": "0-13",
         "subject": {
             "label": "tae",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "ride"
         },
         "object": {
             "label": "bike",
-            "type": "transportation"
+            "type": ["transportation"]
         },
         "perspective": {
             "certainty": 1,
@@ -1889,14 +1888,14 @@ chat_11 = [
         "position": "0-11",
         "subject": {
             "label": "Tae",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "hate"
         },
         "object": {
             "label": "rats",
-            "type": "animal"
+            "type": ["animal"]
         },
         "perspective": {
             "certainty": 1,
@@ -1920,14 +1919,14 @@ chat_11 = [
         "position": "0-19",
         "subject": {
             "label": "tae",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "drink"
         },
         "object": {
             "label": "beer",
-            "type": "interest"
+            "type": ["interest"]
         },
         "perspective": {
             "certainty": 1,
@@ -1959,14 +1958,14 @@ conflicting_statements = [
         "position": "0-34",
         "subject": {
             "label": "bram",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
             "label": "romantic-movies",
-            "type": "film-genre"
+            "type": ["film-genre"]
         },
         "perspective": {
             "certainty": 1,
@@ -1991,14 +1990,14 @@ conflicting_statements = [
         "position": "0-19",
         "subject": {
             "label": "selene",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "peru",
-            "type": "location"
+            "type": ["location"]
         },
         "perspective": {
             "certainty": 1,
@@ -2026,15 +2025,15 @@ questions = [
         "utterance_type": "question",
         "position": "",
         "subject": {
-            "type": "",
-            "label": "bram"
+            "label": "bram",
+            "type": [""]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
-            "type": "",
-            "label": ""
+            "label": "",
+            "type": [""]
         },
         "date": ""
     },
@@ -2046,14 +2045,14 @@ questions = [
         "utterance_type": "question",
         "subject": {
             "label": "",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "serbia",
-            "type": "location"
+            "type": ["location"]
         }
     },
     {
@@ -2064,14 +2063,14 @@ questions = [
         "utterance_type": "question",
         "subject": {
             "label": "lenka",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "",
-            "type": "location"
+            "type": ["location"]
         }
     },
     {
@@ -2081,14 +2080,14 @@ questions = [
         "utterance_type": "question",
         "subject": {
             "label": "selene",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "knows"
         },
         "object": {
             "label": "piek",
-            "type": "person"
+            "type": ["person"]
         }
     },
     {
@@ -2099,14 +2098,14 @@ questions = [
         "utterance_type": "question",
         "subject": {
             "label": "bram",
-            "type": "person"
+            "type": ["person"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
             "label": "netherlands",
-            "type": "location"
+            "type": ["location"]
         }
     },
     {
@@ -2117,15 +2116,15 @@ questions = [
         "utterance_type": "question",
         "position": "",
         "subject": {
-            "type": "person",
-            "label": "bram"
+            "label": "bram",
+            "type": ["person"]
         },
         "predicate": {
             "type": "knows"
         },
         "object": {
-            "type": "",
-            "label": "beyonce"
+            "label": "beyonce",
+            "type": [""]
         },
         "date": date(2018, 3, 19)
     },
@@ -2137,15 +2136,15 @@ questions = [
         "utterance_type": "question",
         "position": "",
         "subject": {
-            "type": "robot",
-            "label": "leolani"
+            "label": "leolani",
+            "type": ["robot"]
         },
         "predicate": {
             "type": "knows"
         },
         "object": {
-            "type": "person",
-            "label": "bram"
+            "label": "bram",
+            "type": ["person"]
         },
         "date": date(2018, 3, 19)
     },
@@ -2157,15 +2156,15 @@ questions = [
         "utterance_type": "question",
         "position": "",
         "subject": {
-            "type": "person",
-            "label": "selene"
+            "label": "selene",
+            "type": ["person"]
         },
         "predicate": {
             "type": "knows"
         },
         "object": {
-            "type": "person",
-            "label": "piek"
+            "label": "piek",
+            "type": ["person"]
         },
         "date": date(2018, 3, 19)
     },
@@ -2177,15 +2176,15 @@ questions = [
         "utterance_type": "question",
         "position": "",
         "subject": {
-            "type": "robot",
-            "label": "leolani"
+            "label": "leolani",
+            "type": ["robot"]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
-            "type": "",
-            "label": ""
+            "label": "",
+            "type": [""]
         },
         "date": date(2018, 3, 19)
     },
@@ -2197,15 +2196,15 @@ questions = [
         "utterance_type": "question",
         "position": "",
         "subject": {
-            "type": "",
-            "label": ""
+            "label": "",
+            "type": [""]
         },
         "predicate": {
             "type": "be-from"
         },
         "object": {
-            "type": "",
-            "label": "italy"
+            "label": "italy",
+            "type": [""]
         },
         "date": date(2018, 3, 19)
     },
@@ -2217,15 +2216,15 @@ questions = [
         "utterance_type": "question",
         "position": "",
         "subject": {
-            "type": "",
-            "label": "piek"
+            "label": "piek",
+            "type": [""]
         },
         "predicate": {
             "type": "like"
         },
         "object": {
-            "type": "",
-            "label": ""
+            "label": "",
+            "type": [""]
         },
         "date": date(2018, 3, 19)
     }
@@ -2240,14 +2239,14 @@ experiences = [
         "position": "0-15-0-15",
         "subject": {
             "label": "leolani",
-            "type": "robot"
+            "type": ["robot"]
         },
         "predicate": {
             "type": "see"
         },
         "object": {
             "label": "apple",
-            "type": "fruit"
+            "type": ["fruit"]
         },
         "perspective": {
             "certainty": 1,

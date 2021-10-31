@@ -1,61 +1,122 @@
-{"scenario": [
+{
+  "scenario": [
     {
-        "utterance": "Hello, who are you?.",
-        "speech-act":  "greeting",
-        "author": "carl",  
-        "chat": 1, 
-        "turn": 1,  
-        "position": "0-25",
-        "context_id": 123,
-        "place": "",
-        "place_id": "",
-        "country": "Netherlands",
-        "region": "North Holland",
-        "city": "Amsterdam",
-        "date": "2021:5:25",
-        "objects": [{"type": "chair", "confidence": 0.68, "id": 1},
-                    {"type": "table", "confidence": 0.79, "id": 1}],
-        "people": [{"name": "Carl", "confidence": 0.94, "id": 1}]
+      "utterance": "Hello, who are you?.",
+      "speech-act": "greeting",
+      "author": "carl",
+      "chat": 1,
+      "turn": 1,
+      "position": "0-25",
+      "context_id": 123,
+      "place": "",
+      "place_id": "",
+      "country": "Netherlands",
+      "region": "North Holland",
+      "city": "Amsterdam",
+      "date": "2021:5:25",
+      "objects": [
+        {
+          "type": "chair",
+          "confidence": 0.68,
+          "id": 1
+        },
+        {
+          "type": "table",
+          "confidence": 0.79,
+          "id": 1
+        }
+      ],
+      "people": [
+        {
+          "name": "Carl",
+          "confidence": 0.94,
+          "id": 1
+        }
+      ]
     },
     {
-        "utterance": "I Leolani. What is your name.",
-        "speech-act":  "question",
-        "author": "leolani",
-        "chat": 1,
-        "turn": 2,
-        "position": "0-25",
-        "context_id": 123,
-        "place": "",
-        "place_id": "",
-        "country": "Netherlands",
-        "region": "North Holland",
-        "city": "Amsterdam",
-        "date": "2021:5:25",
-        "objects": [{"type": "chair", "confidence": 0.68, "id": 1},
-                    {"type": "table", "confidence": 0.79, "id": 1}],
-        "people": [{"name": "Carl", "confidence": 0.94, "id": 1}]
+      "utterance": "I Leolani. What is your name.",
+      "speech-act": "question",
+      "author": "leolani",
+      "chat": 1,
+      "turn": 2,
+      "position": "0-25",
+      "context_id": 123,
+      "place": "",
+      "place_id": "",
+      "country": "Netherlands",
+      "region": "North Holland",
+      "city": "Amsterdam",
+      "date": "2021:5:25",
+      "objects": [
+        {
+          "type": "chair",
+          "confidence": 0.68,
+          "id": 1
+        },
+        {
+          "type": "table",
+          "confidence": 0.79,
+          "id": 1
+        }
+      ],
+      "people": [
+        {
+          "name": "Carl",
+          "confidence": 0.94,
+          "id": 1
+        }
+      ]
     },
     {
-        "utterance": "My name is Carl.",
-        "speech-act":  "statement",
-        "subject": {"label": "carl", "type": "person"},
-        "predicate": {"type": "label"},
-        "object": {"label": "Carl", "type": "string"},
-        "perspective": {"certainty": 1, "polarity": 1, "sentiment": 1},
-        "author": "carl",
-        "chat": 1,
-        "turn": 3,
-        "position": "0-25",
-        "context_id": 123,
-        "place": "",
-        "place_id": "",
-        "country": "Netherlands",
-        "region": "North Holland",
-        "city": "Amsterdam",
-        "date": "2021:5:25",
-        "objects": [{"type": "chair", "confidence": 0.68, "id": 1},
-                    {"type": "table", "confidence": 0.79, "id": 1}],
-        "people": [{"name": "Carl", "confidence": 0.94, "id": 1}]
+      "utterance": "My name is Carl.",
+      "speech-act": "statement",
+      "subject": {
+        "label": "carl",
+        "type": ["person"]
+      },
+      "predicate": {
+        "type": "label"
+      },
+      "object": {
+        "label": "Carl",
+        "type": ["string"]
+      },
+      "perspective": {
+        "certainty": 1,
+        "polarity": 1,
+        "sentiment": 1
+      },
+      "author": "carl",
+      "chat": 1,
+      "turn": 3,
+      "position": "0-25",
+      "context_id": 123,
+      "place": "",
+      "place_id": "",
+      "country": "Netherlands",
+      "region": "North Holland",
+      "city": "Amsterdam",
+      "date": "2021:5:25",
+      "objects": [
+        {
+          "type": "chair",
+          "confidence": 0.68,
+          "id": 1
+        },
+        {
+          "type": "table",
+          "confidence": 0.79,
+          "id": 1
+        }
+      ],
+      "people": [
+        {
+          "name": "Carl",
+          "confidence": 0.94,
+          "id": 1
+        }
+      ]
     }
-]
+  ]
 }

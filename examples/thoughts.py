@@ -14,6 +14,8 @@ import argparse
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+from tqdm import tqdm
+
 from cltl.brain.long_term_memory import LongTermMemory
 from cltl.brain.utils.base_cases import statements, conflicting_statements
 
@@ -22,12 +24,12 @@ def main(log_path):
     # Create brain connection
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
-                           clear_all=True)
+                           clear_all=False)
 
     capsules = statements + conflicting_statements
-    for capsule in capsules:
+    for capsule in tqdm(capsules):
         # Add information to the brain
-        response = brain.update(capsule, reason_types=True)
+        response = brain.update(capsule, reason_types=True, create_label=True)
         print(f"\n\n---------------------------------------------------------------\n{capsule['triple']}\n")
 
         # Show different thoughts
@@ -47,7 +49,7 @@ def main(log_path):
         print(f'\toverlaps: {thoughts.overlaps()}')
 
         # Social
-        print(f'\ttrust on {capsule["author"]}: {thoughts.trust()}')
+        print(f'\ttrust on {capsule["author"]}: {thoughts.trust()}\n')
 
 
 if __name__ == "__main__":

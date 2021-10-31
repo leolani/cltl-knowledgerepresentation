@@ -336,9 +336,16 @@ class RdfBuilder(object):
         -------
             Entity object with given label
         """
-        subject = self.fill_entity(subject_dict['label'], [subject_dict['type']], namespace=namespace)
+        # Fix types
+        if type(subject_dict['type']) is not list:
+            [subject_dict['type']] = [[subject_dict['type']]]
+
+        if type(object_dict['type']) is not list:
+            [object_dict['type']] = [[object_dict['type']]]
+
+        subject = self.fill_entity(subject_dict['label'], subject_dict['type'], namespace=namespace)
         predicate = self.fill_predicate(predicate_dict['type'])
-        object = self.fill_entity(object_dict['label'], [object_dict['type']], namespace=namespace)
+        object = self.fill_entity(object_dict['label'], object_dict['type'], namespace=namespace)
 
         return Triple(subject, predicate, object)
 
@@ -369,6 +376,7 @@ class RdfBuilder(object):
 
     ########## basic reverse engineer ##########
     def label_from_uri(self, uri, namespace='LTi'):
+        # type: (str, str) -> str
         """
         Extract a label from a resource, by removing the namespace
         Parameters
@@ -383,7 +391,6 @@ class RdfBuilder(object):
             Label of the entity without the namespace
 
         """
-        # type: (str, str) -> str
         return uri.strip(self.namespaces[namespace])
 
     def clean_aggregated_types(self, aggregated_types):

@@ -42,7 +42,7 @@ class BasicBrain(object):
         self._rdf_builder = RdfBuilder()
 
         self._log = logger.getChild(self.__class__.__name__)
-        self._log.debug("Booted")
+        self._log.info("Booted")
 
         self.log_dir = log_dir.joinpath(f"{datetime.now().strftime('%Y-%m-%d-%H-%M')}")
         self.log_dir.mkdir(parents=True, exist_ok=True)

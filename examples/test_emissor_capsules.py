@@ -63,7 +63,7 @@ capsule_query = {'chat': '1',
                 'utterance': '',
                 'utterance_type': UtteranceType.QUESTION,
                 'position': '',
-                'subject': {'label': 'lenka', 'type': ['noun.person']},
+                'subject': {'label': 'fred', 'type': ['noun.person']},
                 'predicate': {'type': 'like'},
                 'object': {'label': '', 'type': []},
                 'context_id': '1',
@@ -77,6 +77,28 @@ capsule_query = {'chat': '1',
                 'people': []}
 
 
+test_capsule = {'author': 'Piek_t_139219',
+ 'chat': '2021-11-11-19:41:23',
+ 'city': 'Amsterdam',
+ 'context_id': 'Leolani2',
+ 'country': 'NL',
+ 'date': datetime.today(),
+ 'object': {'label': '', 'type': []},
+ 'objects': [{'confidence': 0.59, 'id': 1, 'type': 'chair'},
+             {'confidence': 0.73, 'id': 1, 'type': 'table'},
+             {'confidence': 0.32, 'id': 1, 'type': 'pillbox'}],
+ 'people': [{'confidence': 0.98, 'id': 1, 'name': 'Piek_t_139219'}],
+ 'perspective': None,
+ 'place': 'Amsterdam',
+ 'place_id': 64,
+ 'position': '0-19',
+ 'predicate': {'type': 'fred-is'},
+ 'region': 'North Holland',
+ 'subject': {'label': 'does', 'type': ['verb.social']},
+ 'turn': '31efe544-6876-417c-9c44-0f554e23debf',
+ 'utterance': 'What does fred like',
+ 'utterance_type': UtteranceType.QUESTION
+}
 
 def main(log_path):
     # Create brain connection
@@ -85,15 +107,13 @@ def main(log_path):
                            clear_all=False)
     data = []
     # Add information to the brain
-    response = brain.update(capsule_post_label, reason_types=True, create_label=False)
-    print(f"\n\n---------------------------------------------------------------\n{capsule_post_label['triple']}\n")
+    #response = brain.update(capsule_post_label, reason_types=True, create_label=False)
 
     #response_json = brain_response_to_json(response)
     #data.append(response_json)
     #pprint(response_json)
     
-    answer = brain.query_brain(capsule_query)
-    print(f"\n\n---------------------------------------------------------------\n{capsule_query['triple']}\n")
+    answer = brain.query_brain(test_capsule)
 
     response_json = brain_response_to_json(answer)
     data.append(response_json)

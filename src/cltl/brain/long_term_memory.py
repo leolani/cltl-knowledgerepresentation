@@ -187,7 +187,7 @@ class LongTermMemory(BasicBrain):
 
         return output
 
-    def query_brain(self, capsule):
+    def query_brain(self, capsule, debug=False):
         """
         Main function to interact with if a question is coming into the brain. Takes in a structured parsed question,
         transforms it into a query, and queries the triple store for a response
@@ -198,7 +198,7 @@ class LongTermMemory(BasicBrain):
 
         # Generate query
         query = create_query(self, capsule)
-
+        print(query)
         # Perform query
         response = self._submit_query(query)
 

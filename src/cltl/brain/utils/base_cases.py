@@ -15,7 +15,7 @@ chat_1 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "serbia",
@@ -47,7 +47,7 @@ chat_1 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "netherlands",
@@ -79,7 +79,7 @@ chat_1 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "mexico",
@@ -111,7 +111,7 @@ chat_1 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "croatia",
@@ -143,7 +143,7 @@ chat_1 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "netherlands",
@@ -178,7 +178,7 @@ chat_2 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "serbia",
@@ -210,7 +210,7 @@ chat_2 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "goulash",
@@ -242,7 +242,7 @@ chat_2 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "romantic-movies",
@@ -274,7 +274,7 @@ chat_2 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "ice-cream",
@@ -306,7 +306,7 @@ chat_2 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "harry-potter",
@@ -338,7 +338,7 @@ chat_2 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "action-movies",
@@ -370,7 +370,7 @@ chat_2 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "balkenbrij",
@@ -402,7 +402,7 @@ chat_2 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "sailing",
@@ -434,7 +434,7 @@ chat_2 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "tacos",
@@ -466,7 +466,7 @@ chat_2 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "pizza",
@@ -498,7 +498,7 @@ chat_2 = [
             "type": ["robot"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "france",
@@ -533,7 +533,7 @@ chat_3 = [
             "label": "lenka"
         },
         "predicate": {
-            "type": "mother-is"
+            "label": "mother-is"
         },
         "object": {
             "label": "ljubica",
@@ -564,7 +564,7 @@ chat_3 = [
             "label": "lenka"
         },
         "predicate": {
-            "type": "favorite-is"
+            "label": "favorite-is"
         },
         "object": {
             "label": "cake",
@@ -595,7 +595,7 @@ chat_3 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "coco",
@@ -626,7 +626,7 @@ chat_3 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "the_big-lebowski",
@@ -657,7 +657,7 @@ chat_3 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "2001_a_space-odyssey",
@@ -688,7 +688,7 @@ chat_3 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "horror-movies",
@@ -722,7 +722,7 @@ chat_4 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "action-movies",
@@ -753,7 +753,7 @@ chat_4 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "italy",
@@ -784,7 +784,7 @@ chat_4 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "goulash",
@@ -815,7 +815,7 @@ chat_4 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "baseball",
@@ -846,7 +846,7 @@ chat_4 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "apple-pie",
@@ -877,7 +877,7 @@ chat_4 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "animated-movies",
@@ -908,7 +908,7 @@ chat_4 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "acrobatics",
@@ -939,7 +939,7 @@ chat_4 = [
             "type": ["robot"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "japan",
@@ -973,7 +973,7 @@ chat_5 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "romantic-movies",
@@ -1004,7 +1004,7 @@ chat_5 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "tacos",
@@ -1035,7 +1035,7 @@ chat_5 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "tacos",
@@ -1069,7 +1069,7 @@ chat_6 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "netherlands",
@@ -1100,7 +1100,7 @@ chat_6 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "netherlands",
@@ -1131,7 +1131,7 @@ chat_6 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "soccer",
@@ -1162,7 +1162,7 @@ chat_6 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "know"
+            "label": "know"
         },
         "object": {
             "label": "lenka",
@@ -1193,7 +1193,7 @@ chat_6 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "know"
+            "label": "know"
         },
         "object": {
             "label": "lenka",
@@ -1227,7 +1227,7 @@ chat_7 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "peru",
@@ -1262,7 +1262,7 @@ chat_8 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "have"
+            "label": "have"
         },
         "object": {
             "label": "teapot",
@@ -1293,7 +1293,7 @@ chat_8 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "favorite-color-is"
+            "label": "favorite-color-is"
         },
         "object": {
             "label": "blue",
@@ -1324,7 +1324,7 @@ chat_8 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be"
+            "label": "be"
         },
         "object": {
             "label": "tall",
@@ -1355,7 +1355,7 @@ chat_8 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "swimming-and-biking",
@@ -1386,7 +1386,7 @@ chat_8 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "dusseldorf",
@@ -1417,7 +1417,7 @@ chat_8 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "celery",
@@ -1451,7 +1451,7 @@ chat_9 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "live-in"
+            "label": "live-in"
         },
         "object": {
             "label": "berlin",
@@ -1482,7 +1482,7 @@ chat_9 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "munich",
@@ -1513,7 +1513,7 @@ chat_9 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "study-in"
+            "label": "study-in"
         },
         "object": {
             "label": "budapest",
@@ -1544,7 +1544,7 @@ chat_9 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "asian-food",
@@ -1575,7 +1575,7 @@ chat_9 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "electronic-music",
@@ -1609,7 +1609,7 @@ chat_10 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "hate"
+            "label": "hate"
         },
         "object": {
             "label": "cheese",
@@ -1640,7 +1640,7 @@ chat_10 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "dancing",
@@ -1671,7 +1671,7 @@ chat_10 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "have"
+            "label": "have"
         },
         "object": {
             "label": "two-teapots",
@@ -1702,7 +1702,7 @@ chat_10 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "chocolate-with-sea-salt",
@@ -1733,7 +1733,7 @@ chat_10 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "swimming-and-vikings",
@@ -1764,7 +1764,7 @@ chat_10 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "speak"
+            "label": "speak"
         },
         "object": {
             "label": "german",
@@ -1798,7 +1798,7 @@ chat_11 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "drinking-beer",
@@ -1829,7 +1829,7 @@ chat_11 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "south-korea",
@@ -1860,7 +1860,7 @@ chat_11 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "ride"
+            "label": "ride"
         },
         "object": {
             "label": "bike",
@@ -1891,7 +1891,7 @@ chat_11 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "hate"
+            "label": "hate"
         },
         "object": {
             "label": "rats",
@@ -1922,7 +1922,7 @@ chat_11 = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "drink"
+            "label": "drink"
         },
         "object": {
             "label": "beer",
@@ -1961,7 +1961,7 @@ conflicting_statements = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "romantic-movies",
@@ -1993,7 +1993,7 @@ conflicting_statements = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "peru",
@@ -2029,7 +2029,7 @@ questions = [
             "type": [""]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "",
@@ -2048,7 +2048,7 @@ questions = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "serbia",
@@ -2066,7 +2066,7 @@ questions = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "",
@@ -2083,7 +2083,7 @@ questions = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "knows"
+            "label": "knows"
         },
         "object": {
             "label": "piek",
@@ -2101,7 +2101,7 @@ questions = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "netherlands",
@@ -2120,7 +2120,7 @@ questions = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "knows"
+            "label": "knows"
         },
         "object": {
             "label": "beyonce",
@@ -2140,7 +2140,7 @@ questions = [
             "type": ["robot"]
         },
         "predicate": {
-            "type": "knows"
+            "label": "knows"
         },
         "object": {
             "label": "bram",
@@ -2160,7 +2160,7 @@ questions = [
             "type": ["person"]
         },
         "predicate": {
-            "type": "knows"
+            "label": "knows"
         },
         "object": {
             "label": "piek",
@@ -2180,7 +2180,7 @@ questions = [
             "type": ["robot"]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "",
@@ -2200,7 +2200,7 @@ questions = [
             "type": [""]
         },
         "predicate": {
-            "type": "be-from"
+            "label": "be-from"
         },
         "object": {
             "label": "italy",
@@ -2220,7 +2220,7 @@ questions = [
             "type": [""]
         },
         "predicate": {
-            "type": "like"
+            "label": "like"
         },
         "object": {
             "label": "",
@@ -2242,7 +2242,7 @@ experiences = [
             "type": ["robot"]
         },
         "predicate": {
-            "type": "see"
+            "label": "see"
         },
         "object": {
             "label": "apple",

@@ -30,10 +30,10 @@ def main(log_path):
         if capsule['speech-act'] == 'statement':
             x = brain.update(capsule, reason_types=True, create_label=True)
 
-            print(f'\n\n---------------------------------------------------------------\n{capsule["triple"]}\n')
+            print(f'\n{capsule["triple"]}\n---------------------------------------------------------------\n\n')
         else:
             sa = capsule['speech-act']
-            print(f'\n\n---------------------------------------------------------------\n{sa}\n')
+            print(f'\n{sa}\n---------------------------------------------------------------\n\n')
 
         print(capsule)
 

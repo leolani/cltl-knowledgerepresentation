@@ -53,9 +53,9 @@ def create_query(self, utterance):
                                ?sentiment rdfs:label ?sentimentValue .
                                }
                            }
-                   """ % (utterance['predicate']['type'],
+                   """ % (utterance['predicate']['label'],
                           utterance['object']['label'],
-                          utterance['predicate']['type'])
+                          utterance['predicate']['label'])
 
     # Query complement
     elif utterance['object']['label'] is None or utterance['object']['label'].lower() in empty:
@@ -104,9 +104,9 @@ def create_query(self, utterance):
                                ?sentiment rdfs:label ?sentimentValue .
                                }
                            }
-                   """ % (utterance['predicate']['type'],
+                   """ % (utterance['predicate']['label'],
                           utterance['subject']['label'],
-                          utterance['predicate']['type'])
+                          utterance['predicate']['label'])
 
     # Query existence
     else:
@@ -155,10 +155,10 @@ def create_query(self, utterance):
                                ?sentiment rdfs:label ?sentimentValue .
                                }
                            }
-                   """ % (utterance['predicate']['type'],
+                   """ % (utterance['predicate']['label'],
                           utterance['subject']['label'],
                           utterance['object']['label'],
-                          utterance['predicate']['type'])
+                          utterance['predicate']['label'])
 
     query = self.query_prefixes + query
 

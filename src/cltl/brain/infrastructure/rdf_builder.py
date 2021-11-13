@@ -344,7 +344,7 @@ class RdfBuilder(object):
             [object_dict['type']] = [[object_dict['type']]]
 
         subject = self.fill_entity(subject_dict['label'], subject_dict['type'], namespace=namespace)
-        predicate = self.fill_predicate(predicate_dict['type'])
+        predicate = self.fill_predicate(predicate_dict['label'])
         object = self.fill_entity(object_dict['label'], object_dict['type'], namespace=namespace)
 
         return Triple(subject, predicate, object)

@@ -21,7 +21,10 @@ def main(log_path):
     for capsule in tqdm(questions):
         # Add information to the brain
         response = brain.query_brain(capsule)
-        print(f"\n\n---------------------------------------------------------------\n{capsule['triple']}\n")
+        if not response['response']:
+            print("No response")
+
+        print(f"\n{capsule['triple']}\n---------------------------------------------------------------\n\n")
 
 
 if __name__ == "__main__":

@@ -23,13 +23,13 @@ def main(log_path):
     for statement in tqdm(statements):
         # Add information to the brain
         response = brain.update(statement, reason_types=True, create_label=True)
-        print(f"\n\n---------------------------------------------------------------\n{statement['triple']}\n")
+        print(f"\n{statement['triple']}\n---------------------------------------------------------------\n\n")
 
         response_json = brain_response_to_json(response)
         data.append(response_json)
 
-    f = open("../../cltl-languagegeneration/examples/data/base-case-responses.json", "w")
-    json.dump(data, f)
+    # f = open("../../cltl-languagegeneration/examples/data/base-case-responses.json", "w")
+    # json.dump(data, f)
 
 
 if __name__ == "__main__":

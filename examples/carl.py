@@ -29,7 +29,7 @@ carl_scenario = [
         "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",  # segment of the annotation
         "subject": {"label": "carl", "type": ["person"]},  # annotations of type NER
-        "predicate": {"type": "see"},  # annotation of type x (still to be done)
+        "predicate": {"label": "see"},  # annotation of type x
         "object": {"label": "pills", "type": ["object", "medicine"]},  # annotations of type NER
         "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},  # annotation of type x (still to be done)
         "context_id": context_id,
@@ -51,7 +51,7 @@ carl_scenario = [
         "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {"label": "pills", "type": ["object"]},
-        "predicate": {"type": "located under"},
+        "predicate": {"label": "located under"},
         "object": {"label": "table", "type": ["object"]},
         "perspective": {"certainty": 1, "polarity": 1, "sentiment": 0},
         "context_id": context_id,
@@ -74,7 +74,7 @@ carl_scenario = [
         "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {"label": "carl", "type": ["person"]},
-        "predicate": {"type": "see"},
+        "predicate": {"label": "see"},
         "object": {"label": "pills", "type": ["object"]},
         "perspective": {"certainty": 1, "polarity": 1, "sentiment": 1},
         "context_id": context_id,
@@ -101,7 +101,7 @@ def main(log_path):
     for capsule in tqdm(carl_scenario):
         # Add information to the brain
         response = brain.update(capsule, reason_types=True, create_label=True)
-        print(f"\n\n---------------------------------------------------------------\n{capsule['triple']}\n")
+        print(f"\n{capsule['triple']}\n---------------------------------------------------------------\n\n")
 
         response_json = brain_response_to_json(response)
         data.append(response_json)

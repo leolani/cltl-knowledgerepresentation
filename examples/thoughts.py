@@ -30,7 +30,7 @@ def main(log_path):
     for capsule in tqdm(capsules):
         # Add information to the brain
         response = brain.update(capsule, reason_types=True, create_label=True)
-        print(f"\n\n---------------------------------------------------------------\n{capsule['triple']}\n")
+        print(f"\n{capsule['triple']}\n---------------------------------------------------------------\n\n")
 
         # Show different thoughts
         thoughts = response['thoughts']

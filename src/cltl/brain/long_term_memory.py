@@ -198,7 +198,6 @@ class LongTermMemory(BasicBrain):
 
         # Generate query
         query = create_query(self, capsule)
-        print(query)
         # Perform query
         response = self._submit_query(query)
 

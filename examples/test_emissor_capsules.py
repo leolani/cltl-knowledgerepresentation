@@ -57,6 +57,28 @@ capsule_post = {'chat': '1',
                 'objects': [],
                 'people': []}
 
+capsule_post_label2 = {'author': 'Fred',
+ 'certainty': 1,
+ 'chat': '2021-11-12-15:44:22',
+ 'city': 'Amsterdam',
+ 'context_id': 'Leolani2',
+ 'country': 'NL',
+ 'date': datetime.today(),
+ 'object': {'label': 'pizza', 'type': 'noun.food'},
+ 'objects': [],
+ 'people': [],
+ 'place': 'Amsterdam',
+ 'place_id': 116,
+ 'polarity': 1,
+ 'position': '0-12',
+ 'predicate': {'label': 'like', 'type': 'verb.emotion'},
+ 'region': 'North Holland',
+ 'sentiment': '0.75',
+ 'subject': {'label': 'Fred', 'type': 'person'},
+ 'turn': '28cbc878-6a52-4b7e-a5b9-b81ffe295c9f',
+ 'utterance': 'I like pizza',
+ 'utterance_type': UtteranceType.STATEMENT}
+
 capsule_query = {'chat': '1',
                 'turn': '1',
                 'author': 'me',
@@ -77,28 +99,24 @@ capsule_query = {'chat': '1',
                 'people': []}
 
 
-test_capsule = {'author': 'Piek_t_139219',
- 'chat': '2021-11-11-19:41:23',
+test_capsule = {'author': 'Fred',
+ 'chat': '2021-11-12-15:56:11',
  'city': 'Amsterdam',
  'context_id': 'Leolani2',
  'country': 'NL',
- 'date': datetime.today(),
  'object': {'label': '', 'type': []},
- 'objects': [{'confidence': 0.59, 'id': 1, 'type': 'chair'},
-             {'confidence': 0.73, 'id': 1, 'type': 'table'},
-             {'confidence': 0.32, 'id': 1, 'type': 'pillbox'}],
- 'people': [{'confidence': 0.98, 'id': 1, 'name': 'Piek_t_139219'}],
- 'perspective': None,
+ 'objects': [],
+ 'people': [],
  'place': 'Amsterdam',
- 'place_id': 64,
- 'position': '0-19',
- 'predicate': {'type': 'fred-is'},
+ 'place_id': 255,
+ 'position': '0-15',
+ 'predicate': {'label': 'like', 'type': 'verb.emotion'},
  'region': 'North Holland',
- 'subject': {'label': 'does', 'type': ['verb.social']},
- 'turn': '31efe544-6876-417c-9c44-0f554e23debf',
- 'utterance': 'What does fred like',
- 'utterance_type': UtteranceType.QUESTION
-}
+ 'subject': {'label': 'fred', 'type': ['person']},
+ 'turn': 'd2170737-3d2d-4083-b908-b32cc289dc8b',
+ 'utterance': 'What do I like?',
+ 'utterance_type': UtteranceType.QUESTION}
+
 
 def main(log_path):
     # Create brain connection
@@ -107,19 +125,19 @@ def main(log_path):
                            clear_all=False)
     data = []
     # Add information to the brain
-    #response = brain.update(capsule_post_label, reason_types=True, create_label=False)
+    response = brain.update(capsule_post_label2, reason_types=True, create_label=False)
 
-    #response_json = brain_response_to_json(response)
+    response_json = brain_response_to_json(response)
+    #data.append(response_json)
+    pprint(response_json)
+    
+    #answer = brain.query_brain(test_capsule)
+
+    #response_json = brain_response_to_json(answer)
     #data.append(response_json)
     #pprint(response_json)
-    
-    answer = brain.query_brain(test_capsule)
-
-    response_json = brain_response_to_json(answer)
-    data.append(response_json)
-    pprint(response_json)
-    f = open("./capsules/emissor-capsule-responses.json", "w")
-    json.dump(data, f)
+    #f = open("./capsules/emissor-capsule-responses.json", "w")
+    #json.dump(data, f)
 
 
 if __name__ == "__main__":

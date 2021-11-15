@@ -4,15 +4,15 @@ FOR EXAMPLE, WHERE THEY ARE FROM, WHAT THEY LIKE, AND WHERE THEY LIVE.
 FOR MORE INFORMATION ON WHAT INFORMATION PLEASE REFER TO cltl.brain.utils.base_cases
 """
 import argparse
+import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-import json
 from tqdm import tqdm
 
 from cltl.brain.long_term_memory import LongTermMemory
-from cltl.brain.utils.helper_functions import brain_response_to_json
 from cltl.brain.utils.base_cases import statements
+from cltl.brain.utils.helper_functions import brain_response_to_json
 
 
 def main(log_path):
@@ -28,8 +28,8 @@ def main(log_path):
         response_json = brain_response_to_json(response)
         data.append(response_json)
 
-    # f = open("../../cltl-languagegeneration/examples/data/base-case-responses.json", "w")
-    # json.dump(data, f)
+    f = open("./capsules/base-case-responses.json", "w")
+    json.dump(data, f)
 
 
 if __name__ == "__main__":

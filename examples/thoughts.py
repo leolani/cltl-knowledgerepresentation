@@ -10,14 +10,18 @@ THERE ARE 8 TYPES OF THOUGHTS:
 7. OVERLAP: SHARED INFORMATION WITH EXISTING KNOWLEDGE IN THE BRAIN
 8. TRUST: PROXY FOR CONFIDENCE IN THE SOURCE OF THE INFORMATION
 """
+
 import argparse
+import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from tqdm import tqdm
 
 from cltl.brain.long_term_memory import LongTermMemory
-from cltl.brain.utils.base_cases import statements, conflicting_statements
+from cltl.brain.utils.base_cases import conflicting_statements
+from cltl.brain.utils.base_cases import statements
+from cltl.brain.utils.helper_functions import brain_response_to_json
 
 
 def main(log_path):
@@ -26,6 +30,7 @@ def main(log_path):
                            log_dir=log_path,
                            clear_all=False)
 
+    data = []
     capsules = statements + conflicting_statements
     for capsule in tqdm(capsules):
         # Add information to the brain
@@ -50,6 +55,12 @@ def main(log_path):
 
         # Social
         print(f'\ttrust on {capsule["author"]}: {thoughts.trust()}\n')
+
+        response_json = brain_response_to_json(response)
+        data.append(response_json)
+
+    f = open("./capsules/thoughts-responses.json", "w")
+    json.dump(data, f)
 
 
 if __name__ == "__main__":

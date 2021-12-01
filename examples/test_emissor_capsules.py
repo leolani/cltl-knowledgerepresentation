@@ -95,25 +95,6 @@ capsule_query = {'chat': '1',
                  'objects': [],
                  'people': []}
 
-<<<<<<< HEAD
-test_capsule = {'author': 'Fred',
- 'chat': '2021-11-12-15:56:11',
- 'city': 'Amsterdam',
- 'context_id': 'Leolani2',
- 'country': 'NL',
- 'object': {'label': '', 'type': []},
- 'objects': [],
- 'people': [],
- 'place': 'Amsterdam',
- 'place_id': 255,
- 'position': '0-15',
- 'predicate': {'label': 'like', 'type': 'verb.emotion'},
- 'region': 'North Holland',
- 'subject': {'label': 'fred', 'type': ['person']},
- 'turn': 'd2170737-3d2d-4083-b908-b32cc289dc8b',
- 'utterance': 'What do I like?',
- 'utterance_type': UtteranceType.QUESTION}
-=======
 test_capsule = {'author': 'Piek_t_139219',
                 'chat': '2021-11-11-19:41:23',
                 'city': 'Amsterdam',
@@ -136,7 +117,6 @@ test_capsule = {'author': 'Piek_t_139219',
                 'utterance': 'What does fred like',
                 'utterance_type': UtteranceType.QUESTION
                 }
->>>>>>> a73758a045c2d4a076d21eed63e87d03976e7e0c
 
 
 def main(log_path):
@@ -146,7 +126,6 @@ def main(log_path):
                            clear_all=False)
     data = []
     # Add information to the brain
-<<<<<<< HEAD
     response = brain.update(capsule_post_label2, reason_types=True, create_label=False)
 
     response_json = brain_response_to_json(response)
@@ -154,15 +133,9 @@ def main(log_path):
     pprint(response_json)
     
     #answer = brain.query_brain(test_capsule)
-=======
-    # response = brain.update(capsule_post_label, reason_types=True, create_label=False)
 
-    # response_json = brain_response_to_json(response)
-    # data.append(response_json)
-    # pprint(response_json)
 
     answer = brain.query_brain(test_capsule)
->>>>>>> a73758a045c2d4a076d21eed63e87d03976e7e0c
 
     #response_json = brain_response_to_json(answer)
     #data.append(response_json)

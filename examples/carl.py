@@ -28,9 +28,11 @@ carl_scenario = [
         "utterance": "I need to take my pills, but I cannot find them.",  # sequence of mention
         "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",  # segment of the annotation
-        "subject": {"label": "carl", "type": ["person"]},  # annotations of type NER
+        "subject": {"label": "carl", "type": ["person"],
+                    'uri':"http://cltl.nl/leolani/world/carl-1"},  # annotations of type NER
         "predicate": {"label": "see"},  # annotation of type x
-        "object": {"label": "pills", "type": ["object", "medicine"]},  # annotations of type NER
+        "object": {"label": "pills", "type": ["object", "medicine"],
+                   'uri':"http://cltl.nl/leolani/world/pills"},  # annotations of type NER
         "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},  # annotation of type x (still to be done)
         "context_id": context_id,
         "date": date(2021, 3, 12),  # we take them from the temporal container of scenario
@@ -50,9 +52,9 @@ carl_scenario = [
         "utterance": "I found them. They are under the table.",
         "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
-        "subject": {"label": "pills", "type": ["object"]},
+        "subject": {"label": "pills", "type": ["object"], 'uri':"http://cltl.nl/leolani/world/pills"},
         "predicate": {"label": "located under"},
-        "object": {"label": "table", "type": ["object"]},
+        "object": {"label": "table", "type": ["object"], 'uri':"http://cltl.nl/leolani/world/table"},
         "perspective": {"certainty": 1, "polarity": 1, "sentiment": 0},
         "context_id": context_id,
         "date": date(2021, 3, 12),
@@ -73,9 +75,9 @@ carl_scenario = [
         "utterance": "Oh! Got it. Thank you.",
         "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
-        "subject": {"label": "carl", "type": ["person"]},
+        "subject": {"label": "carl", "type": ["person"], 'uri': "http://cltl.nl/leolani/world/carl-1"},
         "predicate": {"label": "see"},
-        "object": {"label": "pills", "type": ["object"]},
+        "object": {"label": "pills", "type": ["object"], 'uri':"http://cltl.nl/leolani/world/pills"},
         "perspective": {"certainty": 1, "polarity": 1, "sentiment": 1},
         "context_id": context_id,
         "date": date(2021, 3, 12),

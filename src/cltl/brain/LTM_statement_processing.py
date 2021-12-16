@@ -328,7 +328,7 @@ def create_instance_graph(self, capsule, create_label):
 
 def create_claim_graph(self, subject, predicate, complement):
     # Statement
-    claim_label = hash_claim_id([subject.label, predicate.label, complement.label])
+    claim_label = hash_claim_id([subject.id.split('/')[-1], predicate.label, complement.id.split('/')[-1]])
     claim = self._rdf_builder.fill_entity(claim_label, ['Event', 'Assertion'], 'LW')
     _link_entity(self, claim, self.claim_graph, create_label=True)
 

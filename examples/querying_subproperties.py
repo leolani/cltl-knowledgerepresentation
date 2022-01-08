@@ -97,16 +97,18 @@ def main(log_path):
                            clear_all=True)
 
     # Add information to the brain
+    print(f"\n\n---------------------------------------------------------------\n")
     response = brain.update(test_capsule[0], create_label=True)
-    print(f"\n{response['statement']['triple']}\n---------------------------------------------------------------\n\n")
+    print(f"\n{response['statement']['triple']}\n")
 
+    print(f"\n\n---------------------------------------------------------------\n")
     response = brain.update(test_capsule[1], create_label=True)
-    print(f"\n{response['statement']['triple']}\n---------------------------------------------------------------\n\n")
+    print(f"\n{response['statement']['triple']}\n")
 
+    print(f"\n\n---------------------------------------------------------------\n")
     response = brain.query_brain(test_capsule[2])
     if response['response']:
-        print(
-            f"\n{json.dumps(response['response'], indent=4)}\n---------------------------------------------------------------\n\n")
+        print(f"\n{json.dumps(response['response'], indent=4)}\n")
 
 
 if __name__ == "__main__":

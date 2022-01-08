@@ -23,11 +23,15 @@ def main(log_path):
     data = []
     for capsule in tqdm(questions):
         # Add information to the brain
+        print(f"\n\n---------------------------------------------------------------\n")
         response = brain.query_brain(capsule)
+        print(f"\n{capsule['triple']}\n")
+
         if not response['response']:
             print("No response")
 
-        print(f"\n{capsule['triple']}\n---------------------------------------------------------------\n\n")
+        if response['response']:
+            print(f"{len(response['response'])} responses")
 
         response_json = brain_response_to_json(response)
         data.append(response_json)

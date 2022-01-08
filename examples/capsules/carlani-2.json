@@ -9,7 +9,8 @@
         "uri": "http://cltl.nl/leolani/world/carl"
       },
       "predicate": {
-        "label": "sees"
+        "label": "sees",
+        "uri": "http://cltl.nl/leolani/n2mu/sees"
       },
       "object": {
         "label": "Rusje",
@@ -60,7 +61,8 @@
         "uri": "http://cltl.nl/leolani/world/Rusje"
       },
       "predicate": {
-        "label": "label"
+        "label": "label",
+        "uri": "http://cltl.nl/leolani/n2mu/label"
       },
       "object": {
         "label": "Rusje",
@@ -111,7 +113,8 @@
         "uri": "http://cltl.nl/leolani/world/Rusje"
       },
       "predicate": {
-        "label": "a"
+        "label": "a",
+        "uri": "http://cltl.nl/leolani/n2mu/a"
       },
       "object": {
         "label": "cat",
@@ -162,7 +165,8 @@
         "uri": "http://cltl.nl/leolani/world/Rusje"
       },
       "predicate": {
-        "label": "locatedAt"
+        "label": "locatedAt",
+        "uri": "http://cltl.nl/leolani/n2mu/locatedAt"
       },
       "object": {
         "label": "garden",
@@ -213,7 +217,8 @@
         "uri": "http://cltl.nl/leolani/world/carl"
       },
       "predicate": {
-        "label": "sees"
+        "label": "sees",
+        "uri": "http://cltl.nl/leolani/n2mu/sees"
       },
       "object": {
         "label": "Rusje",

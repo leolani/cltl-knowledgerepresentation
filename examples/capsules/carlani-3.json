@@ -73,14 +73,16 @@
       "speech-act": "statement",
       "subject": {
         "label": "carl",
-        "type": ["person"]
+        "type": ["person"],
+        "uri": "http://cltl.nl/leolani/world/carl"
       },
       "predicate": {
-        "type": "label"
+        "label": "label"
       },
       "object": {
         "label": "Carl",
-        "type": ["string"]
+        "type": ["string"],
+        "uri": "http://cltl.nl/leolani/world/Carl"
       },
       "perspective": {
         "certainty": 1,

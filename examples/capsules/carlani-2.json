@@ -5,14 +5,16 @@
       "speech-act": "statement",
       "subject": {
         "label": "carl",
-        "type": ["person"]
+        "type": ["person"],
+        "uri": "http://cltl.nl/leolani/world/carl"
       },
       "predicate": {
-        "type": "sees"
+        "label": "sees"
       },
       "object": {
         "label": "Rusje",
-        "type": ["cat"]
+        "type": ["cat"],
+        "uri": "http://cltl.nl/leolani/world/Rusje"
       },
       "perspective": {
         "certainty": 1,
@@ -54,14 +56,16 @@
       "speech-act": "question",
       "subject": {
         "label": "Rusje",
-        "type": ["animal"]
+        "type": ["animal"],
+        "uri": "http://cltl.nl/leolani/world/Rusje"
       },
       "predicate": {
-        "type": "label"
+        "label": "label"
       },
       "object": {
         "label": "Rusje",
-        "type": ["string"]
+        "type": ["string"],
+        "uri": "http://cltl.nl/leolani/world/Rusje"
       },
       "perspective": {
         "certainty": 1,
@@ -103,14 +107,16 @@
       "speech-act": "statement",
       "subject": {
         "label": "Rusje",
-        "type": ["cat"]
+        "type": ["cat"],
+        "uri": "http://cltl.nl/leolani/world/Rusje"
       },
       "predicate": {
-        "type": "a"
+        "label": "a"
       },
       "object": {
         "label": "cat",
-        "type": ["cat"]
+        "type": ["cat"],
+        "uri": "http://cltl.nl/leolani/world/cat"
       },
       "perspective": {
         "certainty": 1,
@@ -152,14 +158,16 @@
       "speech-act": "statement",
       "subject": {
         "label": "Rusje",
-        "type": ["cat"]
+        "type": ["cat"],
+        "uri": "http://cltl.nl/leolani/world/Rusje"
       },
       "predicate": {
-        "type": "locatedAt"
+        "label": "locatedAt"
       },
       "object": {
         "label": "garden",
-        "type": ["area"]
+        "type": ["area"],
+        "uri": "http://cltl.nl/leolani/world/garden"
       },
       "perspective": {
         "certainty": 1,
@@ -201,14 +209,16 @@
       "speech-act": "statement",
       "subject": {
         "label": "carl",
-        "type": ["person"]
+        "type": ["person"],
+        "uri": "http://cltl.nl/leolani/world/carl"
       },
       "predicate": {
-        "type": "sees"
+        "label": "sees"
       },
       "object": {
         "label": "Rusje",
-        "type": ["cat"]
+        "type": ["cat"],
+        "uri": "http://cltl.nl/leolani/world/Rusje"
       },
       "perspective": {
         "certainty": 1,

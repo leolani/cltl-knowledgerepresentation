@@ -9,7 +9,8 @@
         "uri": "http://cltl.nl/leolani/world/carl"
       },
       "predicate": {
-        "label": "sees"
+        "label": "sees",
+        "uri": "http://cltl.nl/leolani/n2mu/sees"
       },
       "object": {
         "label": "pills",
@@ -61,7 +62,8 @@
         "uri": "http://cltl.nl/leolani/world/pills"
       },
       "predicate": {
-        "label": "locatedUnder"
+        "label": "locatedUnder",
+        "uri": "http://cltl.nl/leolani/n2mu/locatedUnder"
       },
       "object": {
         "label": "table",
@@ -113,7 +115,8 @@
         "uri": "http://cltl.nl/leolani/world/carl"
       },
       "predicate": {
-        "label": "sees"
+        "label": "sees",
+        "uri": "http://cltl.nl/leolani/n2mu/sees"
       },
       "object": {
         "label": "pills",

@@ -1,7 +1,6 @@
 @prefix : <http://cltl.nl/leolani/integration/> .
 @prefix eps: <http://cltl.nl/episodicawareness/> .
 @prefix gaf: <http://groundedannotationframework.org/gaf#> .
-@prefix obo: <http://purl.obolibrary.org/obo/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
@@ -100,6 +99,20 @@ n2mu:be-ancestor-of rdf:type owl:ObjectProperty ;
                     rdfs:range n2mu:person .
 
 
+###  http://cltl.nl/leolani/n2mu/be-at
+n2mu:be-at rdf:type owl:ObjectProperty .
+
+
+###  http://cltl.nl/leolani/n2mu/be-before
+n2mu:be-before rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf n2mu:be-at .
+
+
+###  http://cltl.nl/leolani/n2mu/be-behind
+n2mu:be-behind rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf n2mu:be-at .
+
+
 ###  http://cltl.nl/leolani/n2mu/be-child-of
 n2mu:be-child-of rdf:type owl:ObjectProperty ;
                  rdfs:subPropertyOf n2mu:be-family-of ;
@@ -150,10 +163,25 @@ n2mu:be-from rdf:type owl:ObjectProperty ;
              rdfs:range n2mu:location .
 
 
+###  http://cltl.nl/leolani/n2mu/be-in
+n2mu:be-in rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf n2mu:be-at .
+
+
 ###  http://cltl.nl/leolani/n2mu/be-member-of
 n2mu:be-member-of rdf:type owl:ObjectProperty ;
                   rdfs:domain n2mu:agent ;
                   rdfs:range n2mu:institution .
+
+
+###  http://cltl.nl/leolani/n2mu/be-next-to
+n2mu:be-next-to rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf n2mu:be-at .
+
+
+###  http://cltl.nl/leolani/n2mu/be-on
+n2mu:be-on rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf n2mu:be-at .
 
 
 ###  http://cltl.nl/leolani/n2mu/be-parent-of
@@ -161,6 +189,11 @@ n2mu:be-parent-of rdf:type owl:ObjectProperty ;
                   rdfs:subPropertyOf n2mu:be-family-of ;
                   rdfs:domain n2mu:person ;
                   rdfs:range n2mu:person .
+
+
+###  http://cltl.nl/leolani/n2mu/be-under
+n2mu:be-under rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf n2mu:be-at .
 
 
 ###  http://cltl.nl/leolani/n2mu/born-in
@@ -713,8 +746,7 @@ n2mu:robot rdf:type owl:Class ;
 
 
 ###  http://cltl.nl/leolani/n2mu/sensor
-n2mu:sensor rdf:type owl:Class ;
-            owl:equivalentClass obo:MF_0000019 .
+n2mu:sensor rdf:type owl:Class .
 
 
 ###  http://cltl.nl/leolani/n2mu/smell
@@ -940,10 +972,6 @@ grasp:Utterance rdf:type owl:Class ;
 ###  http://groundedannotationframework.org/grasp#Visual
 grasp:Visual rdf:type owl:Class ;
              rdfs:subClassOf sem:Event .
-
-
-###  http://purl.obolibrary.org/obo/MF_0000019
-obo:MF_0000019 rdf:type owl:Class .
 
 
 ###  http://schema.org/Place

@@ -31,7 +31,6 @@ setup(
         'fuzzywuzzy>=0.18',
         'nltk>=3.4',
         'iribaker>=0.2',
-        'rdflib-jsonld>=0.5',
         'python-Levenshtein>=0.12',
         'importlib_resources>=5.2',
         'tqdm==4.62.3'

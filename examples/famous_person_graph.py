@@ -18,7 +18,7 @@ def main(log_path):
                             clear_all=True)
     # Add information to the brain
     response = brain.lookup_person_wikidata("Queen Máxima of the Netherlands")
-    print(f'\n{response["data"]}\n---------------------------------------------------------------\n\n')
+    print(f'\n{response["data"]}')
 
 
 if __name__ == "__main__":

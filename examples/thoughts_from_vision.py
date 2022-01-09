@@ -22,8 +22,9 @@ def main(log_path):
 
     for detection in tqdm(visuals):
         # Create experience and get thoughts
+        print(f"\n\n---------------------------------------------------------------\n")
         response = brain.get_thoughts_on_entity(detection, reason_types=True)
-        print(f'\n{response["triple"]}\n---------------------------------------------------------------\n\n')
+        print(f'\n{response["triple"]}\n')
 
         # Show different thoughts
         thoughts = response['thoughts']

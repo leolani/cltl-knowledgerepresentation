@@ -77,7 +77,8 @@
         "uri": "http://cltl.nl/leolani/world/carl"
       },
       "predicate": {
-        "label": "label"
+        "label": "label",
+        "uri": "http://cltl.nl/leolani/n2mu/label"
       },
       "object": {
         "label": "Carl",

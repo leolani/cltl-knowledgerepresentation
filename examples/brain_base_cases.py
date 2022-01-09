@@ -18,12 +18,13 @@ from cltl.brain.utils.helper_functions import brain_response_to_json
 def main(log_path):
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
-                           clear_all=True)
+                           clear_all=False)
     data = []
     for statement in tqdm(statements):
         # Add information to the brain
+        print(f"\n\n---------------------------------------------------------------\n")
         response = brain.update(statement, reason_types=True, create_label=True)
-        print(f"\n{statement['triple']}\n---------------------------------------------------------------\n\n")
+        print(f"\n{statement['triple']}\n")
 
         response_json = brain_response_to_json(response)
         data.append(response_json)

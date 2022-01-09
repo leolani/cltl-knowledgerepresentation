@@ -32,7 +32,7 @@ unknown_location_scenario = [
         "utterance_type": UtteranceType.STATEMENT,
         "position": "0-19",
         "subject": {"label": "tae", "type": ["person"], "uri": "http://cltl.nl/leolani/world/tae"},
-        "predicate": {"label": "eat"},
+        "predicate": {"label": "eat", "uri": "http://cltl.nl/leolani/n2mu/eat"},
         "object": {"label": "beef", "type": ["food"], "uri": "http://cltl.nl/leolani/world/beef"},
         "perspective": {"certainty": 1, "polarity": -1, "sentiment": 1},
         "context_id": getrandbits(8),
@@ -54,7 +54,7 @@ unknown_location_scenario = [
         "utterance_type": UtteranceType.STATEMENT,
         "position": "0-11",
         "subject": {"label": "selene", "type": ["person"], "uri": "http://cltl.nl/leolani/world/selene"},
-        "predicate": {"label": "be"},
+        "predicate": {"label": "be", "uri": "http://cltl.nl/leolani/n2mu/be"},
         "object": {"label": "hungry", "type": [""], "uri": ""},
         "perspective": {"certainty": 1, "polarity": 1, "sentiment": -1},
         "context_id": getrandbits(8),
@@ -77,7 +77,7 @@ unknown_location_scenario = [
         "utterance_type": UtteranceType.STATEMENT,
         "position": "0-9",
         "subject": {"label": "piek", "type": ["person"], "uri": "http://cltl.nl/leolani/world/piek"},
-        "predicate": {"label": "be"},
+        "predicate": {"label": "be", "uri": "http://cltl.nl/leolani/n2mu/be"},
         "object": {"label": "busy", "type": [""], "uri": ""},
         "perspective": {"certainty": 1, "polarity": 1, "sentiment": -1},
         "context_id": getrandbits(8),
@@ -102,6 +102,8 @@ def main(log_path):
                            clear_all=True)
 
     for capsule in tqdm(unknown_location_scenario):
+        print(f"\n\n---------------------------------------------------------------\n")
+
         # Reason about location
         if capsule['place'] is None or capsule['place'].lower() == '':
             potential_location = brain.reason_location(capsule)

@@ -210,6 +210,7 @@ class RdfBuilder(object):
         -------
             Entity object with given label
         """
+
         if types in [None, ''] and label != '':
             self._log.warning(f'Unknown type: {label}')
             return self.fill_entity_from_label(label, namespace)
@@ -345,7 +346,7 @@ class RdfBuilder(object):
 
         subject = self.fill_entity(subject_dict['label'], subject_dict['type'], namespace=namespace,
                                    uri=subject_dict['uri'])
-        predicate = self.fill_predicate(predicate_dict['label'])
+        predicate = self.fill_predicate(predicate_dict['label'], uri=predicate_dict['uri'])
         object = self.fill_entity(object_dict['label'], object_dict['type'], namespace=namespace,
                                   uri=object_dict['uri'])
 

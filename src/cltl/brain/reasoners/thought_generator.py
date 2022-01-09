@@ -123,7 +123,8 @@ class ThoughtGenerator(BasicBrain):
             Gap object containing a predicate and its range
         """
 
-        processed_predicate = self._rdf_builder.fill_predicate(raw_response['p']['value'].split('/')[-1])
+        processed_predicate = self._rdf_builder.fill_predicate(raw_response['p']['value'].split('/')[-1],
+                                                               uri=raw_response['p']['value'])
         processed_range = self._rdf_builder.fill_entity('', namespace='N2MU',
                                                         types=[raw_response['type2']['value'].split('/')[-1]])
 

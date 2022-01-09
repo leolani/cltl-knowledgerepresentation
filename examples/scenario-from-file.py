@@ -24,16 +24,19 @@ def main(log_path):
     scenario_file_name = 'carlani-4.json'
     scenario_json_file = 'capsules/' + scenario_file_name
     scenario = readCapsuleFromFile(scenario_json_file)
+
     for capsule in tqdm(scenario['scenario']):
+        print(f"\n\n---------------------------------------------------------------\n")
+
         capsule['date'] = datetime.datetime.strptime(capsule['date'], "%Y:%m:%d")
 
         if capsule['speech-act'] == 'statement':
             x = brain.update(capsule, reason_types=True, create_label=True)
 
-            print(f'\n{capsule["triple"]}\n---------------------------------------------------------------\n\n')
+            print(f'\n{capsule["triple"]}\n')
         else:
             sa = capsule['speech-act']
-            print(f'\n{sa}\n---------------------------------------------------------------\n\n')
+            print(f'\n{sa}\n')
 
         print(capsule)
 

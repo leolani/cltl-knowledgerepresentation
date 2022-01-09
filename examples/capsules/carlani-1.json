@@ -5,14 +5,17 @@
       "speech-act": "statement",
       "subject": {
         "label": "carl",
-        "type": ["person"]
+        "type": ["person"],
+        "uri": "http://cltl.nl/leolani/world/carl"
       },
       "predicate": {
-        "type": "sees"
+        "label": "sees",
+        "uri": "http://cltl.nl/leolani/n2mu/sees"
       },
       "object": {
         "label": "pills",
-        "type": ["object"]
+        "type": ["object"],
+        "uri": "http://cltl.nl/leolani/world/pills"
       },
       "perspective": {
         "certainty": 1,
@@ -55,14 +58,17 @@
       "speech-act": "statement",
       "subject": {
         "label": "pills",
-        "type": ["object"]
+        "type": ["object"],
+        "uri": "http://cltl.nl/leolani/world/pills"
       },
       "predicate": {
-        "type": "locatedUnder"
+        "label": "locatedUnder",
+        "uri": "http://cltl.nl/leolani/n2mu/locatedUnder"
       },
       "object": {
         "label": "table",
-        "type": ["object"]
+        "type": ["object"],
+        "uri": "http://cltl.nl/leolani/world/table"
       },
       "perspective": {
         "certainty": 1,
@@ -105,14 +111,17 @@
       "speech-act": "statement",
       "subject": {
         "label": "carl",
-        "type": ["person"]
+        "type": ["person"],
+        "uri": "http://cltl.nl/leolani/world/carl"
       },
       "predicate": {
-        "type": "sees"
+        "label": "sees",
+        "uri": "http://cltl.nl/leolani/n2mu/sees"
       },
       "object": {
         "label": "pills",
-        "type": ["object"]
+        "type": ["object"],
+        "uri": "http://cltl.nl/leolani/world/pills"
       },
       "perspective": {
         "certainty": 1,

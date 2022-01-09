@@ -203,7 +203,7 @@ def _create_events(self, utterance, claim_type, context, create_label):
     self.interaction_graph.add((event.id, self.namespaces['N2MU']['id'], event_id))
     self.interaction_graph.add((context.id, self.namespaces['SEM']['hasEvent'], event.id))
 
-    # Utterance or Detection are events and instances  # TODO incremental detection instead of id of utterance
+    # Utterance or Detection are events and instances
     subevent_id = self._rdf_builder.fill_literal(utterance['turn'], datatype=self.namespaces['XML']['string'])
     subevent_type = 'utterance' if claim_type == UtteranceType.STATEMENT else 'detection'
     subevent_label = f'{str(event.label)}_{subevent_type}{str(subevent_id)}'
@@ -328,7 +328,7 @@ def create_instance_graph(self, capsule, create_label):
 
 def create_claim_graph(self, subject, predicate, complement):
     # Statement
-    claim_label = hash_claim_id([subject.label, predicate.label, complement.label])
+    claim_label = hash_claim_id([subject.id.split('/')[-1], predicate.label, complement.id.split('/')[-1]])
     claim = self._rdf_builder.fill_entity(claim_label, ['Event', 'Assertion'], 'LW')
     _link_entity(self, claim, self.claim_graph, create_label=True)
 

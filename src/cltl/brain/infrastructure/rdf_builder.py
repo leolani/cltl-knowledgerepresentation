@@ -343,9 +343,11 @@ class RdfBuilder(object):
         if type(object_dict['type']) is not list:
             [object_dict['type']] = [[object_dict['type']]]
 
-        subject = self.fill_entity(subject_dict['label'], subject_dict['type'], namespace=namespace)
+        subject = self.fill_entity(subject_dict['label'], subject_dict['type'], namespace=namespace,
+                                   uri=subject_dict['uri'])
         predicate = self.fill_predicate(predicate_dict['label'])
-        object = self.fill_entity(object_dict['label'], object_dict['type'], namespace=namespace)
+        object = self.fill_entity(object_dict['label'], object_dict['type'], namespace=namespace,
+                                  uri=object_dict['uri'])
 
         return Triple(subject, predicate, object)
 

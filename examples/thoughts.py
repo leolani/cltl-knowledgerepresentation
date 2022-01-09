@@ -34,8 +34,9 @@ def main(log_path):
     capsules = statements + conflicting_statements
     for capsule in tqdm(capsules):
         # Add information to the brain
+        print(f"\n\n---------------------------------------------------------------\n")
         response = brain.update(capsule, reason_types=True, create_label=True)
-        print(f"\n{capsule['triple']}\n---------------------------------------------------------------\n\n")
+        print(f"\n{capsule['triple']}\n")
 
         # Show different thoughts
         thoughts = response['thoughts']

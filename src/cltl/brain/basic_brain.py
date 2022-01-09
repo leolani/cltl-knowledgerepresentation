@@ -234,7 +234,7 @@ class BasicBrain(object):
 
     def get_conflicts(self):
         """
-        Count statements or 'facts' in the brain
+        Count conflicts or 'facts' with opposing polarity in the brain
         :return:
         """
         query = read_query('content exploration/all_conflicts')
@@ -243,7 +243,7 @@ class BasicBrain(object):
 
     def get_conflicts_by(self, actor_label):
         """
-        Count statements or 'facts' in the brain
+        Return conflicts or 'facts' with opposing polarity in the brain stated by a specific actor
         :return:
         """
         query = read_query('trust/conflicts_by') % (actor_label, actor_label)
@@ -346,8 +346,8 @@ class BasicBrain(object):
         Clear all data from the brain
         :return: response status
         """
-        self._log.debug("Clearing brain")
-        query = "delete {?s ?p ?o} where {?s ?p ?o .}  "
+        self._log.info("Clearing brain")
+        query = "DROP ALL "
         _ = self._connection.query(query, post=True)
 
     def assign_local_memory(self):

@@ -12,14 +12,17 @@ chat_1 = [
         "position": "0-25",
         "subject": {
             "label": "lenka",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/lenka"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "serbia",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/serbia"
         },
         "perspective": {
             "certainty": 1,
@@ -44,14 +47,17 @@ chat_1 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "netherlands",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/netherlands"
         },
         "perspective": {
             "certainty": 1,
@@ -76,14 +82,17 @@ chat_1 = [
         "position": "0-25",
         "subject": {
             "label": "selene",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/selene"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "mexico",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/mexico"
         },
         "perspective": {
             "certainty": 1,
@@ -108,14 +117,17 @@ chat_1 = [
         "position": "0-25",
         "subject": {
             "label": "suzana",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/suzana"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "croatia",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/croatia"
         },
         "perspective": {
             "certainty": 1,
@@ -140,14 +152,17 @@ chat_1 = [
         "position": "0-25",
         "subject": {
             "label": "selene",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/selene"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "netherlands",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/netherlands"
         },
         "perspective": {
             "certainty": 1,
@@ -175,14 +190,17 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "lenka",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/lenka"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "serbia",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/serbia"
         },
         "perspective": {
             "certainty": 0.5,
@@ -207,14 +225,17 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "goulash",
-            "type": ["dish"]
+            "type": ["dish"],
+            "uri": "http://cltl.nl/leolani/world/goulash"
         },
         "perspective": {
             "certainty": 1,
@@ -239,14 +260,17 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "romantic-movies",
-            "type": ["film-genre"]
+            "type": ["film-genre"],
+            "uri": "http://cltl.nl/leolani/world/romantic-movies"
         },
         "perspective": {
             "certainty": 1,
@@ -271,14 +295,17 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "lenka",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/lenka"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "ice-cream",
-            "type": ["dish"]
+            "type": ["dish"],
+            "uri": "http://cltl.nl/leolani/world/ice-cream"
         },
         "perspective": {
             "certainty": 1,
@@ -303,14 +330,17 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "lenka",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/lenka"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "harry-potter",
-            "type": ["movie"]
+            "type": ["movie"],
+            "uri": "http://cltl.nl/leolani/world/harry-potter"
         },
         "perspective": {
             "certainty": 1,
@@ -335,14 +365,17 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "lenka",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/lenka"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "action-movies",
-            "type": ["film-genre"]
+            "type": ["film-genre"],
+            "uri": "http://cltl.nl/leolani/world/action-movies"
         },
         "perspective": {
             "certainty": 1,
@@ -367,14 +400,17 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "piek",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/piek"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "balkenbrij",
-            "type": ["dish"]
+            "type": ["dish"],
+            "uri": "http://cltl.nl/leolani/world/balkenbrij"
         },
         "perspective": {
             "certainty": 1,
@@ -399,14 +435,17 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "piek",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/piek"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "sailing",
-            "type": ["sport"]
+            "type": ["sport"],
+            "uri": "http://cltl.nl/leolani/world/sailing"
         },
         "perspective": {
             "certainty": 1,
@@ -431,14 +470,17 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "selene",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/selene"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "tacos",
-            "type": ["dish"]
+            "type": ["dish"],
+            "uri": "http://cltl.nl/leolani/world/tacos"
         },
         "perspective": {
             "certainty": 1,
@@ -463,14 +505,17 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "suzana",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/suzana"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "pizza",
-            "type": ["dish"]
+            "type": ["dish"],
+            "uri": "http://cltl.nl/leolani/world/pizza"
         },
         "perspective": {
             "certainty": 1,
@@ -495,14 +540,17 @@ chat_2 = [
         "position": "0-25",
         "subject": {
             "label": "leolani",
-            "type": ["robot"]
+            "type": ["robot"],
+            "uri": "http://cltl.nl/leolani/world/leolani"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "france",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/france"
         },
         "perspective": {
             "certainty": 1,
@@ -529,15 +577,18 @@ chat_3 = [
         "utterance": "Lenka's mother is Ljubica ",
         "position": "0-25",
         "subject": {
+            "label": "lenka",
             "type": ["person"],
-            "label": "lenka"
+            "uri": "http://cltl.nl/leolani/world/lenka"
         },
         "predicate": {
-            "label": "mother-is"
+            "label": "mother-is",
+            "uri": "http://cltl.nl/leolani/n2mu/mother-is"
         },
         "object": {
             "label": "ljubica",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/ljubica"
         },
         "perspective": {
             "certainty": 1,
@@ -560,15 +611,18 @@ chat_3 = [
         "utterance": "My favorite food is cake ",
         "position": "0-25",
         "subject": {
+            "label": "lenka",
             "type": ["person"],
-            "label": "lenka"
+            "uri": "http://cltl.nl/leolani/world/lenka"
         },
         "predicate": {
-            "label": "favorite-is"
+            "label": "favorite-is",
+            "uri": "http://cltl.nl/leolani/n2mu/favorite-is"
         },
         "object": {
             "label": "cake",
-            "type": ["dish"]
+            "type": ["dish"],
+            "uri": "http://cltl.nl/leolani/world/cake"
         },
         "perspective": {
             "certainty": 1,
@@ -592,14 +646,17 @@ chat_3 = [
         "position": "0-25",
         "subject": {
             "label": "selene",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/selene"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "coco",
-            "type": ["movie"]
+            "type": ["movie"],
+            "uri": "http://cltl.nl/leolani/world/coco"
         },
         "perspective": {
             "certainty": 1,
@@ -623,14 +680,17 @@ chat_3 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "the_big-lebowski",
-            "type": ["movie"]
+            "type": ["movie"],
+            "uri": "http://cltl.nl/leolani/world/the_big-lebowski"
         },
         "perspective": {
             "certainty": 1,
@@ -654,14 +714,17 @@ chat_3 = [
         "position": "0-25",
         "subject": {
             "label": "piek",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/piek"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "2001_a_space-odyssey",
-            "type": ["movie"]
+            "type": ["movie"],
+            "uri": "http://cltl.nl/leolani/world/2001_a_space-odyssey"
         },
         "perspective": {
             "certainty": 1,
@@ -685,14 +748,17 @@ chat_3 = [
         "position": "0-25",
         "subject": {
             "label": "piek",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/piek"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "horror-movies",
-            "type": ["film-genre"]
+            "type": ["film-genre"],
+            "uri": "http://cltl.nl/leolani/world/horror-movies"
         },
         "perspective": {
             "certainty": 1,
@@ -719,14 +785,17 @@ chat_4 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "action-movies",
-            "type": ["film-genre"]
+            "type": ["film-genre"],
+            "uri": "http://cltl.nl/leolani/world/action-movies"
         },
         "perspective": {
             "certainty": 1,
@@ -750,14 +819,17 @@ chat_4 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "italy",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/italy"
         },
         "perspective": {
             "certainty": 1,
@@ -781,14 +853,17 @@ chat_4 = [
         "position": "0-21",
         "subject": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "goulash",
-            "type": ["dish"]
+            "type": ["dish"],
+            "uri": "http://cltl.nl/leolani/world/goulash"
         },
         "perspective": {
             "certainty": 1,
@@ -812,14 +887,17 @@ chat_4 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "baseball",
-            "type": ["sport"]
+            "type": ["sport"],
+            "uri": "http://cltl.nl/leolani/world/baseball"
         },
         "perspective": {
             "certainty": 1,
@@ -843,14 +921,17 @@ chat_4 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "apple-pie",
-            "type": ["dish"]
+            "type": ["dish"],
+            "uri": "http://cltl.nl/leolani/world/apple-pie"
         },
         "perspective": {
             "certainty": 1,
@@ -874,14 +955,17 @@ chat_4 = [
         "position": "0-25",
         "subject": {
             "label": "selene",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/selene"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "animated-movies",
-            "type": ["film-genre"]
+            "type": ["film-genre"],
+            "uri": "http://cltl.nl/leolani/world/animated-movies"
         },
         "perspective": {
             "certainty": 1,
@@ -905,14 +989,17 @@ chat_4 = [
         "position": "0-25",
         "subject": {
             "label": "lenka",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/lenka"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "acrobatics",
-            "type": ["sport"]
+            "type": ["sport"],
+            "uri": "http://cltl.nl/leolani/world/acrobatics"
         },
         "perspective": {
             "certainty": 1,
@@ -936,14 +1023,17 @@ chat_4 = [
         "position": "0-25",
         "subject": {
             "label": "leolani",
-            "type": ["robot"]
+            "type": ["robot"],
+            "uri": "http://cltl.nl/leolani/world/leolani"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "japan",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/japan"
         },
         "perspective": {
             "certainty": 1,
@@ -970,14 +1060,17 @@ chat_5 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "romantic-movies",
-            "type": ["film-genre"]
+            "type": ["film-genre"],
+            "uri": "http://cltl.nl/leolani/world/romantic-movies"
         },
         "perspective": {
             "certainty": 1,
@@ -1001,14 +1094,17 @@ chat_5 = [
         "position": "0-26",
         "subject": {
             "label": "selene",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/selene"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "tacos",
-            "type": ["dish"]
+            "type": ["dish"],
+            "uri": "http://cltl.nl/leolani/world/tacos"
         },
         "perspective": {
             "certainty": 1,
@@ -1032,14 +1128,17 @@ chat_5 = [
         "position": "0-12",
         "subject": {
             "label": "piek",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/piek"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "tacos",
-            "type": ["dish"]
+            "type": ["dish"],
+            "uri": "http://cltl.nl/leolani/world/tacos"
         },
         "perspective": {
             "certainty": 1,
@@ -1066,14 +1165,17 @@ chat_6 = [
         "position": "0-25",
         "subject": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "netherlands",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/netherlands"
         },
         "perspective": {
             "certainty": 1,
@@ -1097,14 +1199,17 @@ chat_6 = [
         "position": "0-25",
         "subject": {
             "label": "piek",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/piek"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "netherlands",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/netherlands"
         },
         "perspective": {
             "certainty": 1,
@@ -1128,14 +1233,17 @@ chat_6 = [
         "position": "0-25",
         "subject": {
             "label": "selene",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/selene"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "soccer",
-            "type": ["sport"]
+            "type": ["sport"],
+            "uri": "http://cltl.nl/leolani/world/soccer"
         },
         "perspective": {
             "certainty": 1,
@@ -1159,14 +1267,17 @@ chat_6 = [
         "position": "0-16",
         "subject": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "know"
+            "label": "know",
+            "uri": "http://cltl.nl/leolani/n2mu/know"
         },
         "object": {
             "label": "lenka",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/lenka"
         },
         "perspective": {
             "certainty": 1,
@@ -1190,14 +1301,17 @@ chat_6 = [
         "position": "0-16",
         "subject": {
             "label": "selene",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/selene"
         },
         "predicate": {
-            "label": "know"
+            "label": "know",
+            "uri": "http://cltl.nl/leolani/n2mu/know"
         },
         "object": {
             "label": "lenka",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/lenka"
         },
         "perspective": {
             "certainty": 1,
@@ -1224,14 +1338,17 @@ chat_7 = [
         "position": "0-27",
         "subject": {
             "label": "selene",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/selene"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "peru",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/peru"
         },
         "perspective": {
             "certainty": 0.5,
@@ -1259,14 +1376,17 @@ chat_8 = [
         "position": "0-22",
         "subject": {
             "label": "jaap",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/jaap"
         },
         "predicate": {
-            "label": "have"
+            "label": "have",
+            "uri": "http://cltl.nl/leolani/n2mu/have"
         },
         "object": {
             "label": "teapot",
-            "type": ["artifact"]
+            "type": ["artifact"],
+            "uri": "http://cltl.nl/leolani/world/teapot"
         },
         "perspective": {
             "certainty": 0.75,
@@ -1290,14 +1410,17 @@ chat_8 = [
         "position": "0-27",
         "subject": {
             "label": "lea",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/lea"
         },
         "predicate": {
-            "label": "favorite-color-is"
+            "label": "favorite-color-is",
+            "uri": "http://cltl.nl/leolani/n2mu/favorite-color-is"
         },
         "object": {
             "label": "blue",
-            "type": ["adj.all"]
+            "type": ["adj.all"],
+            "uri": "http://cltl.nl/leolani/world/blue"
         },
         "perspective": {
             "certainty": 1,
@@ -1321,14 +1444,17 @@ chat_8 = [
         "position": "0-22",
         "subject": {
             "label": "selene",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/selene"
         },
         "predicate": {
-            "label": "be"
+            "label": "be",
+            "uri": "http://cltl.nl/leolani/n2mu/be"
         },
         "object": {
             "label": "tall",
-            "type": ["adj.all"]
+            "type": ["adj.all"],
+            "uri": "http://cltl.nl/leolani/world/tall"
         },
         "perspective": {
             "certainty": 0.4,
@@ -1352,14 +1478,17 @@ chat_8 = [
         "position": "0-26",
         "subject": {
             "label": "lea",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/lea"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "swimming-and-biking",
-            "type": ["act"]
+            "type": ["act"],
+            "uri": "http://cltl.nl/leolani/world/swimming-and-biking"
         },
         "perspective": {
             "certainty": 0.8,
@@ -1383,14 +1512,17 @@ chat_8 = [
         "position": "0-27",
         "subject": {
             "label": "lea",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/lea"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "dusseldorf",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/dusseldorf"
         },
         "perspective": {
             "certainty": 1,
@@ -1414,14 +1546,17 @@ chat_8 = [
         "position": "0-19",
         "subject": {
             "label": "lea",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/lea"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "celery",
-            "type": ["food"]
+            "type": ["food"],
+            "uri": "http://cltl.nl/leolani/world/celery"
         },
         "perspective": {
             "certainty": 0.9,
@@ -1448,14 +1583,17 @@ chat_9 = [
         "position": "0-26",
         "subject": {
             "label": "thomas",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/thomas"
         },
         "predicate": {
-            "label": "live-in"
+            "label": "live-in",
+            "uri": "http://cltl.nl/leolani/n2mu/live-in"
         },
         "object": {
             "label": "berlin",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/berlin"
         },
         "perspective": {
             "certainty": 1,
@@ -1479,14 +1617,17 @@ chat_9 = [
         "position": "0-16",
         "subject": {
             "label": "thomas",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/thomas"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "munich",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/munich"
         },
         "perspective": {
             "certainty": 1,
@@ -1510,14 +1651,17 @@ chat_9 = [
         "position": "0-21",
         "subject": {
             "label": "thomas",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/thomas"
         },
         "predicate": {
-            "label": "study-in"
+            "label": "study-in",
+            "uri": "http://cltl.nl/leolani/n2mu/study-in"
         },
         "object": {
             "label": "budapest",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/budapest"
         },
         "perspective": {
             "certainty": 1,
@@ -1541,14 +1685,17 @@ chat_9 = [
         "position": "0-17",
         "subject": {
             "label": "thomas",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/thomas"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "asian-food",
-            "type": ["cuisine"]
+            "type": ["cuisine"],
+            "uri": "http://cltl.nl/leolani/world/asian-food"
         },
         "perspective": {
             "certainty": 1,
@@ -1572,14 +1719,17 @@ chat_9 = [
         "position": "0-23",
         "subject": {
             "label": "thomas",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/thomas"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "electronic-music",
-            "type": ["music"]
+            "type": ["music"],
+            "uri": "http://cltl.nl/leolani/world/electronic-music"
         },
         "perspective": {
             "certainty": 1,
@@ -1606,14 +1756,17 @@ chat_10 = [
         "position": "0-25",
         "subject": {
             "label": "lea",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/lea"
         },
         "predicate": {
-            "label": "hate"
+            "label": "hate",
+            "uri": "http://cltl.nl/leolani/n2mu/hate"
         },
         "object": {
             "label": "cheese",
-            "type": ["food"]
+            "type": ["food"],
+            "uri": "http://cltl.nl/leolani/world/cheese"
         },
         "perspective": {
             "certainty": 0.6,
@@ -1637,14 +1790,17 @@ chat_10 = [
         "position": "0-20",
         "subject": {
             "label": "selene",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/selene"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "dancing",
-            "type": ["act"]
+            "type": ["act"],
+            "uri": "http://cltl.nl/leolani/world/dancing"
         },
         "perspective": {
             "certainty": 0.8,
@@ -1668,14 +1824,17 @@ chat_10 = [
         "position": "0-18",
         "subject": {
             "label": "jaap",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/jaap"
         },
         "predicate": {
-            "label": "have"
+            "label": "have",
+            "uri": "http://cltl.nl/leolani/n2mu/have"
         },
         "object": {
             "label": "two-teapots",
-            "type": ["artifact"]
+            "type": ["artifact"],
+            "uri": "http://cltl.nl/leolani/world/two-teapots"
         },
         "perspective": {
             "certainty": 1,
@@ -1699,14 +1858,17 @@ chat_10 = [
         "position": "0-36",
         "subject": {
             "label": "jaap",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/jaap"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "chocolate-with-sea-salt",
-            "type": ["food"]
+            "type": ["food"],
+            "uri": "http://cltl.nl/leolani/world/chocolate-with-sea-salt"
         },
         "perspective": {
             "certainty": 1,
@@ -1730,14 +1892,17 @@ chat_10 = [
         "position": "0-38",
         "subject": {
             "label": "lea",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/lea"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "swimming-and-vikings",
-            "type": ["act"]
+            "type": ["act"],
+            "uri": "http://cltl.nl/leolani/world/swimming-and-vikings"
         },
         "perspective": {
             "certainty": 0.2,
@@ -1761,14 +1926,17 @@ chat_10 = [
         "position": "0-17",
         "subject": {
             "label": "tae",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/tae"
         },
         "predicate": {
-            "label": "speak"
+            "label": "speak",
+            "uri": "http://cltl.nl/leolani/n2mu/speak"
         },
         "object": {
             "label": "german",
-            "type": ["adj.all"]
+            "type": ["adj.all"],
+            "uri": "http://cltl.nl/leolani/world/german"
         },
         "perspective": {
             "certainty": 1,
@@ -1795,14 +1963,17 @@ chat_11 = [
         "position": "0-20",
         "subject": {
             "label": "tae",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/tae"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "drinking-beer",
-            "type": ["interest"]
+            "type": ["interest"],
+            "uri": "http://cltl.nl/leolani/world/drinking-beer"
         },
         "perspective": {
             "certainty": 1,
@@ -1826,14 +1997,17 @@ chat_11 = [
         "position": "0-21",
         "subject": {
             "label": "tae",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/tae"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "south-korea",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/south-korea"
         },
         "perspective": {
             "certainty": 1,
@@ -1857,14 +2031,17 @@ chat_11 = [
         "position": "0-13",
         "subject": {
             "label": "tae",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/tae"
         },
         "predicate": {
-            "label": "ride"
+            "label": "ride",
+            "uri": "http://cltl.nl/leolani/n2mu/ride"
         },
         "object": {
             "label": "bike",
-            "type": ["transportation"]
+            "type": ["transportation"],
+            "uri": "http://cltl.nl/leolani/world/bike"
         },
         "perspective": {
             "certainty": 1,
@@ -1888,14 +2065,17 @@ chat_11 = [
         "position": "0-11",
         "subject": {
             "label": "Tae",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/Tae"
         },
         "predicate": {
-            "label": "hate"
+            "label": "hate",
+            "uri": "http://cltl.nl/leolani/n2mu/hate"
         },
         "object": {
             "label": "rats",
-            "type": ["animal"]
+            "type": ["animal"],
+            "uri": "http://cltl.nl/leolani/world/rats"
         },
         "perspective": {
             "certainty": 1,
@@ -1919,14 +2099,17 @@ chat_11 = [
         "position": "0-19",
         "subject": {
             "label": "tae",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/tae"
         },
         "predicate": {
-            "label": "drink"
+            "label": "drink",
+            "uri": "http://cltl.nl/leolani/n2mu/drink"
         },
         "object": {
             "label": "beer",
-            "type": ["interest"]
+            "type": ["interest"],
+            "uri": "http://cltl.nl/leolani/world/beer"
         },
         "perspective": {
             "certainty": 1,
@@ -1958,14 +2141,17 @@ conflicting_statements = [
         "position": "0-34",
         "subject": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "romantic-movies",
-            "type": ["film-genre"]
+            "type": ["film-genre"],
+            "uri": "http://cltl.nl/leolani/world/romantic-movies"
         },
         "perspective": {
             "certainty": 1,
@@ -1990,14 +2176,17 @@ conflicting_statements = [
         "position": "0-19",
         "subject": {
             "label": "selene",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/selene"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "peru",
-            "type": ["location"]
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/peru"
         },
         "perspective": {
             "certainty": 1,
@@ -2026,14 +2215,17 @@ questions = [
         "position": "",
         "subject": {
             "label": "bram",
-            "type": [""]
+            "type": [""],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "",
-            "type": [""]
+            "type": [""],
+            "uri": ""
         },
         "date": ""
     },
@@ -2045,15 +2237,19 @@ questions = [
         "utterance_type": "question",
         "subject": {
             "label": "",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": ""
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "serbia",
-            "type": ["location"]
-        }
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/serbia"
+        },
+        "date": ""
     },
     {
         "chat": 12,
@@ -2063,15 +2259,19 @@ questions = [
         "utterance_type": "question",
         "subject": {
             "label": "lenka",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/lenka"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "",
-            "type": ["location"]
-        }
+            "type": ["location"],
+            "uri": ""
+        },
+        "date": ""
     },
     {
         "chat": 12,
@@ -2080,15 +2280,19 @@ questions = [
         "utterance_type": "question",
         "subject": {
             "label": "selene",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/selene"
         },
         "predicate": {
-            "label": "knows"
+            "label": "know",
+            "uri": "http://cltl.nl/leolani/n2mu/know"
         },
         "object": {
             "label": "piek",
-            "type": ["person"]
-        }
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/piek"
+        },
+        "date": ""
     },
     {
         "chat": 12,
@@ -2098,15 +2302,19 @@ questions = [
         "utterance_type": "question",
         "subject": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "netherlands",
-            "type": ["location"]
-        }
+            "type": ["location"],
+            "uri": "http://cltl.nl/leolani/world/netherlands"
+        },
+        "date": ""
     },
     {
         "chat": 12,
@@ -2117,14 +2325,17 @@ questions = [
         "position": "",
         "subject": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "predicate": {
-            "label": "knows"
+            "label": "know",
+            "uri": "http://cltl.nl/leolani/n2mu/know"
         },
         "object": {
             "label": "beyonce",
-            "type": [""]
+            "type": [""],
+            "uri": "http://cltl.nl/leolani/world/beyonce"
         },
         "date": date(2018, 3, 19)
     },
@@ -2137,14 +2348,17 @@ questions = [
         "position": "",
         "subject": {
             "label": "leolani",
-            "type": ["robot"]
+            "type": ["robot"],
+            "uri": "http://cltl.nl/leolani/world/leolani"
         },
         "predicate": {
-            "label": "knows"
+            "label": "know",
+            "uri": "http://cltl.nl/leolani/n2mu/know"
         },
         "object": {
             "label": "bram",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/bram"
         },
         "date": date(2018, 3, 19)
     },
@@ -2157,14 +2371,17 @@ questions = [
         "position": "",
         "subject": {
             "label": "selene",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/selene"
         },
         "predicate": {
-            "label": "knows"
+            "label": "know",
+            "uri": "http://cltl.nl/leolani/n2mu/know"
         },
         "object": {
             "label": "piek",
-            "type": ["person"]
+            "type": ["person"],
+            "uri": "http://cltl.nl/leolani/world/piek"
         },
         "date": date(2018, 3, 19)
     },
@@ -2177,14 +2394,17 @@ questions = [
         "position": "",
         "subject": {
             "label": "leolani",
-            "type": ["robot"]
+            "type": ["robot"],
+            "uri": "http://cltl.nl/leolani/world/leolani"
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "",
-            "type": [""]
+            "type": [""],
+            "uri": ""
         },
         "date": date(2018, 3, 19)
     },
@@ -2197,14 +2417,17 @@ questions = [
         "position": "",
         "subject": {
             "label": "",
-            "type": [""]
+            "type": [""],
+            "uri": ""
         },
         "predicate": {
-            "label": "be-from"
+            "label": "be-from",
+            "uri": "http://cltl.nl/leolani/n2mu/be-from"
         },
         "object": {
             "label": "italy",
-            "type": [""]
+            "type": [""],
+            "uri": "http://cltl.nl/leolani/world/italy"
         },
         "date": date(2018, 3, 19)
     },
@@ -2217,14 +2440,17 @@ questions = [
         "position": "",
         "subject": {
             "label": "piek",
-            "type": [""]
+            "type": [""],
+            "uri": "http://cltl.nl/leolani/world/piek"
         },
         "predicate": {
-            "label": "like"
+            "label": "like",
+            "uri": "http://cltl.nl/leolani/n2mu/like"
         },
         "object": {
             "label": "",
-            "type": [""]
+            "type": [""],
+            "uri": ""
         },
         "date": date(2018, 3, 19)
     }
@@ -2239,14 +2465,17 @@ experiences = [
         "position": "0-15-0-15",
         "subject": {
             "label": "leolani",
-            "type": ["robot"]
+            "type": ["robot"],
+            "uri": "http://cltl.nl/leolani/world/leolani"
         },
         "predicate": {
-            "label": "see"
+            "label": "see",
+            "uri": "http://cltl.nl/leolani/n2mu/see"
         },
         "object": {
             "label": "apple",
-            "type": ["fruit"]
+            "type": ["fruit"],
+            "uri": "http://cltl.nl/leolani/world/apple"
         },
         "perspective": {
             "certainty": 1,

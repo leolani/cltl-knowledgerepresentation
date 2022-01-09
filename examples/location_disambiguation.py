@@ -31,9 +31,9 @@ unknown_location_scenario = [
         "utterance": "I do not eat beef",
         "utterance_type": UtteranceType.STATEMENT,
         "position": "0-19",
-        "subject": {"label": "tae", "type": ["person"]},
-        "predicate": {"label": "eat"},
-        "object": {"label": "beef", "type": ["food"]},
+        "subject": {"label": "tae", "type": ["person"], "uri": "http://cltl.nl/leolani/world/tae"},
+        "predicate": {"label": "eat", "uri": "http://cltl.nl/leolani/n2mu/eat"},
+        "object": {"label": "beef", "type": ["food"], "uri": "http://cltl.nl/leolani/world/beef"},
         "perspective": {"certainty": 1, "polarity": -1, "sentiment": 1},
         "context_id": getrandbits(8),
         "date": date(2020, 9, 29),
@@ -53,9 +53,9 @@ unknown_location_scenario = [
         "utterance": "I am hungry",
         "utterance_type": UtteranceType.STATEMENT,
         "position": "0-11",
-        "subject": {"label": "selene", "type": ["person"]},
-        "predicate": {"label": "be"},
-        "object": {"label": "hungry", "type": [""]},
+        "subject": {"label": "selene", "type": ["person"], "uri": "http://cltl.nl/leolani/world/selene"},
+        "predicate": {"label": "be", "uri": "http://cltl.nl/leolani/n2mu/be"},
+        "object": {"label": "hungry", "type": [""], "uri": ""},
         "perspective": {"certainty": 1, "polarity": 1, "sentiment": -1},
         "context_id": getrandbits(8),
         "date": date(2021, 2, 18),
@@ -76,9 +76,9 @@ unknown_location_scenario = [
         "utterance": "I am busy",
         "utterance_type": UtteranceType.STATEMENT,
         "position": "0-9",
-        "subject": {"label": "piek", "type": ["person"]},
-        "predicate": {"label": "be"},
-        "object": {"label": "busy", "type": [""]},
+        "subject": {"label": "piek", "type": ["person"], "uri": "http://cltl.nl/leolani/world/piek"},
+        "predicate": {"label": "be", "uri": "http://cltl.nl/leolani/n2mu/be"},
+        "object": {"label": "busy", "type": [""], "uri": ""},
         "perspective": {"certainty": 1, "polarity": 1, "sentiment": -1},
         "context_id": getrandbits(8),
         "date": date(2021, 7, 6),
@@ -102,6 +102,8 @@ def main(log_path):
                            clear_all=True)
 
     for capsule in tqdm(unknown_location_scenario):
+        print(f"\n\n---------------------------------------------------------------\n")
+
         # Reason about location
         if capsule['place'] is None or capsule['place'].lower() == '':
             potential_location = brain.reason_location(capsule)

@@ -1,20 +1,10 @@
 import json
-import logging
 import pathlib
-import sys
 from datetime import datetime
 
+from cltl.brain import logger
 from cltl.brain.infrastructure import StoreConnector, RdfBuilder
 from cltl.brain.utils.helper_functions import read_query
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
-handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.INFO)
-formatter = logging.Formatter('\r%(asctime)s - %(levelname)8s - %(name)40s - %(message)s')
-handler.setFormatter(formatter)
-logger.addHandler(handler)
 
 
 class BasicBrain(object):

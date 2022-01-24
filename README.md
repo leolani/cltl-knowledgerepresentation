@@ -2,7 +2,7 @@
 
 A knowledge representation service (aka Leolani's Brain). This service expects structures data and outputs an RDF graph.
 
-### Description
+## Description
 
 This package contains the necessary functionality for creating an RDF episodic knowledge graph. It features:
 
@@ -60,8 +60,7 @@ Then you can import it in a python script as:
 
     import cltl.brain
 
-
-### Examples
+## Examples
 
 Please take a look at the example scripts provided to get an idea on how to run and use this package. Each example has a
 comment at the top of the script describing the behaviour of the script.
@@ -74,3 +73,26 @@ For these example scripts, you need
 2. To change your current directory to `./examples/`
 
 3. Run some examples (e.g. `python carl.py`)
+
+
+## Contributing
+
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any
+contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+Distributed under the MIT License.
+See [`LICENSE`](https://github.com/leolani/cltl-knowledgerepresentation/blob/main/LICENCE) for more information.
+
+## Authors
+
+* [Selene Báez Santamaría](https://selbaez.github.io/)
+* [Thomas Baier](https://www.linkedin.com/in/thomas-baier-05519030/)
+* [Piek Vossen](https://github.com/piekvossen)

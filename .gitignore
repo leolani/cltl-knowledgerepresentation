@@ -137,3 +137,6 @@ dmypy.json
 
 # Mac files
 .DS_Store
+
+# Data for examples
+examples/capsules/*.json

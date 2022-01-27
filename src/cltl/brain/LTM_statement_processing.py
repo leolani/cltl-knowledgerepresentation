@@ -306,11 +306,11 @@ def create_instance_graph(self, capsule, create_label):
     """
     _link_leolani(self)
     # Subject
-    if capsule['type'] == UtteranceType.STATEMENT:
+    if capsule['utterance_type'] == UtteranceType.STATEMENT:
         capsule['triple'].subject.add_types(['Instance'])
         _link_entity(self, capsule['triple'].subject, self.instance_graph, create_label)
 
-    elif capsule['type'] == UtteranceType.EXPERIENCE:
+    elif capsule['utterance_type'] == UtteranceType.EXPERIENCE:
         _link_leolani(self)
 
     # Complement
@@ -318,7 +318,7 @@ def create_instance_graph(self, capsule, create_label):
     _link_entity(self, capsule['triple'].complement, self.instance_graph, create_label)
 
     # Claim graph
-    predicate = capsule['triple'].predicate if capsule['type'] == UtteranceType.STATEMENT \
+    predicate = capsule['triple'].predicate if capsule['utterance_type'] == UtteranceType.STATEMENT \
         else self._rdf_builder.fill_predicate('see')
 
     claim = create_claim_graph(self, capsule['triple'].subject, predicate, capsule['triple'].complement)
@@ -350,7 +350,7 @@ def create_interaction_graph(self, capsule, claim, create_label):
                                                         detection=detection)
         interlink_graphs(self, mention, sensor, experience, observation, use_sensor)
 
-    if capsule['type'] == UtteranceType.STATEMENT:
+    if capsule['utterance_type'] == UtteranceType.STATEMENT:
         statement, actor, make_friend = _create_events(self, capsule, UtteranceType.STATEMENT, context, create_label)
         mention, attribution = create_perspective_graph(self, capsule, claim, statement, UtteranceType.STATEMENT)
         interlink_graphs(self, mention, actor, statement, claim, make_friend)

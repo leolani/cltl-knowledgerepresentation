@@ -1,0 +1,81 @@
+@prefix leolaniWorld: <http://cltl.nl/leolani/world/> .
+@prefix leolaniTalk: <http://cltl.nl/leolani/talk/> .
+@prefix leolaniFriends: <http://cltl.nl/leolani/friends/> .
+@prefix leolaniContext: <http://cltl.nl/leolani/context/> .
+@prefix n2mu: <http://cltl.nl/leolani/n2mu/> .
+@prefix gaf: <http://groundedannotationframework.org/gaf#> .
+@prefix grasp: <http://groundedannotationframework.org/grasp#> .
+@prefix grasps: <http://groundedannotationframework.org/grasp/sentiment#> .
+@prefix graspf: <http://groundedannotationframework.org/grasp/factuality#> .
+@prefix graspe: <http://groundedannotationframework.org/grasp/emotion#> .
+@prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml1: <https://www.w3.org/TR/xmlschema-2/#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+
+leolaniWorld:Instances {
+    leolaniWorld:pills a gaf:Instance, n2mu:object, n2mu:medicine ;
+        rdfs:label "pills" ;
+        gaf:denotedIn leolaniTalk:chat1_utterance1_char0-48 .
+
+    leolaniWorld:carl-1 a gaf:Instance, n2mu:person ;
+        rdfs:label "carl" ;
+        gaf:denotedIn leolaniTalk:chat1_utterance1_char0-48 .
+}
+
+
+leolaniWorld:Claims {
+    leolaniWorld:carl-1_see_pills a sem:Event, gaf:Assertion ;
+        rdfs:label "carl-1_see_pills" ;
+        gaf:denotedBy leolaniTalk:chat1_utterance1_char0-48 .
+
+    leolaniWorld:leolani_know_carl a sem:Event, gaf:Assertion ;
+        rdfs:label "leolani_know_carl" .
+
+    leolaniFriends:carl owl:sameAs leolaniWorld:carl-1 .
+}
+
+
+leolaniTalk:Interactions {
+    leolaniTalk:chat1 a sem:Event, grasp:Chat ;
+        rdfs:label "chat1" ;
+        n2mu:id "1"^^xml1:string ;
+        sem:hasSubEvent leolaniTalk:chat1_utterance1 .
+
+    leolaniTalk:chat1_utterance1 a sem:Event, grasp:Utterance ;
+        rdfs:label "chat1_utterance1" ;
+        n2mu:id "1"^^xml1:string ;
+        sem:hasActor leolaniFriends:carl .
+
+    leolaniFriends:carl a gaf:Instance, n2mu:person, grasp:Source, sem:Actor ;
+        rdfs:label "carl" .
+
+    leolaniContext:context169 sem:hasEvent leolaniTalk:chat1 .
+}
+
+leolaniTalk:Perspectives {
+    leolaniTalk:chat1_utterance1_char0-48 a gaf:Mention, grasp:Statement ;
+        rdfs:label "chat1_utterance1_char0-48" ;
+        rdf:value "I need to take my pills, but I cannot find them."^^xml1:string ;
+        prov:wasDerivedFrom leolaniTalk:chat1_utterance1 ;
+        gaf:containsDenotation leolaniWorld:pills, leolaniWorld:carl-1 ;
+        gaf:denotes leolaniWorld:carl-1_see_pills ;
+        grasp:wasAttributedTo leolaniFriends:carl ;
+        grasp:hasAttribution leolaniTalk:carl-1_see_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED .
+
+    leolaniTalk:carl-1_see_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED a grasp:Attribution ;
+        rdfs:label "carl-1_see_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED" ;
+        rdf:value graspe:UNDERSPECIFIED, graspf:CERTAIN, graspf:NEGATIVE, grasps:NEGATIVE ;
+        grasp:isAttributionFor leolaniTalk:chat1_utterance1_char0-48 .
+}
+
+leolaniWorld:carl-1_see_pills {
+    leolaniWorld:carl-1 n2mu:see leolaniWorld:pills .
+}
+
+leolaniWorld:leolani_know_carl {
+    leolaniWorld:leolani n2mu:know leolaniFriends:carl .
+}

@@ -19,40 +19,39 @@ place_id = getrandbits(8)
 location = requests.get("https://ipinfo.io").json()
 
 old_capsule = {
-    "chat": 1,  # segment of text signal
-    "turn": 1,  # segment of text signal
-    "author": "carl",  # speaker of scenario
-    "utterance": "I need to take my pills, but I cannot find them.",  # sequence of mention
+    "chat": 1,
+    "turn": 1,
+    "author": "carl",
+    "utterance": "I did not take my pills.",
     "utterance_type": UtteranceType.STATEMENT,
-    "position": "0-25",  # segment of the annotation
+    "position": "0-25",
     "subject": {"label": "carl", "type": ["person"],
-                'uri': "http://cltl.nl/leolani/world/carl-1"},  # annotations of type NER
-    "predicate": {"label": "see", "uri": "http://cltl.nl/leolani/n2mu/see"},  # annotation of type x
+                'uri': "http://cltl.nl/leolani/world/carl-1"},
+    "predicate": {"label": "take", "uri": "http://cltl.nl/leolani/n2mu/take"},
     "object": {"label": "pills", "type": ["object", "medicine"],
-               'uri': "http://cltl.nl/leolani/world/pills"},  # annotations of type NER
-    "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},  # annotation of type x (still to be done)
+               'uri': "http://cltl.nl/leolani/world/pills"},
+    "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},
     "context_id": context_id,
-    "date": date(2021, 3, 12),  # we take them from the temporal container of scenario
+    "date": date(2021, 3, 12),
     "place": "Carl's room",
     "place_id": place_id,
     "country": location['country'],
     "region": location['region'],
     "city": location['city'],
-    "objects": [{'type': 'chair', 'confidence': 0.68, 'id': 1},
-                {'type': 'table', 'confidence': 0.79, 'id': 1}],  # Usually come from Vision
-    "people": [{'name': 'Carl', 'confidence': 0.94, 'id': 1}]  # Usually come from Vision
+    "objects": [{'type': 'chair', 'confidence': 0.68, 'id': 1}],
+    "people": [{'name': 'Carl', 'confidence': 0.94, 'id': 1}]
 }
 
 triple_capsule = {
     "chat": 1,
     "turn": 1,
     "author": "carl",
-    "utterance": "I need to take my pills, but I cannot find them.",
+    "utterance": "I did not take my pills.",
     "utterance_type": UtteranceType.STATEMENT,
-    "position": "0-25",  # segment of the annotation
+    "position": "0-25",
     "subject": {"label": "carl", "type": ["person"],
                 'uri': "http://cltl.nl/leolani/world/carl-1"},
-    "predicate": {"label": "see", "uri": "http://cltl.nl/leolani/n2mu/see"},
+    "predicate": {"label": "take", "uri": "http://cltl.nl/leolani/n2mu/take"},
     "object": {"label": "pills", "type": ["object", "medicine"],
                'uri': "http://cltl.nl/leolani/world/pills"},
     "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},
@@ -66,8 +65,7 @@ detection_capsule = {
     "image": None,
     "utterance_type": UtteranceType.EXPERIENCE,
     "region": "0-25",
-    "objects": [{'type': 'chair', 'confidence': 0.68, 'id': 1},
-                {'type': 'table', 'confidence': 0.79, 'id': 1}],
+    "objects": [{'type': 'chair', 'confidence': 0.68, 'id': 1}],
     "people": [{'name': 'Carl', 'confidence': 0.94, 'id': 1}],
     "context_id": context_id
 }

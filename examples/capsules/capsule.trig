@@ -32,7 +32,7 @@
 leolaniWorld:Instances {
     leolaniWorld:chair-1 a gaf:Instance, n2mu:object, n2mu:chair .
 
-    leolaniWorld:table-1 a gaf:Instance, n2mu:object, n2mu:table .
+
 }
 
 leolaniTalk:Interactions {
@@ -72,7 +72,7 @@ leolaniTalk:Perspectives {
 leolaniWorld:Claims {
     leolaniWorld:leolani_see_chair-1 a sem:Event, gaf:Assertion .
 
-    leolaniWorld:leolani_see_table-1 a sem:Event, gaf:Assertion .
+
 }
 
 leolaniWorld:Instances {
@@ -104,19 +104,19 @@ leolaniTalk:Interactions {
 }
 
 leolaniWorld:Claims {
-    leolaniWorld:carl-1_see_pills a sem:Event, gaf:Assertion .
+    leolaniWorld:carl-1_take_pills a sem:Event, gaf:Assertion .
 
     leolaniWorld:leolani_know_carl a sem:Event, gaf:Assertion .
 }
 
 leolaniTalk:Perspectives {
-    leolaniTalk:carl-1_see_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED a grasp:Attribution .
+    leolaniTalk:carl-1_see_take_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED a grasp:Attribution .
 
     graspf:NEGATIVE a grasp:AttributionValue, graspf:PolarityValue .
 
     grasps:NEGATIVE a grasp:AttributionValue, grasps:SentimentValue .
 
-    leolaniTalk:carl-1_see_pills_Certainty.PROBABLE a grasp:Attribution .
+    leolaniTalk:carl-1_take_pills_Certainty.PROBABLE a grasp:Attribution .
 }
 
 leolaniTalk:Interactions {
@@ -130,13 +130,13 @@ leolaniWorld:Claims {
 leolaniTalk:Perspectives {
     leolaniTalk:chat1_utterance1_char0-48 rdf:value "I need to take my pills, but I cannot find them."^^xml1:string .
 
-    leolaniTalk:carl-1_see_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED rdf:value
+    leolaniTalk:carl-1_take_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED rdf:value
             graspe:UNDERSPECIFIED,
             graspf:CERTAIN,
             graspf:NEGATIVE,
             grasps:NEGATIVE .
 
-    leolaniTalk:carl-1_see_pills_Certainty.PROBABLE rdf:value
+    leolaniTalk:carl-1_take_pills_Certainty.PROBABLE rdf:value
             graspe:UNDERSPECIFIED,
             graspf:CERTAIN,
             graspf:NEGATIVE,
@@ -146,7 +146,7 @@ leolaniTalk:Perspectives {
 leolaniWorld:Instances {
     leolaniWorld:chair-1 rdfs:label "chair-1" .
 
-    leolaniWorld:table-1 rdfs:label "table-1" .
+
 }
 
 leolaniTalk:Interactions {
@@ -186,7 +186,7 @@ leolaniTalk:Perspectives {
 leolaniWorld:Claims {
     leolaniWorld:leolani_see_chair-1 rdfs:label "leolani_see_chair-1" .
 
-    leolaniWorld:leolani_see_table-1 rdfs:label "leolani_see_table-1" .
+
 }
 
 leolaniWorld:Instances {
@@ -218,20 +218,20 @@ leolaniTalk:Interactions {
 }
 
 leolaniWorld:Claims {
-    leolaniWorld:carl-1_see_pills rdfs:label "carl-1_see_pills" .
+    leolaniWorld:carl-1_take_pills rdfs:label "carl-1_take_pills" .
 
     leolaniWorld:leolani_know_carl rdfs:label "leolani_know_carl" .
 }
 
 leolaniTalk:Perspectives {
-    leolaniTalk:carl-1_see_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED rdfs:label
-            "carl-1_see_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED" .
+    leolaniTalk:carl-1_take_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED rdfs:label
+            "carl-1_take_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED" .
 
     graspf:NEGATIVE rdfs:label "NEGATIVE" .
 
     grasps:NEGATIVE rdfs:label "NEGATIVE" .
 
-    leolaniTalk:carl-1_see_pills_Certainty.PROBABLE rdfs:label "carl-1_see_pills_Certainty.PROBABLE" .
+    leolaniTalk:carl-1_take_pills_Certainty.PROBABLE rdfs:label "carl-1_take_pills_Certainty.PROBABLE" .
 }
 
 leolaniTalk:Interactions {
@@ -241,13 +241,13 @@ leolaniTalk:Interactions {
 leolaniWorld:Instances {
     leolaniWorld:chair-1 eps:hasContext leolaniContext:context169 .
 
-    leolaniWorld:table-1 eps:hasContext leolaniContext:context169 .
+
 }
 
 leolaniWorld:Claims {
     leolaniWorld:leolani_see_chair-1 eps:hasContext leolaniContext:context169 .
 
-    leolaniWorld:leolani_see_table-1 eps:hasContext leolaniContext:context169 .
+
 }
 
 leolaniWorld:Instances {
@@ -261,7 +261,6 @@ leolaniWorld:Claims {
 leolaniTalk:Interactions {
     leolaniContext:context169 eps:hasDetection
             leolaniWorld:chair-1,
-            leolaniWorld:table-1,
             leolaniWorld:carl .
 }
 
@@ -302,7 +301,6 @@ leolaniTalk:Perspectives {
 
     leolaniTalk:visual1_detection1_pixel0-3 gaf:containsDenotation
             leolaniWorld:chair-1,
-            leolaniWorld:table-1,
             leolaniWorld:carl .
 
     leolaniTalk:chat1_utterance1_char0-48 gaf:containsDenotation leolaniWorld:pills, leolaniWorld:carl-1 .
@@ -311,17 +309,13 @@ leolaniTalk:Perspectives {
 leolaniWorld:Claims {
     leolaniWorld:leolani_see_chair-1 gaf:denotedBy leolaniTalk:visual1_detection1_pixel0-3 .
 
-    leolaniWorld:leolani_see_table-1 gaf:denotedBy leolaniTalk:visual1_detection1_pixel0-3 .
-
     leolaniWorld:leolani_see_carl gaf:denotedBy leolaniTalk:visual1_detection1_pixel0-3 .
 
-    leolaniWorld:carl-1_see_pills gaf:denotedBy leolaniTalk:chat1_utterance1_char0-48 .
+    leolaniWorld:carl-1_take_pills gaf:denotedBy leolaniTalk:chat1_utterance1_char0-48 .
 }
 
 leolaniWorld:Instances {
     leolaniWorld:chair-1 gaf:denotedIn leolaniTalk:visual1_detection1_pixel0-3 .
-
-    leolaniWorld:table-1 gaf:denotedIn leolaniTalk:visual1_detection1_pixel0-3 .
 
     leolaniWorld:pills gaf:denotedIn leolaniTalk:chat1_utterance1_char0-48 .
 
@@ -333,26 +327,23 @@ leolaniWorld:Instances {
 leolaniTalk:Perspectives {
     leolaniTalk:visual1_detection1_pixel0-3 gaf:denotes
             leolaniWorld:leolani_see_chair-1,
-            leolaniWorld:leolani_see_table-1,
             leolaniWorld:leolani_see_carl .
 
-    leolaniTalk:chat1_utterance1_char0-48 gaf:denotes leolaniWorld:carl-1_see_pills .
+    leolaniTalk:chat1_utterance1_char0-48 gaf:denotes leolaniWorld:carl-1_take_pills .
 
-    leolaniTalk:visual1_detection1_pixel0-3 grasp:hasAttribution leolaniTalk:carl-1_see_pills_Certainty.PROBABLE .
+    leolaniTalk:visual1_detection1_pixel0-3 grasp:hasAttribution leolaniTalk:carl-1_take_pills_Certainty.PROBABLE .
 
     leolaniTalk:chat1_utterance1_char0-48 grasp:hasAttribution
-            leolaniTalk:carl-1_see_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED .
+            leolaniTalk:carl-1_take_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED .
 
-    leolaniTalk:carl-1_see_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED grasp:isAttributionFor
+    leolaniTalk:carl-1_take_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED grasp:isAttributionFor
             leolaniTalk:chat1_utterance1_char0-48 .
 
-    leolaniTalk:carl-1_see_pills_Certainty.PROBABLE grasp:isAttributionFor leolaniTalk:visual1_detection1_pixel0-3 .
+    leolaniTalk:carl-1_take_pills_Certainty.PROBABLE grasp:isAttributionFor leolaniTalk:visual1_detection1_pixel0-3 .
 }
 
 leolaniTalk:Interactions {
     leolaniWorld:chair-1 n2mu:id "1"^^xml1:string .
-
-    leolaniWorld:table-1 n2mu:id "1"^^xml1:string .
 
     leolaniTalk:chat1 n2mu:id "1"^^xml1:string .
 
@@ -378,14 +369,11 @@ leolaniWorld:leolani_see_chair-1 {
     leolaniWorld:leolani n2mu:see leolaniWorld:chair-1 .
 }
 
-leolaniWorld:leolani_see_table-1 {
-    leolaniWorld:leolani n2mu:see leolaniWorld:table-1 .
-}
 
 leolaniWorld:leolani_see_carl {
     leolaniWorld:leolani n2mu:see leolaniWorld:carl .
 }
 
-leolaniWorld:carl-1_see_pills {
-    leolaniWorld:carl-1 n2mu:see leolaniWorld:pills .
+leolaniWorld:carl-1_take_pills {
+    leolaniWorld:carl-1 n2mu:take leolaniWorld:pills .
 }

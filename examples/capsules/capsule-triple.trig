@@ -28,8 +28,8 @@ leolaniWorld:Instances {
 
 
 leolaniWorld:Claims {
-    leolaniWorld:carl-1_see_pills a sem:Event, gaf:Assertion ;
-        rdfs:label "carl-1_see_pills" ;
+    leolaniWorld:carl-1_take_pills a sem:Event, gaf:Assertion ;
+        rdfs:label "carl-1_take_pills" ;
         gaf:denotedBy leolaniTalk:chat1_utterance1_char0-48 .
 
     leolaniWorld:leolani_know_carl a sem:Event, gaf:Assertion ;
@@ -59,21 +59,21 @@ leolaniTalk:Interactions {
 leolaniTalk:Perspectives {
     leolaniTalk:chat1_utterance1_char0-48 a gaf:Mention, grasp:Statement ;
         rdfs:label "chat1_utterance1_char0-48" ;
-        rdf:value "I need to take my pills, but I cannot find them."^^xml1:string ;
+        rdf:value "I did not take my pills."^^xml1:string ;
         prov:wasDerivedFrom leolaniTalk:chat1_utterance1 ;
         gaf:containsDenotation leolaniWorld:pills, leolaniWorld:carl-1 ;
-        gaf:denotes leolaniWorld:carl-1_see_pills ;
+        gaf:denotes leolaniWorld:carl-1_take_pills ;
         grasp:wasAttributedTo leolaniFriends:carl ;
-        grasp:hasAttribution leolaniTalk:carl-1_see_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED .
+        grasp:hasAttribution leolaniTalk:carl-1_take_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED .
 
-    leolaniTalk:carl-1_see_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED a grasp:Attribution ;
-        rdfs:label "carl-1_see_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED" ;
+    leolaniTalk:carl-1_take_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED a grasp:Attribution ;
+        rdfs:label "carl-1_take_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED" ;
         rdf:value graspe:UNDERSPECIFIED, graspf:CERTAIN, graspf:NEGATIVE, grasps:NEGATIVE ;
         grasp:isAttributionFor leolaniTalk:chat1_utterance1_char0-48 .
 }
 
-leolaniWorld:carl-1_see_pills {
-    leolaniWorld:carl-1 n2mu:see leolaniWorld:pills .
+leolaniWorld:carl-1_take_pills {
+    leolaniWorld:carl-1 n2mu:take leolaniWorld:pills .
 }
 
 leolaniWorld:leolani_know_carl {

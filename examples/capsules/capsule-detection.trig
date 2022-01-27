@@ -23,12 +23,6 @@ leolaniWorld:Instances {
         eps:hasContext leolaniContext:context169 ;
         gaf:denotedIn leolaniTalk:visual1_detection1_pixel0-3 .
 
-    leolaniWorld:table-1 a gaf:Instance, n2mu:object, n2mu:table ;
-        rdfs:label "table-1" ;
-        n2mu:id "1"^^xml1:string ;
-        eps:hasContext leolaniContext:context169 ;
-        gaf:denotedIn leolaniTalk:visual1_detection1_pixel0-3 .
-
     leolaniWorld:carl a gaf:Instance, n2mu:person ;
         rdfs:label "carl" ;
         eps:hasContext leolaniContext:context169 ;
@@ -41,11 +35,6 @@ leolaniWorld:Instances {
 leolaniWorld:Claims {
     leolaniWorld:leolani_see_chair-1 a sem:Event, gaf:Assertion ;
         rdfs:label "leolani_see_chair-1" ;
-        eps:hasContext leolaniContext:context169 ;
-        gaf:denotedBy leolaniTalk:visual1_detection1_pixel0-3 .
-
-    leolaniWorld:leolani_see_table-1 a sem:Event, gaf:Assertion ;
-        rdfs:label "leolani_see_table-1" ;
         eps:hasContext leolaniContext:context169 ;
         gaf:denotedBy leolaniTalk:visual1_detection1_pixel0-3 .
 
@@ -74,7 +63,7 @@ leolaniTalk:Interactions {
         rdfs:label "front-camera" .
 
     leolaniContext:context169 sem:hasEvent leolaniTalk:visual1 ;
-        eps:hasDetection leolaniWorld:chair-1, leolaniWorld:table-1, leolaniWorld:carl .
+        eps:hasDetection leolaniWorld:chair-1, leolaniWorld:carl .
 
 }
 
@@ -82,24 +71,24 @@ leolaniTalk:Perspectives {
     leolaniTalk:visual1_detection1_pixel0-3 a grasp:Experience, gaf:Mention ;
         rdfs:label "visual1_detection1_pixel0-3" ;
         prov:wasDerivedFrom leolaniTalk:visual1_detection1 ;
-        gaf:containsDenotation leolaniWorld:chair-1, leolaniWorld:table-1, leolaniWorld:carl ;
-        gaf:denotes leolaniWorld:leolani_see_chair-1, leolaniWorld:leolani_see_table-1, leolaniWorld:leolani_see_carl ;
+        gaf:containsDenotation leolaniWorld:chair-1, leolaniWorld:carl ;
+        gaf:denotes leolaniWorld:leolani_see_chair-1, leolaniWorld:leolani_see_carl ;
         grasp:wasAttributedTo leolaniInputs:front-camera ;
         grasp:hasAttribution leolaniTalk:carl-1_see_pills_Certainty.PROBABLE .
 
-    leolaniTalk:carl-1_see_pills_Certainty.PROBABLE a grasp:Attribution ;
-        rdfs:label "carl-1_see_pills_Certainty.PROBABLE" ;
-        rdf:value graspe:UNDERSPECIFIED, graspf:CERTAIN, graspf:NEGATIVE, grasps:NEGATIVE ;
+    leolaniTalk:leolani_see_chair-1_CERTAIN-POSITIVE-UNDERSPECIFIED-UNDERSPECIFIED a grasp:Attribution ;
+        rdfs:label "leolani_see_chair-1_CERTAIN-POSITIVE-UNDERSPECIFIED-UNDERSPECIFIED" ;
+        rdf:value graspe:UNDERSPECIFIED, graspf:CERTAIN, graspf:POSITIVE, grasps:UNDERSPACIFIED ;
+        grasp:isAttributionFor leolaniTalk:visual1_detection1_pixel0-3 .
+
+    leolaniTalk:leolani_see_carl_CERTAIN-POSITIVE-UNDERSPECIFIED-UNDERSPECIFIED a grasp:Attribution ;
+        rdfs:label "leolani_see_carl_CERTAIN-POSITIVE-UNDERSPECIFIED-UNDERSPECIFIED" ;
+        rdf:value graspe:UNDERSPECIFIED, graspf:CERTAIN, graspf:POSITIVE, grasps:UNDERSPACIFIED ;
         grasp:isAttributionFor leolaniTalk:visual1_detection1_pixel0-3 .
 }
 
-
 leolaniWorld:leolani_see_chair-1 {
     leolaniWorld:leolani n2mu:see leolaniWorld:chair-1 .
-}
-
-leolaniWorld:leolani_see_table-1 {
-    leolaniWorld:leolani n2mu:see leolaniWorld:table-1 .
 }
 
 leolaniWorld:leolani_see_carl {

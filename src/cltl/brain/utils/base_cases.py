@@ -153,7 +153,7 @@ chat_1 = [
         "subject": {
             "label": "selene",
             "type": ["person"],
-            "uri": "http://cltl.nl/leolani/world/selene"
+            "uri": "http://cltl.nl/leolani/world/selene-2"
         },
         "predicate": {
             "label": "be-from",

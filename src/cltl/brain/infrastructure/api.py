@@ -778,6 +778,9 @@ class Gaps(object):
         return f'{len(self._subject)} gaps as subject: e.g. {s.__repr__()} - ' \
                f'{len(self._complement)} gaps as object: e.g. {o.__repr__()}'
 
+    def __len__(self):
+        return len(self._subject) + len(self._complement)
+
 
 class Overlap(object):
     def __init__(self, provenance, entity):
@@ -888,6 +891,9 @@ class Overlaps(object):
         o = random.choice(self._complement) if self._complement else ''
         return f'{len(self._subject)} subject overlaps: e.g. {s.__repr__()} - ' \
                f'{len(self._complement)} object overlaps: e.g. {o.__repr__()}'
+
+    def __len__(self):
+        return len(self._subject) + len(self._complement)
 
 
 class Thoughts(object):

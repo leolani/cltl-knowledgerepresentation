@@ -346,15 +346,19 @@ class ThoughtGenerator(BasicBrain):
         conflicts: List[NegationConflict]
             List of Conflicts containing the predicate which creates the conflict, and their provenance
         """
+        conflicts = []
+
         query = read_query('thoughts/negation_conflicts') % (capsule['triple'].predicate_name,
                                                              capsule['triple'].subject_name,
                                                              capsule['triple'].complement_name)
 
         response = self._submit_query(query)
-        if response and response[0] != {}:
-            conflicts = [self._fill_negation_conflict_(elem) for elem in response]
-        else:
-            conflicts = []
+        if response and response[0] != {} and len(response) > 2:
+            affirmative_conflict = [item for item in response if item['val'].split('#') == 'POSITIVE']
+            negative_conflict = [item for item in response if item['val'].split('#') == 'NEGATIVE']
+
+            if affirmative_conflict or negative_conflict:
+                conflicts = [self._fill_negation_conflict_(elem) for elem in response]
 
         if conflicts:
             c = random.choice(conflicts)

@@ -1,3 +1,5 @@
+import pathlib
+
 from cltl.brain.LTM_question_processing import create_query
 from cltl.brain.LTM_statement_processing import model_graphs, _link_leolani, _link_entity, \
     create_claim_graph
@@ -168,15 +170,17 @@ class LongTermMemory(BasicBrain):
 
         return output
 
-    def experience(self, utterance):
+    def experience(self, utterance, create_label=False):
         """
         Main function to interact with if an experience is coming into the brain. Takes in a structured utterance
         containing parsed experience, transforms them to triples, and posts them to the triple store
-        :param utterance: Structured data of a parsed experience
+        :param utterance: dict
+        :param create_label: Boolean
+            Turn automatic rdfs:label on or off for instance graph entities
         :return: json response containing the status for posting the triples, and the original statement
         """
         # Create graphs and triples
-        _ = model_graphs(self, utterance)
+        _ = model_graphs(self, utterance, create_label)
 
         # Finish process of uploading new knowledge to the triple store
         data = self._serialize(self._brain_log())

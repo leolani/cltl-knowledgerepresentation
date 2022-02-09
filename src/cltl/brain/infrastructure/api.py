@@ -920,6 +920,7 @@ class Thoughts(object):
             Information regarding overlaps of this statement with things heard so far
         trust: float
             Level of trust on this actor
+            :rtype: object
         """
 
         self._statement_novelty = statement_novelty

@@ -1,3 +1,4 @@
+import pathlib
 import random
 
 from cltl.brain.basic_brain import BasicBrain
@@ -135,8 +136,9 @@ class ThoughtGenerator(BasicBrain):
         Query and build gaps with regards to the range and domain of the given entity and its predicates
         Parameters
         ----------
-        entity: dict
-            Information regarding the entity
+        entity: Entity
+            Entity for which we might get extra information
+        exclude: Entity
 
         Returns
         -------
@@ -200,7 +202,7 @@ class ThoughtGenerator(BasicBrain):
         Query and build overlaps with regards to the subject and object of the heard statement
         Parameters
         ----------
-        utterance
+        capsule: dict
 
         Returns
         -------
@@ -308,7 +310,7 @@ class ThoughtGenerator(BasicBrain):
         multiple object values
         Parameters
         ----------
-        utterance
+        capsule: dict
 
         Returns
         -------
@@ -339,7 +341,7 @@ class ThoughtGenerator(BasicBrain):
         Query and build negation conflicts, meaning conflicts because predicates are directly negated
         Parameters
         ----------
-        utterance
+        capsule: dict
 
         Returns
         -------
@@ -354,8 +356,8 @@ class ThoughtGenerator(BasicBrain):
 
         response = self._submit_query(query)
         if response and response[0] != {} and len(response) > 2:
-            affirmative_conflict = [item for item in response if item['val'].split('#') == 'POSITIVE']
-            negative_conflict = [item for item in response if item['val'].split('#') == 'NEGATIVE']
+            affirmative_conflict = [item for item in response if item['val']['value'].split('#')[-1] == 'POSITIVE']
+            negative_conflict = [item for item in response if item['val']['value'].split('#')[-1] == 'NEGATIVE']
 
             if affirmative_conflict or negative_conflict:
                 conflicts = [self._fill_negation_conflict_(elem) for elem in response]

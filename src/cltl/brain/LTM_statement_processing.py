@@ -197,8 +197,8 @@ def _create_events(self, utterance, claim_type, context, create_label):
     # Chat or Visual
     event_id = self._rdf_builder.fill_literal(utterance['chat'], datatype=self.namespaces['XML']['string'])
     event_type = 'chat' if claim_type == UtteranceType.STATEMENT else 'visual'
-    eventt_label = f'{event_type}{event_id}'
-    event = self._rdf_builder.fill_entity(eventt_label, ['Event', f"{event_type.title()}"], 'LTa')
+    event_label = f'{event_type}{event_id}'
+    event = self._rdf_builder.fill_entity(event_label, ['Event', f"{event_type.title()}"], 'LTa')
     _link_entity(self, event, self.interaction_graph, create_label=True)
     self.interaction_graph.add((event.id, self.namespaces['N2MU']['id'], event_id))
     self.interaction_graph.add((context.id, self.namespaces['SEM']['hasEvent'], event.id))
@@ -296,7 +296,8 @@ def create_instance_graph(self, capsule, create_label):
     Parameters
     ----------
     self:
-    capsule: Utterance
+    capsule: dict
+    create_label: bool
 
     Returns
     -------
@@ -343,7 +344,7 @@ def create_interaction_graph(self, capsule, claim, create_label):
     # Add context
     context, detections, observations = _create_context(self, capsule, create_label)
 
-    # Subevents
+    # Subevent
     experience, sensor, use_sensor = _create_events(self, capsule, UtteranceType.EXPERIENCE, context, create_label)
     for detection, observation in zip(detections, observations):
         mention, attribution = create_perspective_graph(self, capsule, claim, experience, UtteranceType.EXPERIENCE,

@@ -114,7 +114,7 @@ class BasicBrain(object):
 
     def ontology_is_uploaded(self):
         """
-        Query the existance of the Ontology graph, thus not importing the whole Ontology every time
+        Query the existence of the Ontology graph, thus not importing the whole Ontology every time
         :return: response status
         """
         self._log.debug("Checking if ontology is in brain")
@@ -202,7 +202,7 @@ class BasicBrain(object):
         """
         query = read_query('content exploration/count_statements')
         response = self._submit_query(query)
-        return response[0]['count']['value']
+        return float(response[0]['count']['value'])
 
     def count_statements_by(self, actor_label):
         """
@@ -211,7 +211,7 @@ class BasicBrain(object):
         """
         query = read_query('trust/count_statements_by') % actor_label
         response = self._submit_query(query)
-        return response[0]['num_stat']['value']
+        return float(response[0]['num_stat']['value'])
 
     def novel_statements_by(self, actor_label):
         """
@@ -247,7 +247,7 @@ class BasicBrain(object):
         """
         query = read_query('content exploration/count_friends')
         response = self._submit_query(query)
-        return response[0]['count']['value']
+        return float(response[0]['count']['value'])
 
     def get_my_friends(self):
         """
@@ -287,7 +287,7 @@ class BasicBrain(object):
         query = read_query('trust/count_chat_with') % actor_label
         response = self._submit_query(query)
 
-        return response[0]['num_chats']['value'].split('/')[-1] if response != [] else ''
+        return float(response[0]['num_chats']['value'].split('/')[-1]) if response != [] else 0.0
 
     def get_instance_of_type(self, instance_type):
         """

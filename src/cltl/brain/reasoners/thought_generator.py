@@ -145,7 +145,7 @@ class ThoughtGenerator(BasicBrain):
             Gaps object containing gaps related to range and domain information that could be learned
         """
         # Role as subject
-        query = read_query('thoughts/subject_gaps') % (entity.label, entity.label if exclude is None else exclude.label)
+        query = read_query('thoughts/subject_gaps') % (entity.id, entity.id if exclude is None else exclude.id)
         response = self._submit_query(query)
 
         if response:
@@ -157,7 +157,7 @@ class ThoughtGenerator(BasicBrain):
             subject_gaps = []
 
         # Role as object
-        query = read_query('thoughts/object_gaps') % (entity.label, entity.label if exclude is None else exclude.label)
+        query = read_query('thoughts/object_gaps') % (entity.id, entity.id if exclude is None else exclude.id)
         response = self._submit_query(query)
 
         if response:
@@ -209,9 +209,9 @@ class ThoughtGenerator(BasicBrain):
             Overlaps containing shared information with the heard statement
         """
         # Role as subject
-        query = read_query('thoughts/object_overlap') % (capsule['triple'].predicate_name,
-                                                         capsule['triple'].complement_name,
-                                                         capsule['triple'].subject_name)
+        query = read_query('thoughts/object_overlap') % (capsule['triple'].predicate.id,
+                                                         capsule['triple'].complement.id,
+                                                         capsule['triple'].subject.id)
         response = self._submit_query(query)
 
         if response and response[0]['types']['value'] != '':
@@ -220,9 +220,9 @@ class ThoughtGenerator(BasicBrain):
             complement_overlap = []
 
         # Role as object
-        query = read_query('thoughts/subject_overlap') % (capsule['triple'].predicate_name,
-                                                          capsule['triple'].subject_name,
-                                                          capsule['triple'].complement_name)
+        query = read_query('thoughts/subject_overlap') % (capsule['triple'].predicate.id,
+                                                          capsule['triple'].subject.id,
+                                                          capsule['triple'].complement.id)
         response = self._submit_query(query)
 
         if response and response[0]['types']['value'] != '':
@@ -320,9 +320,9 @@ class ThoughtGenerator(BasicBrain):
         if str(capsule['triple'].predicate_name) not in self._ONE_TO_ONE_PREDICATES:
             return []
 
-        query = read_query('thoughts/object_cardinality_conflicts') % (capsule['triple'].predicate_name,
-                                                                       capsule['triple'].subject_name,
-                                                                       capsule['triple'].complement_name)
+        query = read_query('thoughts/object_cardinality_conflicts') % (capsule['triple'].predicate.id,
+                                                                       capsule['triple'].subject.id,
+                                                                       capsule['triple'].complement.id)
 
         response = self._submit_query(query)
         if response and response[0] != {}:
@@ -350,9 +350,9 @@ class ThoughtGenerator(BasicBrain):
         """
         conflicts = []
 
-        query = read_query('thoughts/negation_conflicts') % (capsule['triple'].predicate_name,
-                                                             capsule['triple'].subject_name,
-                                                             capsule['triple'].complement_name)
+        query = read_query('thoughts/negation_conflicts') % (capsule['triple'].predicate.id,
+                                                             capsule['triple'].subject.id,
+                                                             capsule['triple'].complement.id)
 
         response = self._submit_query(query)
         if response and response[0] != {} and len(response) > 2:

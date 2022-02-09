@@ -1,21 +1,25 @@
 PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX grasp:<http://groundedannotationframework.org/grasp#>
-PREFIX gaf:<http://groundedannotationframework.org/gaf#>
+PREFIX grasp: <http://groundedannotationframework.org/grasp#>
+PREFIX gaf: <http://groundedannotationframework.org/gaf#>
 PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
 
-select ?label (GROUP_CONCAT(?type;separator="|") as ?types) ?date ?authorlabel
+select ?label (DISTINCT GROUP_CONCAT(?type;separator="|") as ?types) ?date ?authorlabel
 where {
+    BIND(<%s> AS ?p) .
+    BIND(<%s> AS ?o) .
+
     GRAPH ?g {
-        ?s n2mu:%s ?o .
+        ?s ?p ?o .
     } .
+
     ?s rdfs:label ?label .
     ?s rdf:type ?type .
-    FILTER(regex(str(?type), "n2mu")) .
-    ?o rdfs:label '%s' .
-    MINUS { ?s rdfs:label '%s' . }
+    FILTER (regex(str(?type), "n2mu")) .
+
+    FILTER (?s != <%s> )
 
     ?g gaf:denotedBy ?m .
     ?m prov:wasDerivedFrom ?utt .

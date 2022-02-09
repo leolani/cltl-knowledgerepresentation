@@ -7,11 +7,12 @@ PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
 
 select (count(distinct ?chatid) as ?num_chats)
 where {
+    BIND(<%s> AS ?actor)
+
     ?chat rdf:type grasp:Chat .
     ?chat sem:hasSubEvent ?turn .
     ?chat n2mu:id ?chatid .
 
     ?turn sem:hasActor ?actor .
-    ?actor rdfs:label "%s" .
 
 }

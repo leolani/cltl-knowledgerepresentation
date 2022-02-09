@@ -157,7 +157,8 @@ class LongTermMemory(BasicBrain):
                                                                      exclude=capsule['triple'].subject)
 
             # Report trust
-            trust = self.trust_calculator.get_trust(capsule['author'])
+            actor = self._rdf_builder.fill_entity(capsule['author'], ['Instance', 'Source', 'Actor', 'person'], 'LF')
+            trust = self.trust_calculator.get_trust(actor.id)
 
             # Create JSON output
             thoughts = Thoughts(statement_novelty, entity_novelty, negation_conflicts, cardinality_conflict,

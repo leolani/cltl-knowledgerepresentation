@@ -19,12 +19,12 @@ class TrustCalculator(BasicBrain):
 
         super(TrustCalculator, self).__init__(address, log_dir, clear_all, is_submodule=True)
 
-    def get_trust(self, speaker):
+    def get_trust(self, speaker_uri):
         """
         Get trust level (between 1 and 0) of a friend. Default is set to 0.5
         :return:
         """
-        query = read_query('trust/trust_by') % speaker
+        query = read_query('trust/trust_by') % speaker_uri
         response = self._submit_query(query)
 
         if response and response[0] != {}:
@@ -114,7 +114,7 @@ class TrustCalculator(BasicBrain):
                     actor = self._rdf_builder.fill_entity(friend, ['Instance', 'Source', 'Actor', 'person'], 'LF')
 
                     # Compute trust
-                    trust_in_friend = self.compute_trust(friend, max_chats, mean_novelty, mean_conflicts)
+                    trust_in_friend = self.compute_trust(actor.id, max_chats, mean_novelty, mean_conflicts)
                     trust = self._rdf_builder.fill_literal(trust_in_friend, datatype=self.namespaces['XML']['float'])
 
                     # Structure knowledge

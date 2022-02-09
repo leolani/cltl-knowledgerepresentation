@@ -204,21 +204,21 @@ class BasicBrain(object):
         response = self._submit_query(query)
         return float(response[0]['count']['value'])
 
-    def count_statements_by(self, actor_label):
+    def count_statements_by(self, actor_uri):
         """
         Count statements or 'facts' in the brain by a given author
         :return:
         """
-        query = read_query('trust/count_statements_by') % actor_label
+        query = read_query('trust/count_statements_by') % actor_uri
         response = self._submit_query(query)
         return float(response[0]['num_stat']['value'])
 
-    def novel_statements_by(self, actor_label):
+    def novel_statements_by(self, actor_uri):
         """
         Return statements or 'facts' in the brain by a given author, that have not been heard from anyone else
         :return:
         """
-        query = read_query('trust/novel_statements_by') % actor_label
+        query = read_query('trust/novel_statements_by') % actor_uri
         response = self._submit_query(query)
         return [elem['stat']['value'].split('/')[-1] for elem in response]
 
@@ -267,24 +267,24 @@ class BasicBrain(object):
         response = self._submit_query(query)
         return [(elem['name']['value'], elem['num_chat']['value'].split('/')[-1]) for elem in response]
 
-    def when_last_chat_with(self, actor_label):
+    def when_last_chat_with(self, actor_uri):
         """
         Get time value for the last time I chatted with this person
-        :param actor_label: name of person
+        :param actor_uri: uri of person
         :return:
         """
-        query = read_query('trust/when_last_chat_with') % actor_label
+        query = read_query('trust/when_last_chat_with') % actor_uri
         response = self._submit_query(query)
 
         return response[0]['time']['value'].split('/')[-1] if response != [] else ''
 
-    def count_chat_with(self, actor_label):
+    def count_chat_with(self, actor_uri):
         """
         Count times I chatted with this person
-        :param actor_label: name of person
+        :param actor_uri: uri of person
         :return:
         """
-        query = read_query('trust/count_chat_with') % actor_label
+        query = read_query('trust/count_chat_with') % actor_uri
         response = self._submit_query(query)
 
         return float(response[0]['num_chats']['value'].split('/')[-1]) if response != [] else 0.0
@@ -309,13 +309,13 @@ class BasicBrain(object):
         response = self._submit_query(query)
         return [elem['type']['value'] for elem in response] if response else []
 
-    def get_id_of_instance(self, label):
+    def get_id_of_instance(self, uri):
         """
         Get ids of a certain instance identified by its label
-        :param label: label of instance
+        :param uri: label of instance
         :return:
         """
-        query = read_query('id/id_of_instance') % label
+        query = read_query('id/id_of_instance') % uri
         response = self._submit_query(query)
         return [elem['id']['value'] for elem in response] if response else []
 

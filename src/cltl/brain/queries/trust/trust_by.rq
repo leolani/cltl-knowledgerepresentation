@@ -4,9 +4,10 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX gaf: <http://groundedannotationframework.org/gaf#>
 
 select ?slabel ?trust where {
+    BIND(<%s> AS ?s)
+
 	?s n2mu:hasTrustworthinessLevel ?trust .
     ?s rdfs:label ?slabel .
     ?s rdf:type gaf:Instance .
 
-    FILTER (?slabel = "%s" )
 } GROUP BY ?slabel ?trust

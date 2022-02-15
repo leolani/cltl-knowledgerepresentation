@@ -34,12 +34,12 @@ class TrustCalculator(BasicBrain):
 
         return trust
 
-    def compute_trust(self, speaker, max_chats, mean_novelty, mean_conflicts):
+    def compute_trust(self, speaker_uri, max_chats, mean_novelty, mean_conflicts):
         """
         Compute a value of trust based on what is know about and via this person
         Parameters
         ----------
-        speaker: str
+        speaker_uri: str
             source to be evaluated
 
         max_chats: float
@@ -58,15 +58,15 @@ class TrustCalculator(BasicBrain):
         """
 
         # chat based feature
-        num_chats = self.count_chat_with(speaker)
+        num_chats = self.count_chat_with(speaker_uri)
         chat_feature = num_chats / max_chats
 
         # new content feature
-        novel_claims = float(len(self.novel_statements_by(speaker)))
+        novel_claims = float(len(self.novel_statements_by(speaker_uri)))
         claims_feature = sigmoid(mean_novelty - novel_claims, growth_rate=mean_novelty if mean_novelty > 1 else 1)
 
         # conflicts feature
-        my_conflicts = float(len(self.get_conflicts_by(speaker)))
+        my_conflicts = float(len(self.get_conflicts_by(speaker_uri)))
         conflicts_feature = sigmoid(mean_conflicts - my_conflicts,
                                     growth_rate=mean_conflicts if mean_conflicts > 1 else 1)
 

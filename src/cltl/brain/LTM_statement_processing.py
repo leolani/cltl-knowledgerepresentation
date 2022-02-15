@@ -1,3 +1,5 @@
+from random import getrandbits
+
 from rdflib import RDF, RDFS, OWL
 
 from cltl.brain.utils.constants import NAMESPACE_MAPPING
@@ -132,9 +134,6 @@ def _create_context(self, capsule, create_label):
     _link_entity(self, location_region, self.interaction_graph, create_label=True)
 
     # Create location
-    location_label = casefold_text(f"{capsule['place']}", format='triple')
-    location_id = self._rdf_builder.fill_literal(capsule['place_id'], datatype=self.namespaces['XML']['string'])
-
     if capsule['place'] is None or capsule['place'].lower() in ['', 'unknown', 'none']:
         # All unknowns have label Unknown and different ids. Their iri is linked to their context
         location_label = casefold_text(f"Unknown", format='triple')
@@ -142,13 +141,22 @@ def _create_context(self, capsule, create_label):
         location_uri = self._rdf_builder.create_resource_uri('LC', uri_suffix)
         location = self._rdf_builder.fill_entity(location_label, ['location', 'Place'], 'LC', uri=location_uri)
 
-    else:
-        # If hospital exists and has an id then use that id, if it does not exist then add id
-        ids = self.get_id_of_instance(location_label)
-        if ids:
-            location_id = self._rdf_builder.fill_literal(ids[0], datatype=self.namespaces['XML']['string'])
+        if capsule['place_id'] is None:
+            capsule['place_id'] = getrandbits(8)
 
+    else:
+        location_label = casefold_text(f"{capsule['place']}", format='triple')
         location = self._rdf_builder.fill_entity(location_label, ['location', 'Place'], 'LC')
+
+        if capsule['place_id'] is None:
+            # If hospital exists and has an id then use that id, if it does not exist then add id
+            ids = self.get_id_of_instance(location.id)
+            if ids:
+                capsule['place_id'] = ids[0]
+            else:
+                capsule['place_id'] = getrandbits(8)
+
+    location_id = self._rdf_builder.fill_literal(capsule['place_id'], datatype=self.namespaces['XML']['string'])
 
     _link_entity(self, location, self.interaction_graph, create_label=True)
     self.interaction_graph.add((location.id, self.namespaces['N2MU']['id'], location_id))

@@ -1,6 +1,7 @@
 from datetime import date
-
 from random import getrandbits
+
+from cltl.combot.backend.api.discrete import UtteranceType
 
 context_id, place_id = getrandbits(8), getrandbits(8)
 chat_1 = [
@@ -9,6 +10,7 @@ chat_1 = [
         "turn": 1,
         "author": "piek",
         "utterance": "Lenka is from Serbia",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "lenka",
@@ -44,6 +46,7 @@ chat_1 = [
         "turn": 2,
         "author": "piek",
         "utterance": "Bram is from the Netherlands",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "bram",
@@ -79,6 +82,7 @@ chat_1 = [
         "turn": 3,
         "author": "piek",
         "utterance": "Selene is from Mexico",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "selene",
@@ -114,6 +118,7 @@ chat_1 = [
         "turn": 4,
         "author": "piek",
         "utterance": "Suzana is from Croatia",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "suzana",
@@ -149,6 +154,7 @@ chat_1 = [
         "turn": 5,
         "author": "piek",
         "utterance": "Selene Kolman is from the Netherlands",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "selene",
@@ -187,6 +193,7 @@ chat_2 = [
         "turn": 1,
         "author": "selene",
         "utterance": "I think Lenka is from Serbia",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "lenka",
@@ -222,6 +229,7 @@ chat_2 = [
         "turn": 2,
         "author": "selene",
         "utterance": "Bram likes goulash",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "bram",
@@ -257,6 +265,7 @@ chat_2 = [
         "turn": 3,
         "author": "selene",
         "utterance": "Bram likes romantic movies",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "bram",
@@ -292,6 +301,7 @@ chat_2 = [
         "turn": 4,
         "author": "selene",
         "utterance": "Lenka likes ice cream",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "lenka",
@@ -327,6 +337,7 @@ chat_2 = [
         "turn": 5,
         "author": "selene",
         "utterance": "Lenka likes Harry Potter",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "lenka",
@@ -362,6 +373,7 @@ chat_2 = [
         "turn": 6,
         "author": "selene",
         "utterance": "Lenka likes action movies",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "lenka",
@@ -397,6 +409,7 @@ chat_2 = [
         "turn": 7,
         "author": "selene",
         "utterance": "Piek likes balkenbrij",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "piek",
@@ -432,6 +445,7 @@ chat_2 = [
         "turn": 8,
         "author": "selene",
         "utterance": "Piek likes sailing",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "piek",
@@ -467,6 +481,7 @@ chat_2 = [
         "turn": 9,
         "author": "selene",
         "utterance": "I like tacos",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "selene",
@@ -502,6 +517,7 @@ chat_2 = [
         "turn": 10,
         "author": "selene",
         "utterance": "Suzana likes pizza",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "suzana",
@@ -537,6 +553,7 @@ chat_2 = [
         "turn": 11,
         "author": "selene",
         "utterance": "Leolani is from France",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "leolani",
@@ -575,6 +592,7 @@ chat_3 = [
         "turn": 1,
         "author": "lenka",
         "utterance": "Lenka's mother is Ljubica ",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "lenka",
@@ -609,6 +627,7 @@ chat_3 = [
         "turn": 2,
         "author": "lenka",
         "utterance": "My favorite food is cake ",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "lenka",
@@ -643,6 +662,7 @@ chat_3 = [
         "turn": 3,
         "author": "lenka",
         "utterance": "Selene likes Coco",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "selene",
@@ -677,6 +697,7 @@ chat_3 = [
         "turn": 4,
         "author": "lenka",
         "utterance": "Bram likes The Big Lebowski",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "bram",
@@ -711,6 +732,7 @@ chat_3 = [
         "turn": 5,
         "author": "lenka",
         "utterance": "Piek likes 2001 A Space Odyssey",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "piek",
@@ -745,6 +767,7 @@ chat_3 = [
         "turn": 6,
         "author": "lenka",
         "utterance": "Piek likes horror movies",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "piek",
@@ -782,6 +805,7 @@ chat_4 = [
         "turn": 1,
         "author": "bram",
         "utterance": "I like action movies ",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "bram",
@@ -816,6 +840,7 @@ chat_4 = [
         "turn": 2,
         "author": "bram",
         "utterance": "I am from Italy ",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "bram",
@@ -850,6 +875,7 @@ chat_4 = [
         "turn": 3,
         "author": "bram",
         "utterance": "I do not like goulash",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-21",
         "subject": {
             "label": "bram",
@@ -884,6 +910,7 @@ chat_4 = [
         "turn": 4,
         "author": "bram",
         "utterance": "I like baseball",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "bram",
@@ -918,6 +945,7 @@ chat_4 = [
         "turn": 5,
         "author": "bram",
         "utterance": "I like apple pie",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "bram",
@@ -952,6 +980,7 @@ chat_4 = [
         "turn": 6,
         "author": "bram",
         "utterance": "Selene likes animated movies",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "selene",
@@ -986,6 +1015,7 @@ chat_4 = [
         "turn": 7,
         "author": "bram",
         "utterance": "Lenka likes acrobatics",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "lenka",
@@ -1020,6 +1050,7 @@ chat_4 = [
         "turn": 8,
         "author": "bram",
         "utterance": "Leolani is from Japan",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "leolani",
@@ -1057,6 +1088,7 @@ chat_5 = [
         "turn": 1,
         "author": "piek",
         "utterance": "Bram likes romantic movies",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "bram",
@@ -1091,6 +1123,7 @@ chat_5 = [
         "turn": 2,
         "author": "piek",
         "utterance": "Selene does not like tacos",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-26",
         "subject": {
             "label": "selene",
@@ -1125,6 +1158,7 @@ chat_5 = [
         "turn": 3,
         "author": "piek",
         "utterance": "I hate tacos",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-12",
         "subject": {
             "label": "piek",
@@ -1162,6 +1196,7 @@ chat_6 = [
         "turn": 1,
         "author": "suzana",
         "utterance": "Bram is not from the Netherlands",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "bram",
@@ -1196,6 +1231,7 @@ chat_6 = [
         "turn": 2,
         "author": "suzana",
         "utterance": "Piek is from the Netherlands",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "piek",
@@ -1230,6 +1266,7 @@ chat_6 = [
         "turn": 3,
         "author": "suzana",
         "utterance": "Selene likes soccer",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "selene",
@@ -1264,6 +1301,7 @@ chat_6 = [
         "turn": 4,
         "author": "suzana",
         "utterance": "Bram knows Lenka",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-16",
         "subject": {
             "label": "bram",
@@ -1298,6 +1336,7 @@ chat_6 = [
         "turn": 5,
         "author": "suzana",
         "utterance": "Selene knows Lenka",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-16",
         "subject": {
             "label": "selene",
@@ -1335,6 +1374,7 @@ chat_7 = [
         "turn": 1,
         "author": "lenka",
         "utterance": "I think Selene is from Peru",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-27",
         "subject": {
             "label": "selene",
@@ -1373,6 +1413,7 @@ chat_8 = [
         "turn": 1,
         "author": "lea",
         "utterance": "Jaap has three teapots",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-22",
         "subject": {
             "label": "jaap",
@@ -1407,6 +1448,7 @@ chat_8 = [
         "turn": 2,
         "author": "lea",
         "utterance": "My favourite colour is blue",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-27",
         "subject": {
             "label": "lea",
@@ -1441,6 +1483,7 @@ chat_8 = [
         "turn": 3,
         "author": "lea",
         "utterance": "I think Selene is tall",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-22",
         "subject": {
             "label": "selene",
@@ -1475,6 +1518,7 @@ chat_8 = [
         "turn": 4,
         "author": "lea",
         "utterance": "I like swimming and biking",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-26",
         "subject": {
             "label": "lea",
@@ -1509,6 +1553,7 @@ chat_8 = [
         "turn": 5,
         "author": "lea",
         "utterance": "I'm from Dusseldorf",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-27",
         "subject": {
             "label": "lea",
@@ -1543,6 +1588,7 @@ chat_8 = [
         "turn": 6,
         "author": "lea",
         "utterance": "I don't like celery",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-19",
         "subject": {
             "label": "lea",
@@ -1580,6 +1626,7 @@ chat_9 = [
         "turn": 1,
         "author": "thomas",
         "utterance": "I live in Berlin",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-26",
         "subject": {
             "label": "thomas",
@@ -1614,6 +1661,7 @@ chat_9 = [
         "turn": 2,
         "author": "thomas",
         "utterance": "I am from Munich",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-16",
         "subject": {
             "label": "thomas",
@@ -1648,6 +1696,7 @@ chat_9 = [
         "turn": 3,
         "author": "thomas",
         "utterance": "I studied in Budapest",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-21",
         "subject": {
             "label": "thomas",
@@ -1682,6 +1731,7 @@ chat_9 = [
         "turn": 4,
         "author": "thomas",
         "utterance": "I like Asian food",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-17",
         "subject": {
             "label": "thomas",
@@ -1716,6 +1766,7 @@ chat_9 = [
         "turn": 5,
         "author": "thomas",
         "utterance": "I like electronic music",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-23",
         "subject": {
             "label": "thomas",
@@ -1753,6 +1804,7 @@ chat_10 = [
         "turn": 1,
         "author": "jaap",
         "utterance": "I think Lea hates cheese",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-25",
         "subject": {
             "label": "lea",
@@ -1787,6 +1839,7 @@ chat_10 = [
         "turn": 2,
         "author": "jaap",
         "utterance": "Selene likes dancing",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-20",
         "subject": {
             "label": "selene",
@@ -1821,6 +1874,7 @@ chat_10 = [
         "turn": 3,
         "author": "jaap",
         "utterance": "I have two teapots",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-18",
         "subject": {
             "label": "jaap",
@@ -1855,6 +1909,7 @@ chat_10 = [
         "turn": 4,
         "author": "jaap",
         "utterance": "I don't like chocolate with sea salt",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-36",
         "subject": {
             "label": "jaap",
@@ -1889,6 +1944,7 @@ chat_10 = [
         "turn": 5,
         "author": "jaap",
         "utterance": "I think Lea likes swimming and vikings",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-38",
         "subject": {
             "label": "lea",
@@ -1923,6 +1979,7 @@ chat_10 = [
         "turn": 6,
         "author": "jaap",
         "utterance": "Tae speaks German",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-17",
         "subject": {
             "label": "tae",
@@ -1960,6 +2017,7 @@ chat_11 = [
         "turn": 1,
         "author": "tae",
         "utterance": "I like drinking beer",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-20",
         "subject": {
             "label": "tae",
@@ -1994,6 +2052,7 @@ chat_11 = [
         "turn": 2,
         "author": "tae",
         "utterance": "I am from South Korea",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-21",
         "subject": {
             "label": "tae",
@@ -2028,6 +2087,7 @@ chat_11 = [
         "turn": 3,
         "author": "tae",
         "utterance": "I ride a bike",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-13",
         "subject": {
             "label": "tae",
@@ -2062,6 +2122,7 @@ chat_11 = [
         "turn": 4,
         "author": "tae",
         "utterance": "I hate rats",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-11",
         "subject": {
             "label": "Tae",
@@ -2096,6 +2157,7 @@ chat_11 = [
         "turn": 5,
         "author": "tae",
         "utterance": "I do not drink beer",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-19",
         "subject": {
             "label": "tae",
@@ -2138,6 +2200,7 @@ conflicting_statements = [
         "turn": 1,
         "author": "suzana",
         "utterance": "Bram does not like romantic movies",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-34",
         "subject": {
             "label": "bram",
@@ -2173,6 +2236,7 @@ conflicting_statements = [
         "turn": 2,
         "author": "suzana",
         "utterance": "Selene is from Peru",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-19",
         "subject": {
             "label": "selene",
@@ -2211,7 +2275,7 @@ questions = [
         "turn": 1,
         "author": "joey",
         "utterance": "Where is Bram from?",
-        "utterance_type": "question",
+        "utterance_type": UtteranceType.QUESTION,
         "position": "",
         "subject": {
             "label": "bram",
@@ -2234,7 +2298,8 @@ questions = [
         "turn": 2,
         "author": "joey",
         "utterance": "Who is from Serbia?",
-        "utterance_type": "question",
+        "utterance_type": UtteranceType.QUESTION,
+        "position": "",
         "subject": {
             "label": "",
             "type": ["person"],
@@ -2256,7 +2321,8 @@ questions = [
         "turn": 3,
         "author": "joey",
         "utterance": "Where is Lenka from?",
-        "utterance_type": "question",
+        "utterance_type": UtteranceType.QUESTION,
+        "position": "",
         "subject": {
             "label": "lenka",
             "type": ["person"],
@@ -2277,7 +2343,9 @@ questions = [
         "chat": 12,
         "turn": 4,
         "author": "joey",
-        "utterance_type": "question",
+        "utterance": "Does Selene know Piek?",
+        "utterance_type": UtteranceType.QUESTION,
+        "position": "",
         "subject": {
             "label": "selene",
             "type": ["person"],
@@ -2299,7 +2367,8 @@ questions = [
         "turn": 5,
         "author": "joey",
         "utterance": "Is Bram from the Netherlands?",
-        "utterance_type": "question",
+        "utterance_type": UtteranceType.QUESTION,
+        "position": "",
         "subject": {
             "label": "bram",
             "type": ["person"],
@@ -2321,7 +2390,7 @@ questions = [
         "turn": 6,
         "author": "joey",
         "utterance": "Does Bram know Beyonce?",
-        "utterance_type": "question",
+        "utterance_type": UtteranceType.QUESTION,
         "position": "",
         "subject": {
             "label": "bram",
@@ -2344,7 +2413,7 @@ questions = [
         "turn": 7,
         "author": "joey",
         "utterance": "Do you know Bram?",
-        "utterance_type": "question",
+        "utterance_type": UtteranceType.QUESTION,
         "position": "",
         "subject": {
             "label": "leolani",
@@ -2367,7 +2436,7 @@ questions = [
         "turn": 8,
         "author": "joey",
         "utterance": "Does Selene know Piek?",
-        "utterance_type": "question",
+        "utterance_type": UtteranceType.QUESTION,
         "position": "",
         "subject": {
             "label": "selene",
@@ -2390,7 +2459,7 @@ questions = [
         "turn": 9,
         "author": "joey",
         "utterance": "Where is Leolani from?",
-        "utterance_type": "question",
+        "utterance_type": UtteranceType.QUESTION,
         "position": "",
         "subject": {
             "label": "leolani",
@@ -2413,7 +2482,7 @@ questions = [
         "turn": 10,
         "author": "joey",
         "utterance": "Who is from italy?",
-        "utterance_type": "question",
+        "utterance_type": UtteranceType.QUESTION,
         "position": "",
         "subject": {
             "label": "",
@@ -2436,7 +2505,7 @@ questions = [
         "turn": 11,
         "author": "joey",
         "utterance": "what does Piek like?",
-        "utterance_type": "question",
+        "utterance_type": UtteranceType.QUESTION,
         "position": "",
         "subject": {
             "label": "piek",
@@ -2462,6 +2531,7 @@ experiences = [
         "turn": None,
         "author": "front_camera",
         "utterance": "",
+        "utterance_type": UtteranceType.STATEMENT,
         "position": "0-15-0-15",
         "subject": {
             "label": "leolani",

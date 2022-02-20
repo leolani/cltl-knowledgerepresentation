@@ -5,10 +5,10 @@ from typing import List, Optional
 from nltk.stem import WordNetLemmatizer
 from rdflib import Literal
 
-from cltl.brain.utils.constants import NOT_TO_MENTION_TYPES
 from cltl.brain.utils.helper_functions import hash_claim_id, is_proper_noun
 from cltl.combot.backend.api.discrete import Certainty, Polarity, Sentiment, Emotion, Time
 from cltl.combot.backend.utils.casefolding import casefold_text
+from cltl.combot.backend.utils.triple_helpers import filtered_types_names
 
 
 class RDFBase(object):
@@ -108,7 +108,7 @@ class Entity(RDFBase):
     @property
     def types_names(self):
         # type: () -> str
-        return ' or '.join([t for t in self._types if t.lower() not in NOT_TO_MENTION_TYPES])
+        return filtered_types_names(self._types)
 
     def add_types(self, types):
         # type: (List[str]) -> ()

@@ -10,6 +10,8 @@ from cltl.brain.utils.helper_functions import read_query
 from cltl.combot.backend.api.discrete import UtteranceType
 from cltl.combot.backend.utils.casefolding import casefold_text
 
+from datetime import datetime
+
 
 class LongTermMemory(BasicBrain):
     def __init__(self, address, log_dir, clear_all=False):
@@ -106,15 +108,19 @@ class LongTermMemory(BasicBrain):
 
         """
 
+        # Process capsule to right types
         capsule['triple'] = self._rdf_builder.fill_triple(capsule['subject'], capsule['predicate'], capsule['object'])
         capsule['perspective'] = self._rdf_builder.fill_perspective(capsule['perspective']) \
             if 'perspective' in capsule.keys() else self._rdf_builder.fill_perspective({})
-        capsule['type'] = UtteranceType.STATEMENT
+        capsule['utterance_type'] = UtteranceType[capsule['utterance_type']] \
+            if type(capsule['utterance_type']) == str else capsule['utterance_type']
+        capsule['date'] = datetime.fromisoformat(capsule['date']).date() \
+            if type(capsule['date']) == str else capsule['date']
 
         if capsule['triple'] is not None:
 
+            # Try to figure out what this entity is
             if reason_types:
-                # Try to figure out what this entity is
                 if not capsule['triple'].complement.types:
                     complement_type, _ = self.type_reasoner.reason_entity_type(str(capsule['triple'].complement_name),
                                                                                exact_only=True)
@@ -157,7 +163,8 @@ class LongTermMemory(BasicBrain):
                                                                      exclude=capsule['triple'].subject)
 
             # Report trust
-            trust = self.trust_calculator.get_trust(capsule['author'])
+            actor = self._rdf_builder.fill_entity(capsule['author'], ['Instance', 'Source', 'Actor', 'person'], 'LF')
+            trust = self.trust_calculator.get_trust(actor.id)
 
             # Create JSON output
             thoughts = Thoughts(statement_novelty, entity_novelty, negation_conflicts, cardinality_conflict,

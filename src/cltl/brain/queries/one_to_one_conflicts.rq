@@ -5,18 +5,30 @@ PREFIX gaf: <http://groundedannotationframework.org/gaf#>
 PREFIX prov: <http://www.w3.org/ns/prov#>
 
 select ?sname
-		(group_concat(distinct ?pair ; separator=";") as ?pairs)
+    (group_concat(distinct ?pair ; separator=";") as ?pairs)
+    (group_concat(distinct ?pred ; separator=";") as ?preds)
 where {
+
+    BIND(n2mu:%s AS ?pOriginal).
+
+   ?s ?p ?o .
+   ?pOriginal rdfs:subPropertyOf* ?p .
+
     GRAPH ?g {
-        ?s n2mu:%s ?o .
-        } .
-    ?s rdfs:label ?sname .
-    ?o rdfs:label ?oname .
+        ?s ?pOriginal ?o .
+    } .
+
+    OPTIONAL {
+        ?s rdfs:label ?sname .
+        ?o rdfs:label ?oname .
+    }
 
     ?g gaf:denotedBy ?m .
     ?m grasp:wasAttributedTo ?author .
     ?author rdfs:label ?authorlabel .
 
     BIND(concat(?oname, ',', ?authorlabel) as ?pair)
+    BIND(STRAFTER(replace(str(?p), str(n2mu:), "n2mu:"), ":") AS ?pred)
 
-} group by ?sname having (count(distinct ?oname) > 1)
+}
+group by ?sname having (count(distinct ?oname) > 1)

@@ -4,9 +4,9 @@ PREFIX leolaniWorld: <http://cltl.nl/leolani/world/>
 ASK {
     VALUES (?g) { (leolaniWorld:Ontology) }
     {
-    	GRAPH ?g {
-        	?s ?p ?o .
-    	} .
+        GRAPH ?g {
+            ?s ?p ?o .
+        } .
     }
 }
 

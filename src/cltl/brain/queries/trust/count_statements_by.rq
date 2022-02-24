@@ -4,8 +4,8 @@ PREFIX gaf: <http://groundedannotationframework.org/gaf#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 select (COUNT(distinct ?stat) AS ?num_stat) where {
-?stat rdf:type gaf:Assertion .
-?stat gaf:denotedBy ?m .
-?m grasp:wasAttributedTo ?author .
-?author rdfs:label "%s" .
+    BIND(<%s> AS ?author)
+
+    ?stat rdf:type gaf:Assertion .
+    ?stat gaf:denotedBy / grasp:wasAttributedTo ?author .
 }

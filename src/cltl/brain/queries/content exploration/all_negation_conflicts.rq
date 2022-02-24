@@ -19,7 +19,6 @@ WHERE {
     VALUES (?time_predPos) { (sem:hasTime) (sem:hasBeginTimeStamp) } .
     ?mPos grasp:wasAttributedTo ?authorPos .
 
-
     ?g gaf:denotedBy ?mNeg .
     ?mNeg grasp:hasAttribution ?attNeg .
     ?attNeg rdf:value graspf:NEGATIVE .
@@ -31,8 +30,6 @@ WHERE {
     VALUES (?time_predNeg) { (sem:hasTime) (sem:hasBeginTimeStamp) } .
     ?mNeg grasp:wasAttributedTo ?authorNeg .
 
-
-    FILTER (?authorPos = <%s> || ?authorNeg = <%s> ) .
 
     FILTER (STRSTARTS(STR(?authorPos), "http://cltl.nl/leolani/friends/")
             && STRSTARTS(STR(?authorNeg), "http://cltl.nl/leolani/friends/")

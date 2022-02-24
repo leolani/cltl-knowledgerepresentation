@@ -1,7 +1,6 @@
 PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-select distinct ?name where {
+select distinct ?s where {
     ?s a n2mu:%s .
-    ?s rdfs:label ?name
-}
+} ORDER BY ?s

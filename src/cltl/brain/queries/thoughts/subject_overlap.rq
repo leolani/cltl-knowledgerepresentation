@@ -1,32 +1,43 @@
 PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX grasp:<http://groundedannotationframework.org/grasp#>
-PREFIX gaf:<http://groundedannotationframework.org/gaf#>
+PREFIX grasp: <http://groundedannotationframework.org/grasp#>
+PREFIX gaf: <http://groundedannotationframework.org/gaf#>
 PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
 
-select ?label (GROUP_CONCAT(?type;separator="|") as ?types) ?date ?authorlabel
+select ?label (GROUP_CONCAT(DISTINCT ?type;separator="|") as ?types) ?date ?authorlabel
 where {
+    BIND(<%s> AS ?p) .
+    BIND(<%s> AS ?s) .
+
+    ?s ?p ?o .
+    ?pOriginal rdfs:subPropertyOf* ?p .
+
     GRAPH ?g {
-        ?s n2mu:%s ?o .
+        ?s ?pOriginal ?o .
     } .
-    ?o rdfs:label ?label .
+
+    OPTIONAL {
+        ?o rdfs:label ?label .
+    }
     ?o rdf:type ?type .
-    FILTER(regex(str(?type), "n2mu")) .
-    ?s rdfs:label '%s' .
-    MINUS { ?o rdfs:label '%s' . }
+    FILTER (regex(str(?type), "n2mu")) .
+
+    FILTER (?o != <%s> )
 
     ?g gaf:denotedBy ?m .
     ?m prov:wasDerivedFrom ?utt .
 
-    ?chat sem:hasSubEvent ?utt .
-    ?context sem:hasEvent ?chat .
-    ?context sem:hasBeginTimeStamp ?d .
+    ?context sem:hasEvent / sem:hasSubEvent ?utt .
+    ?cont ?time_pred ?d .
     ?d rdfs:label ?date .
+    VALUES (?time_pred) { (sem:hasTime) (sem:hasBeginTimeStamp) } .
 
     ?m grasp:wasAttributedTo ?author .
-    ?author rdfs:label ?authorlabel .
+    OPTIONAL {
+        ?author rdfs:label ?authorlabel .
+    }
 
-
-} GROUP BY ?label ?date ?authorlabel
+}
+GROUP BY ?label ?date ?authorlabel

@@ -222,6 +222,15 @@ class BasicBrain(object):
         response = self._submit_query(query)
         return [elem['statement']['value'].split('/')[-1] for elem in response]
 
+    def count_perspectives(self):
+        """
+        Count perspectives or 'views' in the brain
+        :return:
+        """
+        query = read_query('content exploration/count_perspectives')
+        response = self._submit_query(query)
+        return float(response[0]['count']['value'])
+
     def get_all_negation_conflicts(self):
         """
         Count conflicts or 'facts' with opposing polarity in the brain

@@ -5,13 +5,16 @@ PREFIX gaf: <http://groundedannotationframework.org/gaf#>
 PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
 
-select ?objectlabel ?authorlabel ?date
+select ?objectlabel ?authorlabel ?date (GROUP_CONCAT(DISTINCT ?pOriginal ;separator="|") as ?predicates)
 where {
     BIND(<%s> AS ?p) .
     BIND(<%s> AS ?s) .
 
+    ?s ?p ?o .
+    ?pOriginal rdfs:subPropertyOf* ?p .
+
     GRAPH ?g {
-        ?s ?p ?o .
+        ?s ?pOriginal ?o .
     } .
 
     ?o rdfs:label ?objectlabel .
@@ -19,15 +22,17 @@ where {
     ?g gaf:denotedBy ?m .
     ?m prov:wasDerivedFrom ?utt .
 
-    ?chat sem:hasSubEvent ?utt .
-    ?context sem:hasEvent ?chat .
-    ?context sem:hasBeginTimeStamp ?d .
+    ?context sem:hasEvent / sem:hasSubEvent ?utt .
+    ?cont ?time_pred ?d .
     ?d rdfs:label ?date .
+    VALUES (?time_pred) { (sem:hasTime) (sem:hasBeginTimeStamp) } .
 
     ?m grasp:wasAttributedTo ?author .
-    ?author rdfs:label ?authorlabel .
+    OPTIONAL {
+        ?author rdfs:label ?authorlabel .
+    }
 
-    FILTER (?o != <%s> )
+    FILTER (?o != <http://cltl.nl/leolani/world/netherlands> )
 
 }
 group by ?objectlabel ?authorlabel ?date

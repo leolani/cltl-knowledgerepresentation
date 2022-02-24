@@ -1058,8 +1058,8 @@ chat_4 = [
             "uri": "http://cltl.nl/leolani/world/leolani"
         },
         "predicate": {
-            "label": "be-from",
-            "uri": "http://cltl.nl/leolani/n2mu/be-from"
+            "label": "manufacture-in",
+            "uri": "http://cltl.nl/leolani/n2mu/manufacture-in"
         },
         "object": {
             "label": "japan",
@@ -2127,7 +2127,7 @@ chat_11 = [
         "subject": {
             "label": "Tae",
             "type": ["person"],
-            "uri": "http://cltl.nl/leolani/world/Tae"
+            "uri": "http://cltl.nl/leolani/world/tae"
         },
         "predicate": {
             "label": "hate",

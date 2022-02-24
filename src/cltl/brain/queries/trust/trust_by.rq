@@ -6,8 +6,12 @@ PREFIX gaf: <http://groundedannotationframework.org/gaf#>
 select ?slabel ?trust where {
     BIND(<%s> AS ?s)
 
-	?s n2mu:hasTrustworthinessLevel ?trust .
-    ?s rdfs:label ?slabel .
+    ?s n2mu:hasTrustworthinessLevel ?trust .
     ?s rdf:type gaf:Instance .
 
-} GROUP BY ?slabel ?trust
+    OPTIONAL {
+        ?s rdfs:label ?slabel .
+    }
+
+}
+GROUP BY ?slabel ?trust

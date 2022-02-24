@@ -3,6 +3,7 @@ PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 select ?c where {
-            ?c rdf:type owl:Class .
-            FILTER(regex(str(?c), "n2mu")) .
-        } ORDER BY str(?c)
+    ?c rdf:type owl:Class .
+    FILTER (regex(str(?c), "n2mu")) .
+}
+ORDER BY str(?c)

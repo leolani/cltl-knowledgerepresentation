@@ -106,7 +106,7 @@ class TrustCalculator(BasicBrain):
                 num_claims = self.count_statements()
                 mean_novelty = num_claims / num_friends if num_friends > 0 else num_claims
 
-                num_conflicts = float(len(self.get_conflicts()))
+                num_conflicts = float(len(self.get_all_negation_conflicts()))
                 mean_conflicts = num_conflicts / num_friends if num_friends > 0 else num_conflicts
 
                 for friend in friends:

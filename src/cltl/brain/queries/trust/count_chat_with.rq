@@ -1,8 +1,6 @@
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX grasp: <http://groundedannotationframework.org/grasp#>
 PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX time: <http://www.w3.org/TR/owl-time/#>
 PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
 
 select (count(distinct ?chatid) as ?num_chats)
@@ -10,9 +8,8 @@ where {
     BIND(<%s> AS ?actor)
 
     ?chat rdf:type grasp:Chat .
-    ?chat sem:hasSubEvent ?turn .
     ?chat n2mu:id ?chatid .
 
-    ?turn sem:hasActor ?actor .
+    ?chat sem:hasSubEvent / sem:hasActor ?actor .
 
 }

@@ -10,10 +10,9 @@ where {
     BIND(<%s> AS ?actor)
 
     ?chat rdf:type grasp:Chat .
-    ?chat sem:hasSubEvent ?turn .
     ?chat n2mu:id ?chatid .
 
-    ?turn sem:hasActor ?actor .
+    ?chat sem:hasSubEvent / sem:hasActor ?actor .
 
     ?context sem:hasEvent ?chat .
     ?context sem:hasBeginTimeStamp ?time .

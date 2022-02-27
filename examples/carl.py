@@ -98,7 +98,7 @@ def main(log_path):
     # Create brain connection
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
-                           clear_all=True)
+                           clear_all=False)
     data = []
     for capsule in tqdm(carl_scenario):
         # Add information to the brain

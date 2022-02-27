@@ -281,7 +281,7 @@ class RdfBuilder(object):
         Parameters
         ----------
         author: str
-            Actor that generated the knowledge
+            Name of actor that generated the knowledge
         date: date
             Date when knowledge was generated
 
@@ -289,8 +289,10 @@ class RdfBuilder(object):
         -------
             Provenance object containing author and date
         """
+        # Create author
+        actor = self.fill_entity(author, ['Source', 'Actor'], 'LF')
 
-        return Provenance(author, date)
+        return Provenance(actor, date)
 
     def fill_perspective(self, perpective_dict):
         # type: (dict) -> Perspective

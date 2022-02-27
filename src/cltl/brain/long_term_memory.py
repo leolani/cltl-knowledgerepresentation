@@ -198,11 +198,11 @@ class LongTermMemory(BasicBrain):
 
         return output
 
-    def query_brain(self, capsule, debug=False):
+    def query_brain(self, capsule):
         """
         Main function to interact with if a question is coming into the brain. Takes in a structured parsed question,
         transforms it into a query, and queries the triple store for a response
-        :param utterance: Structured data of a parsed question
+        :param capsule: Structured data of a parsed question
         :return: json response containing the results of the query, and the original question
         """
         capsule['triple'] = self._rdf_builder.fill_triple(capsule['subject'], capsule['predicate'], capsule['object'])

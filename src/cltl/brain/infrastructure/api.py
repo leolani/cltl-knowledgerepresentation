@@ -431,12 +431,12 @@ class Perspective(object):
 
 class Provenance(object):
     def __init__(self, author, date):
-        # type: (str, date) -> None
+        # type: (Entity, date) -> None
         """
         Construct Provenance Object
         Parameters
         ----------
-        author: str
+        author: Entity
             Person who said the mention
         date: date
             Date when the mention was said
@@ -447,8 +447,18 @@ class Provenance(object):
 
     @property
     def author(self):
-        # type: () -> str
+        # type: () -> Entity
         return self._author
+
+    @property
+    def author_name(self):
+        # type: () -> str
+        return self._author.label if self._author is not None else None
+
+    @property
+    def author_types(self):
+        # type: () -> str
+        return self._author.types_names if self._author is not None else None
 
     @property
     def date(self):
@@ -467,13 +477,7 @@ class Provenance(object):
         -------
 
         """
-        if format == 'triple':
-            # Label
-            self._author = self.author.lower().replace(" ", "_")
-
-        elif format == 'natural':
-            # Label
-            self._author = self.author.lower().replace("_", " ")
+        self._author.casefold(format)
 
     def __repr__(self):
         return f'{self.author} on {self.date.strftime("%B,%Y")}'
@@ -899,7 +903,7 @@ class Overlaps(object):
 class Thoughts(object):
     def __init__(self, statement_novelty, entity_novelty, negation_conflicts, complement_conflict,
                  subject_gaps, complement_gaps, overlaps, trust):
-        # type: (List[StatementNovelty], EntityNovelty, List[NegationConflict], List[CardinalityConflict], Gaps, Gaps, Overlaps, float) -> None
+        # type: (Optional[List[StatementNovelty]], Optional[EntityNovelty], Optional[List[NegationConflict]], Optional[List[CardinalityConflict]], Optional[Gaps], Optional[Gaps], Optional[Overlaps], Optional[float]) -> None
         """
         Construct Thoughts Object
         Parameters

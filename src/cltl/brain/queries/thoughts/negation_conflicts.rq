@@ -7,17 +7,23 @@ PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
 
 
-select ?val ?authorlabel ?date (GROUP_CONCAT(DISTINCT ?pOriginal ;separator="|") as ?predicates)
+select ?val ?authorlabel ?date (GROUP_CONCAT(DISTINCT ?p ;separator="|") as ?predicates)
 where {
     BIND(<%s> AS ?p) .
     BIND(<%s> AS ?s) .
     BIND(<%s> AS ?o) .
 
+    # Takes too long to query subproperties
+    # ?s ?p ?o .
+    # ?pOriginal rdfs:subPropertyOf* ?p .
+    # GRAPH ?g {
+    #     ?s ?pOriginal ?o .
+    # } .
+
     ?s ?p ?o .
-    ?pOriginal rdfs:subPropertyOf* ?p .
 
     GRAPH ?g {
-        ?s ?pOriginal ?o .
+        ?s ?p ?o .
     } .
 
     ?g gaf:denotedBy ?m .

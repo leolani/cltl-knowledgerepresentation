@@ -1,0 +1,25 @@
+PREFIX grasp: <http://groundedannotationframework.org/grasp#>
+PREFIX gaf: <http://groundedannotationframework.org/gaf#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+
+select ?date ?authorlabel where {
+    <%s> gaf:denotedBy ?m .
+
+    ?m prov:wasDerivedFrom ?utt .
+
+    ?context sem:hasEvent / sem:hasSubEvent ?utt .
+    ?cont ?time_pred ?d .
+    ?d rdfs:label ?date .
+    VALUES (?time_pred) { (sem:hasTime) (sem:hasBeginTimeStamp) } .
+
+    ?m grasp:wasAttributedTo ?author .
+    OPTIONAL {
+        ?author rdfs:label ?authorlabel .
+    }
+
+}
+group by ?date ?authorlabel

@@ -252,8 +252,8 @@ class ThoughtGenerator(BasicBrain):
         """
         processed_provenance = self._rdf_builder.fill_provenance(raw_conflict['authorlabel']['value'],
                                                                  raw_conflict['date']['value'])
-        processed_type = self.get_type_of_instance(raw_conflict['objectlabel']['value'])
-        processed_entity = self._rdf_builder.fill_entity(raw_conflict['objectlabel']['value'], processed_type)
+        processed_type = self.get_type_of_instance(raw_conflict['o']['value'])
+        processed_entity = self._rdf_builder.fill_entity(raw_conflict['objectLabel']['value'], processed_type)
 
         return CardinalityConflict(processed_provenance, processed_entity)
 

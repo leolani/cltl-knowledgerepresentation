@@ -195,6 +195,15 @@ class BasicBrain(object):
         return final
 
     ########## learned facts exploration ##########
+    def count_triples(self):
+        """
+        Count triples in the brain
+        :return:
+        """
+        query = read_query('content exploration/count_triples')
+        response = self._submit_query(query)
+        return float(response[0]['triples']['value'])
+
     def count_statements(self):
         """
         Count statements or 'facts' in the brain
@@ -298,6 +307,15 @@ class BasicBrain(object):
         response = self._submit_query(query)
 
         return float(response[0]['num_chats']['value'].split('/')[-1]) if response != [] else 0.0
+
+    def count_instances(self):
+        """
+        Count instances or world entities in the brain
+        :return:
+        """
+        query = read_query('content exploration/count_instances')
+        response = self._submit_query(query)
+        return float(response[0]['count']['value'])
 
     def get_instance_of_type(self, instance_type):
         """

@@ -120,8 +120,8 @@ class TrustCalculator(BasicBrain):
                     # Structure knowledge
                     self.interaction_graph.add((actor.id, self.namespaces['N2MU']['hasTrustworthinessLevel'], trust))
 
-                    # Finish process of uploading new knowledge to the triple store
-                    data = self._serialize(self._brain_log())
-                    _ = self._upload_to_brain(data)
+                # Finish process of uploading new knowledge to the triple store
+                data = self._serialize(self._brain_log())
+                _ = self._upload_to_brain(data)
 
         self._log.info("Computed trust for all known agents")

@@ -44,3 +44,4 @@ where {
 
 }
 group by ?o ?authorlabel ?date
+ORDER BY ?date

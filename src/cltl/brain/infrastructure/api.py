@@ -443,7 +443,7 @@ class Provenance(object):
         """
 
         self._author = author
-        self._date = datetime.strptime(date, '%Y-%m-%d')
+        self._date = datetime.strptime(date, '%Y-%m-%d').date()
 
     @property
     def author(self):

@@ -30,13 +30,9 @@ def main(log_path):
                            log_dir=log_path,
                            clear_all=False)
 
-    # x = brain.location_reasoner.get_location_memory()
-
     data = []
     capsules = statements + conflicting_statements
     for capsule in tqdm(capsules):
-        x = brain.location_reasoner.get_location_memory(capsule)
-
         # Add information to the brain
         print(f"\n\n---------------------------------------------------------------\n")
         response = brain.update(capsule, reason_types=True, create_label=True)

@@ -139,4 +139,4 @@ dmypy.json
 .DS_Store
 
 # Data for examples
-examples/capsules/*.json
+**/*-responses.json

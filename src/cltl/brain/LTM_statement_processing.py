@@ -1,3 +1,5 @@
+from random import getrandbits
+
 from rdflib import RDF, RDFS, OWL
 
 from cltl.brain.utils.constants import NAMESPACE_MAPPING
@@ -132,9 +134,6 @@ def _create_context(self, capsule, create_label):
     _link_entity(self, location_region, self.interaction_graph, create_label=True)
 
     # Create location
-    location_label = casefold_text(f"{capsule['place']}", format='triple')
-    location_id = self._rdf_builder.fill_literal(capsule['place_id'], datatype=self.namespaces['XML']['string'])
-
     if capsule['place'] is None or capsule['place'].lower() in ['', 'unknown', 'none']:
         # All unknowns have label Unknown and different ids. Their iri is linked to their context
         location_label = casefold_text(f"Unknown", format='triple')
@@ -142,13 +141,22 @@ def _create_context(self, capsule, create_label):
         location_uri = self._rdf_builder.create_resource_uri('LC', uri_suffix)
         location = self._rdf_builder.fill_entity(location_label, ['location', 'Place'], 'LC', uri=location_uri)
 
-    else:
-        # If hospital exists and has an id then use that id, if it does not exist then add id
-        ids = self.get_id_of_instance(location_label)
-        if ids:
-            location_id = self._rdf_builder.fill_literal(ids[0], datatype=self.namespaces['XML']['string'])
+        if capsule['place_id'] is None:
+            capsule['place_id'] = getrandbits(8)
 
+    else:
+        location_label = casefold_text(f"{capsule['place']}", format='triple')
         location = self._rdf_builder.fill_entity(location_label, ['location', 'Place'], 'LC')
+
+        if capsule['place_id'] is None:
+            # If hospital exists and has an id then use that id, if it does not exist then add id
+            ids = self.get_id_of_instance(location.id)
+            if ids:
+                capsule['place_id'] = ids[0]
+            else:
+                capsule['place_id'] = getrandbits(8)
+
+    location_id = self._rdf_builder.fill_literal(capsule['place_id'], datatype=self.namespaces['XML']['string'])
 
     _link_entity(self, location, self.interaction_graph, create_label=True)
     self.interaction_graph.add((location.id, self.namespaces['N2MU']['id'], location_id))
@@ -197,8 +205,8 @@ def _create_events(self, utterance, claim_type, context, create_label):
     # Chat or Visual
     event_id = self._rdf_builder.fill_literal(utterance['chat'], datatype=self.namespaces['XML']['string'])
     event_type = 'chat' if claim_type == UtteranceType.STATEMENT else 'visual'
-    eventt_label = f'{event_type}{event_id}'
-    event = self._rdf_builder.fill_entity(eventt_label, ['Event', f"{event_type.title()}"], 'LTa')
+    event_label = f'{event_type}{event_id}'
+    event = self._rdf_builder.fill_entity(event_label, ['Event', f"{event_type.title()}"], 'LTa')
     _link_entity(self, event, self.interaction_graph, create_label=True)
     self.interaction_graph.add((event.id, self.namespaces['N2MU']['id'], event_id))
     self.interaction_graph.add((context.id, self.namespaces['SEM']['hasEvent'], event.id))
@@ -296,7 +304,8 @@ def create_instance_graph(self, capsule, create_label):
     Parameters
     ----------
     self:
-    capsule: Utterance
+    capsule: dict
+    create_label: bool
 
     Returns
     -------
@@ -343,7 +352,7 @@ def create_interaction_graph(self, capsule, claim, create_label):
     # Add context
     context, detections, observations = _create_context(self, capsule, create_label)
 
-    # Subevents
+    # Subevent
     experience, sensor, use_sensor = _create_events(self, capsule, UtteranceType.EXPERIENCE, context, create_label)
     for detection, observation in zip(detections, observations):
         mention, attribution = create_perspective_graph(self, capsule, claim, experience, UtteranceType.EXPERIENCE,

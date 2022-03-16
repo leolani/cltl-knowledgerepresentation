@@ -1,3 +1,5 @@
+import pathlib
+
 from cltl.brain.basic_brain import BasicBrain
 from cltl.brain.utils.helper_functions import read_query
 from cltl.combot.backend.utils.casefolding import casefold_text
@@ -135,9 +137,9 @@ class LocationReasoner(BasicBrain):
 
                 # Compare one by one and determine most similar
                 for mem in memory:
-                    all = mem['detections']
-                    all.extend(mem['geo'])
-                    mem['overlap'] = self._measure_detection_overlap(all, observations)
+                    memory_elements = mem['detections']
+                    memory_elements.extend(mem['geo'])
+                    mem['overlap'] = self._measure_detection_overlap(memory_elements, observations)
 
                 # Pick most similar and determine equality based on a threshold
                 memory.sort(key=lambda x: x['overlap'], reverse=True)
@@ -156,8 +158,6 @@ class LocationReasoner(BasicBrain):
     def set_location_label(self, context_id, label, old_label='unknown'):
         # Replace as subject, replace label, replace as object in the database (long term memory)
         query = read_query('context/rename_location') % (old_label, label, context_id, old_label, label)
-        response = self._submit_query(query, post=True)
-
-
+        _ = self._submit_query(query, post=True)
 
         self._log.info(f"Set location to: {label}")

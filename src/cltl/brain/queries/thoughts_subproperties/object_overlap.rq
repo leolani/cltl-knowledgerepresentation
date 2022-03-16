@@ -11,14 +11,9 @@ where {
     BIND(<%s> AS ?p) .
     BIND(<%s> AS ?o) .
 
-    # Takes too long to query subproperties
-    # ?s ?p ?o .
-    # ?pOriginal rdfs:subPropertyOf* ?p .
-    # GRAPH ?g {
-    #     ?s ?pOriginal ?o .
-    # } .
-
     ?s ?p ?o .
+#    ?pOriginal rdfs:subPropertyOf* ?p .
+    #Takes too long
 
     GRAPH ?g {
         ?s ?p ?o .

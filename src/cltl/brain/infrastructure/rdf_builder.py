@@ -10,6 +10,7 @@ from cltl.brain.utils.helper_functions import confidence_to_certainty_value, pol
     sentiment_to_sentiment_value, emotion_to_emotion_value
 from cltl.combot.backend.api.discrete import Certainty, Polarity, Sentiment, Emotion
 from cltl.combot.backend.utils.casefolding import casefold_text
+from cltl.combot.backend.utils.triple_helpers import fix_nlp_types
 
 
 class RdfBuilder(object):
@@ -214,7 +215,7 @@ class RdfBuilder(object):
             return self.fill_entity_from_label(label, namespace)
         else:
             entity_id = self.create_resource_uri(namespace, label) if not uri else URIRef(to_iri(uri))
-            fixed_types = self._fix_nlp_types(types)
+            fixed_types = fix_nlp_types(types)
             return Entity(entity_id, Literal(label), fixed_types)
 
     def fill_predicate(self, label, namespace='N2MU', uri=None):
@@ -280,7 +281,7 @@ class RdfBuilder(object):
         Parameters
         ----------
         author: str
-            Actor that generated the knowledge
+            Name of actor that generated the knowledge
         date: date
             Date when knowledge was generated
 
@@ -288,8 +289,10 @@ class RdfBuilder(object):
         -------
             Provenance object containing author and date
         """
+        # Create author
+        actor = self.fill_entity(author, ['Source', 'Actor'], 'LF')
 
-        return Provenance(author, date)
+        return Provenance(actor, date)
 
     def fill_perspective(self, perpective_dict):
         # type: (dict) -> Perspective
@@ -446,39 +449,3 @@ class RdfBuilder(object):
             clean_detections.append(detection_label)
 
         return clean_detections
-
-    def _fix_nlp_types(self, types):
-        # type: (list) -> list
-        """
-        Takes list of types incoming from the NLP pipeline and filters out types that are not semantic but
-        syntactic (e.g. adjective)
-        Parameters
-        ----------
-        types: list
-
-        Returns fixed_types: list
-        -------
-
-        """
-        # TODO here we know if two types are different category (aka noun and verb) we might need to split the triple
-        fixed_types = []
-        for el in types:
-            if len(el) == 1:
-                # this was just a char
-                fixed_types.append(types.split('.')[-1])
-                break
-            elif "article" in el or "prep" in el or "adj" in el or "verb" in el or "numeral" in el or "adv" in el or "modal" in el:
-                pass
-            elif "deictic" in el or "article:definite" in el or "pronoun" in el:
-                # need to corefer
-                pass
-            elif '.' in el:
-                fixed_types.append(el.split('.')[-1])
-            else:
-                fixed_types.append(el)
-
-        # Hand fixed mappings
-        if 'artifact' in fixed_types:
-            fixed_types.append('object')
-
-        return fixed_types

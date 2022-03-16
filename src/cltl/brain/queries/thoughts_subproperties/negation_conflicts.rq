@@ -1,36 +1,32 @@
-PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX grasp: <http://groundedannotationframework.org/grasp#>
 PREFIX gaf: <http://groundedannotationframework.org/gaf#>
+PREFIX grasp: <http://groundedannotationframework.org/grasp#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX graspf: <http://groundedannotationframework.org/grasp/factuality#>
 PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
 
-select ?o (SAMPLE(?objectlabel) AS ?objectLabel) ?authorlabel ?date (GROUP_CONCAT(DISTINCT ?p ;separator="|") as ?predicates)
+
+select ?val ?authorlabel ?date (GROUP_CONCAT(DISTINCT ?pOriginal ;separator="|") as ?predicates)
 where {
     BIND(<%s> AS ?p) .
     BIND(<%s> AS ?s) .
-
-    # Takes too long to query subproperties
-    # ?s ?p ?o .
-    # ?pOriginal rdfs:subPropertyOf* ?p .
-    # GRAPH ?g {
-    #     ?s ?pOriginal ?o .
-    # } .
+    BIND(<%s> AS ?o) .
 
     ?s ?p ?o .
+    ?pOriginal rdfs:subPropertyOf* ?p .
 
     GRAPH ?g {
-        ?s ?p ?o .
+        ?s ?pOriginal ?o .
     } .
 
-    OPTIONAL {
-    ?o rdfs:label ?objectlabel .
-    }
-
     ?g gaf:denotedBy ?m .
+    ?m grasp:hasAttribution / rdf:value ?val .
+    ?val rdf:type graspf:PolarityValue .
+
     ?m prov:wasDerivedFrom ?utt .
 
-    ?context sem:hasEvent / sem:hasSubEvent ?utt .
+    ?cont sem:hasEvent / sem:hasSubEvent ?utt .
     ?cont ?time_pred ?d .
     ?d rdfs:label ?date .
     VALUES (?time_pred) { (sem:hasTime) (sem:hasBeginTimeStamp) } .
@@ -39,9 +35,5 @@ where {
     OPTIONAL {
         ?author rdfs:label ?authorlabel .
     }
-
-    FILTER (?o != <%s> )
-
 }
-group by ?o ?authorlabel ?date
-ORDER BY ?date
+GROUP BY ?val ?authorlabel ?date

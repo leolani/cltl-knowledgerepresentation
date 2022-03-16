@@ -114,7 +114,7 @@ class BasicBrain(object):
 
     def ontology_is_uploaded(self):
         """
-        Query the existance of the Ontology graph, thus not importing the whole Ontology every time
+        Query the existence of the Ontology graph, thus not importing the whole Ontology every time
         :return: response status
         """
         self._log.debug("Checking if ontology is in brain")
@@ -195,6 +195,15 @@ class BasicBrain(object):
         return final
 
     ########## learned facts exploration ##########
+    def count_triples(self):
+        """
+        Count triples in the brain
+        :return:
+        """
+        query = read_query('content exploration/count_triples')
+        response = self._submit_query(query)
+        return float(response[0]['triples']['value'])
+
     def count_statements(self):
         """
         Count statements or 'facts' in the brain
@@ -202,41 +211,51 @@ class BasicBrain(object):
         """
         query = read_query('content exploration/count_statements')
         response = self._submit_query(query)
-        return response[0]['count']['value']
+        return float(response[0]['count']['value'])
 
-    def count_statements_by(self, actor_label):
+    def count_statements_by(self, actor_uri):
         """
         Count statements or 'facts' in the brain by a given author
         :return:
         """
-        query = read_query('trust/count_statements_by') % actor_label
+        query = read_query('trust/count_statements_by') % actor_uri
         response = self._submit_query(query)
-        return response[0]['num_stat']['value']
+        return float(response[0]['num_stat']['value'])
 
-    def novel_statements_by(self, actor_label):
+    def novel_statements_by(self, actor_uri):
         """
         Return statements or 'facts' in the brain by a given author, that have not been heard from anyone else
         :return:
         """
-        query = read_query('trust/novel_statements_by') % actor_label
+        query = read_query('trust/novel_statements_by') % actor_uri
         response = self._submit_query(query)
-        return [elem['stat']['value'].split('/')[-1] for elem in response]
+        return [elem['statement']['value'].split('/')[-1] for elem in response]
 
-    def get_conflicts(self):
+    def count_perspectives(self):
+        """
+        Count perspectives or 'views' in the brain
+        :return:
+        """
+        query = read_query('content exploration/count_perspectives')
+        response = self._submit_query(query)
+        return float(response[0]['count']['value'])
+
+    def get_all_negation_conflicts(self):
         """
         Count conflicts or 'facts' with opposing polarity in the brain
         :return:
         """
-        query = read_query('content exploration/all_conflicts')
+        query = read_query('content exploration/all_negation_conflicts')
         response = self._submit_query(query)
         return response
 
-    def get_conflicts_by(self, actor_label):
+    def get_conflicts_by(self, actor_uri):
         """
         Return conflicts or 'facts' with opposing polarity in the brain stated by a specific actor
         :return:
         """
-        query = read_query('trust/conflicts_by') % (actor_label, actor_label)
+        # TODO: fix query to work on subproperties
+        query = read_query('trust/conflicts_by') % (actor_uri, actor_uri)
         response = self._submit_query(query)
         return response
 
@@ -247,7 +266,7 @@ class BasicBrain(object):
         """
         query = read_query('content exploration/count_friends')
         response = self._submit_query(query)
-        return response[0]['count']['value']
+        return float(response[0]['count']['value'])
 
     def get_my_friends(self):
         """
@@ -256,7 +275,7 @@ class BasicBrain(object):
         """
         query = read_query('content exploration/my_friends')
         response = self._submit_query(query)
-        return [elem['name']['value'].split('/')[-1] for elem in response]
+        return [elem['friend']['value'].split('/')[-1] for elem in response]
 
     def get_best_friends(self):
         """
@@ -265,29 +284,38 @@ class BasicBrain(object):
         """
         query = read_query('content exploration/best_friends')
         response = self._submit_query(query)
-        return [(elem['name']['value'], elem['num_chat']['value'].split('/')[-1]) for elem in response]
+        return [(elem['act']['value'], elem['num_chat']['value'].split('/')[-1]) for elem in response]
 
-    def when_last_chat_with(self, actor_label):
+    def when_last_chat_with(self, actor_uri):
         """
         Get time value for the last time I chatted with this person
-        :param actor_label: name of person
+        :param actor_uri: uri of person
         :return:
         """
-        query = read_query('trust/when_last_chat_with') % actor_label
+        query = read_query('trust/when_last_chat_with') % actor_uri
         response = self._submit_query(query)
 
         return response[0]['time']['value'].split('/')[-1] if response != [] else ''
 
-    def count_chat_with(self, actor_label):
+    def count_chat_with(self, actor_uri):
         """
         Count times I chatted with this person
-        :param actor_label: name of person
+        :param actor_uri: uri of person
         :return:
         """
-        query = read_query('trust/count_chat_with') % actor_label
+        query = read_query('trust/count_chat_with') % actor_uri
         response = self._submit_query(query)
 
-        return response[0]['num_chats']['value'].split('/')[-1] if response != [] else ''
+        return float(response[0]['num_chats']['value'].split('/')[-1]) if response != [] else 0.0
+
+    def count_instances(self):
+        """
+        Count instances or world entities in the brain
+        :return:
+        """
+        query = read_query('content exploration/count_instances')
+        response = self._submit_query(query)
+        return float(response[0]['count']['value'])
 
     def get_instance_of_type(self, instance_type):
         """
@@ -297,37 +325,37 @@ class BasicBrain(object):
         """
         query = read_query('typing/instance_of_type') % instance_type
         response = self._submit_query(query)
-        return [elem['name']['value'] for elem in response] if response else []
+        return [elem['s']['value'] for elem in response] if response else []
 
-    def get_type_of_instance(self, label):
+    def get_type_of_instance(self, instance_uri):
         """
         Get types of a certain instance identified by its label
-        :param label: label of instance
+        :param instance_uri: uri of instance
         :return:
         """
-        query = read_query('typing/type_of_instance') % label
+        query = read_query('typing/type_of_instance') % instance_uri
         response = self._submit_query(query)
         return [elem['type']['value'] for elem in response] if response else []
 
-    def get_id_of_instance(self, label):
+    def get_id_of_instance(self, uri):
         """
         Get ids of a certain instance identified by its label
-        :param label: label of instance
+        :param uri: label of instance
         :return:
         """
-        query = read_query('id/id_of_instance') % label
+        query = read_query('id/id_of_instance') % uri
         response = self._submit_query(query)
         return [elem['id']['value'] for elem in response] if response else []
 
-    def get_triples_with_predicate(self, predicate):
+    def get_triples_with_predicate(self, predicate_uri):
         """
         Get triples that contain this predicate
-        :param predicate:
+        :param predicate_uri:
         :return:
         """
-        query = read_query('content exploration/triples_with_predicate') % predicate
+        query = read_query('content exploration/triples_with_predicate') % predicate_uri
         response = self._submit_query(query)
-        return [(elem['sname']['value'], elem['oname']['value']) for elem in response]
+        return [(elem['s']['value'], elem['o']['value']) for elem in response]
 
     ########## WARNING deletions area ##########
 

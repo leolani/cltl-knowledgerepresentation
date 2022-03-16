@@ -23,4 +23,3 @@ select ?date ?authorlabel where {
 
 }
 group by ?date ?authorlabel
-ORDER BY ?date

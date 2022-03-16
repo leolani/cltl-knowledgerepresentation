@@ -5,10 +5,10 @@ from typing import List, Optional
 from nltk.stem import WordNetLemmatizer
 from rdflib import Literal
 
-from cltl.brain.utils.constants import NOT_TO_MENTION_TYPES
 from cltl.brain.utils.helper_functions import hash_claim_id, is_proper_noun
 from cltl.combot.backend.api.discrete import Certainty, Polarity, Sentiment, Emotion, Time
 from cltl.combot.backend.utils.casefolding import casefold_text
+from cltl.combot.backend.utils.triple_helpers import filtered_types_names
 
 
 class RDFBase(object):
@@ -108,7 +108,7 @@ class Entity(RDFBase):
     @property
     def types_names(self):
         # type: () -> str
-        return ' or '.join([t for t in self._types if t.lower() not in NOT_TO_MENTION_TYPES])
+        return filtered_types_names(self._types)
 
     def add_types(self, types):
         # type: (List[str]) -> ()
@@ -431,24 +431,34 @@ class Perspective(object):
 
 class Provenance(object):
     def __init__(self, author, date):
-        # type: (str, date) -> None
+        # type: (Entity, date) -> None
         """
         Construct Provenance Object
         Parameters
         ----------
-        author: str
+        author: Entity
             Person who said the mention
         date: date
             Date when the mention was said
         """
 
         self._author = author
-        self._date = datetime.strptime(date, '%Y-%m-%d')
+        self._date = datetime.strptime(date, '%Y-%m-%d').date()
 
     @property
     def author(self):
-        # type: () -> str
+        # type: () -> Entity
         return self._author
+
+    @property
+    def author_name(self):
+        # type: () -> str
+        return self._author.label if self._author is not None else None
+
+    @property
+    def author_types(self):
+        # type: () -> str
+        return self._author.types_names if self._author is not None else None
 
     @property
     def date(self):
@@ -467,13 +477,7 @@ class Provenance(object):
         -------
 
         """
-        if format == 'triple':
-            # Label
-            self._author = self.author.lower().replace(" ", "_")
-
-        elif format == 'natural':
-            # Label
-            self._author = self.author.lower().replace("_", " ")
+        self._author.casefold(format)
 
     def __repr__(self):
         return f'{self.author} on {self.date.strftime("%B,%Y")}'
@@ -778,6 +782,9 @@ class Gaps(object):
         return f'{len(self._subject)} gaps as subject: e.g. {s.__repr__()} - ' \
                f'{len(self._complement)} gaps as object: e.g. {o.__repr__()}'
 
+    def __len__(self):
+        return len(self._subject) + len(self._complement)
+
 
 class Overlap(object):
     def __init__(self, provenance, entity):
@@ -889,11 +896,14 @@ class Overlaps(object):
         return f'{len(self._subject)} subject overlaps: e.g. {s.__repr__()} - ' \
                f'{len(self._complement)} object overlaps: e.g. {o.__repr__()}'
 
+    def __len__(self):
+        return len(self._subject) + len(self._complement)
+
 
 class Thoughts(object):
     def __init__(self, statement_novelty, entity_novelty, negation_conflicts, complement_conflict,
                  subject_gaps, complement_gaps, overlaps, trust):
-        # type: (List[StatementNovelty], EntityNovelty, List[NegationConflict], List[CardinalityConflict], Gaps, Gaps, Overlaps, float) -> None
+        # type: (Optional[List[StatementNovelty]], Optional[EntityNovelty], Optional[List[NegationConflict]], Optional[List[CardinalityConflict]], Optional[Gaps], Optional[Gaps], Optional[Overlaps], Optional[float]) -> None
         """
         Construct Thoughts Object
         Parameters
@@ -914,6 +924,7 @@ class Thoughts(object):
             Information regarding overlaps of this statement with things heard so far
         trust: float
             Level of trust on this actor
+            :rtype: object
         """
 
         self._statement_novelty = statement_novelty

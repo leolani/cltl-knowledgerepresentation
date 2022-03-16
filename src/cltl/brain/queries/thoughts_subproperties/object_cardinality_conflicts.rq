@@ -3,34 +3,21 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX grasp: <http://groundedannotationframework.org/grasp#>
 PREFIX gaf: <http://groundedannotationframework.org/gaf#>
 PREFIX prov: <http://www.w3.org/ns/prov#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
 
-select ?label (GROUP_CONCAT(DISTINCT ?type;separator="|") as ?types) ?date ?authorlabel
+select ?objectlabel ?authorlabel ?date (GROUP_CONCAT(DISTINCT ?pOriginal ;separator="|") as ?predicates)
 where {
     BIND(<%s> AS ?p) .
-    BIND(<%s> AS ?o) .
-
-    # Takes too long to query subproperties
-    # ?s ?p ?o .
-    # ?pOriginal rdfs:subPropertyOf* ?p .
-    # GRAPH ?g {
-    #     ?s ?pOriginal ?o .
-    # } .
+    BIND(<%s> AS ?s) .
 
     ?s ?p ?o .
+    ?pOriginal rdfs:subPropertyOf* ?p .
 
     GRAPH ?g {
-        ?s ?p ?o .
+        ?s ?pOriginal ?o .
     } .
 
-    OPTIONAL {
-        ?s rdfs:label ?label .
-    }
-    ?s rdf:type ?type .
-    FILTER (regex(str(?type), "n2mu")) .
-
-    FILTER (?s != <%s> )
+    ?o rdfs:label ?objectlabel .
 
     ?g gaf:denotedBy ?m .
     ?m prov:wasDerivedFrom ?utt .
@@ -45,5 +32,7 @@ where {
         ?author rdfs:label ?authorlabel .
     }
 
+    FILTER (?o != <http://cltl.nl/leolani/world/netherlands> )
+
 }
-GROUP BY ?label ?date ?authorlabel
+group by ?objectlabel ?authorlabel ?date

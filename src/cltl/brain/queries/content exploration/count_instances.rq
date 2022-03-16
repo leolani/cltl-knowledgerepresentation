@@ -3,5 +3,5 @@ PREFIX grasp: <http://groundedannotationframework.org/grasp#>
 PREFIX gaf: <http://groundedannotationframework.org/gaf#>
 
 select (COUNT(distinct ?stat) AS ?count) where {
-    ?stat rdf:type gaf:Assertion .
+    ?stat rdf:type gaf:Instance .
 }

@@ -3,8 +3,8 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 select ?id
 where {
+    BIND(<%s> AS ?s)
 
-    ?s rdfs:label "%s".
     ?s n2mu:id ?id
 }
 

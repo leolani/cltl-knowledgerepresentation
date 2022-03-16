@@ -1,3 +1,4 @@
+import pathlib
 import random
 
 from cltl.brain.basic_brain import BasicBrain
@@ -135,15 +136,16 @@ class ThoughtGenerator(BasicBrain):
         Query and build gaps with regards to the range and domain of the given entity and its predicates
         Parameters
         ----------
-        entity: dict
-            Information regarding the entity
+        entity: Entity
+            Entity for which we might get extra information
+        exclude: Entity
 
         Returns
         -------
             Gaps object containing gaps related to range and domain information that could be learned
         """
         # Role as subject
-        query = read_query('thoughts/subject_gaps') % (entity.label, entity.label if exclude is None else exclude.label)
+        query = read_query('thoughts/subject_gaps') % (entity.id, entity.id if exclude is None else exclude.id)
         response = self._submit_query(query)
 
         if response:
@@ -155,7 +157,7 @@ class ThoughtGenerator(BasicBrain):
             subject_gaps = []
 
         # Role as object
-        query = read_query('thoughts/object_gaps') % (entity.label, entity.label if exclude is None else exclude.label)
+        query = read_query('thoughts/object_gaps') % (entity.id, entity.id if exclude is None else exclude.id)
         response = self._submit_query(query)
 
         if response:
@@ -200,16 +202,16 @@ class ThoughtGenerator(BasicBrain):
         Query and build overlaps with regards to the subject and object of the heard statement
         Parameters
         ----------
-        utterance
+        capsule: dict
 
         Returns
         -------
             Overlaps containing shared information with the heard statement
         """
         # Role as subject
-        query = read_query('thoughts/object_overlap') % (capsule['triple'].predicate_name,
-                                                         capsule['triple'].complement_name,
-                                                         capsule['triple'].subject_name)
+        query = read_query('thoughts/object_overlap') % (capsule['triple'].predicate.id,
+                                                         capsule['triple'].complement.id,
+                                                         capsule['triple'].subject.id)
         response = self._submit_query(query)
 
         if response and response[0]['types']['value'] != '':
@@ -218,9 +220,9 @@ class ThoughtGenerator(BasicBrain):
             complement_overlap = []
 
         # Role as object
-        query = read_query('thoughts/subject_overlap') % (capsule['triple'].predicate_name,
-                                                          capsule['triple'].subject_name,
-                                                          capsule['triple'].complement_name)
+        query = read_query('thoughts/subject_overlap') % (capsule['triple'].predicate.id,
+                                                          capsule['triple'].subject.id,
+                                                          capsule['triple'].complement.id)
         response = self._submit_query(query)
 
         if response and response[0]['types']['value'] != '':
@@ -250,8 +252,8 @@ class ThoughtGenerator(BasicBrain):
         """
         processed_provenance = self._rdf_builder.fill_provenance(raw_conflict['authorlabel']['value'],
                                                                  raw_conflict['date']['value'])
-        processed_type = self.get_type_of_instance(raw_conflict['objectlabel']['value'])
-        processed_entity = self._rdf_builder.fill_entity(raw_conflict['objectlabel']['value'], processed_type)
+        processed_type = self.get_type_of_instance(raw_conflict['o']['value'])
+        processed_entity = self._rdf_builder.fill_entity(raw_conflict['objectLabel']['value'], processed_type)
 
         return CardinalityConflict(processed_provenance, processed_entity)
 
@@ -308,7 +310,7 @@ class ThoughtGenerator(BasicBrain):
         multiple object values
         Parameters
         ----------
-        utterance
+        capsule: dict
 
         Returns
         -------
@@ -318,9 +320,9 @@ class ThoughtGenerator(BasicBrain):
         if str(capsule['triple'].predicate_name) not in self._ONE_TO_ONE_PREDICATES:
             return []
 
-        query = read_query('thoughts/object_cardinality_conflicts') % (capsule['triple'].predicate_name,
-                                                                       capsule['triple'].subject_name,
-                                                                       capsule['triple'].complement_name)
+        query = read_query('thoughts/object_cardinality_conflicts') % (capsule['triple'].predicate.id,
+                                                                       capsule['triple'].subject.id,
+                                                                       capsule['triple'].complement.id)
 
         response = self._submit_query(query)
         if response and response[0] != {}:
@@ -339,22 +341,26 @@ class ThoughtGenerator(BasicBrain):
         Query and build negation conflicts, meaning conflicts because predicates are directly negated
         Parameters
         ----------
-        utterance
+        capsule: dict
 
         Returns
         -------
         conflicts: List[NegationConflict]
             List of Conflicts containing the predicate which creates the conflict, and their provenance
         """
-        query = read_query('thoughts/negation_conflicts') % (capsule['triple'].predicate_name,
-                                                             capsule['triple'].subject_name,
-                                                             capsule['triple'].complement_name)
+        conflicts = []
+
+        query = read_query('thoughts/negation_conflicts') % (capsule['triple'].predicate.id,
+                                                             capsule['triple'].subject.id,
+                                                             capsule['triple'].complement.id)
 
         response = self._submit_query(query)
-        if response and response[0] != {}:
-            conflicts = [self._fill_negation_conflict_(elem) for elem in response]
-        else:
-            conflicts = []
+        if response and response[0] != {} and len(response) > 2:
+            affirmative_conflict = [item for item in response if item['val']['value'].split('#')[-1] == 'POSITIVE']
+            negative_conflict = [item for item in response if item['val']['value'].split('#')[-1] == 'NEGATIVE']
+
+            if affirmative_conflict or negative_conflict:
+                conflicts = [self._fill_negation_conflict_(elem) for elem in response]
 
         if conflicts:
             c = random.choice(conflicts)

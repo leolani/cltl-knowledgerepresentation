@@ -1,3 +1,5 @@
+import pathlib
+
 from cltl.brain.LTM_question_processing import create_query
 from cltl.brain.LTM_statement_processing import model_graphs, _link_leolani, _link_entity, \
     create_claim_graph
@@ -7,6 +9,8 @@ from cltl.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasone
 from cltl.brain.utils.helper_functions import read_query
 from cltl.combot.backend.api.discrete import UtteranceType
 from cltl.combot.backend.utils.casefolding import casefold_text
+
+from datetime import datetime
 
 
 class LongTermMemory(BasicBrain):
@@ -104,15 +108,19 @@ class LongTermMemory(BasicBrain):
 
         """
 
+        # Process capsule to right types
         capsule['triple'] = self._rdf_builder.fill_triple(capsule['subject'], capsule['predicate'], capsule['object'])
         capsule['perspective'] = self._rdf_builder.fill_perspective(capsule['perspective']) \
             if 'perspective' in capsule.keys() else self._rdf_builder.fill_perspective({})
-        capsule['type'] = UtteranceType.STATEMENT
+        capsule['utterance_type'] = UtteranceType[capsule['utterance_type']] \
+            if type(capsule['utterance_type']) == str else capsule['utterance_type']
+        capsule['date'] = datetime.fromisoformat(capsule['date']).date() \
+            if type(capsule['date']) == str else capsule['date']
 
         if capsule['triple'] is not None:
 
+            # Try to figure out what this entity is
             if reason_types:
-                # Try to figure out what this entity is
                 if not capsule['triple'].complement.types:
                     complement_type, _ = self.type_reasoner.reason_entity_type(str(capsule['triple'].complement_name),
                                                                                exact_only=True)
@@ -155,7 +163,8 @@ class LongTermMemory(BasicBrain):
                                                                      exclude=capsule['triple'].subject)
 
             # Report trust
-            trust = self.trust_calculator.get_trust(capsule['author'])
+            actor = self._rdf_builder.fill_entity(capsule['author'], ['Instance', 'Source', 'Actor', 'person'], 'LF')
+            trust = self.trust_calculator.get_trust(actor.id)
 
             # Create JSON output
             thoughts = Thoughts(statement_novelty, entity_novelty, negation_conflicts, cardinality_conflict,
@@ -168,15 +177,17 @@ class LongTermMemory(BasicBrain):
 
         return output
 
-    def experience(self, utterance):
+    def experience(self, utterance, create_label=False):
         """
         Main function to interact with if an experience is coming into the brain. Takes in a structured utterance
         containing parsed experience, transforms them to triples, and posts them to the triple store
-        :param utterance: Structured data of a parsed experience
+        :param utterance: dict
+        :param create_label: Boolean
+            Turn automatic rdfs:label on or off for instance graph entities
         :return: json response containing the status for posting the triples, and the original statement
         """
         # Create graphs and triples
-        _ = model_graphs(self, utterance)
+        _ = model_graphs(self, utterance, create_label)
 
         # Finish process of uploading new knowledge to the triple store
         data = self._serialize(self._brain_log())
@@ -187,11 +198,11 @@ class LongTermMemory(BasicBrain):
 
         return output
 
-    def query_brain(self, capsule, debug=False):
+    def query_brain(self, capsule):
         """
         Main function to interact with if a question is coming into the brain. Takes in a structured parsed question,
         transforms it into a query, and queries the triple store for a response
-        :param utterance: Structured data of a parsed question
+        :param capsule: Structured data of a parsed question
         :return: json response containing the results of the query, and the original question
         """
         capsule['triple'] = self._rdf_builder.fill_triple(capsule['subject'], capsule['predicate'], capsule['object'])

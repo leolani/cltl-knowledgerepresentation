@@ -412,16 +412,12 @@ grasp:wasAttributedTo rdf:type owl:ObjectProperty ;
                       rdfs:range n2mu:sensor ,
                                  grasp:Source ,
                                  sem:Actor ,
-                                 [ owl:intersectionOf ( n2mu:agent
-                                                        gaf:Instance
-                                                        grasp:Source
+                                 [ owl:intersectionOf ( gaf:Instance
                                                         sem:Actor
                                                       ) ;
                                    rdf:type owl:Class
                                  ] ,
-                                 [ owl:intersectionOf ( n2mu:sensor
-                                                        gaf:Instance
-                                                        grasp:Source
+                                 [ owl:intersectionOf ( gaf:Instance
                                                         sem:Actor
                                                       ) ;
                                    rdf:type owl:Class

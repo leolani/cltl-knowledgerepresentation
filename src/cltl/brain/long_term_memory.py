@@ -1,5 +1,8 @@
 import pathlib
+from datetime import datetime
 
+from cltl.brain.LTM_context_processing import create_context
+from cltl.brain.LTM_detection_processing import create_detections
 from cltl.brain.LTM_question_processing import create_query
 from cltl.brain.LTM_statement_processing import model_graphs, _link_leolani, _link_entity, \
     create_claim_graph
@@ -9,8 +12,6 @@ from cltl.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasone
 from cltl.brain.utils.helper_functions import read_query
 from cltl.combot.backend.api.discrete import UtteranceType
 from cltl.combot.backend.utils.casefolding import casefold_text
-
-from datetime import datetime
 
 
 class LongTermMemory(BasicBrain):
@@ -86,8 +87,60 @@ class LongTermMemory(BasicBrain):
 
         return output
 
-    def update(self, capsule, reason_types=False, create_label=False):
-        # type (Utterance) -> Thoughts
+    def query_brain(self, capsule):
+        """
+        Main function to interact with if a question is coming into the brain. Takes in a structured parsed question,
+        transforms it into a query, and queries the triple store for a response
+        :param capsule: Structured data of a parsed question
+        :return: json response containing the results of the query, and the original question
+        """
+        capsule['triple'] = self._rdf_builder.fill_triple(capsule['subject'], capsule['predicate'], capsule['object'])
+
+        # Generate query
+        query = create_query(self, capsule)
+        # Perform query
+        response = self._submit_query(query)
+
+        # Create JSON output
+        output = {'response': response, 'question': capsule}
+
+        return output
+
+    def capsule_context(self, capsule):
+        # type (dict) -> dict
+        """
+        Main function to initialize an episode by creating a context with time and location details.
+        Parameters
+        ----------
+        capsule: dict
+            Contains all necessary information regarding a situated context (context_id, date, place name and id,
+            country, region, and city).
+
+        Returns
+        -------
+        capsule: dict
+            Returns back the capsule, adding the response code.
+
+        """
+
+        # Process capsule to right types
+        capsule['date'] = datetime.fromisoformat(capsule['date']).date() \
+            if type(capsule['date']) == str else capsule['date']
+
+        # Create graphs and triples
+        context = create_context(self, capsule)
+
+        # Finish process of uploading new knowledge to the triple store
+        data = self._serialize(self._brain_log())
+        code = self._upload_to_brain(data)
+
+        # Create JSON output
+        output = {'response': code, 'capsule': capsule}
+
+        return output
+
+    def capsule_triple(self, capsule, reason_types=False, create_label=False):
+        # type (Utterance) -> dict
         """
         Main function to interact with if a statement is coming into the brain. Takes in an Utterance containing a
         parsed statement as a Triple, transforms them to linked data, and posts them to the triple store
@@ -114,11 +167,8 @@ class LongTermMemory(BasicBrain):
             if 'perspective' in capsule.keys() else self._rdf_builder.fill_perspective({})
         capsule['utterance_type'] = UtteranceType[capsule['utterance_type']] \
             if type(capsule['utterance_type']) == str else capsule['utterance_type']
-        capsule['date'] = datetime.fromisoformat(capsule['date']).date() \
-            if type(capsule['date']) == str else capsule['date']
 
-        if capsule['triple'] is not None:
-
+        try:
             # Try to figure out what this entity is
             if reason_types:
                 if not capsule['triple'].complement.types:
@@ -171,48 +221,45 @@ class LongTermMemory(BasicBrain):
                                 subject_gaps, complement_gaps, overlaps, trust)
             output = {'response': code, 'statement': capsule, 'thoughts': thoughts}
 
-        else:
+        except:
             # Create JSON output
             output = {'response': None, 'statement': capsule, 'thoughts': None}
 
         return output
 
-    def experience(self, utterance, create_label=False):
+    def capsule_detection(self, capsule, create_label=False):
+        # type (Utterance) -> dict
         """
-        Main function to interact with if an experience is coming into the brain. Takes in a structured utterance
-        containing parsed experience, transforms them to triples, and posts them to the triple store
-        :param utterance: dict
-        :param create_label: Boolean
-            Turn automatic rdfs:label on or off for instance graph entities
-        :return: json response containing the status for posting the triples, and the original statement
+        Main function to register computer vision object and people detections
+        Parameters
+        ----------
+        capsule: dict
+            Contains all necessary information regarding the detections.
+        create_label: Boolean
+            Turn automatic rdfs:label on or off for instance graph entities (people detections)
+
+        Returns
+        -------
+        capsule: dict
+            Returns back the capsule, adding the response code.
+
         """
+
+        # Process capsule to right types
+        capsule['utterance_type'] = UtteranceType[capsule['utterance_type']] \
+            if type(capsule['utterance_type']) == str else capsule['utterance_type']
+
+        # Casefold
+        capsule['source'] = casefold_text(capsule['source'], format='triple')
+
         # Create graphs and triples
-        _ = model_graphs(self, utterance, create_label)
+        create_detections(self, capsule, create_label)
 
         # Finish process of uploading new knowledge to the triple store
         data = self._serialize(self._brain_log())
         code = self._upload_to_brain(data)
 
         # Create JSON output
-        output = {'response': code, 'statement': utterance}
-
-        return output
-
-    def query_brain(self, capsule):
-        """
-        Main function to interact with if a question is coming into the brain. Takes in a structured parsed question,
-        transforms it into a query, and queries the triple store for a response
-        :param capsule: Structured data of a parsed question
-        :return: json response containing the results of the query, and the original question
-        """
-        capsule['triple'] = self._rdf_builder.fill_triple(capsule['subject'], capsule['predicate'], capsule['object'])
-
-        # Generate query
-        query = create_query(self, capsule)
-        # Perform query
-        response = self._submit_query(query)
-
-        # Create JSON output
-        output = {'response': response, 'question': capsule}
+        output = {'response': code, 'capsule': capsule}
 
         return output

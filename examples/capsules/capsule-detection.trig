@@ -24,7 +24,7 @@ leolaniWorld:Instances {
         gaf:denotedIn leolaniTalk:visual1_detection1_pixel0-3 .
 
     leolaniWorld:carl a gaf:Instance, n2mu:person ;
-        rdfs:label "carl" ;
+        rdfs:label "carl" ; # MISSING
         eps:hasContext leolaniContext:context169 ;
         gaf:denotedIn leolaniTalk:visual1_detection1_pixel0-3 .
 
@@ -74,11 +74,11 @@ leolaniTalk:Perspectives {
         gaf:containsDenotation leolaniWorld:chair-1, leolaniWorld:carl ;
         gaf:denotes leolaniWorld:leolani_see_chair-1, leolaniWorld:leolani_see_carl ;
         grasp:wasAttributedTo leolaniInputs:front-camera ;
-        grasp:hasAttribution leolaniTalk:carl-1_see_pills_Certainty.PROBABLE .
+        grasp:hasAttribution leolaniTalk:leolani_see_carl_CERTAIN, leolaniTalk:leolani_see_chair-1_PROBABLE .
 
-    leolaniTalk:leolani_see_chair-1_CERTAIN-POSITIVE-UNDERSPECIFIED-UNDERSPECIFIED a grasp:Attribution ;
-        rdfs:label "leolani_see_chair-1_CERTAIN-POSITIVE-UNDERSPECIFIED-UNDERSPECIFIED" ;
-        rdf:value graspe:UNDERSPECIFIED, graspf:CERTAIN, graspf:POSITIVE, grasps:UNDERSPACIFIED ;
+    leolaniTalk:leolani_see_chair-1_PROBABLE-POSITIVE-UNDERSPECIFIED-UNDERSPECIFIED a grasp:Attribution ;
+        rdfs:label "leolani_see_chair-1_PROBABLE-POSITIVE-UNDERSPECIFIED-UNDERSPECIFIED" ;
+        rdf:value graspe:UNDERSPECIFIED, graspf:PROBABLE, graspf:POSITIVE, grasps:UNDERSPECIFIED ;
         grasp:isAttributionFor leolaniTalk:visual1_detection1_pixel0-3 .
 
     leolaniTalk:leolani_see_carl_CERTAIN-POSITIVE-UNDERSPECIFIED-UNDERSPECIFIED a grasp:Attribution ;

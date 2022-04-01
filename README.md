@@ -60,6 +60,16 @@ Then you can import it in a python script as:
 
     import cltl.brain
 
+
+You can also modify the logger level as such:
+
+```python
+import logging
+
+from cltl.brain import logger as brain_logger
+
+brain_logger.setLevel(logging.ERROR)
+```
 ## Examples
 
 Please take a look at the example scripts provided to get an idea on how to run and use this package. Each example has a

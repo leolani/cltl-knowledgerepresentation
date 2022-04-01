@@ -1,24 +1,32 @@
+
+PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
+PREFIX xml1: <https://www.w3.org/TR/xmlschema-2/#>
 PREFIX eps: <http://cltl.nl/episodicawareness/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
-PREFIX leolaniContext: <http://cltl.nl/leolani/context/>
 
-SELECT ?type  (GROUP_CONCAT(DISTINCT ?si;separator="|") as ?ids) (GROUP_CONCAT( ?num_observation;separator="|") as ?imp)
+SELECT ?type  (GROUP_CONCAT(DISTINCT ?detection_id;separator="|") as ?ids) (GROUP_CONCAT( ?num_observation;separator="|") as ?importance)
 WHERE {
 
-SELECT ?si  (COUNT(DISTINCT ?c) as ?num_observation)   (GROUP_CONCAT(DISTINCT ?stob;separator="|") as ?type)
+SELECT ?detection ?detection_id  (COUNT(DISTINCT ?context) as ?num_observation) (GROUP_CONCAT(DISTINCT ?object_type; separator="|") as ?type)
+
 WHERE {
-    ?c eps:hasDetection ?s .
-    ?s n2mu:id ?si .
-    ?s rdf:type n2mu:object, ?st, ?stob .
-    FILTER(regex(str(?stob), "n2mu")) .
-    FILTER(regex(str(?st), "n2mu")) .
-    FILTER(!regex(str(?stob), "object")) .
-    ?c sem:hasPlace leolaniContext:%s  .
+    # Identify the place where this context is taking place
+    ?seedContext n2mu:id "%s"^^xml1:string.
+    ?seedContext sem:hasPlace ?place .
+
+    # Get detections and their id
+    ?context sem:hasPlace ?place .
+    ?context eps:hasDetection ?detection .
+    ?detection n2mu:id ?detection_id .
+
+    ?detection rdf:type n2mu:object, ?object_type .
+
+    FILTER(regex(str(?object_type), "n2mu")) .
+    FILTER(!regex(str(?object_type), "object")) .
 }
-group by ?si
-    order by DESC(COUNT(DISTINCT ?c))
+group by ?detection ?detection_id
+order by DESC(COUNT(DISTINCT ?context))
+
 }
 group by ?type

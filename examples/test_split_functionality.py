@@ -80,20 +80,28 @@ context_capsule = {
     "city": location['city']
 }
 
-test = [old_capsule]
-
 
 def main(log_path):
     # Create brain connection
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
-                           clear_all=True)
-    data = []
-    for capsule in tqdm(test):
-        # Add information to the brain
-        print(f"\n\n---------------------------------------------------------------\n")
-        response = brain.update(capsule, reason_types=True, create_label=True)
-        print(f"\n{capsule['triple']}\n")
+                           clear_all=False)
+
+    response = brain.capsule_context(context_capsule)
+
+    # Create brain connection
+    brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
+                           log_dir=log_path,
+                           clear_all=False)
+
+    response = brain.capsule_detection(detection_capsule)
+
+    # Create brain connection
+    brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
+                           log_dir=log_path,
+                           clear_all=False)
+
+    response = brain.capsule_triple(triple_capsule)
 
 
 if __name__ == "__main__":

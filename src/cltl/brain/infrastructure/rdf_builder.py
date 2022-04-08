@@ -8,9 +8,9 @@ from cltl.brain import logger
 from cltl.brain.infrastructure import Predicate, Entity, Triple, Provenance, Perspective
 from cltl.brain.utils.helper_functions import confidence_to_certainty_value, polarity_to_polarity_value, \
     sentiment_to_sentiment_value, emotion_to_emotion_value
-from cltl.combot.backend.api.discrete import Certainty, Polarity, Sentiment, Emotion
-from cltl.combot.backend.utils.casefolding import casefold_text
-from cltl.combot.backend.utils.triple_helpers import fix_nlp_types
+from cltl.brain.commons.discrete import Certainty, Polarity, Sentiment, Emotion
+from cltl.brain.commons.casefolding import casefold_text
+from cltl.brain.commons.triple_helpers import fix_nlp_types
 
 
 class RdfBuilder(object):

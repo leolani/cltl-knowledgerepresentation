@@ -6,9 +6,9 @@ from nltk.stem import WordNetLemmatizer
 from rdflib import Literal
 
 from cltl.brain.utils.helper_functions import hash_claim_id, is_proper_noun
-from cltl.combot.backend.api.discrete import Certainty, Polarity, Sentiment, Emotion, Time
-from cltl.combot.backend.utils.casefolding import casefold_text
-from cltl.combot.backend.utils.triple_helpers import filtered_types_names
+from cltl.brain.commons.discrete import Certainty, Polarity, Sentiment, Emotion, Time
+from cltl.brain.commons.casefolding import casefold_text
+from cltl.brain.commons.triple_helpers import filtered_types_names
 
 
 class RDFBase(object):

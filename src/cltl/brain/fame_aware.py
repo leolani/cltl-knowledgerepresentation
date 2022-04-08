@@ -5,7 +5,7 @@ import requests
 from cltl.brain.LTM_statement_processing import _link_entity, create_claim_graph
 from cltl.brain.long_term_memory import LongTermMemory
 from cltl.brain.utils.helper_functions import read_query
-from cltl.combot.backend.utils.casefolding import casefold_text
+from cltl.brain.commons.casefolding import casefold_text
 
 
 class FameAwareMemory(LongTermMemory):

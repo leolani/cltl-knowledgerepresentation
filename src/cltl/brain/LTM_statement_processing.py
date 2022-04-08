@@ -5,8 +5,8 @@ from rdflib import RDF, RDFS, OWL
 from cltl.brain.utils.constants import NAMESPACE_MAPPING
 from cltl.brain.utils.helper_functions import hash_claim_id, get_object_id, \
     confidence_to_certainty_value
-from cltl.combot.backend.api.discrete import UtteranceType
-from cltl.combot.backend.utils.casefolding import casefold_text
+from cltl.brain.commons.discrete import UtteranceType
+from cltl.brain.commons.casefolding import casefold_text
 
 
 ######################################## Helpers for statement processing ########################################

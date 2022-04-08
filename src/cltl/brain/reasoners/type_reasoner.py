@@ -5,7 +5,7 @@ from fuzzywuzzy import process
 
 from cltl.brain.basic_brain import BasicBrain
 from cltl.brain.utils.helper_functions import read_query, remove_articles
-from cltl.combot.backend.utils.casefolding import casefold_text
+from cltl.brain.commons.casefolding import casefold_text
 
 
 class TypeReasoner(BasicBrain):

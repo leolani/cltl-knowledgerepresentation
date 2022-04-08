@@ -7,8 +7,8 @@ from rdflib import URIRef, Literal
 
 import cltl.brain
 from cltl.brain.utils.constants import CAPITALIZED_TYPES
-from cltl.combot.backend.api.discrete import Certainty, Polarity, Sentiment, Emotion
-from cltl.combot.backend.utils.casefolding import casefold_text
+from cltl.brain.commons.discrete import Certainty, Polarity, Sentiment, Emotion
+from cltl.brain.commons.casefolding import casefold_text
 
 
 def read_query(query_filename):

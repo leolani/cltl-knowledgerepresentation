@@ -7,8 +7,8 @@ from cltl.brain.basic_brain import BasicBrain
 from cltl.brain.infrastructure import Thoughts, Triple
 from cltl.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
 from cltl.brain.utils.helper_functions import read_query
-from cltl.combot.backend.api.discrete import UtteranceType
-from cltl.combot.backend.utils.casefolding import casefold_text
+from cltl.brain.commons.discrete import UtteranceType
+from cltl.brain.commons.casefolding import casefold_text
 
 from datetime import datetime
 

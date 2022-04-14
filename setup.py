@@ -35,5 +35,13 @@ setup(
         'importlib_resources~=5.2',
         'tqdm~=4.62'
     ],
+    extras_require={
+        "service": [
+            "cltl.backend",
+            "cltl.combot",
+            "emissor",
+            "requests",
+        ]
+    },
     setup_requires=['flake8']
 )

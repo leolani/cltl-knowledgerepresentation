@@ -4,7 +4,7 @@ from cltl.brain.LTM_shared import _link_entity
 from cltl.combot.backend.utils.casefolding import casefold_text
 
 
-def create_context(self, capsule):
+def process_context(self, capsule):
     # Create an episodic awareness by making a context
     context_id = self._rdf_builder.fill_literal(capsule['context_id'], datatype=self.namespaces['XML']['string'])
     context = self._rdf_builder.fill_entity(f"context{capsule['context_id']}", ['Context'], 'LC')
@@ -67,5 +67,7 @@ def create_context(self, capsule):
     self.interaction_graph.add((location.id, self.namespaces['N2MU']['in'], location_country.id))
     self.interaction_graph.add((location.id, self.namespaces['N2MU']['in'], location_region.id))
     self.interaction_graph.add((context.id, self.namespaces['SEM']['hasPlace'], location.id))
+
+    self._log.info(f"Context: {context}")
 
     return context

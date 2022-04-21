@@ -18,10 +18,11 @@ context_id = getrandbits(8)
 place_id = getrandbits(8)
 location = requests.get("https://ipinfo.io").json()
 
-triple_capsule = {
+statement_capsule = {
     "chat": 1,
     "turn": 1,
-    "author": "carl",
+    "author": {"label": "carl", "type": ["person"],
+               'uri': "http://cltl.nl/leolani/friends/carl-1"},
     "utterance": "I did not take my pills.",
     "utterance_type": UtteranceType.STATEMENT,
     "position": "0-25",
@@ -34,10 +35,11 @@ triple_capsule = {
     "context_id": context_id
 }
 
-detection_capsule_1 = {
+experience_capsule_1 = {
     "visual": 1,
     "detection": 1,
-    "source": "front-camera",
+    "source": {"label": "front-camera", "type": ["sensor"],
+               'uri': "http://cltl.nl/leolani/inputs/front-camera"},
     "image": None,
     "utterance_type": UtteranceType.EXPERIENCE,
     "region": [752, 46, 1148, 716],
@@ -47,10 +49,11 @@ detection_capsule_1 = {
     "context_id": context_id
 }
 
-detection_capsule_2 = {
+experience_capsule_2 = {
     "visual": 1,
     "detection": 2,
-    "source": "front-camera",
+    "source": {"label": "front-camera", "type": ["sensor"],
+               'uri': "http://cltl.nl/leolani/inputs/front-camera"},
     "image": None,
     "utterance_type": UtteranceType.EXPERIENCE,
     "region": [752, 46, 1700, 716],
@@ -79,11 +82,13 @@ def main(log_path):
 
     response = brain.capsule_context(context_capsule)
 
-    response = brain.capsule_detection(detection_capsule_1)
+    response = brain.capsule_experience(experience_capsule_1)
 
-    response = brain.capsule_detection(detection_capsule_2)
+    response = brain.capsule_experience(experience_capsule_2)
 
-    response = brain.capsule_triple(triple_capsule)
+    response = brain.capsule_statement(statement_capsule)
+
+    print('DONE')
 
 
 if __name__ == "__main__":

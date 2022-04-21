@@ -1,11 +1,11 @@
 import pathlib
 from datetime import datetime
 
-from cltl.brain.LTM_context_processing import create_context
-from cltl.brain.LTM_detection_processing import create_detection
+from cltl.brain.LTM_context_processing import process_context
+from cltl.brain.LTM_experience_processing import process_experience
 from cltl.brain.LTM_question_processing import create_query
-from cltl.brain.LTM_statement_processing import model_graphs, _link_leolani, _link_entity, \
-    create_claim_graph
+from cltl.brain.LTM_shared import _link_leolani, _link_entity, create_claim_graph
+from cltl.brain.LTM_statement_processing import process_statement
 from cltl.brain.basic_brain import BasicBrain
 from cltl.brain.infrastructure import Thoughts, Triple
 from cltl.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
@@ -30,6 +30,8 @@ class LongTermMemory(BasicBrain):
 
         self.myself = None
         self.query_prefixes = read_query('prefixes')  # USED ONLY WHEN QUERYING
+
+        # Initialize submodules
         self.thought_generator = ThoughtGenerator(address, log_dir)
         self.location_reasoner = LocationReasoner(address, log_dir)
         self.type_reasoner = TypeReasoner(address, log_dir)
@@ -128,7 +130,7 @@ class LongTermMemory(BasicBrain):
             if type(capsule['date']) == str else capsule['date']
 
         # Create graphs and triples
-        context = create_context(self, capsule)
+        context = process_context(self, capsule)
 
         # Finish process of uploading new knowledge to the triple store
         data = self._serialize(self._brain_log())
@@ -139,7 +141,7 @@ class LongTermMemory(BasicBrain):
 
         return output
 
-    def capsule_triple(self, capsule, reason_types=False, create_label=False):
+    def capsule_statement(self, capsule, reason_types=False, create_label=False):
         # type (Utterance) -> dict
         """
         Main function to interact with if a statement is coming into the brain. Takes in an Utterance containing a
@@ -183,13 +185,13 @@ class LongTermMemory(BasicBrain):
 
             # Casefold
             capsule['triple'].casefold(format='triple')
-            capsule['author'] = casefold_text(capsule['author'], format='triple')
+            capsule['author']['type'] = [casefold_text(t, format='triple') for t in capsule['author']['type']]
 
             # Create graphs and triples
-            instance = model_graphs(self, capsule, create_label)
+            claim = process_statement(self, capsule, create_label)
 
             # Check if this knowledge already exists on the brain
-            statement_novelty = self.thought_generator.get_statement_novelty(instance.id)
+            statement_novelty = self.thought_generator.get_statement_novelty(claim.id)
 
             # Check how many items of the same type as subject and complement we have
             entity_novelty = self.thought_generator.fill_entity_novelty(capsule['triple'].subject.id,
@@ -227,7 +229,7 @@ class LongTermMemory(BasicBrain):
 
         return output
 
-    def capsule_detection(self, capsule, create_label=False):
+    def capsule_experience(self, capsule, create_label=False):
         # type (Utterance) -> dict
         """
         Main function to register computer vision object and people detections
@@ -250,15 +252,18 @@ class LongTermMemory(BasicBrain):
                                                           capsule['item']['type'] + ['Instance'],
                                                           'LW',
                                                           uri=capsule['item']['uri'])
+        capsule['perspective'] = self._rdf_builder.fill_perspective({'certainty': capsule['confidence'],
+                                                                     'polarity': 1}) \
+            if 'certainty' in capsule.keys() else self._rdf_builder.fill_perspective({})
         capsule['utterance_type'] = UtteranceType[capsule['utterance_type']] \
             if type(capsule['utterance_type']) == str else capsule['utterance_type']
 
         # Casefold
-        capsule['source'] = casefold_text(capsule['source'], format='triple')
+        capsule['source']['type'] = [casefold_text(t, format='triple') for t in capsule['source']['type']]
         capsule['item']['type'] = [casefold_text(t, format='triple') for t in capsule['item']['type']]
 
         # Create graphs and triples
-        create_detection(self, capsule, create_label)
+        process_experience(self, capsule, create_label)
 
         # Finish process of uploading new knowledge to the triple store
         data = self._serialize(self._brain_log())

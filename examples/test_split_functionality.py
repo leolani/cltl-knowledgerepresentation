@@ -18,30 +18,6 @@ context_id = getrandbits(8)
 place_id = getrandbits(8)
 location = requests.get("https://ipinfo.io").json()
 
-old_capsule = {
-    "chat": 1,
-    "turn": 1,
-    "author": "carl",
-    "utterance": "I did not take my pills.",
-    "utterance_type": UtteranceType.STATEMENT,
-    "position": "0-25",
-    "subject": {"label": "carl", "type": ["person"],
-                'uri': "http://cltl.nl/leolani/world/carl-1"},
-    "predicate": {"label": "take", "uri": "http://cltl.nl/leolani/n2mu/take"},
-    "object": {"label": "pills", "type": ["object", "medicine"],
-               'uri': "http://cltl.nl/leolani/world/pills"},
-    "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},
-    "context_id": context_id,
-    "date": date(2021, 3, 12),
-    "place": "Carl's room",
-    "place_id": place_id,
-    "country": location['country'],
-    "region": location['region'],
-    "city": location['city'],
-    "objects": [{'type': 'chair', 'confidence': 0.68, 'id': 1}],
-    "people": [{'name': 'Carl', 'confidence': 0.94, 'id': 1}]
-}
-
 triple_capsule = {
     "chat": 1,
     "turn": 1,
@@ -58,15 +34,29 @@ triple_capsule = {
     "context_id": context_id
 }
 
-detection_capsule = {
+detection_capsule_1 = {
     "visual": 1,
     "detection": 1,
     "source": "front-camera",
     "image": None,
     "utterance_type": UtteranceType.EXPERIENCE,
-    "region": "0-25",
-    "objects": [{'type': 'chair', 'confidence': 0.68, 'id': 1}],
-    "people": [{'name': 'Carl', 'confidence': 0.94, 'id': 1}],
+    "region": [752, 46, 1148, 716],
+    "item": {'label': 'chair 1', 'type': ['chair'], 'id': 1,
+             'uri': "http://cltl.nl/leolani/world/chair-1"},
+    'confidence': 0.68,
+    "context_id": context_id
+}
+
+detection_capsule_2 = {
+    "visual": 1,
+    "detection": 2,
+    "source": "front-camera",
+    "image": None,
+    "utterance_type": UtteranceType.EXPERIENCE,
+    "region": [752, 46, 1700, 716],
+    "item": {'label': 'Carl', 'type': ['person'], 'id': None,
+             'uri': "http://cltl.nl/leolani/world/carl-1"},
+    'confidence': 0.94,
     "context_id": context_id
 }
 
@@ -89,17 +79,9 @@ def main(log_path):
 
     response = brain.capsule_context(context_capsule)
 
-    # Create brain connection
-    brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
-                           log_dir=log_path,
-                           clear_all=False)
+    response = brain.capsule_detection(detection_capsule_1)
 
-    response = brain.capsule_detection(detection_capsule)
-
-    # Create brain connection
-    brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
-                           log_dir=log_path,
-                           clear_all=False)
+    response = brain.capsule_detection(detection_capsule_2)
 
     response = brain.capsule_triple(triple_capsule)
 

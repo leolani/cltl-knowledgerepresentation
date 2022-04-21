@@ -2,7 +2,7 @@ import pathlib
 from datetime import datetime
 
 from cltl.brain.LTM_context_processing import create_context
-from cltl.brain.LTM_detection_processing import create_detections
+from cltl.brain.LTM_detection_processing import create_detection
 from cltl.brain.LTM_question_processing import create_query
 from cltl.brain.LTM_statement_processing import model_graphs, _link_leolani, _link_entity, \
     create_claim_graph
@@ -246,14 +246,19 @@ class LongTermMemory(BasicBrain):
         """
 
         # Process capsule to right types
+        capsule['entity'] = self._rdf_builder.fill_entity(casefold_text(capsule['item']['label'], format='triple'),
+                                                          capsule['item']['type'] + ['Instance'],
+                                                          'LW',
+                                                          uri=capsule['item']['uri'])
         capsule['utterance_type'] = UtteranceType[capsule['utterance_type']] \
             if type(capsule['utterance_type']) == str else capsule['utterance_type']
 
         # Casefold
         capsule['source'] = casefold_text(capsule['source'], format='triple')
+        capsule['item']['type'] = [casefold_text(t, format='triple') for t in capsule['item']['type']]
 
         # Create graphs and triples
-        create_detections(self, capsule, create_label)
+        create_detection(self, capsule, create_label)
 
         # Finish process of uploading new knowledge to the triple store
         data = self._serialize(self._brain_log())

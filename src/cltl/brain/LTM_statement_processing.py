@@ -10,7 +10,7 @@ from cltl.combot.backend.api.discrete import UtteranceType
 
 def _create_statement_mention(self, capsule, subevent):
     mention_unit = 'char'
-    mention_position = f"0-{len(capsule['utterance'])}"
+    mention_position = f"{capsule['position']}"
     transcript = self._rdf_builder.fill_literal(capsule['utterance'], datatype=self.namespaces['XML']['string'])
 
     # Mention
@@ -31,10 +31,10 @@ def _create_statement_mention(self, capsule, subevent):
 
 
 def _create_statement_attribution(self, capsule, mention, claim):
-    attribution_suffix = f"{capsule['perspective'].certainty.name}-" \
-                         f"{capsule['perspective'].polarity.name}-" \
-                         f"{capsule['perspective'].sentiment.name}-" \
-                         f"{capsule['perspective'].emotion.name}"
+    attribution_suffix = f"{capsule['perspective'].certainty.value}" \
+                         f"{capsule['perspective'].polarity.value}" \
+                         f"{capsule['perspective'].sentiment.value}" \
+                         f"{capsule['perspective'].emotion.value}"
 
     attribution_label = claim.label + f"_{attribution_suffix}"
     attribution = self._rdf_builder.fill_entity(attribution_label, ['Attribution'], 'LTa')

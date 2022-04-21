@@ -24,7 +24,7 @@ leolaniWorld:Instances {
         gaf:denotedIn leolaniTalk:visual1_detection1_pixel0-3 .
 
     leolaniWorld:carl a gaf:Instance, n2mu:person ;
-        rdfs:label "carl" ; # MISSING
+        rdfs:label "carl" ;
         eps:hasContext leolaniContext:context169 ;
         gaf:denotedIn leolaniTalk:visual1_detection1_pixel0-3 .
 

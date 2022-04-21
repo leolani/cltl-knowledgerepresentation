@@ -22,10 +22,9 @@ def _link_detections_to_context(self, context, dect, prdt):
     return claim
 
 
-def _create_detection_mention(self, capsule, subevent, detection):
-    scores = [x['confidence'] for x in capsule['objects']] + [x['confidence'] for x in capsule['people']]
+def _create_detection_mention(self, capsule, subevent):
     mention_unit = 'pixel'
-    mention_position = f"0-{len(scores)}"
+    mention_position = f"{'-'.join([str(i) for i in capsule['region']])}"
 
     # Mention
     mention_label = f'{subevent.label}_{mention_unit}{mention_position}'
@@ -33,20 +32,20 @@ def _create_detection_mention(self, capsule, subevent, detection):
     _link_entity(self, mention, self.perspective_graph, create_label=True)
 
     # Bidirectional link between mention and individual instances
-    self.instance_graph.add((detection.id, self.namespaces['GAF']['denotedIn'], mention.id))
-    self.perspective_graph.add((mention.id, self.namespaces['GAF']['containsDenotation'], detection.id))
+    self.instance_graph.add((capsule['entity'].id, self.namespaces['GAF']['denotedIn'], mention.id))
+    self.perspective_graph.add((mention.id, self.namespaces['GAF']['containsDenotation'], capsule['entity'].id))
 
     return mention
 
 
-def _create_detection_attribution(self, mention, claim, detection_certainty):
+def _create_detection_attribution(self, capsule, mention, claim):
     # Assume detections have positive polarity
-    perspective = self._rdf_builder.fill_perspective({'certainty': detection_certainty, 'polarity': 1})
+    perspective = self._rdf_builder.fill_perspective({'certainty': capsule['confidence'], 'polarity': 1})
 
-    attribution_suffix = f"{perspective.certainty.name}-" \
-                         f"{perspective.polarity.name}-" \
-                         f"{perspective.sentiment.name}-" \
-                         f"{perspective.emotion.name}"
+    attribution_suffix = f"{perspective.certainty.value}" \
+                         f"{perspective.polarity.value}" \
+                         f"{perspective.sentiment.value}" \
+                         f"{perspective.emotion.value}"
 
     attribution_label = claim.label + f"_{attribution_suffix}"
     attribution = self._rdf_builder.fill_entity(attribution_label, ['Attribution'], 'LTa')
@@ -78,84 +77,62 @@ def _create_detection_attribution(self, mention, claim, detection_certainty):
     return attribution
 
 
-def create_perspective_graph_for_detections(self, capsule, claim, subevent, detection, detection_certainty):
+def create_perspective_graph_for_detections(self, capsule, claim, subevent):
     # Mention
-    mention = _create_detection_mention(self, capsule, subevent, detection)
+    mention = _create_detection_mention(self, capsule, subevent)
 
     # Attribution
-    attribution = _create_detection_attribution(self, mention, claim, detection_certainty)
+    attribution = _create_detection_attribution(self, capsule, mention, claim)
 
     return mention, attribution
 
 
-def create_object_detections(self, capsule, context, create_label):
-    # Get ids of existing objects in this location
-    memory = self.location_reasoner.get_location_memory(capsule)
-
-    # Detections
-    prdt = self._rdf_builder.fill_predicate('see')
-    object_type = self._rdf_builder.create_resource_uri('N2MU', 'object')
-
+def create_object_detection(self, capsule, context, create_label):
     # Subevent
     experience, sensor, use_sensor = create_interaction_graph(self, capsule, UtteranceType.EXPERIENCE, create_label)
 
     # Detections: objects
-    for item in capsule['objects']:
-        if item['type'].lower() not in ['', 'unknown', 'none', 'person']:
-            # Create instance
-            mem_id, memory = get_object_id(memory, item['type'])
-            objct_id = self._rdf_builder.fill_literal(mem_id, datatype=self.namespaces['XML']['string'])
-            objct = self._rdf_builder.fill_entity(casefold_text(f"{item['type']} {objct_id}", format='triple'),
-                                                  [casefold_text(item['type'], format='triple'), 'Instance', 'object'],
-                                                  'LW')
-            self.instance_graph.add((objct.id, self.namespaces['N2MU']['id'], objct_id))
+    if not set(capsule['item']['type']) & {'', 'unknown', 'none'}:
+        # Link detection to graphs
+        _link_entity(self, capsule['entity'], self.instance_graph, create_label=True)
+        claim = _link_detections_to_context(self, context, capsule['entity'], self._rdf_builder.fill_predicate('see'))
 
-            # Link detection to graphs
-            _link_entity(self, objct, self.instance_graph, create_label=True)
-            claim = _link_detections_to_context(self, context, objct, prdt)
+        # Perspective
+        mention, attribution = create_perspective_graph_for_detections(self, capsule, claim, experience)
+        interlink_graphs(self, mention, sensor, experience, claim, use_sensor)
 
-            # Perspective
-            mention, attribution = create_perspective_graph_for_detections(self, capsule, claim, experience,
-                                                                           detection=objct,
-                                                                           detection_certainty=item['confidence'])
-            interlink_graphs(self, mention, sensor, experience, claim, use_sensor)
+        # Add id information
+        objct_id = self._rdf_builder.fill_literal(capsule['item']['id'], datatype=self.namespaces['XML']['string'])
+        self.instance_graph.add((capsule['entity'].id, self.namespaces['N2MU']['id'], objct_id))
 
-            # Open ended learning
-            learnable_type = self._rdf_builder.create_resource_uri('N2MU',
-                                                                   casefold_text(item['type'], format='triple'))
+        # Open ended learning
+        object_type = self._rdf_builder.create_resource_uri('N2MU', 'object')
+        for t in capsule['item']['type']:
+            learnable_type = self._rdf_builder.create_resource_uri('N2MU', t)
             self.ontology_graph.add((learnable_type, RDFS.subClassOf, object_type))
 
 
-def create_people_detections(self, capsule, context, create_label):
-    # Detections
-    prdt = self._rdf_builder.fill_predicate('see')
-
+def create_people_detection(self, capsule, context, create_label):
     # Subevent
     experience, sensor, use_sensor = create_interaction_graph(self, capsule, UtteranceType.EXPERIENCE, create_label)
 
     # Detections: faces
-    for item in capsule['people']:
-        if item['name'].lower() not in ['', 'unknown', 'none']:
-            # Create instance
-            prsn = self._rdf_builder.fill_entity(casefold_text(item['name'], format='triple'),
-                                                 ['person', 'Instance'],
-                                                 'LW')
+    if not set(capsule['item']['type']) & {'', 'unknown', 'none'}:
+        # Link detection to graphs
+        _link_entity(self, capsule['entity'], self.instance_graph, create_label)
+        claim = _link_detections_to_context(self, context, capsule['entity'], self._rdf_builder.fill_predicate('see'))
 
-            # Link detection to graphs
-            _link_entity(self, prsn, self.instance_graph, create_label)
-            claim = _link_detections_to_context(self, context, prsn, prdt)
-
-            # Perspective
-            mention, attribution = create_perspective_graph_for_detections(self, capsule, claim, experience,
-                                                                           detection=prsn,
-                                                                           detection_certainty=item['confidence'])
-            interlink_graphs(self, mention, sensor, experience, claim, use_sensor)
+        # Perspective
+        mention, attribution = create_perspective_graph_for_detections(self, capsule, claim, experience)
+        interlink_graphs(self, mention, sensor, experience, claim, use_sensor)
 
 
-def create_detections(self, capsule, create_label):
+def create_detection(self, capsule, create_label):
     _link_leolani(self)
     context = self._rdf_builder.fill_entity(f"context{capsule['context_id']}", ['Context'], 'LC')
 
-    create_object_detections(self, capsule, context, create_label)
-
-    create_people_detections(self, capsule, context, create_label)
+    if 'person' in capsule['item']['type']:
+        create_people_detection(self, capsule, context, create_label)
+    else:
+        capsule['entity'].add_types(['object'])
+        create_object_detection(self, capsule, context, create_label)

@@ -1,14 +1,12 @@
 import logging
 from typing import List
 
-from cltl.brain.long_term_memory import LongTermMemory
-from cltl.combot.event.emissor import AnnotationEvent
 from cltl.combot.infra.config import ConfigurationManager
 from cltl.combot.infra.event import Event, EventBus
 from cltl.combot.infra.resource import ResourceManager
-from cltl.combot.infra.time_util import timestamp_now
 from cltl.combot.infra.topic_worker import TopicWorker
-from cltl_service.backend.schema import TextSignalEvent
+
+from cltl.brain.long_term_memory import LongTermMemory
 
 logger = logging.getLogger(__name__)
 
@@ -66,12 +64,4 @@ class BrainService:
 
         if response:
             # TODO: transform brain responses into proper EMISSOR annotations (what to do about thoughts?)
-            # extractor_event = self._create_payload(response)
             self._event_bus.publish(self._output_topic, Event.for_payload(response))
-
-    def _create_payload(self, response):
-        # TODO: transform brain responses into proper EMISSOR annotations
-        # extract mentions from capsules and put them in the annotation
-        signal = AnnotationEvent.for_scenario(None, timestamp_now(), timestamp_now(), None, response)
-
-        return TextSignalEvent.create(signal)

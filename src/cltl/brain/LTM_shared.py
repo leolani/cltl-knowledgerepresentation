@@ -70,6 +70,7 @@ def _create_mention(self, capsule, subevent):
         mention_unit = 'char'
         mention_position = f"{capsule['position']}"
         transcript = self._rdf_builder.fill_literal(capsule['utterance'], datatype=self.namespaces['XML']['string'])
+        timestamp = self._rdf_builder.fill_literal(capsule['timestamp'], datatype=self.namespaces['XML']['string'])
 
         # Mention
         mention_label = f'{subevent.label}_{mention_unit}{mention_position}'
@@ -84,10 +85,12 @@ def _create_mention(self, capsule, subevent):
         self.perspective_graph.add(
             (mention.id, self.namespaces['GAF']['containsDenotation'], capsule['triple'].complement.id))
         self.perspective_graph.add((mention.id, RDF.value, transcript))
+        self.perspective_graph.add((mention.id, self.namespaces['SEM']['hasBeginTimeStamp'], timestamp))
 
     else:
         mention_unit = 'pixel'
         mention_position = f"{'-'.join([str(i) for i in capsule['region']])}"
+        timestamp = self._rdf_builder.fill_literal(capsule['timestamp'], datatype=self.namespaces['XML']['string'])
 
         # Mention
         mention_label = f'{subevent.label}_{mention_unit}{mention_position}'
@@ -97,6 +100,7 @@ def _create_mention(self, capsule, subevent):
         # Bidirectional link between mention and individual instances
         self.instance_graph.add((capsule['entity'].id, self.namespaces['GAF']['denotedIn'], mention.id))
         self.perspective_graph.add((mention.id, self.namespaces['GAF']['containsDenotation'], capsule['entity'].id))
+        self.perspective_graph.add((mention.id, self.namespaces['SEM']['hasBeginTimeStamp'], timestamp))
 
     return mention
 

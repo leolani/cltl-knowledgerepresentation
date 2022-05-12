@@ -88,7 +88,7 @@ class ThoughtGenerator(BasicBrain):
 
         if novelties:
             n = random.choice(novelties)
-            self._log.info(f"Statement Novelty: {len(response)} times, e.g. {n.__str__()}")
+            self._log.info(f"Statement Novelty: mentioned {len(response)} times, e.g. {n.__str__()}")
 
         return novelties
 
@@ -111,17 +111,19 @@ class ThoughtGenerator(BasicBrain):
         return response
 
     ########## gaps ##########
-    def _fill_entity_gap_(self, raw_response):
+    def _fill_entity_gap_(self, entity, raw_response):
         """
         Structure entity gap to get the predicate and range of what has been learned but not heard
         Parameters
         ----------
+        entity: Entity
+            entity for which we are getting gaps
         raw_response: dict
             standard row result from SPARQL
 
         Returns
         -------
-            Gap object containing a predicate and its range
+            Gap object containing a predicate and its range/domain
         """
 
         processed_predicate = self._rdf_builder.fill_predicate(raw_response['p']['value'].split('/')[-1],
@@ -129,7 +131,7 @@ class ThoughtGenerator(BasicBrain):
         processed_range = self._rdf_builder.fill_entity('', namespace='N2MU',
                                                         types=[raw_response['type2']['value'].split('/')[-1]])
 
-        return Gap(processed_predicate, processed_range)
+        return Gap(entity, processed_predicate, processed_range)
 
     def get_entity_gaps(self, entity, exclude=None):
         """
@@ -149,7 +151,7 @@ class ThoughtGenerator(BasicBrain):
         response = self._submit_query(query)
 
         if response:
-            subject_gaps = [self._fill_entity_gap_(elem)
+            subject_gaps = [self._fill_entity_gap_(entity, elem)
                             for elem in response
                             if elem['p']['value'].split('/')[-1] not in self._NOT_TO_ASK_PREDICATES]
 
@@ -161,7 +163,7 @@ class ThoughtGenerator(BasicBrain):
         response = self._submit_query(query)
 
         if response:
-            complement_gaps = [self._fill_entity_gap_(elem)
+            complement_gaps = [self._fill_entity_gap_(entity, elem)
                                for elem in response
                                if elem['p']['value'].split('/')[-1] not in self._NOT_TO_ASK_PREDICATES]
 

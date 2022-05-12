@@ -4,13 +4,7 @@ from cltl.brain.LTM_shared import _link_entity
 from cltl.combot.backend.utils.casefolding import casefold_text
 
 
-def process_context(self, capsule):
-    # Create an episodic awareness by making a context
-    context_id = self._rdf_builder.fill_literal(capsule['context_id'], datatype=self.namespaces['XML']['string'])
-    context = self._rdf_builder.fill_entity(f"context{capsule['context_id']}", ['Context'], 'LC')
-    _link_entity(self, context, self.interaction_graph, create_label=True)
-    self.interaction_graph.add((context.id, self.namespaces['N2MU']['id'], context_id))
-
+def _create_time(self, capsule, context):
     # Time
     time = self._rdf_builder.fill_entity(capsule['date'].strftime('%Y-%m-%d'), ['Time', 'DateTimeDescription'], 'LC')
     _link_entity(self, time, self.interaction_graph, create_label=True)
@@ -26,6 +20,8 @@ def process_context(self, capsule):
     self.interaction_graph.add((time.id, self.namespaces['TIME']['year'], year))
     self.interaction_graph.add((time.id, self.namespaces['TIME']['unitType'], time_unit))
 
+
+def _create_place(self, capsule, context):
     # City level
     location_city = self._rdf_builder.fill_entity(capsule['city'], ['location', 'city', 'Place'], 'LW')
     _link_entity(self, location_city, self.interaction_graph, create_label=True)
@@ -67,6 +63,20 @@ def process_context(self, capsule):
     self.interaction_graph.add((location.id, self.namespaces['N2MU']['in'], location_country.id))
     self.interaction_graph.add((location.id, self.namespaces['N2MU']['in'], location_region.id))
     self.interaction_graph.add((context.id, self.namespaces['SEM']['hasPlace'], location.id))
+
+
+def process_context(self, capsule):
+    # Create an episodic awareness by making a context
+    context_id = self._rdf_builder.fill_literal(capsule['context_id'], datatype=self.namespaces['XML']['string'])
+    context = self._rdf_builder.fill_entity(f"context{capsule['context_id']}", ['Context'], 'LC')
+    _link_entity(self, context, self.interaction_graph, create_label=True)
+    self.interaction_graph.add((context.id, self.namespaces['N2MU']['id'], context_id))
+
+    # Time
+    _create_time(self, capsule, context)
+
+    # Place
+    _create_place(self, capsule, context)
 
     self._log.info(f"Context: {context}")
 

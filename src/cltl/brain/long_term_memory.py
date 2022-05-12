@@ -4,7 +4,7 @@ from datetime import datetime
 from cltl.brain.LTM_context_processing import process_context
 from cltl.brain.LTM_experience_processing import process_experience
 from cltl.brain.LTM_question_processing import create_query
-from cltl.brain.LTM_shared import _link_leolani, _link_entity, create_claim_graph
+from cltl.brain.LTM_shared import _link_leolani, _link_entity, _create_actor, create_claim_graph
 from cltl.brain.LTM_statement_processing import process_statement
 from cltl.brain.basic_brain import BasicBrain
 from cltl.brain.infrastructure import Thoughts, Triple
@@ -142,7 +142,7 @@ class LongTermMemory(BasicBrain):
         return output
 
     def capsule_statement(self, capsule, reason_types=False, create_label=False):
-        # type (Utterance) -> dict
+        # type (dict) -> dict
         """
         Main function to interact with if a statement is coming into the brain. Takes in an Utterance containing a
         parsed statement as a Triple, transforms them to linked data, and posts them to the triple store
@@ -170,67 +170,62 @@ class LongTermMemory(BasicBrain):
         capsule['utterance_type'] = UtteranceType[capsule['utterance_type']] \
             if type(capsule['utterance_type']) == str else capsule['utterance_type']
 
-        try:
-            # Try to figure out what this entity is
-            if reason_types:
-                if not capsule['triple'].complement.types:
-                    complement_type, _ = self.type_reasoner.reason_entity_type(str(capsule['triple'].complement_name),
-                                                                               exact_only=True)
-                    capsule['triple'].complement.add_types([complement_type])
+        # Try to figure out what this entity is
+        if reason_types:
+            if not capsule['triple'].complement.types:
+                complement_type, _ = self.type_reasoner.reason_entity_type(str(capsule['triple'].complement_name),
+                                                                           exact_only=True)
+                capsule['triple'].complement.add_types([complement_type])
 
-                if not capsule['triple'].subject.types:
-                    subject_type, _ = self.type_reasoner.reason_entity_type(str(capsule['triple'].subject_name),
-                                                                            exact_only=True)
-                    capsule['triple'].complement.add_types([subject_type])
+            if not capsule['triple'].subject.types:
+                subject_type, _ = self.type_reasoner.reason_entity_type(str(capsule['triple'].subject_name),
+                                                                        exact_only=True)
+                capsule['triple'].complement.add_types([subject_type])
 
-            # Casefold
-            capsule['triple'].casefold(format='triple')
-            capsule['author']['type'] = [casefold_text(t, format='triple') for t in capsule['author']['type']]
+        # Casefold
+        capsule['triple'].casefold(format='triple')
+        capsule['author']['type'] = [casefold_text(t, format='triple') for t in capsule['author']['type']]
 
-            # Create graphs and triples
-            claim = process_statement(self, capsule, create_label)
+        # Create graphs and triples
+        claim = process_statement(self, capsule, create_label)
 
-            # Check if this knowledge already exists on the brain
-            statement_novelty = self.thought_generator.get_statement_novelty(claim.id)
+        # Check if this knowledge already exists on the brain
+        statement_novelty = self.thought_generator.get_statement_novelty(claim.id)
 
-            # Check how many items of the same type as subject and complement we have
-            entity_novelty = self.thought_generator.fill_entity_novelty(capsule['triple'].subject.id,
-                                                                        capsule['triple'].complement.id)
+        # Check how many items of the same type as subject and complement we have
+        entity_novelty = self.thought_generator.fill_entity_novelty(capsule['triple'].subject.id,
+                                                                    capsule['triple'].complement.id)
 
-            # Find any overlaps
-            overlaps = self.thought_generator.get_overlaps(capsule)
+        # Find any overlaps
+        overlaps = self.thought_generator.get_overlaps(capsule)
 
-            # Finish process of uploading new knowledge to the triple store
-            data = self._serialize(self._brain_log())
-            code = self._upload_to_brain(data)
+        # Finish process of uploading new knowledge to the triple store
+        data = self._serialize(self._brain_log())
+        code = self._upload_to_brain(data)
 
-            # Check for conflicts after adding the knowledge
-            negation_conflicts = self.thought_generator.get_negation_conflicts(capsule)
-            cardinality_conflict = self.thought_generator.get_complement_cardinality_conflicts(capsule)
+        # Check for conflicts after adding the knowledge
+        negation_conflicts = self.thought_generator.get_negation_conflicts(capsule)
+        cardinality_conflict = self.thought_generator.get_complement_cardinality_conflicts(capsule)
 
-            # Check for gaps, in case we want to be proactive
-            subject_gaps = self.thought_generator.get_entity_gaps(entity=capsule['triple'].subject,
-                                                                  exclude=capsule['triple'].complement)
-            complement_gaps = self.thought_generator.get_entity_gaps(entity=capsule['triple'].complement,
-                                                                     exclude=capsule['triple'].subject)
+        # Check for gaps, in case we want to be proactive
+        subject_gaps = self.thought_generator.get_entity_gaps(entity=capsule['triple'].subject,
+                                                              exclude=capsule['triple'].complement)
+        complement_gaps = self.thought_generator.get_entity_gaps(entity=capsule['triple'].complement,
+                                                                 exclude=capsule['triple'].subject)
 
-            # Report trust
-            actor = self._rdf_builder.fill_entity(capsule['author'], ['Instance', 'Source', 'Actor', 'person'], 'LF')
-            trust = self.trust_calculator.get_trust(actor.id)
+        # Report trust
+        actor, _ = _create_actor(self, capsule, create_label)
+        trust = self.trust_calculator.get_trust(actor.id)
 
-            # Create JSON output
-            thoughts = Thoughts(statement_novelty, entity_novelty, negation_conflicts, cardinality_conflict,
-                                subject_gaps, complement_gaps, overlaps, trust)
-            output = {'response': code, 'statement': capsule, 'thoughts': thoughts}
-
-        except:
-            # Create JSON output
-            output = {'response': None, 'statement': capsule, 'thoughts': None}
+        # Create JSON output
+        thoughts = Thoughts(statement_novelty, entity_novelty, negation_conflicts, cardinality_conflict,
+                            subject_gaps, complement_gaps, overlaps, trust)
+        output = {'response': code, 'statement': capsule, 'thoughts': thoughts}
 
         return output
 
     def capsule_experience(self, capsule, create_label=False):
-        # type (Utterance) -> dict
+        # type (dict) -> dict
         """
         Main function to register computer vision object and people detections
         Parameters

@@ -112,9 +112,9 @@ class LocationReasoner(BasicBrain):
 
         return location_memory
 
-    def reason_location(self, capsule):
+    def reason_location(self, context_capsule, detections):
 
-        if capsule['place'] is None or capsule['place'].lower() == '':
+        if context_capsule['place'] is None or context_capsule['place'].lower() == '':
             guess = None
 
             # Query all locations and detections (through context)
@@ -123,17 +123,17 @@ class LocationReasoner(BasicBrain):
             if memory:
                 # Generate set of current detections
                 observations = []
-                for item in capsule['objects']:
+                for item in detections['objects']:
                     if item['type'].lower() != 'person':
                         observations.append(casefold_text(item['type'], format='triple'))
-                for item in capsule['people']:
+                for item in detections['people']:
                     if item['name'].lower() != 'unknown':
                         observations.append(casefold_text(item['name'], format='triple'))
 
                 # Take geo information into account
-                observations.append(capsule['city'])
-                observations.append(capsule['country'])
-                observations.append(capsule['region'])
+                observations.append(context_capsule['city'])
+                observations.append(context_capsule['country'])
+                observations.append(context_capsule['region'])
 
                 # Compare one by one and determine most similar
                 for mem in memory:
@@ -153,7 +153,7 @@ class LocationReasoner(BasicBrain):
             return guess
 
         else:
-            return capsule['place']
+            return context_capsule['place']
 
     def set_location_label(self, context_id, label, old_label='unknown'):
         # Replace as subject, replace label, replace as object in the database (long term memory)

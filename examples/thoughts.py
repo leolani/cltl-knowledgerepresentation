@@ -31,41 +31,45 @@ def main(log_path):
                            clear_all=False)
 
     data = []
-    capsules = statements + conflicting_statements
-    for capsule in tqdm(capsules):
-        # Add information to the brain
+    episodes = statements + [conflicting_statements]
+    for (context_capsule, statements_capsules) in tqdm(episodes):
         print(f"\n\n---------------------------------------------------------------\n")
-        response = brain.update(capsule, reason_types=True, create_label=True)
-        print(f"\n{capsule['triple']}\n")
+        # Create context
+        response = brain.capsule_context(context_capsule)
 
-        # Show different thoughts
-        thoughts = response['thoughts']
+        for capsule in statements_capsules:
+            # Add information to the brain
+            response = brain.capsule_statement(capsule, reason_types=True, create_label=True)
+            print(f"\n{capsule['triple']}\n")
 
-        # Correctness thoughts
-        print(f'\tcardinality conflicts: {thoughts.complement_conflicts()}')
-        print(f'\tnegation conflicts: {thoughts.negation_conflicts()}')
+            # Show different thoughts
+            thoughts = response['thoughts']
 
-        # Completeness thoughts
-        print(f'\tsubject gaps on {capsule["subject"]["label"]}: {thoughts.subject_gaps()}')
-        print(f'\tobject gaps on {capsule["object"]["label"]}: {thoughts.complement_gaps()}')
+            # Correctness thoughts
+            print(f'\tcardinality conflicts: {thoughts.complement_conflicts()}')
+            print(f'\tnegation conflicts: {thoughts.negation_conflicts()}')
 
-        # Engagement
-        print(f'\tstatement novelty: {thoughts.statement_novelties()}')
-        print(f'\tentity novelty: {thoughts.entity_novelty()}')
-        print(f'\toverlaps: {thoughts.overlaps()}')
+            # Completeness thoughts
+            print(f'\tsubject gaps: {thoughts.subject_gaps()}')
+            print(f'\tobject gaps: {thoughts.complement_gaps()}')
 
-        # Social
-        print(f'\ttrust on {capsule["author"]}: {thoughts.trust()}\n')
+            # Engagement
+            print(f'\tstatement novelty: {thoughts.statement_novelties()}')
+            print(f'\tentity novelty: {thoughts.entity_novelty()}')
+            print(f'\toverlaps: {thoughts.overlaps()}')
 
-        response_json = brain_response_to_json(response)
-        data.append(response_json)
+            # Social
+            print(f'\ttrust on {capsule["author"]["label"]}: {thoughts.trust()}\n')
+
+            response_json = brain_response_to_json(response)
+            data.append(response_json)
 
     f = open("./capsules/thoughts-responses.json", "w")
     json.dump(data, f)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Carl-Leolani scenario')
+    parser = argparse.ArgumentParser(description='Leolani scenario')
     parser.add_argument('--logs', type=str,
                         help="Directory to store the brain log files. Must be specified to persist the log files.")
     args, _ = parser.parse_known_args()

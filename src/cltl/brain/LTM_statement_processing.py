@@ -1,13 +1,12 @@
 from cltl.brain.LTM_shared import _link_entity, _link_leolani, create_interaction_graph, create_claim_graph, \
     interlink_graphs, create_perspective_graph
-from cltl.combot.backend.api.discrete import UtteranceType
 
 
 ######################################## Helpers for statement processing ########################################
 
 
 def create_instance_graph_for_statement(self, capsule, create_label):
-    # type (Utterance) -> Graph, Graph, str, str, str
+    # type (dict, bool) -> None
     """
     Create linked data related to what leolani learned/knows about the world
     Parameters
@@ -18,7 +17,6 @@ def create_instance_graph_for_statement(self, capsule, create_label):
 
     Returns
     -------
-    claim: claim graph
 
 
     """

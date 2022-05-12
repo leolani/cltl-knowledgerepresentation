@@ -3,13 +3,12 @@ THIS SCRIPT FILLS IN THE BRAIN WITH A CARL SCENARIO. IN THIS SCENARIO, CARL HAS 
 LEOLANI FINDS THEM THROUGH OBJECT RECOGNITION AND COMMUNICATES THIS TO CARL. CARL THEN THANKS LEOLANI
 """
 import argparse
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 from random import getrandbits
 from tempfile import TemporaryDirectory
 
 import requests
-from tqdm import tqdm
 
 from cltl.brain.long_term_memory import LongTermMemory
 from cltl.combot.backend.api.discrete import UtteranceType
@@ -32,6 +31,7 @@ statement_capsule = {
     "object": {"label": "pills", "type": ["object", "medicine"],
                'uri': "http://cltl.nl/leolani/world/pills"},
     "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},
+    "timestamp": datetime.now(),
     "context_id": context_id
 }
 
@@ -46,6 +46,7 @@ experience_capsule_1 = {
     "item": {'label': 'chair 1', 'type': ['chair'], 'id': 1,
              'uri': "http://cltl.nl/leolani/world/chair-1"},
     'confidence': 0.68,
+    "timestamp": datetime.now(),
     "context_id": context_id
 }
 
@@ -60,6 +61,7 @@ experience_capsule_2 = {
     "item": {'label': 'Carl', 'type': ['person'], 'id': None,
              'uri': "http://cltl.nl/leolani/world/carl-1"},
     'confidence': 0.94,
+    "timestamp": datetime.now(),
     "context_id": context_id
 }
 

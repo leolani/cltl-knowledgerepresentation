@@ -1,7 +1,7 @@
 from datetime import date
 from random import getrandbits
 
-from cltl.brain.commons.discrete import UtteranceType
+from cltl.commons.discrete import UtteranceType
 
 context_id, place_id = getrandbits(8), getrandbits(8)
 chat_1 = [

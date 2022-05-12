@@ -1,16 +1,15 @@
 import argparse
-import json
 from datetime import datetime
 from pathlib import Path
+from pprint import pprint
 from random import getrandbits
 from tempfile import TemporaryDirectory
 
 import requests
-from pprint import pprint
+from cltl.commons.discrete import UtteranceType
 
 from cltl.brain.long_term_memory import LongTermMemory
 from cltl.brain.utils.helper_functions import brain_response_to_json
-from cltl.combot.backend.api.discrete import UtteranceType
 
 context_id = getrandbits(8)
 place_id = getrandbits(8)
@@ -69,7 +68,8 @@ capsule_post_label2 = {'author': 'Fred',
                        'place_id': 116,
                        'polarity': 1,
                        'position': '0-12',
-                       'predicate': {'label': 'like', 'type': 'verb.emotion', 'uri': 'http://cltl.nl/leolani/n2mu/like', 'type': 'verb.emotion'},
+                       'predicate': {'label': 'like', 'type': 'verb.emotion', 'uri': 'http://cltl.nl/leolani/n2mu/like',
+                                     'type': 'verb.emotion'},
                        'region': 'North Holland',
                        'sentiment': '0.75',
                        'subject': {'label': 'Fred', 'type': ['person'], "uri": "http://cltl.nl/leolani/world/fred"},

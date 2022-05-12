@@ -1,6 +1,9 @@
 import os
 
 import importlib_resources as pkg_resources
+from cltl.commons.casefolding import casefold_text
+from cltl.commons.discrete import Certainty, Polarity, Sentiment, Emotion
+from cltl.commons.triple_helpers import fix_nlp_types
 from iribaker import to_iri
 from rdflib import Dataset, Namespace, OWL, URIRef, Literal
 
@@ -8,9 +11,6 @@ from cltl.brain import logger
 from cltl.brain.infrastructure import Predicate, Entity, Triple, Provenance, Perspective
 from cltl.brain.utils.helper_functions import confidence_to_certainty_value, polarity_to_polarity_value, \
     sentiment_to_sentiment_value, emotion_to_emotion_value
-from cltl.brain.commons.discrete import Certainty, Polarity, Sentiment, Emotion
-from cltl.brain.commons.casefolding import casefold_text
-from cltl.brain.commons.triple_helpers import fix_nlp_types
 
 
 class RdfBuilder(object):

@@ -23,7 +23,6 @@ setup(
     package_data={'cltl.brain': ['ontologies/*', 'ontologies/**/*', 'queries/*', 'queries/**/*']},
     python_requires='>=3.7',
     install_requires=[
-        # 'cltl.combot @ git+https://github.com/leolani/cltl-combot.git#e76f2baa4668d9546e93c7e5a5df102648d40c17',
         'requests~=2.25',
         'rdflib~=6.1',
         'sparqlwrapper~=1.8',
@@ -33,7 +32,8 @@ setup(
         'iribaker~=0.2',
         'python-Levenshtein~=0.12',
         'importlib_resources~=5.2',
-        'tqdm~=4.62'
+        'tqdm~=4.62',
+        "cltl.combot"
     ],
     extras_require={
         "service": [

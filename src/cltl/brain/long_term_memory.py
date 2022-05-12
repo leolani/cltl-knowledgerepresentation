@@ -149,7 +149,8 @@ class LongTermMemory(BasicBrain):
             overlaps = self.thought_generator.get_overlaps(capsule)
 
             # Finish process of uploading new knowledge to the triple store
-            data = self._serialize(self._brain_log())
+            rdf_log_path = self._brain_log()
+            data = self._serialize(rdf_log_path)
             code = self._upload_to_brain(data)
 
             # Check for conflicts after adding the knowledge
@@ -169,11 +170,11 @@ class LongTermMemory(BasicBrain):
             # Create JSON output
             thoughts = Thoughts(statement_novelty, entity_novelty, negation_conflicts, cardinality_conflict,
                                 subject_gaps, complement_gaps, overlaps, trust)
-            output = {'response': code, 'statement': capsule, 'thoughts': thoughts}
+            output = {'response': code, 'statement': capsule, 'thoughts': thoughts, 'rdf_log_path': rdf_log_path}
 
         else:
             # Create JSON output
-            output = {'response': None, 'statement': capsule, 'thoughts': None}
+            output = {'response': None, 'statement': capsule, 'thoughts': None, 'rdf_log_path': None}
 
         return output
 

@@ -1,14 +1,14 @@
 import enum
+import pathlib
 from datetime import date
 
+import cltl.brain
 import importlib_resources as pkg_resources
 import numpy as np
-from rdflib import URIRef, Literal
-
-import cltl.brain
 from cltl.brain.utils.constants import CAPITALIZED_TYPES
 from cltl.combot.backend.api.discrete import Certainty, Polarity, Sentiment, Emotion
 from cltl.combot.backend.utils.casefolding import casefold_text
+from rdflib import URIRef, Literal
 
 
 def read_query(query_filename):
@@ -119,7 +119,7 @@ def sigmoid(z, growth_rate=1):
 def element_to_json(v):
     if type(v) in [str, int, float] or v is None:
         pass
-    elif type(v) in [URIRef, Literal, bool]:
+    elif type(v) in [URIRef, Literal, bool, pathlib.PosixPath]:
         v = str(v)
     elif isinstance(v, date):
         v = v.isoformat()

@@ -1,8 +1,9 @@
 import pathlib
 
+from cltl.commons.casefolding import casefold_text
+
 from cltl.brain.basic_brain import BasicBrain
 from cltl.brain.utils.helper_functions import read_query
-from cltl.combot.backend.utils.casefolding import casefold_text
 
 
 class LocationReasoner(BasicBrain):

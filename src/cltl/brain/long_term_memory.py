@@ -1,4 +1,8 @@
 import pathlib
+from datetime import datetime
+
+from cltl.commons.casefolding import casefold_text
+from cltl.commons.discrete import UtteranceType
 
 from cltl.brain.LTM_question_processing import create_query
 from cltl.brain.LTM_statement_processing import model_graphs, _link_leolani, _link_entity, \
@@ -7,10 +11,6 @@ from cltl.brain.basic_brain import BasicBrain
 from cltl.brain.infrastructure import Thoughts, Triple
 from cltl.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
 from cltl.brain.utils.helper_functions import read_query
-from cltl.combot.backend.api.discrete import UtteranceType
-from cltl.combot.backend.utils.casefolding import casefold_text
-
-from datetime import datetime
 
 
 class LongTermMemory(BasicBrain):

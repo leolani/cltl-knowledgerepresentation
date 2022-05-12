@@ -2,13 +2,14 @@ import enum
 import pathlib
 from datetime import date
 
-import cltl.brain
 import importlib_resources as pkg_resources
 import numpy as np
-from cltl.brain.utils.constants import CAPITALIZED_TYPES
-from cltl.combot.backend.api.discrete import Certainty, Polarity, Sentiment, Emotion
-from cltl.combot.backend.utils.casefolding import casefold_text
+from cltl.commons.casefolding import casefold_text
+from cltl.commons.discrete import Certainty, Polarity, Sentiment, Emotion
 from rdflib import URIRef, Literal
+
+import cltl.brain
+from cltl.brain.utils.constants import CAPITALIZED_TYPES
 
 
 def read_query(query_filename):

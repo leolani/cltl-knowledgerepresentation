@@ -10,11 +10,11 @@ from random import getrandbits
 from tempfile import TemporaryDirectory
 
 import requests
+from cltl.commons.discrete import UtteranceType
 from tqdm import tqdm
 
 from cltl.brain.long_term_memory import LongTermMemory
 from cltl.brain.utils.helper_functions import brain_response_to_json
-from cltl.combot.backend.api.discrete import UtteranceType
 
 context_id = getrandbits(8)
 place_id = getrandbits(8)

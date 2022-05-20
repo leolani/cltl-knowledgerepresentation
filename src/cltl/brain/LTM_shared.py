@@ -1,11 +1,12 @@
+from cltl.commons.casefolding import casefold_text
+from cltl.commons.discrete import UtteranceType
 from rdflib import RDF, RDFS, OWL
 
 from cltl.brain.utils.constants import NAMESPACE_MAPPING
 from cltl.brain.utils.helper_functions import hash_claim_id
-from cltl.combot.backend.api.discrete import UtteranceType
-######################################## Helpers for context processing ########################################
-from cltl.combot.backend.utils.casefolding import casefold_text
 
+
+######################################## Helpers for context processing ########################################
 
 def _link_leolani(self):
     if self.myself is None:

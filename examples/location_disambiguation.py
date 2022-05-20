@@ -14,11 +14,11 @@ from random import getrandbits
 from tempfile import TemporaryDirectory
 
 import requests
+from cltl.commons.discrete import UtteranceType
 from tqdm import tqdm
 
 from cltl.brain.long_term_memory import LongTermMemory
 from cltl.brain.utils.base_cases import places
-from cltl.combot.backend.api.discrete import UtteranceType
 
 place_id = getrandbits(8)
 location = requests.get("https://ipinfo.io").json()

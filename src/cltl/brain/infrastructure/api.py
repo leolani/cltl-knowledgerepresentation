@@ -2,13 +2,13 @@ import random
 from datetime import date, datetime
 from typing import List, Optional
 
+from cltl.commons.casefolding import casefold_text
+from cltl.commons.discrete import Certainty, Polarity, Sentiment, Emotion, Time
+from cltl.commons.triple_helpers import filtered_types_names
 from nltk.stem import WordNetLemmatizer
 from rdflib import Literal
 
 from cltl.brain.utils.helper_functions import hash_claim_id, is_proper_noun
-from cltl.combot.backend.api.discrete import Certainty, Polarity, Sentiment, Emotion, Time
-from cltl.combot.backend.utils.casefolding import casefold_text
-from cltl.combot.backend.utils.triple_helpers import filtered_types_names
 
 
 class RDFBase(object):

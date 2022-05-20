@@ -80,7 +80,7 @@ class BasicBrain(object):
     def _brain_log(self):
         return self.log_dir.joinpath(f"brain_log_{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}")
 
-    ########## brain structure exploration ##########
+    ########## brain structure_exploration ##########
     def _serialize(self, file_path):
         """
         Save graph to local file and return the serialized string
@@ -118,7 +118,7 @@ class BasicBrain(object):
         :return: response status
         """
         self._log.debug("Checking if ontology is in brain")
-        query = read_query('structure exploration/ontology_uploaded')
+        query = read_query('structure_exploration/ontology_uploaded')
         response = self._submit_query(query, ask=True)
 
         return response
@@ -128,7 +128,7 @@ class BasicBrain(object):
         Get predicates in social ontology
         :return:
         """
-        query = read_query('structure exploration/predicates')
+        query = read_query('structure_exploration/predicates')
         response = self._submit_query(query)
 
         return [elem['p']['value'].split('/')[-1] for elem in response]
@@ -138,7 +138,7 @@ class BasicBrain(object):
         Get classes or types in social ontology
         :return:
         """
-        query = read_query('structure exploration/classes')
+        query = read_query('structure_exploration/classes')
         response = self._submit_query(query)
 
         return [elem['c']['value'].split('/')[-1] for elem in response]
@@ -148,7 +148,7 @@ class BasicBrain(object):
         Get classes in social ontology
         :return:
         """
-        query = read_query('structure exploration/labels_and_classes')
+        query = read_query('structure_exploration/labels_and_classes')
         response = self._submit_query(query)
 
         temp = dict()
@@ -162,7 +162,7 @@ class BasicBrain(object):
         Get classes, object and data properties in ontology
         :return:
         """
-        query = read_query('structure exploration/ontology_elements')
+        query = read_query('structure_exploration/ontology_elements')
         response = self._submit_query(query)
 
         temp = dict()
@@ -200,7 +200,7 @@ class BasicBrain(object):
         Count triples in the brain
         :return:
         """
-        query = read_query('content exploration/count_triples')
+        query = read_query('content_exploration/count_triples')
         response = self._submit_query(query)
         return float(response[0]['triples']['value'])
 
@@ -209,7 +209,7 @@ class BasicBrain(object):
         Count statements or 'facts' in the brain
         :return:
         """
-        query = read_query('content exploration/count_statements')
+        query = read_query('content_exploration/count_statements')
         response = self._submit_query(query)
         return float(response[0]['count']['value'])
 
@@ -236,7 +236,7 @@ class BasicBrain(object):
         Count perspectives or 'views' in the brain
         :return:
         """
-        query = read_query('content exploration/count_perspectives')
+        query = read_query('content_exploration/count_perspectives')
         response = self._submit_query(query)
         return float(response[0]['count']['value'])
 
@@ -245,7 +245,7 @@ class BasicBrain(object):
         Count conflicts or 'facts' with opposing polarity in the brain
         :return:
         """
-        query = read_query('content exploration/all_negation_conflicts')
+        query = read_query('content_exploration/all_negation_conflicts')
         response = self._submit_query(query)
         return response
 
@@ -264,7 +264,7 @@ class BasicBrain(object):
         Count number of people I have talked to
         :return:
         """
-        query = read_query('content exploration/count_friends')
+        query = read_query('content_exploration/count_friends')
         response = self._submit_query(query)
         return float(response[0]['count']['value'])
 
@@ -273,7 +273,7 @@ class BasicBrain(object):
         Get names of people I have talked to
         :return:
         """
-        query = read_query('content exploration/my_friends')
+        query = read_query('content_exploration/my_friends')
         response = self._submit_query(query)
         return [elem['friend']['value'].split('/')[-1] for elem in response]
 
@@ -282,7 +282,7 @@ class BasicBrain(object):
         Get names of the 5 people I have talked to the most
         :return:
         """
-        query = read_query('content exploration/best_friends')
+        query = read_query('content_exploration/best_friends')
         response = self._submit_query(query)
         return [(elem['act']['value'], elem['num_chat']['value'].split('/')[-1]) for elem in response]
 
@@ -313,7 +313,7 @@ class BasicBrain(object):
         Count instances or world entities in the brain
         :return:
         """
-        query = read_query('content exploration/count_instances')
+        query = read_query('content_exploration/count_instances')
         response = self._submit_query(query)
         return float(response[0]['count']['value'])
 
@@ -353,7 +353,7 @@ class BasicBrain(object):
         :param predicate_uri:
         :return:
         """
-        query = read_query('content exploration/triples_with_predicate') % predicate_uri
+        query = read_query('content_exploration/triples_with_predicate') % predicate_uri
         response = self._submit_query(query)
         return [(elem['s']['value'], elem['o']['value']) for elem in response]
 

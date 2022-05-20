@@ -1,6 +1,9 @@
 import pathlib
 from datetime import datetime
 
+from cltl.commons.casefolding import casefold_text
+from cltl.commons.discrete import UtteranceType
+
 from cltl.brain.LTM_context_processing import process_context
 from cltl.brain.LTM_experience_processing import process_experience
 from cltl.brain.LTM_question_processing import create_query
@@ -10,8 +13,6 @@ from cltl.brain.basic_brain import BasicBrain
 from cltl.brain.infrastructure import Thoughts, Triple
 from cltl.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
 from cltl.brain.utils.helper_functions import read_query
-from cltl.combot.backend.api.discrete import UtteranceType
-from cltl.combot.backend.utils.casefolding import casefold_text
 
 
 class LongTermMemory(BasicBrain):
@@ -200,7 +201,8 @@ class LongTermMemory(BasicBrain):
         overlaps = self.thought_generator.get_overlaps(capsule)
 
         # Finish process of uploading new knowledge to the triple store
-        data = self._serialize(self._brain_log())
+        rdf_log_path = self._brain_log()
+        data = self._serialize(rdf_log_path)
         code = self._upload_to_brain(data)
 
         # Check for conflicts after adding the knowledge
@@ -220,7 +222,7 @@ class LongTermMemory(BasicBrain):
         # Create JSON output
         thoughts = Thoughts(statement_novelty, entity_novelty, negation_conflicts, cardinality_conflict,
                             subject_gaps, complement_gaps, overlaps, trust)
-        output = {'response': code, 'statement': capsule, 'thoughts': thoughts}
+        output = {'response': code, 'statement': capsule, 'thoughts': thoughts, 'rdf_log_path': rdf_log_path}
 
         return output
 

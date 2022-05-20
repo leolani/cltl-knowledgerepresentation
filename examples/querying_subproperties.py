@@ -9,9 +9,9 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 import requests
+from cltl.commons.discrete import UtteranceType
 
 from cltl.brain.long_term_memory import LongTermMemory
-from cltl.combot.backend.api.discrete import UtteranceType
 
 context_id = 12345678
 place_id = 87654321

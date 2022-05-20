@@ -1,7 +1,7 @@
 from datetime import date, datetime, timedelta
 from random import getrandbits
 
-from cltl.combot.backend.api.discrete import UtteranceType
+from cltl.commons.discrete import UtteranceType
 
 context_id, place_id, start_date = getrandbits(8), getrandbits(8), date(2017, 10, 24)
 chat_1 = ({"context_id": context_id,

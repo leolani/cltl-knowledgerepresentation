@@ -20,11 +20,11 @@ def _link_detections_to_context(self, context, dect, prdt):
 
 
 def create_instance_graph_for_experience(self, capsule, context, create_label):
-    # Subevent
-    experience, sensor, use_sensor = create_interaction_graph(self, capsule, create_label)
-
     # Detections: objects
     if not set(capsule['item']['type']) & {'', 'unknown', 'none'}:
+        # Subevent
+        experience, sensor, use_sensor = create_interaction_graph(self, capsule, create_label)
+
         # Link detection to graphs
         _link_entity(self, capsule['entity'], self.instance_graph, create_label)
         claim = _link_detections_to_context(self, context, capsule['entity'], self._rdf_builder.fill_predicate('see'))

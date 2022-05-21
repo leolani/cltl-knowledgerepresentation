@@ -1,7 +1,8 @@
 from random import getrandbits
 
+from cltl.commons.casefolding import casefold_text
+
 from cltl.brain.LTM_shared import _link_entity
-from cltl.combot.backend.utils.casefolding import casefold_text
 
 
 def _create_time(self, capsule, context):

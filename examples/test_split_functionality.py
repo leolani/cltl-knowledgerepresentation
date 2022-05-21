@@ -9,9 +9,9 @@ from random import getrandbits
 from tempfile import TemporaryDirectory
 
 import requests
+from cltl.commons.discrete import UtteranceType
 
 from cltl.brain.long_term_memory import LongTermMemory
-from cltl.combot.backend.api.discrete import UtteranceType
 
 context_id = getrandbits(8)
 place_id = getrandbits(8)
@@ -65,6 +65,36 @@ experience_capsule_2 = {
     "context_id": context_id
 }
 
+mention_capsule_1 = {
+    "visual": 1,
+    "detection": 3,
+    "source": {"label": "front-camera", "type": ["sensor"],
+               'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+    "image": None,
+    "utterance_type": UtteranceType.IMAGE_MENTION,
+    "region": [752, 46, 1700, 716],
+    "item": {'label': 'Carl', 'type': ['person'], 'id': None,
+             'uri': "http://cltl.nl/leolani/world/carl-1"},
+    'confidence': 0.94,
+    "timestamp": datetime.now(),
+    "context_id": context_id
+}
+
+mention_capsule_2 = {
+    "chat": 1,
+    "turn": 1,
+    "author": {"label": "carl", "type": ["person"],
+               'uri': "http://cltl.nl/leolani/friends/carl-1"},
+    "utterance": "I did not take my pills.",
+    "utterance_type": UtteranceType.TEXT_MENTION,
+    "position": "0-25",
+    "item": {'label': 'Carl', 'type': ['person'], 'id': None,
+             'uri': "http://cltl.nl/leolani/world/carl-1"},
+    'confidence': 0.94,
+    "timestamp": datetime.now(),
+    "context_id": context_id
+}
+
 context_capsule = {
     "context_id": context_id,
     "date": date(2021, 3, 12),  # we take them from the temporal container of scenario
@@ -78,17 +108,21 @@ context_capsule = {
 
 def main(log_path):
     # Create brain connection
-    brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
+    brain = LongTermMemory(address="http://localhost:7200/repositories/leolani",
                            log_dir=log_path,
-                           clear_all=False)
+                           clear_all=True)
 
-    response = brain.capsule_context(context_capsule)
+    # response = brain.capsule_context(context_capsule)
+    #
+    # response = brain.capsule_experience(experience_capsule_1)
+    #
+    # response = brain.capsule_experience(experience_capsule_2)
+    #
+    # response = brain.capsule_statement(statement_capsule)
 
-    response = brain.capsule_experience(experience_capsule_1)
+    response = brain.capsule_mention(mention_capsule_1)
 
-    response = brain.capsule_experience(experience_capsule_2)
-
-    response = brain.capsule_statement(statement_capsule)
+    response = brain.capsule_mention(mention_capsule_2)
 
     print('DONE')
 

@@ -6,6 +6,7 @@ from cltl.commons.discrete import UtteranceType
 
 from cltl.brain.LTM_context_processing import process_context
 from cltl.brain.LTM_experience_processing import process_experience
+from cltl.brain.LTM_mention_processing import process_mention
 from cltl.brain.LTM_question_processing import create_query
 from cltl.brain.LTM_shared import _link_leolani, _link_entity, _create_actor, create_claim_graph
 from cltl.brain.LTM_statement_processing import process_statement
@@ -134,11 +135,12 @@ class LongTermMemory(BasicBrain):
         context = process_context(self, capsule)
 
         # Finish process of uploading new knowledge to the triple store
-        data = self._serialize(self._brain_log())
+        rdf_log_path = self._brain_log()
+        data = self._serialize(rdf_log_path)
         code = self._upload_to_brain(data)
 
         # Create JSON output
-        output = {'response': code, 'capsule': capsule}
+        output = {'response': code, 'context': capsule, 'rdf_log_path': rdf_log_path}
 
         return output
 
@@ -251,7 +253,7 @@ class LongTermMemory(BasicBrain):
                                                           uri=capsule['item']['uri'])
         capsule['perspective'] = self._rdf_builder.fill_perspective({'certainty': capsule['confidence'],
                                                                      'polarity': 1}) \
-            if 'certainty' in capsule.keys() else self._rdf_builder.fill_perspective({})
+            if 'certainty' in capsule.keys() else self._rdf_builder.fill_perspective({'polarity': 1})
         capsule['utterance_type'] = UtteranceType[capsule['utterance_type']] \
             if type(capsule['utterance_type']) == str else capsule['utterance_type']
 
@@ -263,10 +265,59 @@ class LongTermMemory(BasicBrain):
         process_experience(self, capsule, create_label)
 
         # Finish process of uploading new knowledge to the triple store
-        data = self._serialize(self._brain_log())
+        rdf_log_path = self._brain_log()
+        data = self._serialize(rdf_log_path)
         code = self._upload_to_brain(data)
 
         # Create JSON output
-        output = {'response': code, 'capsule': capsule}
+        output = {'response': code, 'experience': capsule, 'rdf_log_path': rdf_log_path}
+
+        return output
+
+    def capsule_mention(self, capsule, create_label=False):
+        # type (dict) -> dict
+        """
+        Main function to register individual mentions of entities
+        Parameters
+        ----------
+        capsule: dict
+            Contains all necessary information regarding the mentions.
+        create_label: Boolean
+            Turn automatic rdfs:label on or off for instance graph entities (people detections)
+
+        Returns
+        -------
+        capsule: dict
+            Returns back the capsule, adding the response code.
+
+        """
+
+        # Process capsule to right types
+        capsule['entity'] = self._rdf_builder.fill_entity(casefold_text(capsule['item']['label'], format='triple'),
+                                                          capsule['item']['type'] + ['Instance'],
+                                                          'LW',
+                                                          uri=capsule['item']['uri'])
+        capsule['perspective'] = self._rdf_builder.fill_perspective({'certainty': capsule['confidence'],
+                                                                     'polarity': 1}) \
+            if 'certainty' in capsule.keys() else self._rdf_builder.fill_perspective({'polarity': 1})
+        capsule['utterance_type'] = UtteranceType[capsule['utterance_type']] \
+            if type(capsule['utterance_type']) == str else capsule['utterance_type']
+
+        # Casefold
+        source = 'author' \
+            if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION) else 'source'
+        capsule[source]['type'] = [casefold_text(t, format='triple') for t in capsule[source]['type']]
+        capsule['item']['type'] = [casefold_text(t, format='triple') for t in capsule['item']['type']]
+
+        # Create graphs and triples
+        process_mention(self, capsule, create_label)
+
+        # Finish process of uploading new knowledge to the triple store
+        rdf_log_path = self._brain_log()
+        data = self._serialize(rdf_log_path)
+        code = self._upload_to_brain(data)
+
+        # Create JSON output
+        output = {'response': code, 'mention': capsule, 'rdf_log_path': rdf_log_path}
 
         return output

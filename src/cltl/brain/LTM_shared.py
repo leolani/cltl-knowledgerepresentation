@@ -36,7 +36,7 @@ def _link_entity(self, entity, graph, create_label, namespace_mapping=None):
 
 
 def _create_actor(self, capsule, create_label):
-    if capsule['utterance_type'] == UtteranceType.STATEMENT:
+    if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION):
         source = 'author'
         ns = 'LF'
         pred = 'know'
@@ -67,10 +67,9 @@ def _create_actor(self, capsule, create_label):
 
 
 def _create_mention(self, capsule, subevent):
-    if capsule['utterance_type'] == UtteranceType.STATEMENT:
+    if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION):
         mention_unit = 'char'
         mention_position = f"{capsule['position']}"
-        transcript = self._rdf_builder.fill_literal(capsule['utterance'], datatype=self.namespaces['XML']['string'])
         timestamp = self._rdf_builder.fill_literal(capsule['timestamp'], datatype=self.namespaces['XML']['string'])
 
         # Mention
@@ -79,13 +78,20 @@ def _create_mention(self, capsule, subevent):
         _link_entity(self, mention, self.perspective_graph, create_label=True)
 
         # Bidirectional link between mention and individual instances
-        self.instance_graph.add((capsule['triple'].subject.id, self.namespaces['GAF']['denotedIn'], mention.id))
-        self.instance_graph.add((capsule['triple'].complement.id, self.namespaces['GAF']['denotedIn'], mention.id))
-        self.perspective_graph.add(
-            (mention.id, self.namespaces['GAF']['containsDenotation'], capsule['triple'].subject.id))
-        self.perspective_graph.add(
-            (mention.id, self.namespaces['GAF']['containsDenotation'], capsule['triple'].complement.id))
-        self.perspective_graph.add((mention.id, RDF.value, transcript))
+        if capsule['utterance_type'] == UtteranceType.STATEMENT:
+            self.instance_graph.add((capsule['triple'].subject.id, self.namespaces['GAF']['denotedIn'], mention.id))
+            self.instance_graph.add((capsule['triple'].complement.id, self.namespaces['GAF']['denotedIn'], mention.id))
+            self.perspective_graph.add(
+                (mention.id, self.namespaces['GAF']['containsDenotation'], capsule['triple'].subject.id))
+            self.perspective_graph.add(
+                (mention.id, self.namespaces['GAF']['containsDenotation'], capsule['triple'].complement.id))
+
+            transcript = self._rdf_builder.fill_literal(capsule['utterance'], datatype=self.namespaces['XML']['string'])
+            self.perspective_graph.add((mention.id, RDF.value, transcript))
+        else:
+            self.instance_graph.add((capsule['entity'].id, self.namespaces['GAF']['denotedIn'], mention.id))
+            self.perspective_graph.add((mention.id, self.namespaces['GAF']['containsDenotation'], capsule['entity'].id))
+
         self.perspective_graph.add((mention.id, self.namespaces['SEM']['hasBeginTimeStamp'], timestamp))
 
     else:
@@ -147,7 +153,8 @@ def create_interaction_graph(self, capsule, create_label):
     context = self._rdf_builder.fill_entity(f"context{capsule['context_id']}", ['Context'], 'LC')
 
     # Chat or Visual
-    event_type = 'chat' if capsule['utterance_type'] == UtteranceType.STATEMENT else 'visual'
+    event_type = 'chat' \
+        if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION) else 'visual'
     event_id = self._rdf_builder.fill_literal(capsule[event_type], datatype=self.namespaces['XML']['string'])
     event_label = f'{event_type}{event_id}'
     event = self._rdf_builder.fill_entity(event_label, ['Event', f"{event_type.title()}"], 'LTa')
@@ -156,9 +163,11 @@ def create_interaction_graph(self, capsule, create_label):
     self.interaction_graph.add((context.id, self.namespaces['SEM']['hasEvent'], event.id))
 
     # Utterance or Detection are events and instances
-    subevent_type = 'utterance' if capsule['utterance_type'] == UtteranceType.STATEMENT else 'detection'
+    subevent_type = 'utterance' \
+        if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION) else 'detection'
     subevent_id = self._rdf_builder.fill_literal(capsule['turn']
-                                                 if capsule['utterance_type'] == UtteranceType.STATEMENT
+                                                 if capsule['utterance_type'] in (UtteranceType.STATEMENT,
+                                                                                  UtteranceType.TEXT_MENTION)
                                                  else capsule['detection'], datatype=self.namespaces['XML']['string'])
     subevent_label = f'{str(event.label)}_{subevent_type}{str(subevent_id)}'
     subevent = self._rdf_builder.fill_entity(subevent_label, ['Event', f'{subevent_type.title()}'], 'LTa')
@@ -201,9 +210,10 @@ def interlink_graphs(self, mention, actor, subevent, claim, interaction):
     self.perspective_graph.add((mention.id, self.namespaces['GRASP']['wasAttributedTo'], actor.id))
     self.perspective_graph.add((mention.id, self.namespaces['PROV']['wasDerivedFrom'], subevent.id))
 
-    # Bidirectional link between mention and claim
-    self.claim_graph.add((claim.id, self.namespaces['GAF']['denotedBy'], mention.id))
-    self.perspective_graph.add((mention.id, self.namespaces['GAF']['denotes'], claim.id))
+    if claim:
+        # Bidirectional link between mention and claim
+        self.claim_graph.add((claim.id, self.namespaces['GAF']['denotedBy'], mention.id))
+        self.perspective_graph.add((mention.id, self.namespaces['GAF']['denotes'], claim.id))
 
     # Link mention to the interaction
     # self.claim_graph.add((interaction.id, self.namespaces['GAF']['denotedBy'], mention.id))

@@ -2,6 +2,8 @@ import pathlib
 
 import requests
 from cltl.commons.casefolding import casefold_text
+from iribaker import to_iri
+from rdflib import RDF, URIRef
 
 from cltl.brain.LTM_statement_processing import _link_entity, create_claim_graph
 from cltl.brain.long_term_memory import LongTermMemory
@@ -54,10 +56,11 @@ class FameAwareMemory(LongTermMemory):
                     self.add_triple(triple)
 
                 # Finish process of uploading new knowledge to the triple store
-                data = self._serialize(self._brain_log())
+                rdf_log_path = self._brain_log()
+                data = self._serialize(rdf_log_path)
                 code = self._upload_to_brain(data)
 
-                return {'response': code, 'label': person_name, 'data': data}
+                return {'response': code, 'label': person_name, 'data': data, 'rdf_log_path': rdf_log_path}
 
         return {'response': None, 'label': person_name, 'data': None}
 
@@ -65,9 +68,9 @@ class FameAwareMemory(LongTermMemory):
 
         # Parse subject
         s_types = self._rdf_builder.clean_aggregated_types(triple['subjectTypesLabel']['value'])
-        s = self._rdf_builder.fill_entity(casefold_text(triple['subjectLabel']['value'], format='triple'),
-                                          s_types, uri=triple['subject']['value'])
+        s = self._rdf_builder.fill_entity(casefold_text(triple['subjectLabel']['value'], format='triple'), s_types)
         _link_entity(self, s, self.instance_graph, create_label=True)
+        self.instance_graph.add((s.id, RDF.type, URIRef(to_iri(triple['subject']['value']))))
 
         # Parse predicate
         p = self._rdf_builder.fill_predicate(casefold_text(triple['propLabel']['value'], format='triple'),
@@ -79,9 +82,10 @@ class FameAwareMemory(LongTermMemory):
             self.instance_graph.add((s.id, p.id, o))
         else:
             o_types = self._rdf_builder.clean_aggregated_types(triple['objectTypesLabel']['value'])
-            o = self._rdf_builder.fill_entity(casefold_text(triple['objectLabel']['value'], format='triple'),
-                                              o_types, uri=triple['object']['value'])
+            o = self._rdf_builder.fill_entity(casefold_text(triple['objectLabel']['value'], format='triple'), o_types)
             _link_entity(self, o, self.instance_graph, create_label=True)
+            self.instance_graph.add((s.id, RDF.type, URIRef(to_iri(triple['object']['value']))))
+
             create_claim_graph(self, s, p, o)
 
         # self._log.info(f'Triple: {}')

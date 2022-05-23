@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 from random import getrandbits
 
 from cltl.commons.discrete import UtteranceType
@@ -1562,6 +1562,74 @@ experiences = ({"context_id": context_id,
                    }
                ]
                )
+
+context_id, start_date = getrandbits(8), date(2022, 1, 15)
+mentions = ({"context_id": context_id,
+             "date": start_date,
+             "place": "Piek's office",
+             "place_id": place_id,
+             "country": "Netherlands",
+             "region": "North Holland",
+             "city": "Amsterdam"},
+            [
+                {
+                    "visual": 1,
+                    "detection": 1,
+                    "source": {"label": "front-camera", "type": ["sensor"],
+                               'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+                    "image": None,
+                    "utterance_type": UtteranceType.IMAGE_MENTION,
+                    "region": [712, 46, 1128, 716],
+                    "item": {'label': "Piek's laptop", 'type': ['object', 'laptop'], 'id': 1,
+                             'uri': "http://cltl.nl/leolani/world/laptop-1"},
+                    'confidence': 0.68,
+                    "timestamp": datetime.combine(start_date, datetime.now().time()),
+                    "context_id": context_id
+                },
+                {
+                    "visual": 1,
+                    "detection": 2,
+                    "source": {"label": "front-camera", "type": ["sensor"],
+                               'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+                    "image": None,
+                    "utterance_type": UtteranceType.IMAGE_MENTION,
+                    "region": [752, 36, 1148, 714],
+                    "item": {'label': 'potted plant', 'type': ['plant'], 'id': 1,
+                             'uri': "http://cltl.nl/leolani/world/potted-plant-1"},
+                    'confidence': 0.98,
+                    "timestamp": datetime.combine(start_date, datetime.now().time()),
+                    "context_id": context_id
+                },
+                {
+                    "visual": 1,
+                    "detection": 3,
+                    "source": {"label": "front-camera", "type": ["sensor"],
+                               'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+                    "image": None,
+                    "utterance_type": UtteranceType.IMAGE_MENTION,
+                    "region": [557, 66, 700, 786],
+                    "item": {'label': "Lea's desk", 'type': ['desk', 'furniture'], 'id': 1,
+                             'uri': "http://cltl.nl/leolani/world/desk-1"},
+                    'confidence': 0.94,
+                    "timestamp": datetime.combine(start_date, datetime.now().time()),
+                    "context_id": context_id
+                },
+                {
+                    "chat": 1,
+                    "turn": 1,
+                    "author": {"label": "carl", "type": ["person"],
+                               'uri': "http://cltl.nl/leolani/friends/carl-1"},
+                    "utterance": "That looks like a bonsai tree.",
+                    "utterance_type": UtteranceType.TEXT_MENTION,
+                    "position": "0-25",
+                    "item": {'label': 'bonsai tree', 'type': ['plant'], 'id': 1,
+                             'uri': "http://cltl.nl/leolani/world/carl-1"},
+                    'confidence': 0.84,
+                    "timestamp": datetime.now(),
+                    "context_id": context_id
+                }
+            ]
+            )
 
 visuals = ['laptop computer', 'pay-station', 'notebook', 'flowerpot', 'pot', 'tv', 'espresso maker', 'pay-phone',
            'desk', 'printer', 'tool kit', "carpenter's kit", 'chair', 'potted plant', "potter's wheel",

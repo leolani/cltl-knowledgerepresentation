@@ -27,13 +27,13 @@ def main(log_path):
 
         for capsule in statements_capsules:
             # Add information to the brain
-            response = brain.capsule_statement(capsule, reason_types=True, create_label=True)
+            response = brain.capsule_statement(capsule, reason_types=True, return_thoughts=True, create_label=True)
             print(f"\n{capsule['triple']}\n")
 
             response_json = brain_response_to_json(response)
             data.append(response_json)
 
-    f = open("./capsules/base-case-responses.json", "w")
+    f = open("responses/basic-statements-responses.json", "w")
     json.dump(data, f)
 
 

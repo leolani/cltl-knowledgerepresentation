@@ -108,17 +108,17 @@ context_capsule = {
 
 def main(log_path):
     # Create brain connection
-    brain = LongTermMemory(address="http://localhost:7200/repositories/leolani",
+    brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
-                           clear_all=True)
+                           clear_all=False)
 
-    # response = brain.capsule_context(context_capsule)
-    #
-    # response = brain.capsule_experience(experience_capsule_1)
-    #
-    # response = brain.capsule_experience(experience_capsule_2)
-    #
-    # response = brain.capsule_statement(statement_capsule)
+    response = brain.capsule_context(context_capsule)
+
+    response = brain.capsule_experience(experience_capsule_1)
+
+    response = brain.capsule_experience(experience_capsule_2)
+
+    response = brain.capsule_statement(statement_capsule)
 
     response = brain.capsule_mention(mention_capsule_1)
 

@@ -22,7 +22,7 @@ location = requests.get("https://ipinfo.io").json()
 start_date = date(2021, 3, 12)
 
 carl_scenario = ({"context_id": context_id,
-                  "date": start_date,  # we take them from the temporal container of scenario
+                  "date": start_date,
                   "place": "Carl's room",
                   "place_id": place_id,
                   "country": location['country'],
@@ -148,12 +148,60 @@ carl_scenario = ({"context_id": context_id,
                      "predicate": {"label": "see", "uri": "http://cltl.nl/leolani/n2mu/see"},
                      "object": {"label": "pills", "type": ["object"], 'uri': "http://cltl.nl/leolani/world/pills"},
                      "perspective": {"certainty": 1, "polarity": 1, "sentiment": 1},
+                     "timestamp": datetime.combine(start_date, datetime.now().time()),
                      "context_id": context_id,
                  }, {
-                     "objects": [{'type': 'chair', 'confidence': 0.59, 'id': 1},
-                                 {'type': 'table', 'confidence': 0.73, 'id': 1},
-                                 {'type': 'pillbox', 'confidence': 0.32, 'id': 1}],
-                     "people": [{'name': 'Carl', 'confidence': 0.98, 'id': 1}]
+                     "visual": 3,
+                     "detection": 1,
+                     "source": {"label": "front-camera", "type": ["sensor"],
+                                'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+                     "image": None,
+                     "utterance_type": UtteranceType.EXPERIENCE,
+                     "region": [752, 46, 1148, 716],
+                     "item": {'label': 'chair 1', 'type': ['chair'], 'id': 1,
+                              'uri': "http://cltl.nl/leolani/world/chair-1"},
+                     'confidence': 0.59,
+                     "timestamp": datetime.combine(start_date, datetime.now().time()),
+                     "context_id": context_id
+                 }, {
+                     "visual": 3,
+                     "detection": 2,
+                     "source": {"label": "front-camera", "type": ["sensor"],
+                                'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+                     "image": None,
+                     "utterance_type": UtteranceType.EXPERIENCE,
+                     "region": [752, 46, 1148, 716],
+                     "item": {'label': 'table 1', 'type': ['table'], 'id': 1,
+                              'uri': "http://cltl.nl/leolani/world/table-1"},
+                     'confidence': 0.73,
+                     "timestamp": datetime.combine(start_date, datetime.now().time()),
+                     "context_id": context_id
+                 }, {
+                     "visual": 3,
+                     "detection": 3,
+                     "source": {"label": "front-camera", "type": ["sensor"],
+                                'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+                     "image": None,
+                     "utterance_type": UtteranceType.EXPERIENCE,
+                     "region": [752, 46, 1148, 716],
+                     "item": {'label': 'pillbox 1', 'type': ['pillbox'], 'id': 1,
+                              'uri': "http://cltl.nl/leolani/world/pillbox-1"},
+                     'confidence': 0.79,
+                     "timestamp": datetime.combine(start_date, datetime.now().time()),
+                     "context_id": context_id
+                 }, {
+                     "visual": 3,
+                     "detection": 4,
+                     "source": {"label": "front-camera", "type": ["sensor"],
+                                'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+                     "image": None,
+                     "utterance_type": UtteranceType.EXPERIENCE,
+                     "region": [752, 46, 1700, 716],
+                     "item": {'label': 'Carl', 'type': ['person'], 'id': None,
+                              'uri': "http://cltl.nl/leolani/world/carl-1"},
+                     'confidence': 0.98,
+                     "timestamp": datetime.combine(start_date, datetime.now().time()),
+                     "context_id": context_id
                  }
                  ]
                  )
@@ -182,7 +230,7 @@ def main(log_path):
             response_json = brain_response_to_json(response)
             data.append(response_json)
 
-    f = open("./capsules/carl-responses.json", "w")
+    f = open("responses/carl-responses.json", "w")
     json.dump(data, f)
 
 

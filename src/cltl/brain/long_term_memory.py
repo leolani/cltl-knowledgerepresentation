@@ -8,16 +8,16 @@ from cltl.brain.LTM_context_processing import process_context
 from cltl.brain.LTM_experience_processing import process_experience
 from cltl.brain.LTM_mention_processing import process_mention
 from cltl.brain.LTM_question_processing import create_query
-from cltl.brain.LTM_shared import _link_leolani, _link_entity, _create_actor, create_claim_graph
+from cltl.brain.LTM_shared import _create_actor
 from cltl.brain.LTM_statement_processing import process_statement
 from cltl.brain.basic_brain import BasicBrain
-from cltl.brain.infrastructure import Thoughts, Triple
+from cltl.brain.infrastructure import Thoughts
 from cltl.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
 from cltl.brain.utils.helper_functions import read_query
 
 
 class LongTermMemory(BasicBrain):
-    def __init__(self, address, log_dir, clear_all=False):
+    def __init__(self, address, log_dir, clear_all=False, calculate_trust=False):
         # type: (str, pathlib.Path, bool) -> None
         """
         Interact with Triple store
@@ -42,56 +42,12 @@ class LongTermMemory(BasicBrain):
         self.set_location_label = self.location_reasoner.set_location_label
         self.reason_location = self.location_reasoner.reason_location
 
-        self.trust_calculator.compute_trust_network()
+        if calculate_trust:
+            self.trust_calculator.compute_trust_network()
 
     #################################### Main functions to interact with the brain ####################################
-    def get_thoughts_on_entity(self, entity_label, reason_types=False):
-        if entity_label is not None and entity_label != '':
-
-            # Try to figure out what this entity is
-            entity_type = None
-            if reason_types:
-                entity_type, _ = self.type_reasoner.reason_entity_type(entity_label, exact_only=True)
-
-            # Casefold
-            entity_label = casefold_text(entity_label, format='triple')
-
-            # Create entity
-            if entity_type is not None:
-                entity_types = [casefold_text(entity_type, format='triple'), 'Instance', 'object']
-            else:
-                entity_types = [casefold_text(entity_label, format='triple'), 'Instance', 'object']
-
-            entity = self._rdf_builder.fill_entity(entity_label, entity_types, 'LW')
-
-            # Create graphs and triples
-            _link_leolani(self)
-            predicate = self._rdf_builder.fill_predicate('see')
-            _link_entity(self, entity, self.instance_graph, create_label=True)
-            create_claim_graph(self, self.myself, predicate, entity)
-            triple = Triple(self.myself, predicate, entity)
-
-            # Check how many items of the same type as subject and complement we have
-            entity_novelty = self.thought_generator.fill_entity_novelty(self.myself.id, entity.id)
-
-            # Finish process of uploading new knowledge to the triple store
-            data = self._serialize(self._brain_log())
-            code = self._upload_to_brain(data)
-
-            # Check for gaps, in case we want to be proactive
-            entity_gaps = self.thought_generator.get_entity_gaps(entity)
-
-            # Create JSON output
-            thoughts = Thoughts([], entity_novelty, [], [], None, entity_gaps, None, None)
-            output = {'response': code, 'triple': triple, 'thoughts': thoughts}
-
-        else:
-            # Create JSON output
-            output = {'response': None, 'triple': None, 'thoughts': None}
-
-        return output
-
     def query_brain(self, capsule):
+        # type (dict) -> dict
         """
         Main function to interact with if a question is coming into the brain. Takes in a structured parsed question,
         transforms it into a query, and queries the triple store for a response
@@ -106,7 +62,7 @@ class LongTermMemory(BasicBrain):
         response = self._submit_query(query)
 
         # Create JSON output
-        output = {'response': response, 'question': capsule}
+        output = {'response': response, 'question': capsule, 'rdf_log_path': None}
 
         return output
 
@@ -144,7 +100,7 @@ class LongTermMemory(BasicBrain):
 
         return output
 
-    def capsule_statement(self, capsule, reason_types=False, create_label=False):
+    def capsule_statement(self, capsule, reason_types=False, return_thoughts=False, create_label=False):
         # type (dict) -> dict
         """
         Main function to interact with if a statement is coming into the brain. Takes in an Utterance containing a
@@ -165,6 +121,15 @@ class LongTermMemory(BasicBrain):
             novelty, gaps and overlaps that the statement produces given the data in the triple store
 
         """
+        # Try to figure out what this entity is
+        if reason_types:
+            if not capsule['subject']['type'] or capsule['subject']['type'] == '':
+                subject_type, _ = self.type_reasoner.reason_entity_type(capsule['subject']['label'], exact_only=True)
+                capsule['subject']['type'] = [subject_type]
+
+            if not capsule['object']['type'] or capsule['object']['type'] == '':
+                object_type, _ = self.type_reasoner.reason_entity_type(capsule['object']['label'], exact_only=True)
+                capsule['object']['type'] = [object_type]
 
         # Process capsule to right types
         capsule['triple'] = self._rdf_builder.fill_triple(capsule['subject'], capsule['predicate'], capsule['object'])
@@ -173,18 +138,6 @@ class LongTermMemory(BasicBrain):
         capsule['utterance_type'] = UtteranceType[capsule['utterance_type']] \
             if type(capsule['utterance_type']) == str else capsule['utterance_type']
 
-        # Try to figure out what this entity is
-        if reason_types:
-            if not capsule['triple'].complement.types:
-                complement_type, _ = self.type_reasoner.reason_entity_type(str(capsule['triple'].complement_name),
-                                                                           exact_only=True)
-                capsule['triple'].complement.add_types([complement_type])
-
-            if not capsule['triple'].subject.types:
-                subject_type, _ = self.type_reasoner.reason_entity_type(str(capsule['triple'].subject_name),
-                                                                        exact_only=True)
-                capsule['triple'].complement.add_types([subject_type])
-
         # Casefold
         capsule['triple'].casefold(format='triple')
         capsule['author']['type'] = [casefold_text(t, format='triple') for t in capsule['author']['type']]
@@ -192,37 +145,49 @@ class LongTermMemory(BasicBrain):
         # Create graphs and triples
         claim = process_statement(self, capsule, create_label)
 
-        # Check if this knowledge already exists on the brain
-        statement_novelty = self.thought_generator.get_statement_novelty(claim.id)
+        if return_thoughts:
+            # Check if this knowledge already exists on the brain
+            statement_novelty = self.thought_generator.get_statement_novelty(claim.id)
 
-        # Check how many items of the same type as subject and complement we have
-        entity_novelty = self.thought_generator.fill_entity_novelty(capsule['triple'].subject.id,
-                                                                    capsule['triple'].complement.id)
+            # Check how many items of the same type as subject and complement we have
+            entity_novelty = self.thought_generator.fill_entity_novelty(capsule['triple'].subject.id,
+                                                                        capsule['triple'].complement.id)
 
-        # Find any overlaps
-        overlaps = self.thought_generator.get_overlaps(capsule)
+            # Find any overlaps
+            overlaps = self.thought_generator.get_overlaps(capsule)
+        else:
+            statement_novelty = None
+            entity_novelty = None
+            overlaps = None
 
         # Finish process of uploading new knowledge to the triple store
         rdf_log_path = self._brain_log()
         data = self._serialize(rdf_log_path)
         code = self._upload_to_brain(data)
 
-        # Check for conflicts after adding the knowledge
-        negation_conflicts = self.thought_generator.get_negation_conflicts(capsule)
-        cardinality_conflict = self.thought_generator.get_complement_cardinality_conflicts(capsule)
+        if return_thoughts:
+            # Check for conflicts after adding the knowledge
+            negation_conflicts = self.thought_generator.get_negation_conflicts(capsule)
+            cardinality_conflicts = self.thought_generator.get_complement_cardinality_conflicts(capsule)
 
-        # Check for gaps, in case we want to be proactive
-        subject_gaps = self.thought_generator.get_entity_gaps(entity=capsule['triple'].subject,
-                                                              exclude=capsule['triple'].complement)
-        complement_gaps = self.thought_generator.get_entity_gaps(entity=capsule['triple'].complement,
-                                                                 exclude=capsule['triple'].subject)
+            # Check for gaps, in case we want to be proactive
+            subject_gaps = self.thought_generator.get_entity_gaps(entity=capsule['triple'].subject,
+                                                                  exclude=capsule['triple'].complement)
+            complement_gaps = self.thought_generator.get_entity_gaps(entity=capsule['triple'].complement,
+                                                                     exclude=capsule['triple'].subject)
 
-        # Report trust
-        actor, _ = _create_actor(self, capsule, create_label)
-        trust = self.trust_calculator.get_trust(actor.id)
+            # Report trust
+            actor, _ = _create_actor(self, capsule, create_label)
+            trust = self.trust_calculator.get_trust(actor.id)
+        else:
+            negation_conflicts = None
+            cardinality_conflicts = None
+            subject_gaps = None
+            complement_gaps = None
+            trust = None
 
         # Create JSON output
-        thoughts = Thoughts(statement_novelty, entity_novelty, negation_conflicts, cardinality_conflict,
+        thoughts = Thoughts(statement_novelty, entity_novelty, negation_conflicts, cardinality_conflicts,
                             subject_gaps, complement_gaps, overlaps, trust)
         output = {'response': code, 'statement': capsule, 'thoughts': thoughts, 'rdf_log_path': rdf_log_path}
 
@@ -274,7 +239,7 @@ class LongTermMemory(BasicBrain):
 
         return output
 
-    def capsule_mention(self, capsule, create_label=False):
+    def capsule_mention(self, capsule, reason_types=False, return_thoughts=False, create_label=False):
         # type (dict) -> dict
         """
         Main function to register individual mentions of entities
@@ -291,6 +256,11 @@ class LongTermMemory(BasicBrain):
             Returns back the capsule, adding the response code.
 
         """
+        # Try to figure out what this entity is
+        if reason_types:
+            if not capsule['item']['type'] or capsule['item']['type'] == '':
+                item_type, _ = self.type_reasoner.reason_entity_type(capsule['item']['label'], exact_only=True)
+                capsule['item']['type'] = [item_type]
 
         # Process capsule to right types
         capsule['entity'] = self._rdf_builder.fill_entity(casefold_text(capsule['item']['label'], format='triple'),
@@ -312,12 +282,25 @@ class LongTermMemory(BasicBrain):
         # Create graphs and triples
         process_mention(self, capsule, create_label)
 
+        # Check how many items of the same type as subject and complement we have
+        if return_thoughts:
+            entity_novelty = self.thought_generator.fill_entity_novelty(capsule['entity'].id, capsule['entity'].id)
+        else:
+            entity_novelty = None
+
         # Finish process of uploading new knowledge to the triple store
         rdf_log_path = self._brain_log()
         data = self._serialize(rdf_log_path)
         code = self._upload_to_brain(data)
 
+        # Check for gaps, in case we want to be proactive
+        if return_thoughts:
+            entity_gaps = self.thought_generator.get_entity_gaps(capsule['entity'])
+        else:
+            entity_gaps = None
+
         # Create JSON output
-        output = {'response': code, 'mention': capsule, 'rdf_log_path': rdf_log_path}
+        thoughts = Thoughts(None, entity_novelty, None, None, None, entity_gaps, None, None)
+        output = {'response': code, 'mention': capsule, 'thoughts': thoughts, 'rdf_log_path': rdf_log_path}
 
         return output

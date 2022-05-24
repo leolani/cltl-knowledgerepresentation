@@ -5,12 +5,11 @@ from cltl.combot.infra.config import ConfigurationManager
 from cltl.combot.infra.event import Event, EventBus
 from cltl.combot.infra.resource import ResourceManager
 from cltl.combot.infra.topic_worker import TopicWorker
+from cltl.commons.discrete import UtteranceType
 
 from cltl.brain.long_term_memory import LongTermMemory
 
 logger = logging.getLogger(__name__)
-
-CONTENT_TYPE_SEPARATOR = ';'
 
 
 class BrainService:
@@ -56,9 +55,29 @@ class BrainService:
         for capsule in event.payload:
             logger.debug("Capsule: (%s)", capsule)
             try:
-                brain_response = self._brain.update(capsule, reason_types=True, create_label=True)
+                if 'type' in capsule:
+                    if capsule['type'] == 'context':
+                        brain_response = self._brain.capsule_context(capsule)
+                    else:
+                        logger.error("Unknown capsule type: %s", capsule['type'])
+                elif 'utterance_type' in capsule:
+                    if capsule['utterance_type'] == UtteranceType.STATEMENT:
+                        brain_response = self._brain.capsule_statement(capsule, reason_types=True, create_label=True)
+                    elif capsule['utterance_type'] == UtteranceType.EXPERIENCE:
+                        brain_response = self._brain.capsule_experience(capsule, create_label=True)
+                    elif (capsule['utterance_type'] == UtteranceType.IMAGE_MENTION
+                            or capsule['utterance_type'] == UtteranceType.TEXT_MENTION):
+                        brain_response = self._brain.capsule_mention(capsule, create_label=True)
+                    else:
+                        logger.error("Unknown capsule utterance type: %s", capsule['utterance_type'])
+                else:
+                    logger.error("Unknown capsule type: %s", capsule)
+
                 # brain_response = brain_response_to_json(brain_response)
                 response.append(brain_response)
+                logger.debug("Processed %s (%s)",
+                             capsule['type'] if 'type' in capsule else capsule['utterance_type'],
+                             brain_response)
             except:
                 logger.exception("Brain error")
 

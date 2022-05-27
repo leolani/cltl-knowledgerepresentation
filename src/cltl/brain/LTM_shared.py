@@ -70,7 +70,7 @@ def _create_mention(self, capsule, subevent):
     if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION):
         mention_unit = 'char'
         mention_position = f"{capsule['position']}"
-        timestamp = self._rdf_builder.fill_literal(capsule['timestamp'], datatype=self.namespaces['XML']['string'])
+        timestamp = self._rdf_builder.fill_literal(str(capsule['timestamp']), datatype=self.namespaces['XML']['string'])
 
         # Mention
         mention_label = f'{subevent.label}_{mention_unit}{mention_position}'
@@ -97,7 +97,7 @@ def _create_mention(self, capsule, subevent):
     else:
         mention_unit = 'pixel'
         mention_position = f"{'-'.join([str(i) for i in capsule['region']])}"
-        timestamp = self._rdf_builder.fill_literal(capsule['timestamp'], datatype=self.namespaces['XML']['string'])
+        timestamp = self._rdf_builder.fill_literal(str(capsule['timestamp']), datatype=self.namespaces['XML']['string'])
 
         # Mention
         mention_label = f'{subevent.label}_{mention_unit}{mention_position}'

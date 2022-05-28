@@ -84,7 +84,7 @@ class BrainService:
                              capsule['type'] if 'type' in capsule else capsule['utterance_type'],
                              brain_response)
             except:
-                logger.exception("Brain error")
+                logger.exception("Brain error (%s)", capsule)
 
         if response:
             # TODO: transform brain responses into proper EMISSOR annotations (what to do about thoughts?)

@@ -1,0 +1,100 @@
+@prefix leolaniWorld: <http://cltl.nl/leolani/world/> .
+@prefix leolaniTalk: <http://cltl.nl/leolani/talk/> .
+@prefix leolaniInputs: <http://cltl.nl/leolani/inputs/> .
+@prefix leolaniContext: <http://cltl.nl/leolani/context/> .
+@prefix n2mu: <http://cltl.nl/leolani/n2mu/> .
+@prefix eps: <http://cltl.nl/episodicawareness/> .
+@prefix gaf: <http://groundedannotationframework.org/gaf#> .
+@prefix grasp: <http://groundedannotationframework.org/grasp#> .
+@prefix grasps: <http://groundedannotationframework.org/grasp/sentiment#> .
+@prefix graspf: <http://groundedannotationframework.org/grasp/factuality#> .
+@prefix graspe: <http://groundedannotationframework.org/grasp/emotion#> .
+@prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml1: <https://www.w3.org/TR/xmlschema-2/#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+
+
+leolaniWorld:Instances {
+    leolaniWorld:chair-1 a gaf:Instance, n2mu:object, n2mu:chair ;
+        rdfs:label "chair-1" ;
+        n2mu:id "1"^^xml1:string ;
+        eps:hasContext leolaniContext:context169 ;
+        gaf:denotedIn leolaniTalk:visual1_detection1_pixel0-3 .
+
+    leolaniWorld:carl a gaf:Instance, n2mu:person ;
+        rdfs:label "carl" ;
+        eps:hasContext leolaniContext:context169 ;
+        gaf:denotedIn leolaniTalk:visual1_detection1_pixel0-3 .
+
+    leolaniWorld:leolani a n2mu:robot ;
+        rdfs:label "leolani" .
+}
+
+leolaniWorld:Claims {
+    leolaniWorld:leolani_see_chair-1 a sem:Event, gaf:Assertion ;
+        rdfs:label "leolani_see_chair-1" ;
+        eps:hasContext leolaniContext:context169 ;
+        gaf:denotedBy leolaniTalk:visual1_detection1_pixel0-3 .
+
+    leolaniWorld:leolani_see_carl a sem:Event, gaf:Assertion ;
+        rdfs:label "leolani_see_carl" ;
+        eps:hasContext leolaniContext:context169 ;
+        gaf:denotedBy leolaniTalk:visual1_detection1_pixel0-3 .
+
+    leolaniWorld:leolani_sense_front-camera a sem:Event, gaf:Assertion ;
+        rdfs:label "leolani_sense_front-camera" .
+}
+
+
+leolaniTalk:Interactions {
+    leolaniTalk:visual1 a sem:Event, grasp:Visual ;
+        rdfs:label "visual1" ;
+        n2mu:id "1"^^xml1:string ;
+        sem:hasSubEvent leolaniTalk:visual1_detection1 .
+
+    leolaniTalk:visual1_detection1 a sem:Event, grasp:Detection ;
+        rdfs:label "visual1_detection1" ;
+        n2mu:id "1"^^xml1:string ;
+        sem:hasActor leolaniInputs:front-camera .
+
+    leolaniInputs:front-camera a gaf:Instance, n2mu:sensor, grasp:Source, sem:Actor ;
+        rdfs:label "front-camera" .
+
+    leolaniContext:context169 sem:hasEvent leolaniTalk:visual1 ;
+        eps:hasDetection leolaniWorld:chair-1, leolaniWorld:carl .
+
+}
+
+leolaniTalk:Perspectives {
+    leolaniTalk:visual1_detection1_pixel0-3 a grasp:Experience, gaf:Mention ;
+        rdfs:label "visual1_detection1_pixel0-3" ;
+        prov:wasDerivedFrom leolaniTalk:visual1_detection1 ;
+        gaf:containsDenotation leolaniWorld:chair-1, leolaniWorld:carl ;
+        gaf:denotes leolaniWorld:leolani_see_chair-1, leolaniWorld:leolani_see_carl ;
+        grasp:wasAttributedTo leolaniInputs:front-camera ;
+        grasp:hasAttribution leolaniTalk:leolani_see_carl_CERTAIN, leolaniTalk:leolani_see_chair-1_PROBABLE .
+
+    leolaniTalk:leolani_see_chair-1_PROBABLE-POSITIVE-UNDERSPECIFIED-UNDERSPECIFIED a grasp:Attribution ;
+        rdfs:label "leolani_see_chair-1_PROBABLE-POSITIVE-UNDERSPECIFIED-UNDERSPECIFIED" ;
+        rdf:value graspe:UNDERSPECIFIED, graspf:PROBABLE, graspf:POSITIVE, grasps:UNDERSPECIFIED ;
+        grasp:isAttributionFor leolaniTalk:visual1_detection1_pixel0-3 .
+
+    leolaniTalk:leolani_see_carl_CERTAIN-POSITIVE-UNDERSPECIFIED-UNDERSPECIFIED a grasp:Attribution ;
+        rdfs:label "leolani_see_carl_CERTAIN-POSITIVE-UNDERSPECIFIED-UNDERSPECIFIED" ;
+        rdf:value graspe:UNDERSPECIFIED, graspf:CERTAIN, graspf:POSITIVE, grasps:UNDERSPACIFIED ;
+        grasp:isAttributionFor leolaniTalk:visual1_detection1_pixel0-3 .
+}
+
+leolaniWorld:leolani_see_chair-1 {
+    leolaniWorld:leolani n2mu:see leolaniWorld:chair-1 .
+}
+
+leolaniWorld:leolani_see_carl {
+    leolaniWorld:leolani n2mu:see leolaniWorld:carl .
+}
+
+leolaniWorld:leolani_sense_front-camera {
+    leolaniWorld:leolani n2mu:sense leolaniInputs:front-camera .
+}

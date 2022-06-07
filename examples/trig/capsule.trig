@@ -1,0 +1,379 @@
+@prefix leolaniContext: <http://cltl.nl/leolani/context/> .
+@prefix xml1: <https://www.w3.org/TR/xmlschema-2/#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix gaf: <http://groundedannotationframework.org/gaf#> .
+@prefix ns1: <urn:x-rdflib:> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+@prefix time1: <http://www.w3.org/TR/owl-time/#> .
+@prefix leolaniTalk: <http://cltl.nl/leolani/talk/> .
+@prefix grasp: <http://groundedannotationframework.org/grasp#> .
+@prefix grasps: <http://groundedannotationframework.org/grasp/sentiment#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix n2mu: <http://cltl.nl/leolani/n2mu/> .
+@prefix leolaniFriends: <http://cltl.nl/leolani/friends/> .
+@prefix leolaniWorld: <http://cltl.nl/leolani/world/> .
+@prefix wgs: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix graspf: <http://groundedannotationframework.org/grasp/factuality#> .
+@prefix graspe: <http://groundedannotationframework.org/grasp/emotion#> .
+@prefix gn: <http://www.geonames.org/ontology#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix eps: <http://cltl.nl/episodicawareness/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix default1: <http://www.newsreader-project.eu/domain-ontology#> .
+@prefix leolaniInputs: <http://cltl.nl/leolani/inputs/> .
+
+
+leolaniWorld:Instances {
+    leolaniWorld:chair-1 a gaf:Instance, n2mu:object, n2mu:chair .
+
+
+}
+
+leolaniTalk:Interactions {
+    leolaniContext:2021-03-12 a sem:Time, time1:DateTimeDescription .
+
+    leolaniTalk:chat1 a sem:Event, grasp:Chat .
+
+    leolaniTalk:visual1 a sem:Event, grasp:Visual .
+
+    leolaniContext:carl-s-room a n2mu:location, sem:Place .
+
+    leolaniWorld:Amsterdam a n2mu:location, n2mu:city, sem:Place .
+
+    leolaniWorld:NL a n2mu:location, n2mu:country, sem:Place .
+
+    leolaniWorld:North_Holland a n2mu:location, sem:Place, n2mu:region .
+
+    leolaniInputs:front-camera a gaf:Instance, n2mu:sensor, grasp:Source, sem:Actor .
+
+    leolaniTalk:chat1_utterance1 a sem:Event, grasp:Utterance .
+
+    leolaniTalk:visual1_detection1 a sem:Event, grasp:Detection .
+}
+
+leolaniWorld:Instances {
+    leolaniWorld:pills a gaf:Instance, n2mu:object, n2mu:medicine .
+}
+
+leolaniTalk:Perspectives {
+    graspe:UNDERSPECIFIED a grasp:AttributionValue, graspe:EmotionValue .
+
+    graspf:CERTAIN a grasp:AttributionValue, graspf:CertaintyValue .
+
+    leolaniTalk:visual1_detection1_pixel0-3 a grasp:Experience, gaf:Mention .
+}
+
+leolaniWorld:Claims {
+    leolaniWorld:leolani_see_chair-1 a sem:Event, gaf:Assertion .
+
+
+}
+
+leolaniWorld:Instances {
+    leolaniWorld:leolani a n2mu:robot .
+}
+
+leolaniWorld:Claims {
+    leolaniWorld:leolani_sense_front-camera a sem:Event, gaf:Assertion .
+}
+
+leolaniWorld:Instances {
+    leolaniWorld:carl a gaf:Instance, n2mu:person .
+}
+
+leolaniWorld:Claims {
+    leolaniWorld:leolani_see_carl a sem:Event, gaf:Assertion .
+}
+
+leolaniWorld:Instances {
+    leolaniWorld:carl-1 a gaf:Instance, n2mu:person .
+}
+
+leolaniTalk:Perspectives {
+    leolaniTalk:chat1_utterance1_char0-48 a gaf:Mention, grasp:Statement .
+}
+
+leolaniTalk:Interactions {
+    leolaniFriends:carl a gaf:Instance, n2mu:person, grasp:Source, sem:Actor .
+}
+
+leolaniWorld:Claims {
+    leolaniWorld:carl-1_take_pills a sem:Event, gaf:Assertion .
+
+    leolaniWorld:leolani_know_carl a sem:Event, gaf:Assertion .
+}
+
+leolaniTalk:Perspectives {
+    leolaniTalk:carl-1_see_take_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED a grasp:Attribution .
+
+    graspf:NEGATIVE a grasp:AttributionValue, graspf:PolarityValue .
+
+    grasps:NEGATIVE a grasp:AttributionValue, grasps:SentimentValue .
+
+    leolaniTalk:carl-1_take_pills_Certainty.PROBABLE a grasp:Attribution .
+}
+
+leolaniTalk:Interactions {
+    leolaniContext:context169 a eps:Context .
+}
+
+leolaniWorld:Claims {
+    leolaniFriends:carl owl:sameAs leolaniWorld:carl .
+}
+
+leolaniTalk:Perspectives {
+    leolaniTalk:chat1_utterance1_char0-48 rdf:value "I need to take my pills, but I cannot find them."^^xml1:string .
+
+    leolaniTalk:carl-1_take_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED rdf:value
+            graspe:UNDERSPECIFIED,
+            graspf:CERTAIN,
+            graspf:NEGATIVE,
+            grasps:NEGATIVE .
+
+    leolaniTalk:carl-1_take_pills_Certainty.PROBABLE rdf:value
+            graspe:UNDERSPECIFIED,
+            graspf:CERTAIN,
+            graspf:NEGATIVE,
+            grasps:NEGATIVE .
+}
+
+leolaniWorld:Instances {
+    leolaniWorld:chair-1 rdfs:label "chair-1" .
+
+
+}
+
+leolaniTalk:Interactions {
+    leolaniContext:2021-03-12 rdfs:label "2021-03-12" .
+
+    leolaniTalk:chat1 rdfs:label "chat1" .
+
+    leolaniTalk:visual1 rdfs:label "visual1" .
+
+    leolaniContext:carl-s-room rdfs:label "carl-s-room" .
+
+    leolaniWorld:Amsterdam rdfs:label "Amsterdam" .
+
+    leolaniWorld:NL rdfs:label "NL" .
+
+    leolaniWorld:North_Holland rdfs:label "North Holland" .
+
+    leolaniInputs:front-camera rdfs:label "front-camera" .
+
+    leolaniTalk:chat1_utterance1 rdfs:label "chat1_utterance1" .
+
+    leolaniTalk:visual1_detection1 rdfs:label "visual1_detection1" .
+}
+
+leolaniWorld:Instances {
+    leolaniWorld:pills rdfs:label "pills" .
+}
+
+leolaniTalk:Perspectives {
+    graspe:UNDERSPECIFIED rdfs:label "UNDERSPECIFIED" .
+
+    graspf:CERTAIN rdfs:label "CERTAIN" .
+
+    leolaniTalk:visual1_detection1_pixel0-3 rdfs:label "visual1_detection1_pixel0-3" .
+}
+
+leolaniWorld:Claims {
+    leolaniWorld:leolani_see_chair-1 rdfs:label "leolani_see_chair-1" .
+
+
+}
+
+leolaniWorld:Instances {
+    leolaniWorld:leolani rdfs:label "leolani" .
+}
+
+leolaniWorld:Claims {
+    leolaniWorld:leolani_sense_front-camera rdfs:label "leolani_sense_front-camera" .
+}
+
+leolaniWorld:Instances {
+    leolaniWorld:carl rdfs:label "carl" .
+}
+
+leolaniWorld:Claims {
+    leolaniWorld:leolani_see_carl rdfs:label "leolani_see_carl" .
+}
+
+leolaniWorld:Instances {
+    leolaniWorld:carl-1 rdfs:label "carl" .
+}
+
+leolaniTalk:Perspectives {
+    leolaniTalk:chat1_utterance1_char0-48 rdfs:label "chat1_utterance1_char0-48" .
+}
+
+leolaniTalk:Interactions {
+    leolaniFriends:carl rdfs:label "carl" .
+}
+
+leolaniWorld:Claims {
+    leolaniWorld:carl-1_take_pills rdfs:label "carl-1_take_pills" .
+
+    leolaniWorld:leolani_know_carl rdfs:label "leolani_know_carl" .
+}
+
+leolaniTalk:Perspectives {
+    leolaniTalk:carl-1_take_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED rdfs:label
+            "carl-1_take_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED" .
+
+    graspf:NEGATIVE rdfs:label "NEGATIVE" .
+
+    grasps:NEGATIVE rdfs:label "NEGATIVE" .
+
+    leolaniTalk:carl-1_take_pills_Certainty.PROBABLE rdfs:label "carl-1_take_pills_Certainty.PROBABLE" .
+}
+
+leolaniTalk:Interactions {
+    leolaniContext:context169 rdfs:label "context169" .
+}
+
+leolaniWorld:Instances {
+    leolaniWorld:chair-1 eps:hasContext leolaniContext:context169 .
+
+
+}
+
+leolaniWorld:Claims {
+    leolaniWorld:leolani_see_chair-1 eps:hasContext leolaniContext:context169 .
+
+
+}
+
+leolaniWorld:Instances {
+    leolaniWorld:carl eps:hasContext leolaniContext:context169 .
+}
+
+leolaniWorld:Claims {
+    leolaniWorld:leolani_see_carl eps:hasContext leolaniContext:context169 .
+}
+
+leolaniTalk:Interactions {
+    leolaniContext:context169 eps:hasDetection
+            leolaniWorld:chair-1,
+            leolaniWorld:carl .
+}
+
+leolaniWorld:leolani_know_carl {
+    leolaniWorld:leolani n2mu:know leolaniFriends:carl .
+}
+
+leolaniTalk:Interactions {
+    leolaniContext:carl-s-room n2mu:in leolaniWorld:Amsterdam, leolaniWorld:NL, leolaniWorld:North_Holland .
+}
+
+leolaniWorld:leolani_sense_front-camera {
+    leolaniWorld:leolani n2mu:sense leolaniInputs:front-camera .
+}
+
+leolaniTalk:Perspectives {
+    leolaniTalk:visual1_detection1_pixel0-3 grasp:wasAttributedTo leolaniInputs:front-camera .
+
+    leolaniTalk:chat1_utterance1_char0-48 grasp:wasAttributedTo leolaniFriends:carl .
+}
+
+leolaniTalk:Interactions {
+    leolaniTalk:chat1_utterance1 sem:hasActor leolaniFriends:carl .
+
+    leolaniTalk:visual1_detection1 sem:hasActor leolaniInputs:front-camera .
+
+    leolaniContext:context169 sem:hasPlace leolaniContext:carl-s-room .
+
+    leolaniTalk:chat1 sem:hasSubEvent leolaniTalk:chat1_utterance1 .
+
+    leolaniTalk:visual1 sem:hasSubEvent leolaniTalk:visual1_detection1 .
+}
+
+leolaniTalk:Perspectives {
+    leolaniTalk:visual1_detection1_pixel0-3 prov:wasDerivedFrom leolaniTalk:visual1_detection1 .
+
+    leolaniTalk:chat1_utterance1_char0-48 prov:wasDerivedFrom leolaniTalk:chat1_utterance1 .
+
+    leolaniTalk:visual1_detection1_pixel0-3 gaf:containsDenotation
+            leolaniWorld:chair-1,
+            leolaniWorld:carl .
+
+    leolaniTalk:chat1_utterance1_char0-48 gaf:containsDenotation leolaniWorld:pills, leolaniWorld:carl-1 .
+}
+
+leolaniWorld:Claims {
+    leolaniWorld:leolani_see_chair-1 gaf:denotedBy leolaniTalk:visual1_detection1_pixel0-3 .
+
+    leolaniWorld:leolani_see_carl gaf:denotedBy leolaniTalk:visual1_detection1_pixel0-3 .
+
+    leolaniWorld:carl-1_take_pills gaf:denotedBy leolaniTalk:chat1_utterance1_char0-48 .
+}
+
+leolaniWorld:Instances {
+    leolaniWorld:chair-1 gaf:denotedIn leolaniTalk:visual1_detection1_pixel0-3 .
+
+    leolaniWorld:pills gaf:denotedIn leolaniTalk:chat1_utterance1_char0-48 .
+
+    leolaniWorld:carl gaf:denotedIn leolaniTalk:visual1_detection1_pixel0-3 .
+
+    leolaniWorld:carl-1 gaf:denotedIn leolaniTalk:chat1_utterance1_char0-48 .
+}
+
+leolaniTalk:Perspectives {
+    leolaniTalk:visual1_detection1_pixel0-3 gaf:denotes
+            leolaniWorld:leolani_see_chair-1,
+            leolaniWorld:leolani_see_carl .
+
+    leolaniTalk:chat1_utterance1_char0-48 gaf:denotes leolaniWorld:carl-1_take_pills .
+
+    leolaniTalk:visual1_detection1_pixel0-3 grasp:hasAttribution leolaniTalk:carl-1_take_pills_Certainty.PROBABLE .
+
+    leolaniTalk:chat1_utterance1_char0-48 grasp:hasAttribution
+            leolaniTalk:carl-1_take_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED .
+
+    leolaniTalk:carl-1_take_pills_CERTAIN-NEGATIVE-NEGATIVE-UNDERSPECIFIED grasp:isAttributionFor
+            leolaniTalk:chat1_utterance1_char0-48 .
+
+    leolaniTalk:carl-1_take_pills_Certainty.PROBABLE grasp:isAttributionFor leolaniTalk:visual1_detection1_pixel0-3 .
+}
+
+leolaniTalk:Interactions {
+    leolaniWorld:chair-1 n2mu:id "1"^^xml1:string .
+
+    leolaniTalk:chat1 n2mu:id "1"^^xml1:string .
+
+    leolaniTalk:visual1 n2mu:id "1"^^xml1:string .
+
+    leolaniContext:carl-s-room n2mu:id "155"^^xml1:string .
+
+    leolaniTalk:chat1_utterance1 n2mu:id "1"^^xml1:string .
+
+    leolaniTalk:visual1_detection1 n2mu:id "1"^^xml1:string .
+
+    leolaniContext:context169 n2mu:id "169"^^xml1:string ;
+        sem:hasBeginTimeStamp leolaniContext:2021-03-12 ;
+        sem:hasEvent leolaniTalk:chat1, leolaniTalk:visual1 .
+
+    leolaniContext:2021-03-12 time1:day "12"^^xml1:gDay ;
+        time1:month "3"^^xml1:gMonthDay ;
+        time1:unitType time1:unitDay ;
+        time1:year "2021"^^xml1:gYear .
+}
+
+leolaniWorld:leolani_see_chair-1 {
+    leolaniWorld:leolani n2mu:see leolaniWorld:chair-1 .
+}
+
+
+leolaniWorld:leolani_see_carl {
+    leolaniWorld:leolani n2mu:see leolaniWorld:carl .
+}
+
+leolaniWorld:carl-1_take_pills {
+    leolaniWorld:carl-1 n2mu:take leolaniWorld:pills .
+}

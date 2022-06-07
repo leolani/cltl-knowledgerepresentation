@@ -31,27 +31,59 @@ For these example scripts, you need
 
 ```python
 
-{
+statement_capsule = {
     "chat": 1,
     "turn": 1,
-    "author": "carl",
-    "utterance": "I need to take my pills, but I cannot find them.",
+    "author": {"label": "carl", "type": ["person"],
+               'uri': "http://cltl.nl/leolani/friends/carl-1"},
+    "utterance": "I did not take my pills.",
     "utterance_type": UtteranceType.STATEMENT,
     "position": "0-25",
-    "subject": {"label": "carl", "type": ["person"], "uri": "http://cltl.nl/leolani/world/carl-1"}, 
-    "predicate": {"label": "see", "uri": "http://cltl.nl/leolani/n2mu/see"},  
-    "object": {"label": "pills", "type": ["object", "medicine"], "uri": "http://cltl.nl/leolani/world/pills"},  
+    "subject": {"label": "carl", "type": ["person"],
+                'uri': "http://cltl.nl/leolani/world/carl-1"},
+    "predicate": {"label": "take", "uri": "http://cltl.nl/leolani/n2mu/take"},
+    "object": {"label": "pills", "type": ["object", "medicine"],
+               'uri': "http://cltl.nl/leolani/world/pills"},
     "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},
-    "context_id": 123,
-    "date": date(2021, 3, 12),
+    "context_id": 48
+}
+
+experience_capsule_1 = {
+    "visual": 1,
+    "detection": 1,
+    "source": {"label": "front-camera", "type": ["sensor"],
+               'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+    "image": None,
+    "utterance_type": UtteranceType.EXPERIENCE,
+    "region": [752, 46, 1148, 716],
+    "item": {'label': 'chair 1', 'type': ['chair'], 'id': 1,
+             'uri': "http://cltl.nl/leolani/world/chair-1"},
+    'confidence': 0.68,
+    "context_id": 48
+}
+
+experience_capsule_2 = {
+    "visual": 1,
+    "detection": 2,
+    "source": {"label": "front-camera", "type": ["sensor"],
+               'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+    "image": None,
+    "utterance_type": UtteranceType.EXPERIENCE,
+    "region": [752, 46, 1700, 716],
+    "item": {'label': 'Carl', 'type': ['person'], 'id': None,
+             'uri': "http://cltl.nl/leolani/world/carl-1"},
+    'confidence': 0.94,
+    "context_id": 48
+}
+
+context_capsule = {
+    "context_id": 48,
+    "date": date(2021, 3, 12),  # we take them from the temporal container of scenario
     "place": "Carl's room",
-    "place_id": 12,
-    "country": "Netherlands",
+    "place_id": 84,
+    "country": "NL",
     "region": "North Holland",
-    "city": "Amsterdam",
-    "objects": [{'type': 'chair', 'confidence': 0.68, 'id': 1},
-                {'type': 'table', 'confidence': 0.79, 'id': 1}],
-    "people": [{'name': 'Carl', 'confidence': 0.94, 'id': 1}]
+    "city": "Amsterdam"
 }
 
 ```

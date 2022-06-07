@@ -20,16 +20,20 @@ def main(log_path):
                            log_dir=log_path,
                            clear_all=False)
     data = []
-    for statement in tqdm(statements):
-        # Add information to the brain
+    for (context_capsule, statements_capsules) in tqdm(statements):
         print(f"\n\n---------------------------------------------------------------\n")
-        response = brain.update(statement, reason_types=True, create_label=True)
-        print(f"\n{statement['triple']}\n")
+        # Create context
+        response = brain.capsule_context(context_capsule)
 
-        response_json = brain_response_to_json(response)
-        data.append(response_json)
+        for capsule in statements_capsules:
+            # Add information to the brain
+            response = brain.capsule_statement(capsule, reason_types=True, return_thoughts=True, create_label=True)
+            print(f"\n{capsule['triple']}\n")
 
-    f = open("./capsules/base-case-responses.json", "w")
+            response_json = brain_response_to_json(response)
+            data.append(response_json)
+
+    f = open("responses/basic-statements-responses.json", "w")
     json.dump(data, f)
 
 

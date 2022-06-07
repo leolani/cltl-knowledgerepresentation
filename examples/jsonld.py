@@ -14,7 +14,7 @@ def main(log_path):
     # Create brain connection
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
-                           clear_all=True)
+                           clear_all=False)
 
     jsonld_path = log_path / 'jsonld'
     os.makedirs(jsonld_path)

@@ -12,7 +12,7 @@ select ?date ?authorlabel where {
     ?m prov:wasDerivedFrom ?utt .
 
     ?context sem:hasEvent / sem:hasSubEvent ?utt .
-    ?cont ?time_pred ?d .
+    ?context ?time_pred ?d .
     ?d rdfs:label ?date .
     VALUES (?time_pred) { (sem:hasTime) (sem:hasBeginTimeStamp) } .
 

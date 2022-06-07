@@ -126,7 +126,7 @@ def element_to_json(v):
         v = v.isoformat()
     elif isinstance(v, enum.Enum):
         v = v.name
-    elif isinstance(v, list):
+    elif isinstance(v, list) or isinstance(v, tuple):
         v = [element_to_json(el) for el in v]
     elif isinstance(v, dict):
         v = {inner_k: element_to_json(inner_v) for inner_k, inner_v in v.items()}

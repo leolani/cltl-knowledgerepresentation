@@ -98,7 +98,6 @@ class Entity(RDFBase):
         super(Entity, self).__init__(id, label, offset, confidence)
 
         self._types = [t for t in types if t != '' and t is not None]
-        self._types = list(dict.fromkeys(self._types))
 
     @property
     def types(self):
@@ -676,8 +675,8 @@ class EntityNovelty(object):
 
 
 class Gap(object):
-    def __init__(self, predicate, entity):
-        # type: (Predicate, Entity) -> None
+    def __init__(self, known_entity, predicate, entity):
+        # type: (Entity, Predicate, Entity) -> None
         """
         Construct Gap Object
         Parameters
@@ -687,8 +686,14 @@ class Gap(object):
         entity: Entity
             Information about the type of things that can be known
         """
+        self._known_entity = known_entity
         self._predicate = predicate
         self._entity = entity
+
+    @property
+    def known_entity(self):
+        # type: () -> Entity
+        return self._known_entity
 
     @property
     def predicate(self):
@@ -699,6 +704,11 @@ class Gap(object):
     def entity(self):
         # type: () -> Entity
         return self._entity
+
+    @property
+    def known_entity_name(self):
+        # type: () -> str
+        return self._known_entity.label
 
     @property
     def predicate_name(self):
@@ -727,11 +737,12 @@ class Gap(object):
         -------
 
         """
+        self._known_entity.casefold(format)
         self._entity.casefold(format)
         self._predicate.casefold(self.entity, None, format)
 
     def __repr__(self):
-        return f'{self.predicate_name} {self.entity_range_name}'
+        return f'{self.known_entity_name} {self.predicate_name} {self.entity_range_name}'
 
 
 class Gaps(object):

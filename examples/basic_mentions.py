@@ -4,14 +4,17 @@ THERE ARE 2 TYPES OF THOUGHTS:
 4: ENTITY NOVELTY: AWARENESS FOR SUBJECTS OR OBJECTS THAT WERE KNOWN ALREADY
 6. OBJECT GAPS: LEARNING OPPORTUNITIES AROUND OBJECTS OF THE STATEMENT
 """
+
 import argparse
+import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from tqdm import tqdm
 
 from cltl.brain.long_term_memory import LongTermMemory
-from cltl.brain.utils.base_cases import visuals
+from cltl.brain.utils.base_cases import mentions
+from cltl.brain.utils.helper_functions import brain_response_to_json
 
 
 def main(log_path):
@@ -20,20 +23,32 @@ def main(log_path):
                            log_dir=log_path,
                            clear_all=False)
 
-    for detection in tqdm(visuals):
-        # Create experience and get thoughts
+    data = []
+    for (context_capsule, experience_capsules) in tqdm([mentions]):
         print(f"\n\n---------------------------------------------------------------\n")
-        response = brain.get_thoughts_on_entity(detection, reason_types=True)
-        print(f'\n{response["triple"]}\n')
+        # Create context
+        response = brain.capsule_context(context_capsule)
 
-        # Show different thoughts
-        thoughts = response['thoughts']
+        for capsule in experience_capsules:
+            # Create mention and get thoughts
+            print(f"\n\n---------------------------------------------------------------\n")
+            response = brain.capsule_mention(capsule, return_thoughts=True, reason_types=True)
+            print(f'\n{capsule["entity"]}\n')
 
-        # Completeness thoughts
-        print(f'\tobject gaps on {detection}: {thoughts.complement_gaps()}')
+            # Show different thoughts
+            thoughts = response['thoughts']
 
-        # Engagement
-        print(f'\tentity novelty: {thoughts.entity_novelty()}')
+            # Completeness thoughts
+            print(f'\tobject gaps: {thoughts.complement_gaps()}')
+
+            # Engagement
+            print(f'\tentity novelty: {thoughts.entity_novelty()}')
+
+            response_json = brain_response_to_json(response)
+            data.append(response_json)
+
+        f = open("responses/basic-mentions-responses.json", "w")
+        json.dump(data, f)
 
 
 if __name__ == "__main__":

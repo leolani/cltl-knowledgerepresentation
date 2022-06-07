@@ -15,7 +15,7 @@ def main(log_path):
     # Create brain connection
     brain = FameAwareMemory(address="http://localhost:7200/repositories/sandbox",
                             log_dir=log_path,
-                            clear_all=True)
+                            clear_all=False)
     # Add information to the brain
     response = brain.lookup_person_wikidata("Queen Máxima of the Netherlands")
     print(f'\n{response["data"]}')

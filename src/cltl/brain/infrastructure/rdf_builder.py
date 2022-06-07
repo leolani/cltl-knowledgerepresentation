@@ -145,7 +145,7 @@ class RdfBuilder(object):
         with pkg_resources.files("cltl.brain") as pkg_root:
             ontology_root = pkg_root / 'ontologies'
             self.ontology_graph.parse(location=os.path.join(ontology_root, 'integration.ttl'), format="turtle")
-            self.ontology_graph.parse(location=os.path.join(ontology_root, 'ceo_original.ttl'), format="turtle")
+            # self.ontology_graph.parse(location=os.path.join(ontology_root, 'ceo_original.ttl'), format="turtle")
 
     ########## basic constructors ##########
     def create_resource_uri(self, namespace, resource_name):

@@ -209,8 +209,9 @@ class RdfBuilder(object):
         -------
             Entity object with given label
         """
+        types = [t for t in types if t not in [None, '']]
 
-        if types in [None, ''] and label != '':
+        if not types and label != '':
             self._log.warning(f'Unknown type: {label}')
             return self.fill_entity_from_label(label, namespace)
         else:

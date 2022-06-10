@@ -120,7 +120,9 @@ def sigmoid(z, growth_rate=1):
 def element_to_json(v):
     if type(v) in [str, int, float] or v is None:
         pass
-    elif type(v) in [URIRef, Literal, bool, pathlib.PosixPath]:
+    elif type(v) in [bool]:
+        v = str(v)
+    elif isinstance(v, (URIRef, Literal, pathlib.Path)):
         v = str(v)
     elif isinstance(v, date):
         v = v.isoformat()

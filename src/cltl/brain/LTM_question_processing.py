@@ -3,11 +3,14 @@ from rdflib import Literal
 
 ######################################### Helpers for question processing #########################################
 
-def create_query(self, utterance):
-    empty = ['', Literal(''), 'unknown', 'none']
 
+def _is_empty(entry):
+    return str(entry).lower() in ['', Literal(''), 'unknown', 'none']
+
+
+def create_query(self, utterance):
     # Query subject
-    if utterance['subject']['label'] is None or utterance['subject']['uri'].lower() in empty:
+    if _is_empty(utterance['subject']['label']) or _is_empty(utterance['subject']['uri']):
         query = """
         SELECT distinct ?p ?pOriginal ?s ?slabel ?o ?olabel 
                         ?authorlabel ?certaintyValue ?polarityValue ?sentimentValue ?emotionValue ?temporalValue
@@ -66,7 +69,7 @@ def create_query(self, utterance):
                   utterance['object']['uri'])
 
     # Query complement
-    elif utterance['object']['label'] is None or utterance['object']['uri'].lower() in empty:
+    elif _is_empty(utterance['object']['label']) or _is_empty(utterance['object']['uri']):
         query = """
         SELECT distinct ?p ?pOriginal ?s ?slabel ?o ?olabel 
                         ?authorlabel ?certaintyValue ?polarityValue ?sentimentValue ?emotionValue ?temporalValue
@@ -187,6 +190,6 @@ def create_query(self, utterance):
 
     query = self.query_prefixes + query
 
-    self._log.info(f"Triple in question: {utterance['triple']}")
+    self._log.info("Triple in question: %s", utterance['triple'])
 
     return query

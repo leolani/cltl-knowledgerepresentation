@@ -29,11 +29,13 @@ def create_query(self, utterance):
                GRAPH ?g {
                    ?s ?pOriginal ?o . 
                } . 
+               
+               OPTIONAL {
                ?g gaf:denotedBy ?m . 
                ?m grasp:wasAttributedTo ?author . 
                ?author rdfs:label ?authorlabel .
-
                ?m grasp:hasAttribution ?att .
+               }
 
                OPTIONAL {
                ?att rdf:value ?certainty .
@@ -88,11 +90,13 @@ def create_query(self, utterance):
                GRAPH ?g {
                    ?s ?pOriginal ?o . 
                } . 
+               
+               OPTIONAL {
                ?g gaf:denotedBy ?m . 
                ?m grasp:wasAttributedTo ?author . 
                ?author rdfs:label ?authorlabel .
-
                ?m grasp:hasAttribution ?att .
+               }
                
                OPTIONAL {
                ?att rdf:value ?certainty .
@@ -148,11 +152,13 @@ def create_query(self, utterance):
                GRAPH ?g {
                    ?s ?pOriginal ?o . 
                } . 
+               
+               OPTIONAL {
                ?g gaf:denotedBy ?m . 
                ?m grasp:wasAttributedTo ?author . 
                ?author rdfs:label ?authorlabel .
-
                ?m grasp:hasAttribution ?att .
+               }
                
                OPTIONAL {
                ?att rdf:value ?certainty .
@@ -191,5 +197,6 @@ def create_query(self, utterance):
     query = self.query_prefixes + query
 
     self._log.info("Triple in question: %s", utterance['triple'])
+    # print(query)
 
     return query

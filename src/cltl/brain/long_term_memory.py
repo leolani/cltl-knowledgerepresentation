@@ -239,7 +239,7 @@ class LongTermMemory(BasicBrain):
 
         return output
 
-    def capsule_mention(self, capsule, reason_types=False, return_thoughts=False, create_label=False):
+    def capsule_mention(self, capsule, reason_types=False, return_thoughts=True, create_label=False):
         # type (dict) -> dict
         """
         Main function to register individual mentions of entities

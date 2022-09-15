@@ -5,4 +5,6 @@ PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
 select distinct ?friend where {
     ?friend rdf:type sem:Actor .
     ?friend rdf:type n2mu:person .
+
+    FILTER(STRSTARTS(STR(?friend), STR(leolaniFriends:)))
 }

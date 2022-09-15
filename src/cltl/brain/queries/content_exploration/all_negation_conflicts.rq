@@ -4,6 +4,7 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX graspf: <http://groundedannotationframework.org/grasp/factuality#>
 PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
+prefix leolaniFriends: <http://cltl.nl/leolani/friends/>
 
 SELECT ?g ?datePos ?authorPos ?dateNeg ?authorNeg
 
@@ -31,8 +32,8 @@ WHERE {
     ?mNeg grasp:wasAttributedTo ?authorNeg .
 
 
-    FILTER (STRSTARTS(STR(?authorPos), "http://cltl.nl/leolani/friends/")
-            && STRSTARTS(STR(?authorNeg), "http://cltl.nl/leolani/friends/")
+    FILTER (STRSTARTS(STR(?authorPos), STR(leolaniFriends:))
+            && STRSTARTS(STR(?authorNeg), STR(leolaniFriends:))
     ) .
 
 }

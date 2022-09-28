@@ -256,6 +256,7 @@ n2mu:know rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/like
 n2mu:like rdf:type owl:ObjectProperty ;
+          owl:inverseOf n2mu:like-by ;
           rdfs:domain n2mu:agent ;
           rdfs:range n2mu:agent ,
                      n2mu:interest .
@@ -263,8 +264,11 @@ n2mu:like rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/like-by
 n2mu:like-by rdf:type owl:ObjectProperty ;
-             rdfs:domain n2mu:agent ,
-                         n2mu:interest ;
+             rdfs:domain [ rdf:type owl:Class ;
+                           owl:unionOf ( n2mu:agent
+                                         n2mu:interest
+                                       )
+                         ] ;
              rdfs:range n2mu:agent .
 
 
@@ -400,7 +404,6 @@ grasp:hasAttribution rdf:type owl:ObjectProperty ;
 
 ###  http://groundedannotationframework.org/grasp#isAttributionFor
 grasp:isAttributionFor rdf:type owl:ObjectProperty ;
-                       rdfs:subPropertyOf owl:topObjectProperty ;
                        rdfs:domain grasp:Attribution ;
                        rdfs:range gaf:Mention .
 
@@ -409,19 +412,7 @@ grasp:isAttributionFor rdf:type owl:ObjectProperty ;
 grasp:wasAttributedTo rdf:type owl:ObjectProperty ;
                       rdfs:subPropertyOf prov:wasAttributedTo ;
                       rdfs:domain gaf:Mention ;
-                      rdfs:range n2mu:sensor ,
-                                 grasp:Source ,
-                                 sem:Actor ,
-                                 [ owl:intersectionOf ( gaf:Instance
-                                                        sem:Actor
-                                                      ) ;
-                                   rdf:type owl:Class
-                                 ] ,
-                                 [ owl:intersectionOf ( gaf:Instance
-                                                        sem:Actor
-                                                      ) ;
-                                   rdf:type owl:Class
-                                 ] ;
+                      rdfs:range grasp:Source ;
                       rdfs:comment "States that a gaf:Mention was attributed to a gaf:Instance. This is a sub property of the prov:wasAttributedTo relation that can be used to relate any prov:Entity to any prov:Agent."^^xsd:string ;
                       rdfs:label "was attributed to" .
 
@@ -445,12 +436,7 @@ sem:hasActor rdf:type owl:ObjectProperty ;
 sem:hasPlace rdf:type owl:ObjectProperty ;
              rdfs:subPropertyOf eps:contextProperty ;
              rdfs:domain eps:Context ;
-             rdfs:range n2mu:location ,
-                        [ owl:intersectionOf ( gaf:Instance
-                                               sem:Place
-                                             ) ;
-                          rdf:type owl:Class
-                        ] .
+             rdfs:range sem:Place .
 
 
 ###  http://semanticweb.cs.vu.nl/2009/11/sem/hasSubEvent
@@ -644,12 +630,7 @@ n2mu:institution rdf:type owl:Class .
 n2mu:interest rdf:type owl:Class ;
               owl:equivalentClass [ rdf:type owl:Restriction ;
                                     owl:onProperty n2mu:like-by ;
-                                    owl:someValuesFrom foaf:Agent
-                                  ] ,
-                                  [ rdf:type owl:Restriction ;
-                                    owl:onProperty [ owl:inverseOf n2mu:like
-                                                   ] ;
-                                    owl:someValuesFrom foaf:Agent
+                                    owl:someValuesFrom n2mu:agent
                                   ] .
 
 
@@ -829,18 +810,16 @@ A Mention uniquely identifies the (part of a) web source that denotes the mentio
 ###  http://groundedannotationframework.org/grasp#Attribution
 grasp:Attribution rdf:type owl:Class ;
                   owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                               owl:onProperty rdf:value ;
-                                                               owl:someValuesFrom grasp:AttributionValue
+                                                               owl:onProperty grasp:isAttributionFor ;
+                                                               owl:someValuesFrom gaf:Mention
                                                              ]
                                                              [ rdf:type owl:Restriction ;
-                                                               owl:onProperty [ owl:inverseOf grasp:hasAttribution
-                                                                              ] ;
-                                                               owl:someValuesFrom gaf:Mention
+                                                               owl:onProperty rdf:value ;
+                                                               owl:someValuesFrom grasp:AttributionValue
                                                              ]
                                                            ) ;
                                         rdf:type owl:Class
                                       ] ;
-                  rdfs:subClassOf owl:Thing ;
                   owl:disjointWith grasp:AttributionValue ;
                   rdfs:comment "A grasp:Attribution reflects the attribution of some interpretation, some perspective to a gaf:Mention. An attribution expresses such things as certainty, emotion, polarity, sentiment, temporality."^^xsd:string ;
                   rdfs:label "Attribution" .

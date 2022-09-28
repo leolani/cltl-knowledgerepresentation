@@ -51,49 +51,19 @@ def hash_claim_id(triple):
 
 
 def confidence_to_certainty_value(confidence):
-    if confidence is not None and type(confidence) != Certainty:
-        confidence = float(confidence)
-
-        if confidence > .90:
-            return Certainty.CERTAIN
-        elif confidence >= .50:
-            return Certainty.PROBABLE
-        elif confidence > 0:
-            return Certainty.POSSIBLE
-
-    return Certainty.UNDERSPECIFIED
+    return Certainty.as_enum(confidence)
 
 
 def polarity_to_polarity_value(polarity):
-    if polarity is not None and type(polarity) != Polarity:
-        polarity = float(polarity)
-
-        if polarity > 0:
-            return Polarity.POSITIVE
-        elif polarity < 0:
-            return Polarity.NEGATIVE
-
-    return Polarity.UNDERSPECIFIED
+    return Polarity.as_enum(polarity)
 
 
 def sentiment_to_sentiment_value(sentiment):
-    if sentiment is not None and type(sentiment) != Sentiment:
-        sentiment = float(sentiment)
-
-        if sentiment > 0:
-            return Sentiment.POSITIVE
-        elif sentiment < 0:
-            return Sentiment.NEGATIVE
-        elif sentiment == 0:
-            return Sentiment.NEUTRAL
-
-    return Sentiment.UNDERSPECIFIED
+    return Sentiment.as_enum(sentiment)
 
 
 def emotion_to_emotion_value(emotion):
-    if emotion is not None and type(emotion) == str:
-        return Emotion[emotion.upper()]
-    return Emotion.UNDERSPECIFIED
+    return Emotion.as_enum(emotion)
 
 
 def replace_in_file(file, word, word_replacement):

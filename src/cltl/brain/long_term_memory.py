@@ -4,6 +4,7 @@ from datetime import datetime
 from cltl.commons.casefolding import casefold_text
 from cltl.commons.discrete import UtteranceType
 
+from cltl.brain.LTM_attribution_processing import process_attribution
 from cltl.brain.LTM_context_processing import process_context
 from cltl.brain.LTM_experience_processing import process_experience
 from cltl.brain.LTM_mention_processing import process_mention
@@ -18,7 +19,7 @@ from cltl.brain.utils.helper_functions import read_query
 
 class LongTermMemory(BasicBrain):
     def __init__(self, address, log_dir, clear_all=False, calculate_trust=False):
-        # type: (str, pathlib.Path, bool) -> None
+        # type: (str, pathlib.Path, bool, bool) -> None
         """
         Interact with Triple store
 
@@ -248,7 +249,7 @@ class LongTermMemory(BasicBrain):
         capsule: dict
             Contains all necessary information regarding the mentions.
         create_label: Boolean
-            Turn automatic rdfs:label on or off for instance graph entities (people detections)
+            Turn automatic rdfs:label on or off for instance graph entities
 
         Returns
         -------
@@ -269,7 +270,7 @@ class LongTermMemory(BasicBrain):
                                                           uri=capsule['item']['uri'])
         capsule['perspective'] = self._rdf_builder.fill_perspective({'certainty': capsule['confidence'],
                                                                      'polarity': 1}) \
-            if 'certainty' in capsule.keys() else self._rdf_builder.fill_perspective({'polarity': 1})
+            if 'confidence' in capsule.keys() else self._rdf_builder.fill_perspective({'polarity': 1})
         capsule['utterance_type'] = UtteranceType[capsule['utterance_type']] \
             if type(capsule['utterance_type']) == str else capsule['utterance_type']
 
@@ -302,5 +303,51 @@ class LongTermMemory(BasicBrain):
         # Create JSON output
         thoughts = Thoughts(None, entity_novelty, None, None, None, entity_gaps, None, None)
         output = {'response': code, 'mention': capsule, 'thoughts': thoughts, 'rdf_log_path': rdf_log_path}
+
+        return output
+
+    def capsule_perspective(self, capsule, create_label=False):
+        # type (dict) -> dict
+        """
+        Main function to register perceived and expressed perspectives (e.g. emotion)
+        Parameters
+        ----------
+        capsule: dict
+            Contains all necessary information regarding the perspective values.
+        create_label: Boolean
+            Turn automatic rdfs:label on or off for instance graph entities (people detections)
+
+        Returns
+        -------
+        capsule: dict
+            Returns back the capsule, adding the response code.
+
+        """
+        # Process capsule to right types
+        capsule['entity'] = self._rdf_builder.fill_entity(casefold_text(capsule['item']['label'], format='triple'),
+                                                          capsule['item']['type'] + ['Instance'],
+                                                          'LW',
+                                                          uri=capsule['item']['uri'])
+        capsule['perspective'] = self._rdf_builder.fill_perspective(capsule['perspective']) \
+            if 'perspective' in capsule.keys() else self._rdf_builder.fill_perspective({})
+        capsule['utterance_type'] = UtteranceType[capsule['utterance_type']] \
+            if type(capsule['utterance_type']) == str else capsule['utterance_type']
+
+        # Casefold
+        source = 'author' \
+            if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION) else 'source'
+        capsule[source]['type'] = [casefold_text(t, format='triple') for t in capsule[source]['type']]
+        capsule['item']['type'] = [casefold_text(t, format='triple') for t in capsule['item']['type']]
+
+        # Create graphs and triples
+        process_attribution(self, capsule, create_label)
+
+        # Finish process of uploading new knowledge to the triple store
+        rdf_log_path = self._brain_log()
+        data = self._serialize(rdf_log_path)
+        code = self._upload_to_brain(data)
+
+        # Create JSON output
+        output = {'response': code, 'perspective': capsule, 'rdf_log_path': rdf_log_path}
 
         return output

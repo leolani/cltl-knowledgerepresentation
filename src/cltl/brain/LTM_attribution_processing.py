@@ -2,10 +2,10 @@ from cltl.brain.LTM_shared import _link_entity, _link_leolani, create_interactio
     interlink_graphs
 
 
-######################################## Helpers for mention processing ########################################
+######################################## Helpers for attribution processing ########################################
 
 
-def create_instance_graph_for_mention(self, capsule, create_label):
+def create_instance_graph_for_attribution(self, capsule, create_label):
     # Detections: objects
     if not set(capsule['item']['type']) & {'', 'unknown', 'none'}:
         # Subevent
@@ -24,9 +24,9 @@ def create_instance_graph_for_mention(self, capsule, create_label):
             self.instance_graph.add((capsule['entity'].id, self.namespaces['N2MU']['id'], objct_id))
 
 
-def process_mention(self, capsule, create_label):
+def process_attribution(self, capsule, create_label):
     _link_leolani(self)
 
-    create_instance_graph_for_mention(self, capsule, create_label)
+    create_instance_graph_for_attribution(self, capsule, create_label)
 
-    self._log.info(f"Entity in mention: {capsule['entity']}")
+    self._log.info(f"Entity in attribution: {capsule['entity']}")

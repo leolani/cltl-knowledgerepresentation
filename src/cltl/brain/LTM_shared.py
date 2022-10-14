@@ -59,7 +59,7 @@ def _create_actor(self, capsule, create_label):
 
     # Add actor (friend) is same as person(world)
     if 'person' in actor.types:
-        person = self._rdf_builder.fill_entity(f"{actor.label}", ['Instance', 'person'], 'LW')
+        person = self._rdf_builder.fill_entity(capsule[source]['uri'].split('/')[-1], ['Instance', 'person'], 'LW')
         _link_entity(self, person, self.instance_graph, create_label)
         self.claim_graph.add((actor.id, OWL.sameAs, person.id))
 
@@ -117,8 +117,9 @@ def _create_attribution(self, capsule, mention, claim):
                          f"{capsule['perspective'].polarity.value}" \
                          f"{capsule['perspective'].sentiment.value}" \
                          f"{capsule['perspective'].emotion.value}"
+    attribution_prefix = claim.label if claim else "UNKNOWN"
 
-    attribution_label = claim.label + f"_{attribution_suffix}"
+    attribution_label = attribution_prefix + f"_{attribution_suffix}"
     attribution = self._rdf_builder.fill_entity(attribution_label, ['Attribution'], 'LTa')
     _link_entity(self, attribution, self.perspective_graph, create_label=True)
 

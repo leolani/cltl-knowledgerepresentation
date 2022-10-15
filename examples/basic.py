@@ -75,6 +75,7 @@ mention_image_capsule = {
     "region": [752, 46, 1700, 716],
     "item": {'label': 'Carl', 'type': ['person'], 'id': None,
              'uri': "http://cltl.nl/leolani/world/carl-1"},
+    "perspective": {"certainty": 0.94},
     'confidence': 0.94,
     "timestamp": datetime.now(),
     "context_id": context_id
@@ -90,12 +91,13 @@ mention_text_capsule = {
     "position": "0-25",
     "item": {'label': 'Carl', 'type': ['person'], 'id': None,
              'uri': "http://cltl.nl/leolani/world/carl-1"},
+    "perspective": {"certainty": 0.94},
     'confidence': 0.94,
     "timestamp": datetime.now(),
     "context_id": context_id
 }
 
-perspective_capsule_perceived = {
+perspective_perceived_capsule = {
     "visual": 1,
     "detection": 4,
     "source": {"label": "front-camera", "type": ["sensor"],
@@ -110,7 +112,7 @@ perspective_capsule_perceived = {
     "context_id": context_id
 }
 
-perspective_capsule_expressed = {
+perspective_expressed_capsule = {
     "chat": 1,
     "turn": 3,
     "author": {"label": "carl", "type": ["person"],
@@ -154,9 +156,9 @@ def main(log_path):
 
     response = brain.capsule_mention(mention_text_capsule)
 
-    response = brain.capsule_perspective(perspective_capsule_perceived)
+    response = brain.capsule_mention(perspective_perceived_capsule)
 
-    response = brain.capsule_perspective(perspective_capsule_expressed)
+    response = brain.capsule_mention(perspective_expressed_capsule)
 
     print('DONE')
 

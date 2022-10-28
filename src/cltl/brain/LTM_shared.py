@@ -36,7 +36,7 @@ def _link_entity(self, entity, graph, create_label, namespace_mapping=None):
 
 
 def _create_actor(self, capsule, create_label):
-    if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION):
+    if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION):
         source = 'author'
         ns = 'LF'
         pred = 'know'
@@ -67,7 +67,7 @@ def _create_actor(self, capsule, create_label):
 
 
 def _create_mention(self, capsule, subevent):
-    if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION):
+    if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION):
         mention_unit = 'char'
         mention_position = f"{capsule['position']}"
         timestamp = self._rdf_builder.fill_literal(str(capsule['timestamp']), datatype=self.namespaces['XML']['string'])
@@ -155,7 +155,8 @@ def create_interaction_graph(self, capsule, create_label):
 
     # Chat or Visual
     event_type = 'chat' \
-        if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION) else 'visual'
+        if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION) \
+        else 'visual'
     event_id = self._rdf_builder.fill_literal(capsule[event_type], datatype=self.namespaces['XML']['string'])
     event_label = f'{event_type}{event_id}'
     event = self._rdf_builder.fill_entity(event_label, ['Event', f"{event_type.title()}"], 'LTa')
@@ -165,10 +166,12 @@ def create_interaction_graph(self, capsule, create_label):
 
     # Utterance or Detection are events and instances
     subevent_type = 'utterance' \
-        if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION) else 'detection'
+        if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION) \
+        else 'detection'
     subevent_id = self._rdf_builder.fill_literal(capsule['turn']
                                                  if capsule['utterance_type'] in (UtteranceType.STATEMENT,
-                                                                                  UtteranceType.TEXT_MENTION)
+                                                                                  UtteranceType.TEXT_MENTION,
+                                                                                  UtteranceType.TEXT_ATTRIBUTION)
                                                  else capsule['detection'], datatype=self.namespaces['XML']['string'])
     subevent_label = f'{str(event.label)}_{subevent_type}{str(subevent_id)}'
     subevent = self._rdf_builder.fill_entity(subevent_label, ['Event', f'{subevent_type.title()}'], 'LTa')

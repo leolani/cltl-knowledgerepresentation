@@ -277,7 +277,8 @@ class LongTermMemory(BasicBrain):
 
         # Casefold
         source = 'author' \
-            if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION) else 'source'
+            if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION) \
+            else 'source'
         capsule[source]['type'] = [casefold_text(t, format='triple') for t in capsule[source]['type']]
         capsule['item']['type'] = [casefold_text(t, format='triple') for t in capsule['item']['type']]
 

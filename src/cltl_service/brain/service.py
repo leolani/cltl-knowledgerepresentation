@@ -67,8 +67,8 @@ class BrainService:
                         brain_response = self._brain.capsule_statement(capsule, reason_types=True, create_label=True)
                     elif capsule['utterance_type'] == UtteranceType.EXPERIENCE:
                         brain_response = self._brain.capsule_experience(capsule, create_label=True)
-                    elif (capsule['utterance_type'] == UtteranceType.IMAGE_MENTION
-                            or capsule['utterance_type'] == UtteranceType.TEXT_MENTION):
+                    elif capsule['utterance_type'] in (UtteranceType.IMAGE_MENTION, UtteranceType.TEXT_MENTION,
+                                                       UtteranceType.TEXT_ATTRIBUTION, UtteranceType.IMAGE_ATTRIBUTION):
                         brain_response = self._brain.capsule_mention(capsule, create_label=True)
                     elif capsule['utterance_type'] == UtteranceType.QUESTION:
                         brain_response = self._brain.query_brain(capsule)

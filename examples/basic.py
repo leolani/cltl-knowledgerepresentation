@@ -9,7 +9,7 @@ from random import getrandbits
 from tempfile import TemporaryDirectory
 
 import requests
-from cltl.commons.discrete import UtteranceType
+from cltl.commons.discrete import UtteranceType, Emotion
 
 from cltl.brain.long_term_memory import LongTermMemory
 
@@ -65,7 +65,7 @@ experience_capsule_2 = {
     "context_id": context_id
 }
 
-mention_capsule_1 = {
+mention_image_capsule = {
     "visual": 1,
     "detection": 3,
     "source": {"label": "front-camera", "type": ["sensor"],
@@ -75,14 +75,15 @@ mention_capsule_1 = {
     "region": [752, 46, 1700, 716],
     "item": {'label': 'Carl', 'type': ['person'], 'id': None,
              'uri': "http://cltl.nl/leolani/world/carl-1"},
+    "perspective": {"certainty": 0.94},
     'confidence': 0.94,
     "timestamp": datetime.now(),
     "context_id": context_id
 }
 
-mention_capsule_2 = {
+mention_text_capsule = {
     "chat": 1,
-    "turn": 1,
+    "turn": 2,
     "author": {"label": "carl", "type": ["person"],
                'uri': "http://cltl.nl/leolani/friends/carl-1"},
     "utterance": "I did not take my pills.",
@@ -90,14 +91,45 @@ mention_capsule_2 = {
     "position": "0-25",
     "item": {'label': 'Carl', 'type': ['person'], 'id': None,
              'uri': "http://cltl.nl/leolani/world/carl-1"},
+    "perspective": {"certainty": 0.94},
     'confidence': 0.94,
+    "timestamp": datetime.now(),
+    "context_id": context_id
+}
+
+perspective_perceived_capsule = {
+    "visual": 1,
+    "detection": 4,
+    "source": {"label": "front-camera", "type": ["sensor"],
+               'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+    "image": None,
+    "utterance_type": UtteranceType.IMAGE_ATTRIBUION,
+    "region": [752, 46, 1700, 716],
+    "item": {'label': 'Carl', 'type': ['person'], 'id': None,
+             'uri': "http://cltl.nl/leolani/world/carl-1"},
+    "perspective": {"certainty": 0.94, "emotion": Emotion.SADNESS},
+    "timestamp": datetime.now(),
+    "context_id": context_id
+}
+
+perspective_expressed_capsule = {
+    "chat": 1,
+    "turn": 3,
+    "author": {"label": "carl", "type": ["person"],
+               'uri': "http://cltl.nl/leolani/friends/carl-1"},
+    "utterance": "I feel lonely",
+    "utterance_type": UtteranceType.TEXT_ATTRIBUION,
+    "position": "0-25",
+    "item": {'label': 'Carl', 'type': ['person'], 'id': None,
+             'uri': "http://cltl.nl/leolani/world/carl-1"},
+    "perspective": {"certainty": 0.94, "emotion": Emotion.SADNESS},
     "timestamp": datetime.now(),
     "context_id": context_id
 }
 
 context_capsule = {
     "context_id": context_id,
-    "date": date(2021, 3, 12),  # we take them from the temporal container of scenario
+    "date": date(2021, 3, 12),
     "place": "Carl's room",
     "place_id": place_id,
     "country": location['country'],
@@ -120,9 +152,13 @@ def main(log_path):
 
     response = brain.capsule_statement(statement_capsule)
 
-    response = brain.capsule_mention(mention_capsule_1)
+    response = brain.capsule_mention(mention_image_capsule)
 
-    response = brain.capsule_mention(mention_capsule_2)
+    response = brain.capsule_mention(mention_text_capsule)
+
+    response = brain.capsule_mention(perspective_perceived_capsule)
+
+    response = brain.capsule_mention(perspective_expressed_capsule)
 
     print('DONE')
 

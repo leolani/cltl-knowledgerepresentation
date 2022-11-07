@@ -333,6 +333,12 @@ n2mu:favorite rdf:type owl:ObjectProperty ;
               rdfs:range n2mu:interest .
 
 
+###  http://cltl.nl/leolani/n2mu/feel
+n2mu:feel rdf:type owl:ObjectProperty ;
+          rdfs:domain n2mu:agent ;
+          rdfs:range grasp:EmotionValue .
+
+
 ###  http://cltl.nl/leolani/n2mu/in
 n2mu:in rdf:type owl:ObjectProperty ;
         rdfs:subPropertyOf n2mu:locate-in ;
@@ -734,7 +740,8 @@ n2mu:music-genre rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/musical-work
 n2mu:musical-work rdf:type owl:Class ;
-                  rdfs:subClassOf n2mu:artifact, n2mu:interest .
+                  rdfs:subClassOf n2mu:artifact ,
+                                  n2mu:interest .
 
 
 ###  http://cltl.nl/leolani/n2mu/object
@@ -753,7 +760,8 @@ n2mu:plant rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/robot
 n2mu:robot rdf:type owl:Class ;
-           rdfs:subClassOf n2mu:agent, n2mu:artifact .
+           rdfs:subClassOf n2mu:agent ,
+                           n2mu:artifact .
 
 
 ###  http://cltl.nl/leolani/n2mu/song

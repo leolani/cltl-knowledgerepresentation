@@ -18,7 +18,7 @@ from cltl.brain.utils.helper_functions import read_query
 
 class LongTermMemory(BasicBrain):
     def __init__(self, address, log_dir, clear_all=False, calculate_trust=False):
-        # type: (str, pathlib.Path, bool) -> None
+        # type: (str, pathlib.Path, bool, bool) -> None
         """
         Interact with Triple store
 
@@ -248,7 +248,7 @@ class LongTermMemory(BasicBrain):
         capsule: dict
             Contains all necessary information regarding the mentions.
         create_label: Boolean
-            Turn automatic rdfs:label on or off for instance graph entities (people detections)
+            Turn automatic rdfs:label on or off for instance graph entities
 
         Returns
         -------
@@ -267,15 +267,18 @@ class LongTermMemory(BasicBrain):
                                                           capsule['item']['type'] + ['Instance'],
                                                           'LW',
                                                           uri=capsule['item']['uri'])
-        capsule['perspective'] = self._rdf_builder.fill_perspective({'certainty': capsule['confidence'],
-                                                                     'polarity': 1}) \
-            if 'certainty' in capsule.keys() else self._rdf_builder.fill_perspective({'polarity': 1})
-        capsule['utterance_type'] = UtteranceType[capsule['utterance_type']] \
-            if type(capsule['utterance_type']) == str else capsule['utterance_type']
+        if type(capsule['utterance_type']) == str:
+            capsule['utterance_type'] = UtteranceType[capsule['utterance_type']]
+
+        # Fix perspectives
+        if capsule['utterance_type'] in (UtteranceType.IMAGE_MENTION, UtteranceType.TEXT_MENTION):
+            capsule['perspective']['polarity'] = 1
+        capsule['perspective'] = self._rdf_builder.fill_perspective(capsule['perspective'])
 
         # Casefold
         source = 'author' \
-            if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION) else 'source'
+            if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION) \
+            else 'source'
         capsule[source]['type'] = [casefold_text(t, format='triple') for t in capsule[source]['type']]
         capsule['item']['type'] = [casefold_text(t, format='triple') for t in capsule['item']['type']]
 

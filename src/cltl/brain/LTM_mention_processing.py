@@ -1,8 +1,8 @@
-from cltl.brain.LTM_shared import _link_entity, _link_leolani, _create_mention, create_interaction_graph, \
+from cltl.brain.LTM_shared import _link_entity, _link_leolani, create_interaction_graph, create_perspective_graph, \
     interlink_graphs
 
 
-######################################## Helpers for detection processing ########################################
+######################################## Helpers for mention processing ########################################
 
 
 def create_instance_graph_for_mention(self, capsule, create_label):
@@ -15,7 +15,7 @@ def create_instance_graph_for_mention(self, capsule, create_label):
         _link_entity(self, capsule['entity'], self.instance_graph, create_label)
 
         # Mention
-        mention = _create_mention(self, capsule, experience)
+        mention, attribution = create_perspective_graph(self, capsule, None, experience)
         interlink_graphs(self, mention, sensor, experience, None, use_sensor)
 
         if 'person' not in capsule['item']['type']:

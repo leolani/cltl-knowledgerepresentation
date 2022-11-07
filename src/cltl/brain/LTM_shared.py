@@ -36,7 +36,7 @@ def _link_entity(self, entity, graph, create_label, namespace_mapping=None):
 
 
 def _create_actor(self, capsule, create_label):
-    if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION):
+    if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION):
         source = 'author'
         ns = 'LF'
         pred = 'know'
@@ -59,7 +59,7 @@ def _create_actor(self, capsule, create_label):
 
     # Add actor (friend) is same as person(world)
     if 'person' in actor.types:
-        person = self._rdf_builder.fill_entity(f"{actor.label}", ['Instance', 'person'], 'LW')
+        person = self._rdf_builder.fill_entity(capsule[source]['uri'].split('/')[-1], ['Instance', 'person'], 'LW')
         _link_entity(self, person, self.instance_graph, create_label)
         self.claim_graph.add((actor.id, OWL.sameAs, person.id))
 
@@ -67,7 +67,7 @@ def _create_actor(self, capsule, create_label):
 
 
 def _create_mention(self, capsule, subevent):
-    if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION):
+    if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION):
         mention_unit = 'char'
         mention_position = f"{capsule['position']}"
         timestamp = self._rdf_builder.fill_literal(str(capsule['timestamp']), datatype=self.namespaces['XML']['string'])
@@ -117,8 +117,9 @@ def _create_attribution(self, capsule, mention, claim):
                          f"{capsule['perspective'].polarity.value}" \
                          f"{capsule['perspective'].sentiment.value}" \
                          f"{capsule['perspective'].emotion.value}"
+    attribution_prefix = claim.label if claim else "UNKNOWN"
 
-    attribution_label = claim.label + f"_{attribution_suffix}"
+    attribution_label = attribution_prefix + f"_{attribution_suffix}"
     attribution = self._rdf_builder.fill_entity(attribution_label, ['Attribution'], 'LTa')
     _link_entity(self, attribution, self.perspective_graph, create_label=True)
 
@@ -154,7 +155,8 @@ def create_interaction_graph(self, capsule, create_label):
 
     # Chat or Visual
     event_type = 'chat' \
-        if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION) else 'visual'
+        if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION) \
+        else 'visual'
     event_id = self._rdf_builder.fill_literal(capsule[event_type], datatype=self.namespaces['XML']['string'])
     event_label = f'{event_type}{event_id}'
     event = self._rdf_builder.fill_entity(event_label, ['Event', f"{event_type.title()}"], 'LTa')
@@ -164,10 +166,12 @@ def create_interaction_graph(self, capsule, create_label):
 
     # Utterance or Detection are events and instances
     subevent_type = 'utterance' \
-        if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION) else 'detection'
+        if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION) \
+        else 'detection'
     subevent_id = self._rdf_builder.fill_literal(capsule['turn']
                                                  if capsule['utterance_type'] in (UtteranceType.STATEMENT,
-                                                                                  UtteranceType.TEXT_MENTION)
+                                                                                  UtteranceType.TEXT_MENTION,
+                                                                                  UtteranceType.TEXT_ATTRIBUTION)
                                                  else capsule['detection'], datatype=self.namespaces['XML']['string'])
     subevent_label = f'{str(event.label)}_{subevent_type}{str(subevent_id)}'
     subevent = self._rdf_builder.fill_entity(subevent_label, ['Event', f'{subevent_type.title()}'], 'LTa')

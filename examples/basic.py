@@ -97,7 +97,7 @@ mention_capsule_2 = {
 
 context_capsule = {
     "context_id": context_id,
-    "date": date(2021, 3, 12),  # we take them from the temporal container of scenario
+    "date": date(2021, 3, 12),
     "place": "Carl's room",
     "place_id": place_id,
     "country": location['country'],

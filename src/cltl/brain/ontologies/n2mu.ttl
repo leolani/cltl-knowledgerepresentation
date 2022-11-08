@@ -65,16 +65,6 @@ ns:term_status rdf:type owl:AnnotationProperty .
 #    Object Properties
 #################################################################
 
-###  http://cltl.nl/leolani/n2mu/acknowledge
-n2mu:acknowledge rdf:type owl:ObjectProperty ;
-                 rdfs:subPropertyOf n2mu:perceive ;
-                 rdfs:domain n2mu:robot ;
-                 rdfs:range n2mu:Smell ,
-                            n2mu:Taste ,
-                            n2mu:Touch ;
-                 owl:propertyDisjointWith n2mu:experience .
-
-
 ###  http://cltl.nl/leolani/n2mu/be-from
 n2mu:be-from rdf:type owl:ObjectProperty ;
              rdfs:domain n2mu:agent ,
@@ -114,15 +104,6 @@ n2mu:dislike rdf:type owl:ObjectProperty ;
              rdfs:range n2mu:agent ,
                         n2mu:interest ;
              owl:propertyDisjointWith n2mu:likes .
-
-
-###  http://cltl.nl/leolani/n2mu/experience
-n2mu:experience rdf:type owl:ObjectProperty ;
-                rdfs:subPropertyOf n2mu:perceive ;
-                rdfs:domain n2mu:person ;
-                rdfs:range n2mu:Smell ,
-                           n2mu:Taste ,
-                           n2mu:Touch .
 
 
 ###  http://cltl.nl/leolani/n2mu/family-is
@@ -193,12 +174,6 @@ n2mu:parent-is rdf:type owl:ObjectProperty ;
                rdfs:range n2mu:agent .
 
 
-###  http://cltl.nl/leolani/n2mu/perceive
-n2mu:perceive rdf:type owl:ObjectProperty ;
-              rdfs:domain n2mu:agent ;
-              rdfs:range n2mu:sensor .
-
-
 ###  http://cltl.nl/leolani/n2mu/play
 n2mu:play rdf:type owl:ObjectProperty ;
           rdfs:domain n2mu:agent ;
@@ -210,14 +185,6 @@ n2mu:play rdf:type owl:ObjectProperty ;
 n2mu:read rdf:type owl:ObjectProperty ;
           rdfs:domain foaf:Agent ;
           rdfs:range n2mu:book .
-
-
-###  http://cltl.nl/leolani/n2mu/sense
-n2mu:sense rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf n2mu:perceive ;
-           rdfs:domain n2mu:agent ;
-           rdfs:range n2mu:Sound ,
-                      n2mu:Visual .
 
 
 ###  http://cltl.nl/leolani/n2mu/share-interest
@@ -312,8 +279,13 @@ n2mu:age rdf:type owl:DatatypeProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/birthday
 n2mu:birthday rdf:type owl:DatatypeProperty ;
-              rdfs:domain n2mu:agent ;
-              rdfs:range xsd:dateTime .
+              rdfs:domain n2mu:agent .
+
+
+###  http://cltl.nl/leolani/n2mu/color
+n2mu:color rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf n2mu:physical_feature ;
+           rdfs:domain n2mu:object .
 
 
 ###  http://cltl.nl/leolani/n2mu/faceID
@@ -322,81 +294,43 @@ n2mu:faceID rdf:type owl:DatatypeProperty ;
             rdfs:range rdfs:Literal .
 
 
+###  http://cltl.nl/leolani/n2mu/hight
+n2mu:hight rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf n2mu:physical_feature ;
+           rdfs:domain n2mu:object .
+
+
 ###  http://cltl.nl/leolani/n2mu/name
 n2mu:name rdf:type owl:DatatypeProperty ;
-          rdfs:domain n2mu:agent ;
-          rdfs:range rdfs:Literal .
+          rdfs:domain n2mu:agent .
+
+
+###  http://cltl.nl/leolani/n2mu/physical_feature
+n2mu:physical_feature rdf:type owl:DatatypeProperty ;
+                      rdfs:domain n2mu:object .
+
+
+###  http://cltl.nl/leolani/n2mu/shape
+n2mu:shape rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf n2mu:physical_feature ;
+           rdfs:domain n2mu:object .
+
+
+###  http://cltl.nl/leolani/n2mu/size
+n2mu:size rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf n2mu:physical_feature ;
+          rdfs:domain n2mu:object .
+
+
+###  http://cltl.nl/leolani/n2mu/weight
+n2mu:weight rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf n2mu:physical_feature ;
+            rdfs:domain n2mu:object .
 
 
 #################################################################
 #    Classes
 #################################################################
-
-###  http://cltl.nl/leolani/n2mu/Electricity
-n2mu:Electricity rdf:type owl:Class ;
-                 owl:equivalentClass obo:GO_0050952 ;
-                 rdfs:subClassOf n2mu:sensor .
-
-
-###  http://cltl.nl/leolani/n2mu/Equilibrium
-n2mu:Equilibrium rdf:type owl:Class ;
-                 owl:equivalentClass obo:GO_0050957 ;
-                 rdfs:subClassOf n2mu:sensor .
-
-
-###  http://cltl.nl/leolani/n2mu/Gravity
-n2mu:Gravity rdf:type owl:Class ;
-             owl:equivalentClass obo:GO_0070998 ;
-             rdfs:subClassOf n2mu:sensor .
-
-
-###  http://cltl.nl/leolani/n2mu/Light
-n2mu:Light rdf:type owl:Class ;
-           owl:equivalentClass obo:GO_0050953 ;
-           rdfs:subClassOf n2mu:sensor .
-
-
-###  http://cltl.nl/leolani/n2mu/Pain
-n2mu:Pain rdf:type owl:Class ;
-          owl:equivalentClass obo:GO_0019233 ;
-          rdfs:subClassOf n2mu:sensor .
-
-
-###  http://cltl.nl/leolani/n2mu/Smell
-n2mu:Smell rdf:type owl:Class ;
-           owl:equivalentClass obo:MF_0000055 ;
-           rdfs:subClassOf n2mu:sensor .
-
-
-###  http://cltl.nl/leolani/n2mu/Sound
-n2mu:Sound rdf:type owl:Class ;
-           owl:equivalentClass obo:MF_0000038 ;
-           rdfs:subClassOf n2mu:sensor .
-
-
-###  http://cltl.nl/leolani/n2mu/Taste
-n2mu:Taste rdf:type owl:Class ;
-           owl:equivalentClass obo:MF_0000054 ;
-           rdfs:subClassOf n2mu:sensor .
-
-
-###  http://cltl.nl/leolani/n2mu/Temperature
-n2mu:Temperature rdf:type owl:Class ;
-                 owl:equivalentClass obo:GO_0050951 ;
-                 rdfs:subClassOf n2mu:sensor .
-
-
-###  http://cltl.nl/leolani/n2mu/Touch
-n2mu:Touch rdf:type owl:Class ;
-           owl:equivalentClass obo:MF_0000056 ;
-           rdfs:subClassOf n2mu:sensor .
-
-
-###  http://cltl.nl/leolani/n2mu/Visual
-n2mu:Visual rdf:type owl:Class ;
-            owl:equivalentClass obo:MF_0000024 ;
-            rdfs:subClassOf n2mu:sensor .
-
 
 ###  http://cltl.nl/leolani/n2mu/agent
 n2mu:agent rdf:type owl:Class ;
@@ -537,11 +471,6 @@ n2mu:robot rdf:type owl:Class ;
            rdfs:subClassOf n2mu:agent .
 
 
-###  http://cltl.nl/leolani/n2mu/sensor
-n2mu:sensor rdf:type owl:Class ;
-            owl:equivalentClass obo:MF_0000019 .
-
-
 ###  http://cltl.nl/leolani/n2mu/song
 n2mu:song rdf:type owl:Class ;
           rdfs:subClassOf n2mu:interest-ocurrence .
@@ -560,125 +489,6 @@ n2mu:sports-team rdf:type owl:Class ;
 ###  http://cltl.nl/leolani/n2mu/university
 n2mu:university rdf:type owl:Class ;
                 rdfs:subClassOf n2mu:institution .
-
-
-###  http://purl.obolibrary.org/obo/GO_0007600
-obo:GO_0007600 rdf:type owl:Class ;
-               rdfs:subClassOf obo:MF_0000019 ;
-               obo:IAO_0000115 "The series of events required for an organism to receive a sensory stimulus, convert it to a molecular signal, and recognize and characterize the signal. This is a neurological process."^^xsd:string ;
-               obo:IAO_0000412 obo:go.owl ;
-               oboInOwl:hasDbXref "Wikipedia:Perception"^^xsd:string ;
-               oboInOwl:hasOBONamespace "biological_process"^^xsd:string ;
-               oboInOwl:id "GO:0007600"^^xsd:string ;
-               rdfs:label "sensory perception"^^xsd:string .
-
-
-###  http://purl.obolibrary.org/obo/GO_0019233
-obo:GO_0019233 rdf:type owl:Class ;
-               rdfs:subClassOf obo:GO_0007600 ;
-               obo:IAO_0000115 "The series of events required for an organism to receive a painful stimulus, convert it to a molecular signal, and recognize and characterize the signal. Pain is medically defined as the physical sensation of discomfort or distress caused by injury or illness, so can hence be described as a harmful stimulus which signals current (or impending) tissue damage. Pain may come from extremes of temperature, mechanical damage, electricity or from noxious chemical substances. This is a neurological process."^^xsd:string ;
-               obo:IAO_0000412 obo:go.owl ;
-               oboInOwl:hasDbXref "Wikipedia:Nociception"^^xsd:string ;
-               oboInOwl:hasExactSynonym "nociception"^^xsd:string ;
-               oboInOwl:hasNarrowSynonym "perception of physiological pain"^^xsd:string ;
-               oboInOwl:hasOBONamespace "biological_process"^^xsd:string ;
-               oboInOwl:id "GO:0019233"^^xsd:string ;
-               rdfs:label "sensory perception of pain"^^xsd:string .
-
-
-###  http://purl.obolibrary.org/obo/GO_0050951
-obo:GO_0050951 rdf:type owl:Class ;
-               rdfs:subClassOf obo:GO_0007600 ;
-               obo:IAO_0000115 "The series of events required for an organism to receive a sensory temperature stimulus, convert it to a molecular signal, and recognize and characterize the signal. This is a neurological process."^^xsd:string ;
-               obo:IAO_0000412 obo:go.owl ;
-               oboInOwl:hasExactSynonym "sensory perception of thermal stimulus"^^xsd:string ;
-               oboInOwl:hasOBONamespace "biological_process"^^xsd:string ;
-               oboInOwl:id "GO:0050951"^^xsd:string ;
-               rdfs:label "sensory perception of temperature stimulus"^^xsd:string .
-
-
-###  http://purl.obolibrary.org/obo/GO_0050952
-obo:GO_0050952 rdf:type owl:Class ;
-               rdfs:subClassOf obo:GO_0007600 ;
-               obo:IAO_0000115 "The series of events required for an organism to receive a sensory electrical stimulus, convert it to a molecular signal, and recognize and characterize the signal. This is a neurological process."^^xsd:string ;
-               obo:IAO_0000412 obo:go.owl ;
-               oboInOwl:hasOBONamespace "biological_process"^^xsd:string ;
-               oboInOwl:id "GO:0050952"^^xsd:string ;
-               rdfs:label "sensory perception of electrical stimulus"^^xsd:string .
-
-
-###  http://purl.obolibrary.org/obo/GO_0050953
-obo:GO_0050953 rdf:type owl:Class ;
-               rdfs:subClassOf obo:GO_0007600 ;
-               obo:IAO_0000115 "The series of events required for an organism to receive a sensory light stimulus, convert it to a molecular signal, and recognize and characterize the signal. This is a neurological process."^^xsd:string ;
-               obo:IAO_0000412 obo:go.owl ;
-               oboInOwl:hasOBONamespace "biological_process"^^xsd:string ;
-               oboInOwl:id "GO:0050953"^^xsd:string ;
-               rdfs:label "sensory perception of light stimulus"^^xsd:string .
-
-
-###  http://purl.obolibrary.org/obo/GO_0050957
-obo:GO_0050957 rdf:type owl:Class ;
-               rdfs:subClassOf obo:GO_0007600 ;
-               obo:IAO_0000115 "The series of events required for an organism to receive an orientational stimulus, convert it to a molecular signal, and recognize and characterize the signal. Equilibrioception refers to a combination of processes by which an organism can perceive its orientation with respect to gravity. In animals, stimuli come from labyrinth system of the inner ears, monitoring the direction of motion; visual stimuli, with information on orientation and motion; pressure receptors, which tell the organism which body surfaces are in contact with the ground; and proprioceptive cues, which report which parts of the body are in motion."^^xsd:string ;
-               obo:IAO_0000412 obo:go.owl ;
-               oboInOwl:hasDbXref "Wikipedia:Equilibrioception"^^xsd:string ;
-               oboInOwl:hasExactSynonym "sensory perception of orientation with respect to gravity"^^xsd:string ;
-               oboInOwl:hasOBONamespace "biological_process"^^xsd:string ;
-               oboInOwl:id "GO:0050957"^^xsd:string ;
-               rdfs:label "equilibrioception"^^xsd:string .
-
-
-###  http://purl.obolibrary.org/obo/GO_0070998
-obo:GO_0070998 rdf:type owl:Class ;
-               rdfs:subClassOf obo:GO_0007600 ;
-               obo:IAO_0000115 "The series of events required for an organism to receive a gravitational stimulus, convert it to a molecular signal, and recognize and characterize the signal. This is a neurological process."^^xsd:string ;
-               obo:IAO_0000412 obo:go.owl ;
-               oboInOwl:created_by "midori"^^xsd:string ;
-               oboInOwl:creation_date "2009-11-03T03:25:12Z"^^xsd:string ;
-               oboInOwl:hasOBONamespace "biological_process"^^xsd:string ;
-               oboInOwl:id "GO:0070998"^^xsd:string ;
-               rdfs:label "sensory perception of gravity"^^xsd:string .
-
-
-###  http://purl.obolibrary.org/obo/MF_0000019
-obo:MF_0000019 rdf:type owl:Class ;
-               obo:IAO_0000115 """a mental process which is a) produced by a causal process (for example involving light rays or air vibrations) involving a part of the environment of the organism, and b) is experienced by the organism as being so caused, and c) in
-which the relevant part of the environment is thereby represented to the organism""" ;
-               rdfs:label "perception" .
-
-
-###  http://purl.obolibrary.org/obo/MF_0000024
-obo:MF_0000024 rdf:type owl:Class ;
-               rdfs:subClassOf obo:MF_0000019 ;
-               obo:IAO_0000118 "visual perception" ;
-               rdfs:label "seeing"@en .
-
-
-###  http://purl.obolibrary.org/obo/MF_0000038
-obo:MF_0000038 rdf:type owl:Class ;
-               rdfs:subClassOf obo:MF_0000019 ;
-               obo:IAO_0000118 "auditory perception" ;
-               rdfs:label "hearing"@en .
-
-
-###  http://purl.obolibrary.org/obo/MF_0000054
-obo:MF_0000054 rdf:type owl:Class ;
-               rdfs:subClassOf obo:MF_0000019 ;
-               rdfs:label "tasting"@en .
-
-
-###  http://purl.obolibrary.org/obo/MF_0000055
-obo:MF_0000055 rdf:type owl:Class ;
-               rdfs:subClassOf obo:MF_0000019 ;
-               obo:IAO_0000118 "olfactory perception" ;
-               rdfs:label "smelling"@en .
-
-
-###  http://purl.obolibrary.org/obo/MF_0000056
-obo:MF_0000056 rdf:type owl:Class ;
-               rdfs:subClassOf obo:MF_0000019 ;
-               rdfs:label "touching"@en .
 
 
 ###  http://schema.org/Place

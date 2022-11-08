@@ -78,7 +78,6 @@ class BrainService:
                     logger.debug("Skipped capsule type: %s", capsule)
 
                 if brain_response:
-                    # brain_response = brain_response_to_json(brain_response)
                     response.append(brain_response)
                 logger.debug("Processed %s (%s)",
                              capsule['type'] if 'type' in capsule else capsule['utterance_type'],

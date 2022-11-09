@@ -271,6 +271,8 @@ class LongTermMemory(BasicBrain):
             capsule['utterance_type'] = UtteranceType[capsule['utterance_type']]
 
         # Fix perspectives
+        if 'perspective' not in capsule.keys():
+            capsule['perspective'] = {}
         if capsule['utterance_type'] in (UtteranceType.IMAGE_MENTION, UtteranceType.TEXT_MENTION):
             capsule['perspective']['polarity'] = 1
         capsule['perspective'] = self._rdf_builder.fill_perspective(capsule['perspective'])

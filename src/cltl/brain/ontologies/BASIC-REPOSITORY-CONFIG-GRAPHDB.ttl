@@ -21,7 +21,7 @@
             owlim:entity-id-size  "32" ;
             owlim:imports "" ;
         	owlim:repository-type "file-repository" ;
-            owlim:ruleset "owl2-rl-optimized" ;
+            owlim:ruleset "rdfsplus-optimized" ;
             owlim:storage-folder "storage" ;
  
             owlim:enable-context-index "true" ;

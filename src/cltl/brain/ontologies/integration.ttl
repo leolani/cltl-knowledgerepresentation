@@ -206,11 +206,6 @@ n2mu:be-husband-of rdf:type owl:ObjectProperty ;
                    owl:propertyDisjointWith n2mu:be-wife-of .
 
 
-###  http://cltl.nl/leolani/n2mu/be-in
-n2mu:be-in rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf n2mu:be-at .
-
-
 ###  http://cltl.nl/leolani/n2mu/be-inside
 n2mu:be-inside rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf n2mu:locate-in ;
@@ -303,14 +298,6 @@ n2mu:born-in rdf:type owl:ObjectProperty ;
              rdfs:range n2mu:location .
 
 
-###  http://cltl.nl/leolani/n2mu/breakfast
-n2mu:breakfast rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf n2mu:meal ;
-               rdfs:domain n2mu:person ;
-               rdfs:range n2mu:drink ,
-                          n2mu:food .
-
-
 ###  http://cltl.nl/leolani/n2mu/clean
 n2mu:clean rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf n2mu:activity ;
@@ -321,7 +308,8 @@ n2mu:clean rdf:type owl:ObjectProperty ;
 n2mu:cook rdf:type owl:ObjectProperty ;
           rdfs:subPropertyOf n2mu:create ;
           rdfs:domain n2mu:person ;
-          rdfs:range n2mu:dish ,
+          rdfs:range n2mu:cutlery ,
+                     n2mu:dish ,
                      n2mu:food .
 
 
@@ -329,14 +317,6 @@ n2mu:cook rdf:type owl:ObjectProperty ;
 n2mu:create rdf:type owl:ObjectProperty ;
             rdfs:domain n2mu:person ;
             rdfs:range n2mu:artifact .
-
-
-###  http://cltl.nl/leolani/n2mu/dinner
-n2mu:dinner rdf:type owl:ObjectProperty ;
-            rdfs:subPropertyOf n2mu:meal ;
-            rdfs:domain n2mu:person ;
-            rdfs:range n2mu:drink ,
-                       n2mu:food .
 
 
 ###  http://cltl.nl/leolani/n2mu/dislike
@@ -348,14 +328,14 @@ n2mu:dislike rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/drink
 n2mu:drink rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf n2mu:meal ;
+           rdfs:subPropertyOf n2mu:have-meal ;
            rdfs:domain n2mu:person ;
            rdfs:range n2mu:drink .
 
 
 ###  http://cltl.nl/leolani/n2mu/eat
 n2mu:eat rdf:type owl:ObjectProperty ;
-         rdfs:subPropertyOf n2mu:meal ;
+         rdfs:subPropertyOf n2mu:have-meal ;
          rdfs:domain n2mu:person ;
          rdfs:range n2mu:food .
 
@@ -378,12 +358,38 @@ n2mu:game rdf:type owl:ObjectProperty ;
           rdfs:subPropertyOf n2mu:play .
 
 
-###  http://cltl.nl/leolani/n2mu/in
-n2mu:in rdf:type owl:ObjectProperty ;
-        rdfs:subPropertyOf n2mu:locate-in ;
-        rdf:type owl:TransitiveProperty ;
-        rdfs:domain n2mu:city ;
-        rdfs:range n2mu:country .
+###  http://cltl.nl/leolani/n2mu/have-breakfast
+n2mu:have-breakfast rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf n2mu:have-meal ;
+                    rdfs:domain n2mu:person ;
+                    rdfs:range n2mu:drink ,
+                               n2mu:food .
+
+
+###  http://cltl.nl/leolani/n2mu/have-dinner
+n2mu:have-dinner rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf n2mu:have-meal ;
+                 rdfs:domain n2mu:person ;
+                 rdfs:range n2mu:drink ,
+                            n2mu:food .
+
+
+###  http://cltl.nl/leolani/n2mu/have-lunch
+n2mu:have-lunch rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf n2mu:have-meal ;
+                rdfs:domain n2mu:person ;
+                rdfs:range n2mu:drink ,
+                           n2mu:food .
+
+
+###  http://cltl.nl/leolani/n2mu/have-meal
+n2mu:have-meal rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf n2mu:activity ;
+               rdfs:domain n2mu:person ;
+               rdfs:range n2mu:cuisine ,
+                          n2mu:dish ,
+                          n2mu:drink ,
+                          n2mu:food .
 
 
 ###  http://cltl.nl/leolani/n2mu/know
@@ -399,15 +405,15 @@ n2mu:like rdf:type owl:ObjectProperty ;
                      n2mu:interest .
 
 
-###  http://cltl.nl/leolani/n2mu/listen
-n2mu:listen rdf:type owl:ObjectProperty ;
-            rdfs:subPropertyOf n2mu:activity ;
-            rdfs:domain n2mu:agent ;
-            rdfs:range n2mu:band ,
-                       n2mu:concert ,
-                       n2mu:music-genre ,
-                       n2mu:musical-work ,
-                       n2mu:song .
+###  http://cltl.nl/leolani/n2mu/listen-to
+n2mu:listen-to rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf n2mu:activity ;
+               rdfs:domain n2mu:agent ;
+               rdfs:range n2mu:band ,
+                          n2mu:concert ,
+                          n2mu:music-genre ,
+                          n2mu:musical-work ,
+                          n2mu:song .
 
 
 ###  http://cltl.nl/leolani/n2mu/live-in
@@ -422,29 +428,11 @@ n2mu:locate-in rdf:type owl:ObjectProperty ;
                rdfs:range n2mu:location .
 
 
-###  http://cltl.nl/leolani/n2mu/lunch
-n2mu:lunch rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf n2mu:meal ;
-           rdfs:domain n2mu:person ;
-           rdfs:range n2mu:drink ,
-                      n2mu:food .
-
-
 ###  http://cltl.nl/leolani/n2mu/manufacture-in
 n2mu:manufacture-in rdf:type owl:ObjectProperty ;
                     rdfs:subPropertyOf n2mu:be-from ;
                     rdfs:domain n2mu:robot ;
                     rdfs:range n2mu:location .
-
-
-###  http://cltl.nl/leolani/n2mu/meal
-n2mu:meal rdf:type owl:ObjectProperty ;
-          rdfs:subPropertyOf n2mu:activity ;
-          rdfs:domain n2mu:person ;
-          rdfs:range n2mu:cuisine ,
-                     n2mu:dish ,
-                     n2mu:drink ,
-                     n2mu:food .
 
 
 ###  http://cltl.nl/leolani/n2mu/music
@@ -795,6 +783,11 @@ n2mu:band rdf:type owl:Class ;
           rdfs:subClassOf n2mu:interest .
 
 
+###  http://cltl.nl/leolani/n2mu/bar
+n2mu:bar rdf:type owl:Class ;
+         rdfs:subClassOf n2mu:building .
+
+
 ###  http://cltl.nl/leolani/n2mu/base_ball
 n2mu:base_ball rdf:type owl:Class ;
                rdfs:subClassOf n2mu:sports_instrument .
@@ -889,6 +882,11 @@ n2mu:cabbage rdf:type owl:Class ;
              rdfs:subClassOf n2mu:food .
 
 
+###  http://cltl.nl/leolani/n2mu/cafe
+n2mu:cafe rdf:type owl:Class ;
+          rdfs:subClassOf n2mu:building .
+
+
 ###  http://cltl.nl/leolani/n2mu/cake
 n2mu:cake rdf:type owl:Class ;
           rdfs:subClassOf n2mu:food .
@@ -920,6 +918,11 @@ n2mu:child rdf:type owl:Class ;
            rdfs:subClassOf n2mu:person .
 
 
+###  http://cltl.nl/leolani/n2mu/church
+n2mu:church rdf:type owl:Class ;
+            rdfs:subClassOf n2mu:building .
+
+
 ###  http://cltl.nl/leolani/n2mu/city
 n2mu:city rdf:type owl:Class ;
           rdfs:subClassOf n2mu:location .
@@ -929,6 +932,11 @@ n2mu:city rdf:type owl:Class ;
 n2mu:closet rdf:type owl:Class ;
             rdfs:subClassOf n2mu:container ,
                             n2mu:furniture .
+
+
+###  http://cltl.nl/leolani/n2mu/club
+n2mu:club rdf:type owl:Class ;
+          rdfs:subClassOf n2mu:building .
 
 
 ###  http://cltl.nl/leolani/n2mu/coffee
@@ -1186,6 +1194,11 @@ n2mu:lemonade rdf:type owl:Class ;
               rdfs:subClassOf n2mu:drink .
 
 
+###  http://cltl.nl/leolani/n2mu/library
+n2mu:library rdf:type owl:Class ;
+             rdfs:subClassOf n2mu:building .
+
+
 ###  http://cltl.nl/leolani/n2mu/literature-genre
 n2mu:literature-genre rdf:type owl:Class ;
                       rdfs:subClassOf n2mu:interest .
@@ -1223,7 +1236,8 @@ n2mu:movie rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/museum
 n2mu:museum rdf:type owl:Class ;
-            rdfs:subClassOf n2mu:interest .
+            rdfs:subClassOf n2mu:building ,
+                            n2mu:interest .
 
 
 ###  http://cltl.nl/leolani/n2mu/music-genre
@@ -1303,6 +1317,11 @@ n2mu:potted_plant rdf:type owl:Class ;
                   rdfs:subClassOf n2mu:furniture .
 
 
+###  http://cltl.nl/leolani/n2mu/pub
+n2mu:pub rdf:type owl:Class ;
+         rdfs:subClassOf n2mu:building .
+
+
 ###  http://cltl.nl/leolani/n2mu/puppet
 n2mu:puppet rdf:type owl:Class ;
             rdfs:subClassOf n2mu:toy .
@@ -1322,6 +1341,11 @@ n2mu:remote rdf:type owl:Class ;
 ###  http://cltl.nl/leolani/n2mu/reptile
 n2mu:reptile rdf:type owl:Class ;
              rdfs:subClassOf n2mu:animal .
+
+
+###  http://cltl.nl/leolani/n2mu/restaurant
+n2mu:restaurant rdf:type owl:Class ;
+                rdfs:subClassOf n2mu:building .
 
 
 ###  http://cltl.nl/leolani/n2mu/robot
@@ -1965,6 +1989,21 @@ grasps:positive rdf:type owl:NamedIndividual ,
                 n2mu:orange
                 n2mu:pizza
                 n2mu:sandwich
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( n2mu:bar
+                n2mu:cafe
+                n2mu:church
+                n2mu:club
+                n2mu:house
+                n2mu:library
+                n2mu:museum
+                n2mu:office
+                n2mu:pub
+                n2mu:restaurant
               )
 ] .
 

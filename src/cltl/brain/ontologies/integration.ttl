@@ -211,6 +211,14 @@ n2mu:be-in rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf n2mu:be-at .
 
 
+###  http://cltl.nl/leolani/n2mu/be-inside
+n2mu:be-inside rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf n2mu:locate-in ;
+               rdfs:domain n2mu:agent ,
+                           n2mu:object ;
+               rdfs:range n2mu:container .
+
+
 ###  http://cltl.nl/leolani/n2mu/be-member-of
 n2mu:be-member-of rdf:type owl:ObjectProperty ;
                   rdfs:domain n2mu:agent ;
@@ -297,12 +305,16 @@ n2mu:born-in rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/breakfast
 n2mu:breakfast rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf n2mu:meal .
+               rdfs:subPropertyOf n2mu:meal ;
+               rdfs:domain n2mu:person ;
+               rdfs:range n2mu:drink ,
+                          n2mu:food .
 
 
 ###  http://cltl.nl/leolani/n2mu/clean
 n2mu:clean rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf n2mu:activity .
+           rdfs:subPropertyOf n2mu:activity ;
+           rdfs:domain n2mu:agent .
 
 
 ###  http://cltl.nl/leolani/n2mu/cook
@@ -321,7 +333,10 @@ n2mu:create rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/dinner
 n2mu:dinner rdf:type owl:ObjectProperty ;
-            rdfs:subPropertyOf n2mu:meal .
+            rdfs:subPropertyOf n2mu:meal ;
+            rdfs:domain n2mu:person ;
+            rdfs:range n2mu:drink ,
+                       n2mu:food .
 
 
 ###  http://cltl.nl/leolani/n2mu/dislike
@@ -333,12 +348,16 @@ n2mu:dislike rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/drink
 n2mu:drink rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf n2mu:meal .
+           rdfs:subPropertyOf n2mu:meal ;
+           rdfs:domain n2mu:person ;
+           rdfs:range n2mu:drink .
 
 
 ###  http://cltl.nl/leolani/n2mu/eat
 n2mu:eat rdf:type owl:ObjectProperty ;
-         rdfs:subPropertyOf n2mu:meal .
+         rdfs:subPropertyOf n2mu:meal ;
+         rdfs:domain n2mu:person ;
+         rdfs:range n2mu:food .
 
 
 ###  http://cltl.nl/leolani/n2mu/favorite
@@ -382,7 +401,13 @@ n2mu:like rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/listen
 n2mu:listen rdf:type owl:ObjectProperty ;
-            rdfs:subPropertyOf n2mu:activity .
+            rdfs:subPropertyOf n2mu:activity ;
+            rdfs:domain n2mu:agent ;
+            rdfs:range n2mu:band ,
+                       n2mu:concert ,
+                       n2mu:music-genre ,
+                       n2mu:musical-work ,
+                       n2mu:song .
 
 
 ###  http://cltl.nl/leolani/n2mu/live-in
@@ -399,7 +424,10 @@ n2mu:locate-in rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/lunch
 n2mu:lunch rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf n2mu:meal .
+           rdfs:subPropertyOf n2mu:meal ;
+           rdfs:domain n2mu:person ;
+           rdfs:range n2mu:drink ,
+                      n2mu:food .
 
 
 ###  http://cltl.nl/leolani/n2mu/manufacture-in
@@ -411,12 +439,23 @@ n2mu:manufacture-in rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/meal
 n2mu:meal rdf:type owl:ObjectProperty ;
-          rdfs:subPropertyOf n2mu:activity .
+          rdfs:subPropertyOf n2mu:activity ;
+          rdfs:domain n2mu:person ;
+          rdfs:range n2mu:cuisine ,
+                     n2mu:dish ,
+                     n2mu:drink ,
+                     n2mu:food .
 
 
 ###  http://cltl.nl/leolani/n2mu/music
 n2mu:music rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf n2mu:play .
+           rdfs:subPropertyOf n2mu:play ;
+           rdfs:domain n2mu:agent ;
+           rdfs:range n2mu:band ,
+                      n2mu:concert ,
+                      n2mu:music-genre ,
+                      n2mu:musical-work ,
+                      n2mu:song .
 
 
 ###  http://cltl.nl/leolani/n2mu/own
@@ -428,7 +467,8 @@ n2mu:own rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/party
 n2mu:party rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf n2mu:activity .
+           rdfs:subPropertyOf n2mu:activity ;
+           rdfs:domain n2mu:agent .
 
 
 ###  http://cltl.nl/leolani/n2mu/perform
@@ -442,6 +482,13 @@ n2mu:play rdf:type owl:ObjectProperty ;
           rdfs:domain n2mu:agent ;
           rdfs:range n2mu:song ,
                      n2mu:sport .
+
+
+###  http://cltl.nl/leolani/n2mu/prepare_drink
+n2mu:prepare_drink rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf n2mu:create ;
+                   rdfs:domain n2mu:agent ;
+                   rdfs:range n2mu:drink .
 
 
 ###  http://cltl.nl/leolani/n2mu/program
@@ -458,7 +505,10 @@ n2mu:read rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/sport
 n2mu:sport rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf n2mu:play .
+           rdfs:subPropertyOf n2mu:play ;
+           rdfs:domain n2mu:agent ;
+           rdfs:range n2mu:sport ,
+                      n2mu:sports_instrument .
 
 
 ###  http://cltl.nl/leolani/n2mu/study-at
@@ -477,12 +527,21 @@ n2mu:travel-to rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/visit
 n2mu:visit rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf n2mu:activity .
+           rdfs:subPropertyOf n2mu:activity ;
+           rdfs:domain n2mu:agent ;
+           rdfs:range n2mu:agent .
 
 
 ###  http://cltl.nl/leolani/n2mu/watch
 n2mu:watch rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf n2mu:activity .
+           rdfs:subPropertyOf n2mu:activity ;
+           rdfs:domain n2mu:agent ;
+           rdfs:range n2mu:exhibition ,
+                      n2mu:film-genre ,
+                      n2mu:movie ,
+                      n2mu:museum ,
+                      n2mu:sport ,
+                      n2mu:theater .
 
 
 ###  http://cltl.nl/leolani/n2mu/work-at
@@ -738,12 +797,12 @@ n2mu:band rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/base_ball
 n2mu:base_ball rdf:type owl:Class ;
-               rdfs:subClassOf n2mu:sport_instrument .
+               rdfs:subClassOf n2mu:sports_instrument .
 
 
 ###  http://cltl.nl/leolani/n2mu/baseball_glove
 n2mu:baseball_glove rdf:type owl:Class ;
-                    rdfs:subClassOf n2mu:sport_instrument .
+                    rdfs:subClassOf n2mu:sports_instrument .
 
 
 ###  http://cltl.nl/leolani/n2mu/bear
@@ -899,7 +958,7 @@ n2mu:concert rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/container
 n2mu:container rdf:type owl:Class ;
-               rdfs:subClassOf n2mu:instrument .
+               rdfs:subClassOf n2mu:artifact .
 
 
 ###  http://cltl.nl/leolani/n2mu/corn
@@ -1014,7 +1073,7 @@ n2mu:fork rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/frisbee
 n2mu:frisbee rdf:type owl:Class ;
-             rdfs:subClassOf n2mu:sport_instrument .
+             rdfs:subClassOf n2mu:sports_instrument .
 
 
 ###  http://cltl.nl/leolani/n2mu/furniture
@@ -1109,7 +1168,7 @@ n2mu:keyboard rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/kite
 n2mu:kite rdf:type owl:Class ;
-          rdfs:subClassOf n2mu:sport_instrument .
+          rdfs:subClassOf n2mu:sports_instrument .
 
 
 ###  http://cltl.nl/leolani/n2mu/knife
@@ -1305,17 +1364,17 @@ n2mu:sink rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/skate_board
 n2mu:skate_board rdf:type owl:Class ;
-                 rdfs:subClassOf n2mu:sport_instrument .
+                 rdfs:subClassOf n2mu:sports_instrument .
 
 
 ###  http://cltl.nl/leolani/n2mu/skiss
 n2mu:skiss rdf:type owl:Class ;
-           rdfs:subClassOf n2mu:sport_instrument .
+           rdfs:subClassOf n2mu:sports_instrument .
 
 
 ###  http://cltl.nl/leolani/n2mu/snowboard
 n2mu:snowboard rdf:type owl:Class ;
-               rdfs:subClassOf n2mu:sport_instrument .
+               rdfs:subClassOf n2mu:sports_instrument .
 
 
 ###  http://cltl.nl/leolani/n2mu/soda
@@ -1344,11 +1403,6 @@ n2mu:sport rdf:type owl:Class ;
            rdfs:subClassOf n2mu:interest .
 
 
-###  http://cltl.nl/leolani/n2mu/sport_instrument
-n2mu:sport_instrument rdf:type owl:Class ;
-                      rdfs:subClassOf n2mu:instrument .
-
-
 ###  http://cltl.nl/leolani/n2mu/sports-team
 n2mu:sports-team rdf:type owl:Class ;
                  rdfs:subClassOf n2mu:interest .
@@ -1356,7 +1410,12 @@ n2mu:sports-team rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/sports_ball
 n2mu:sports_ball rdf:type owl:Class ;
-                 rdfs:subClassOf n2mu:sport_instrument .
+                 rdfs:subClassOf n2mu:sports_instrument .
+
+
+###  http://cltl.nl/leolani/n2mu/sports_instrument
+n2mu:sports_instrument rdf:type owl:Class ;
+                       rdfs:subClassOf n2mu:instrument .
 
 
 ###  http://cltl.nl/leolani/n2mu/stop_sign
@@ -1372,7 +1431,7 @@ n2mu:suitcase rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/surfboard
 n2mu:surfboard rdf:type owl:Class ;
-               rdfs:subClassOf n2mu:sport_instrument .
+               rdfs:subClassOf n2mu:sports_instrument .
 
 
 ###  http://cltl.nl/leolani/n2mu/table
@@ -1397,7 +1456,7 @@ n2mu:teddy_bear rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/tennis_racket
 n2mu:tennis_racket rdf:type owl:Class ;
-                   rdfs:subClassOf n2mu:sport_instrument .
+                   rdfs:subClassOf n2mu:sports_instrument .
 
 
 ###  http://cltl.nl/leolani/n2mu/theater

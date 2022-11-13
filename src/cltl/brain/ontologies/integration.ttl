@@ -785,7 +785,8 @@ n2mu:band rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/bar
 n2mu:bar rdf:type owl:Class ;
-         rdfs:subClassOf n2mu:building .
+         rdfs:subClassOf n2mu:building ,
+                         n2mu:container .
 
 
 ###  http://cltl.nl/leolani/n2mu/base_ball
@@ -863,7 +864,8 @@ n2mu:broccoli rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/building
 n2mu:building rdf:type owl:Class ;
-              rdfs:subClassOf n2mu:location .
+              rdfs:subClassOf n2mu:container ,
+                              n2mu:location .
 
 
 ###  http://cltl.nl/leolani/n2mu/bus
@@ -884,7 +886,8 @@ n2mu:cabbage rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/cafe
 n2mu:cafe rdf:type owl:Class ;
-          rdfs:subClassOf n2mu:building .
+          rdfs:subClassOf n2mu:building ,
+                          n2mu:container .
 
 
 ###  http://cltl.nl/leolani/n2mu/cake
@@ -920,7 +923,8 @@ n2mu:child rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/church
 n2mu:church rdf:type owl:Class ;
-            rdfs:subClassOf n2mu:building .
+            rdfs:subClassOf n2mu:building ,
+                            n2mu:container .
 
 
 ###  http://cltl.nl/leolani/n2mu/city
@@ -936,7 +940,8 @@ n2mu:closet rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/club
 n2mu:club rdf:type owl:Class ;
-          rdfs:subClassOf n2mu:building .
+          rdfs:subClassOf n2mu:building ,
+                          n2mu:container .
 
 
 ###  http://cltl.nl/leolani/n2mu/coffee
@@ -1123,7 +1128,8 @@ n2mu:handbag rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/home
 n2mu:home rdf:type owl:Class ;
-          rdfs:subClassOf n2mu:house .
+          rdfs:subClassOf n2mu:container ,
+                          n2mu:house .
 
 
 ###  http://cltl.nl/leolani/n2mu/horse
@@ -1138,7 +1144,8 @@ n2mu:hot_dog rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/house
 n2mu:house rdf:type owl:Class ;
-           rdfs:subClassOf n2mu:building .
+           rdfs:subClassOf n2mu:building ,
+                           n2mu:container .
 
 
 ###  http://cltl.nl/leolani/n2mu/insect
@@ -1196,7 +1203,8 @@ n2mu:lemonade rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/library
 n2mu:library rdf:type owl:Class ;
-             rdfs:subClassOf n2mu:building .
+             rdfs:subClassOf n2mu:building ,
+                             n2mu:container .
 
 
 ###  http://cltl.nl/leolani/n2mu/literature-genre
@@ -1237,6 +1245,7 @@ n2mu:movie rdf:type owl:Class ;
 ###  http://cltl.nl/leolani/n2mu/museum
 n2mu:museum rdf:type owl:Class ;
             rdfs:subClassOf n2mu:building ,
+                            n2mu:container ,
                             n2mu:interest .
 
 
@@ -1257,7 +1266,8 @@ n2mu:object rdf:type owl:Class .
 
 ###  http://cltl.nl/leolani/n2mu/office
 n2mu:office rdf:type owl:Class ;
-            rdfs:subClassOf n2mu:building .
+            rdfs:subClassOf n2mu:building ,
+                            n2mu:container .
 
 
 ###  http://cltl.nl/leolani/n2mu/orange
@@ -1319,7 +1329,8 @@ n2mu:potted_plant rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/pub
 n2mu:pub rdf:type owl:Class ;
-         rdfs:subClassOf n2mu:building .
+         rdfs:subClassOf n2mu:building ,
+                         n2mu:container .
 
 
 ###  http://cltl.nl/leolani/n2mu/puppet
@@ -1345,7 +1356,8 @@ n2mu:reptile rdf:type owl:Class ;
 
 ###  http://cltl.nl/leolani/n2mu/restaurant
 n2mu:restaurant rdf:type owl:Class ;
-                rdfs:subClassOf n2mu:building .
+                rdfs:subClassOf n2mu:building ,
+                                n2mu:container .
 
 
 ###  http://cltl.nl/leolani/n2mu/robot
@@ -1924,6 +1936,82 @@ grasps:positive rdf:type owl:NamedIndividual ,
                 n2mu:plate
                 n2mu:pot
                 n2mu:refrigerator
+                n2mu:ship
+                n2mu:sink
+                n2mu:spoon
+                n2mu:suitcase
+                n2mu:toaster
+                n2mu:train
+                n2mu:truck
+                n2mu:vase
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( n2mu:airplane
+                n2mu:backpack
+                n2mu:bar
+                n2mu:bottle
+                n2mu:bowl
+                n2mu:building
+                n2mu:bus
+                n2mu:cafe
+                n2mu:car
+                n2mu:church
+                n2mu:closet
+                n2mu:club
+                n2mu:drawer
+                n2mu:glass
+                n2mu:handbag
+                n2mu:home
+                n2mu:house
+                n2mu:kettle
+                n2mu:library
+                n2mu:museum
+                n2mu:office
+                n2mu:oven
+                n2mu:plate
+                n2mu:pot
+                n2mu:pub
+                n2mu:refrigerator
+                n2mu:restaurant
+                n2mu:ship
+                n2mu:sink
+                n2mu:spoon
+                n2mu:suitcase
+                n2mu:toaster
+                n2mu:train
+                n2mu:truck
+                n2mu:vase
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( n2mu:airplane
+                n2mu:backpack
+                n2mu:bottle
+                n2mu:bowl
+                n2mu:building
+                n2mu:bus
+                n2mu:car
+                n2mu:closet
+                n2mu:club
+                n2mu:drawer
+                n2mu:glass
+                n2mu:handbag
+                n2mu:house
+                n2mu:kettle
+                n2mu:library
+                n2mu:museum
+                n2mu:office
+                n2mu:oven
+                n2mu:plate
+                n2mu:pot
+                n2mu:pub
+                n2mu:refrigerator
+                n2mu:restaurant
                 n2mu:ship
                 n2mu:sink
                 n2mu:spoon

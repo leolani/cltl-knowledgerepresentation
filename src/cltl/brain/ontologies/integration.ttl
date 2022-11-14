@@ -82,10 +82,65 @@ eps:hasDetection rdf:type owl:ObjectProperty ;
                             grasp:Detection .
 
 
+###  http://cltl.nl/leolani/n2mu/accountant
+n2mu:accountant rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf n2mu:profession .
+
+
 ###  http://cltl.nl/leolani/n2mu/activity
 n2mu:activity rdf:type owl:ObjectProperty ;
               rdfs:domain n2mu:agent ;
               rdfs:range n2mu:interest .
+
+
+###  http://cltl.nl/leolani/n2mu/actor
+n2mu:actor rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/actress
+n2mu:actress rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/agent
+n2mu:agent rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/analyst
+n2mu:analyst rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/architect
+n2mu:architect rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/artist
+n2mu:artist rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/astronomer
+n2mu:astronomer rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/author
+n2mu:author rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/baker
+n2mu:baker rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/bartender
+n2mu:bartender rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf n2mu:profession .
 
 
 ###  http://cltl.nl/leolani/n2mu/be-ancestor-of
@@ -298,15 +353,66 @@ n2mu:born-in rdf:type owl:ObjectProperty ;
              rdfs:range n2mu:location .
 
 
+###  http://cltl.nl/leolani/n2mu/bricklayer
+n2mu:bricklayer rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/butcher
+n2mu:butcher rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/captain
+n2mu:captain rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/carpenter
+n2mu:carpenter rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/chauffeur
+n2mu:chauffeur rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/chef
+n2mu:chef rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf n2mu:profession .
+
+
 ###  http://cltl.nl/leolani/n2mu/clean
 n2mu:clean rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf n2mu:activity ;
            rdfs:domain n2mu:agent .
 
 
+###  http://cltl.nl/leolani/n2mu/cleaner
+n2mu:cleaner rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/coach
+n2mu:coach rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/comedian
+n2mu:comedian rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/construction-worker
+n2mu:construction-worker rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf n2mu:profession .
+
+
 ###  http://cltl.nl/leolani/n2mu/cook
 n2mu:cook rdf:type owl:ObjectProperty ;
-          rdfs:subPropertyOf n2mu:create ;
+          rdfs:subPropertyOf n2mu:create ,
+                             n2mu:profession ;
           rdfs:domain n2mu:person ;
           rdfs:range n2mu:cutlery ,
                      n2mu:dish ,
@@ -319,11 +425,36 @@ n2mu:create rdf:type owl:ObjectProperty ;
             rdfs:range n2mu:artifact .
 
 
+###  http://cltl.nl/leolani/n2mu/data-analyst
+n2mu:data-analyst rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/dentist
+n2mu:dentist rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/designer
+n2mu:designer rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/desk-officer
+n2mu:desk-officer rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf n2mu:profession .
+
+
 ###  http://cltl.nl/leolani/n2mu/dislike
 n2mu:dislike rdf:type owl:ObjectProperty ;
              rdfs:domain n2mu:agent ;
              rdfs:range n2mu:agent ,
                         n2mu:interest .
+
+
+###  http://cltl.nl/leolani/n2mu/doctor
+n2mu:doctor rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf n2mu:profession .
 
 
 ###  http://cltl.nl/leolani/n2mu/drink
@@ -333,11 +464,36 @@ n2mu:drink rdf:type owl:ObjectProperty ;
            rdfs:range n2mu:drink .
 
 
+###  http://cltl.nl/leolani/n2mu/driver
+n2mu:driver rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf n2mu:profession .
+
+
 ###  http://cltl.nl/leolani/n2mu/eat
 n2mu:eat rdf:type owl:ObjectProperty ;
          rdfs:subPropertyOf n2mu:have-meal ;
          rdfs:domain n2mu:person ;
          rdfs:range n2mu:food .
+
+
+###  http://cltl.nl/leolani/n2mu/electrician
+n2mu:electrician rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/engineer
+n2mu:engineer rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/farmer
+n2mu:farmer rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/father
+n2mu:father rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf n2mu:profession .
 
 
 ###  http://cltl.nl/leolani/n2mu/favorite
@@ -353,9 +509,34 @@ n2mu:feel rdf:type owl:ObjectProperty ;
           rdfs:range grasp:EmotionValue .
 
 
+###  http://cltl.nl/leolani/n2mu/fisherman
+n2mu:fisherman rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/florist
+n2mu:florist rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf n2mu:profession .
+
+
 ###  http://cltl.nl/leolani/n2mu/game
 n2mu:game rdf:type owl:ObjectProperty ;
           rdfs:subPropertyOf n2mu:play .
+
+
+###  http://cltl.nl/leolani/n2mu/gardener
+n2mu:gardener rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/general
+n2mu:general rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/hairdresser
+n2mu:hairdresser rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf n2mu:profession .
 
 
 ###  http://cltl.nl/leolani/n2mu/have-breakfast
@@ -392,10 +573,45 @@ n2mu:have-meal rdf:type owl:ObjectProperty ;
                           n2mu:food .
 
 
+###  http://cltl.nl/leolani/n2mu/health-professional
+n2mu:health-professional rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/instructor
+n2mu:instructor rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/journalist
+n2mu:journalist rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/judge
+n2mu:judge rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf n2mu:profession .
+
+
 ###  http://cltl.nl/leolani/n2mu/know
 n2mu:know rdf:type owl:ObjectProperty ;
           rdfs:domain n2mu:agent ;
           rdfs:range n2mu:agent .
+
+
+###  http://cltl.nl/leolani/n2mu/lecturer
+n2mu:lecturer rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/lieutenant
+n2mu:lieutenant rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/lifeguard
+n2mu:lifeguard rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf n2mu:profession .
 
 
 ###  http://cltl.nl/leolani/n2mu/like
@@ -403,6 +619,11 @@ n2mu:like rdf:type owl:ObjectProperty ;
           rdfs:domain n2mu:agent ;
           rdfs:range n2mu:agent ,
                      n2mu:interest .
+
+
+###  http://cltl.nl/leolani/n2mu/linguist
+n2mu:linguist rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf n2mu:profession .
 
 
 ###  http://cltl.nl/leolani/n2mu/listen-to
@@ -428,11 +649,36 @@ n2mu:locate-in rdf:type owl:ObjectProperty ;
                rdfs:range n2mu:location .
 
 
+###  http://cltl.nl/leolani/n2mu/manager
+n2mu:manager rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf n2mu:profession .
+
+
 ###  http://cltl.nl/leolani/n2mu/manufacture-in
 n2mu:manufacture-in rdf:type owl:ObjectProperty ;
                     rdfs:subPropertyOf n2mu:be-from ;
                     rdfs:domain n2mu:robot ;
                     rdfs:range n2mu:location .
+
+
+###  http://cltl.nl/leolani/n2mu/mechanic
+n2mu:mechanic rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/model
+n2mu:model rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/monk
+n2mu:monk rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/mother
+n2mu:mother rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf n2mu:profession .
 
 
 ###  http://cltl.nl/leolani/n2mu/music
@@ -446,11 +692,31 @@ n2mu:music rdf:type owl:ObjectProperty ;
                       n2mu:song .
 
 
+###  http://cltl.nl/leolani/n2mu/newsreader
+n2mu:newsreader rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/nurse
+n2mu:nurse rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/optician
+n2mu:optician rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf n2mu:profession .
+
+
 ###  http://cltl.nl/leolani/n2mu/own
 n2mu:own rdf:type owl:ObjectProperty ;
          rdfs:domain n2mu:agent ;
          rdfs:range n2mu:animal ,
                     n2mu:object .
+
+
+###  http://cltl.nl/leolani/n2mu/painter
+n2mu:painter rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf n2mu:profession .
 
 
 ###  http://cltl.nl/leolani/n2mu/party
@@ -464,12 +730,52 @@ n2mu:perform rdf:type owl:ObjectProperty ;
              rdfs:subPropertyOf n2mu:create .
 
 
+###  http://cltl.nl/leolani/n2mu/pharmacist
+n2mu:pharmacist rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/pilot
+n2mu:pilot rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf n2mu:profession .
+
+
 ###  http://cltl.nl/leolani/n2mu/play
 n2mu:play rdf:type owl:ObjectProperty ;
           rdfs:subPropertyOf n2mu:activity ;
           rdfs:domain n2mu:agent ;
           rdfs:range n2mu:song ,
                      n2mu:sport .
+
+
+###  http://cltl.nl/leolani/n2mu/plumber
+n2mu:plumber rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/poet
+n2mu:poet rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/police-officer
+n2mu:police-officer rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/policeman
+n2mu:policeman rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/policewoman
+n2mu:policewoman rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/politician
+n2mu:politician rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf n2mu:profession .
 
 
 ###  http://cltl.nl/leolani/n2mu/prepare_drink
@@ -479,9 +785,39 @@ n2mu:prepare_drink rdf:type owl:ObjectProperty ;
                    rdfs:range n2mu:drink .
 
 
+###  http://cltl.nl/leolani/n2mu/priest
+n2mu:priest rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/profession
+n2mu:profession rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf n2mu:activity .
+
+
+###  http://cltl.nl/leolani/n2mu/professor
+n2mu:professor rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf n2mu:profession .
+
+
 ###  http://cltl.nl/leolani/n2mu/program
 n2mu:program rdf:type owl:ObjectProperty ;
              rdfs:subPropertyOf n2mu:create .
+
+
+###  http://cltl.nl/leolani/n2mu/programmer
+n2mu:programmer rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/psychiatrist
+n2mu:psychiatrist rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/psychologist
+n2mu:psychologist rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf n2mu:profession .
 
 
 ###  http://cltl.nl/leolani/n2mu/read
@@ -489,6 +825,36 @@ n2mu:read rdf:type owl:ObjectProperty ;
           rdfs:subPropertyOf n2mu:activity ;
           rdfs:domain n2mu:agent ;
           rdfs:range n2mu:book .
+
+
+###  http://cltl.nl/leolani/n2mu/receptionist
+n2mu:receptionist rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/sailor
+n2mu:sailor rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/scientist
+n2mu:scientist rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/secretary
+n2mu:secretary rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/sergeant
+n2mu:sergeant rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/soldier
+n2mu:soldier rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf n2mu:profession .
 
 
 ###  http://cltl.nl/leolani/n2mu/sport
@@ -499,11 +865,26 @@ n2mu:sport rdf:type owl:ObjectProperty ;
                       n2mu:sports_instrument .
 
 
+###  http://cltl.nl/leolani/n2mu/student
+n2mu:student rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf n2mu:profession .
+
+
 ###  http://cltl.nl/leolani/n2mu/study-at
 n2mu:study-at rdf:type owl:ObjectProperty ;
               rdfs:subPropertyOf n2mu:be-member-of ;
               rdfs:domain n2mu:agent ;
               rdfs:range n2mu:institution .
+
+
+###  http://cltl.nl/leolani/n2mu/surgeon
+n2mu:surgeon rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/teacher
+n2mu:teacher rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf n2mu:profession .
 
 
 ###  http://cltl.nl/leolani/n2mu/travel-to
@@ -518,6 +899,16 @@ n2mu:visit rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf n2mu:activity ;
            rdfs:domain n2mu:agent ;
            rdfs:range n2mu:agent .
+
+
+###  http://cltl.nl/leolani/n2mu/waiter
+n2mu:waiter rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf n2mu:profession .
+
+
+###  http://cltl.nl/leolani/n2mu/waitress
+n2mu:waitress rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf n2mu:profession .
 
 
 ###  http://cltl.nl/leolani/n2mu/watch
@@ -544,6 +935,11 @@ n2mu:write rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf n2mu:create ;
            rdfs:domain n2mu:person ;
            rdfs:range n2mu:book .
+
+
+###  http://cltl.nl/leolani/n2mu/writer
+n2mu:writer rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf n2mu:profession .
 
 
 ###  http://groundedannotationframework.org/gaf#containsDenotation

@@ -11,7 +11,6 @@ class BasicBrain(object):
     _ONE_TO_ONE_PREDICATES = [
         'be-from',
         'born_in',
-        'favorite',
         'live-in',
         'work-at'
     ]

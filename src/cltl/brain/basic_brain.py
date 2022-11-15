@@ -9,10 +9,10 @@ from cltl.brain.utils.helper_functions import read_query
 
 class BasicBrain(object):
     _ONE_TO_ONE_PREDICATES = [
-        'be-from',
-        'born_in',
+        'be-from', 'be-at'
         'live-in',
-        'work-at'
+        'work-at',
+        'be-father-of', 'be-mother-of', 'be-husband-of', 'be-wife-of'
     ]
 
     _NOT_TO_ASK_PREDICATES = ['faceID', 'name']

@@ -51,6 +51,8 @@ class BrainService:
         self._topic_worker = None
 
     def _process(self, event: Event[List[dict]]):
+        logger.debug("Processing event %s with %s capsules", event.id, len(event.payload))
+
         response = []
         for capsule in event.payload:
             logger.debug("Capsule: (%s)", capsule)

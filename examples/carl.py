@@ -202,6 +202,22 @@ carl_scenario = ({"context_id": context_id,
                      'confidence': 0.98,
                      "timestamp": datetime.combine(start_date, datetime.now().time()),
                      "context_id": context_id
+                 }, {
+                     'chat': '1',
+                     'turn': '5',
+                     "author": {"label": "carl", "type": ["person"],
+                                'uri': "http://cltl.nl/leolani/friends/carl-1"},
+                     'utterance': '',
+                     'position': '0 - 32',
+                     'item': {'label': 'Tom', 'type': ['person'],
+                              'id': None, 'uri': 'http://cltl.nl/leolani/world/tom-1'},
+                     'perspective': {
+                         'emotion': 'EmotionType.GO:joy',
+                         'confidence': 0.724881649017334
+                     },
+                     'context_id': context_id,
+                     'timestamp': datetime.combine(start_date, datetime.now().time()),
+                     'utterance_type': UtteranceType.TEXT_ATTRIBUTION
                  }
                  ]
                  )
@@ -225,6 +241,11 @@ def main(log_path):
                 print(f"\n{capsule['triple']}\n")
             if capsule['utterance_type'] == UtteranceType.EXPERIENCE:
                 response = brain.capsule_experience(capsule, create_label=True)
+                print(f"\n{capsule['entity']}\n")
+
+            if capsule['utterance_type'] in (UtteranceType.IMAGE_MENTION, UtteranceType.TEXT_MENTION,
+                                             UtteranceType.TEXT_ATTRIBUTION, UtteranceType.IMAGE_ATTRIBUTION):
+                response = brain.capsule_mention(capsule, create_label=True)
                 print(f"\n{capsule['entity']}\n")
 
             response_json = brain_response_to_json(response)

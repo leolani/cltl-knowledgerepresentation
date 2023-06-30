@@ -24,7 +24,7 @@ setup(
     python_requires='>=3.7',
     install_requires=[
         'requests~=2.25',
-        'rdflib~=6.0.1',
+        'rdflib~=6.1.1',
         'sparqlwrapper~=1.8',
         'numpy~=1.20',
         'fuzzywuzzy~=0.18',

@@ -70,3 +70,17 @@ class StoreConnector(object):
             return response
         else:
             return response["results"]["bindings"]
+
+    def export_repository(self):
+        """
+        Export all data in the brain
+        :param
+        :return: data in repository, as trig
+        """
+
+        # From serialized string
+        post_url = self.address + "/statements"
+        response = requests.get(post_url,
+                                 headers={'Content-Type': 'application/x-' + self.format})
+
+        return str(response.text)

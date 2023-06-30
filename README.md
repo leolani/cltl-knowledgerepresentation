@@ -42,7 +42,7 @@ Be sure to run in a virtual python environment (e.g. conda, venv, mkvirtualenv, 
 
 ### Usage
 
-For using this repository as a package different project and on a different virtual environment, you may
+For using this repository as a package for different project and on a different virtual environment, you may
 
 - install a published version from PyPI:
 

@@ -77,7 +77,7 @@ class BasicBrain(object):
         return self._connection.query(query, ask=ask, post=post)
 
     def _brain_log(self):
-        return self.log_dir.joinpath(f"brain_log_{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}")
+        return self.log_dir.joinpath(f"brain_log_{datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')}")
 
     ########## brain structure_exploration ##########
     def _serialize(self, file_path):

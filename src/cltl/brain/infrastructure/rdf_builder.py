@@ -308,6 +308,9 @@ class RdfBuilder(object):
         -------
             Perspective object containing factuality, sentiment and emotion values
         """
+        if type(perpective_dict) == Perspective:
+            return perpective_dict
+
         certainty = perpective_dict.get('certainty', Certainty.UNDERSPECIFIED)
         polarity = perpective_dict.get('polarity', Polarity.UNDERSPECIFIED)
         sentiment = perpective_dict.get('sentiment', Sentiment.UNDERSPECIFIED)

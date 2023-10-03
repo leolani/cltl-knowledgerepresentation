@@ -6,7 +6,7 @@ PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
 SELECT ?cl ?pl ?date
     (GROUP_CONCAT(DISTINCT ?sl;separator="|") as ?detections) (GROUP_CONCAT(DISTINCT ?el;separator="|") as ?geo)
 WHERE {
-    ?cl eps:hasDetection ?s .
+    ?cl sem:hasEvent ?s .
     ?s rdfs:label ?sl .
 
     ?cl sem:hasPlace ?p .
@@ -15,6 +15,6 @@ WHERE {
     ?p n2mu:in ?e .
     ?e rdfs:label ?el .
 
-    ?c sem:hasBeginTimeStamp  ?date .
+    ?cl sem:hasBeginTimeStamp  ?date .
 }
 group by ?cl ?pl ?date

@@ -33,7 +33,7 @@ setup(
         'python-Levenshtein~=0.12',
         'importlib_resources~=5.2',
         'tqdm~=4.62',
-        "cltl.combot"
+        "cltl.combot~=1.0.dev0"
     ],
     extras_require={
         "service": [

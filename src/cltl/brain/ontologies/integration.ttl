@@ -23,10 +23,6 @@
 #    Annotation properties
 #################################################################
 
-###  http://cltl.nl/leolani/n2mu/profession
-n2mu:profession rdf:type owl:AnnotationProperty .
-
-
 ###  http://www.w3.org/2004/02/skos/core#broadMatch
 skos:broadMatch rdf:type owl:AnnotationProperty .
 
@@ -63,15 +59,17 @@ prov:qualifiedForm rdf:type owl:AnnotationProperty .
 #    Object Properties
 #################################################################
 
+
 ###  http://cltl.nl/episodicawareness/contextProperty
 eps:contextProperty rdf:type owl:ObjectProperty ;
+                    owl:equivalentProperty sem:eventProperty ;
                     rdfs:comment "Context properties connect Context to other SEM Core entities." ;
                     rdfs:label "context property" .
 
 
 ###  http://cltl.nl/episodicawareness/hasContext
 eps:hasContext rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf sem:eventProperty ;
+               rdfs:subPropertyOf eps:contextProperty ;
                rdfs:domain gaf:Instance ,
                            sem:Event ;
                rdfs:range eps:Context .
@@ -81,9 +79,7 @@ eps:hasContext rdf:type owl:ObjectProperty ;
 eps:hasDetection rdf:type owl:ObjectProperty ;
                  rdfs:subPropertyOf eps:contextProperty ;
                  rdfs:domain eps:Context ;
-                 rdfs:range n2mu:object ,
-                            n2mu:person ,
-                            grasp:Detection .
+                 rdfs:range grasp:Detection .
 
 
 ###  http://cltl.nl/leolani/n2mu/be-ancestor-of
@@ -95,17 +91,20 @@ n2mu:be-ancestor-of rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/be-at
 n2mu:be-at rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf n2mu:locate-in .
+           rdfs:subPropertyOf n2mu:locate-in ;
+           rdfs:range n2mu:location .
 
 
 ###  http://cltl.nl/leolani/n2mu/be-before
 n2mu:be-before rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf n2mu:be-at .
+               rdfs:subPropertyOf n2mu:be-at ;
+               rdfs:range n2mu:location .
 
 
 ###  http://cltl.nl/leolani/n2mu/be-behind
 n2mu:be-behind rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf n2mu:be-at .
+               rdfs:subPropertyOf n2mu:be-at ;
+               rdfs:range n2mu:location .
 
 
 ###  http://cltl.nl/leolani/n2mu/be-brother-of
@@ -169,8 +168,7 @@ n2mu:be-friends-with rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/be-from
 n2mu:be-from rdf:type owl:ObjectProperty ;
-             rdfs:domain n2mu:agent ,
-                         n2mu:cuisine ;
+             rdfs:domain n2mu:agent ;
              rdfs:range n2mu:location .
 
 
@@ -207,8 +205,7 @@ n2mu:be-husband-of rdf:type owl:ObjectProperty ;
 ###  http://cltl.nl/leolani/n2mu/be-inside
 n2mu:be-inside rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf n2mu:locate-in ;
-               rdfs:domain n2mu:agent ,
-                           n2mu:object ;
+               rdfs:domain n2mu:object ;
                rdfs:range n2mu:container .
 
 
@@ -227,12 +224,14 @@ n2mu:be-mother-of rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/be-next-to
 n2mu:be-next-to rdf:type owl:ObjectProperty ;
-                rdfs:subPropertyOf n2mu:be-at .
+                rdfs:subPropertyOf n2mu:be-at ;
+                rdfs:range n2mu:location .
 
 
 ###  http://cltl.nl/leolani/n2mu/be-on
 n2mu:be-on rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf n2mu:be-at .
+           rdfs:subPropertyOf n2mu:be-at ;
+           rdfs:range n2mu:location .
 
 
 ###  http://cltl.nl/leolani/n2mu/be-parent-of
@@ -279,7 +278,8 @@ n2mu:be-spouse-of rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/be-under
 n2mu:be-under rdf:type owl:ObjectProperty ;
-              rdfs:subPropertyOf n2mu:be-at .
+              rdfs:subPropertyOf n2mu:be-at ;
+              rdfs:range n2mu:location .
 
 
 ###  http://cltl.nl/leolani/n2mu/be-wife-of
@@ -306,8 +306,7 @@ n2mu:clean rdf:type owl:ObjectProperty ;
 n2mu:cook rdf:type owl:ObjectProperty ;
           rdfs:subPropertyOf n2mu:create ;
           rdfs:domain n2mu:person ;
-          rdfs:range n2mu:dish ,
-                     n2mu:food .
+          rdfs:range n2mu:food .
 
 
 ###  http://cltl.nl/leolani/n2mu/create
@@ -320,8 +319,7 @@ n2mu:create rdf:type owl:ObjectProperty ;
 ###  http://cltl.nl/leolani/n2mu/dislike
 n2mu:dislike rdf:type owl:ObjectProperty ;
              rdfs:domain n2mu:agent ;
-             rdfs:range n2mu:agent ,
-                        n2mu:interest .
+             rdfs:range owl:Thing .
 
 
 ###  http://cltl.nl/leolani/n2mu/do-activity
@@ -345,47 +343,40 @@ n2mu:eat rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/feel
 n2mu:feel rdf:type owl:ObjectProperty ;
-          rdfs:domain n2mu:agent ;
-          rdfs:range grasp:EmotionValue .
+          rdfs:domain n2mu:agent .
 
 
 ###  http://cltl.nl/leolani/n2mu/game
 n2mu:game rdf:type owl:ObjectProperty ;
-          rdfs:subPropertyOf n2mu:play .
+          rdfs:subPropertyOf n2mu:play ;
+          rdfs:domain n2mu:person .
 
 
 ###  http://cltl.nl/leolani/n2mu/have-breakfast
 n2mu:have-breakfast rdf:type owl:ObjectProperty ;
                     rdfs:subPropertyOf n2mu:have-meal ;
                     rdfs:domain n2mu:person ;
-                    rdfs:range n2mu:drink ,
-                               n2mu:food .
+                    rdfs:range n2mu:food .
 
 
 ###  http://cltl.nl/leolani/n2mu/have-dinner
 n2mu:have-dinner rdf:type owl:ObjectProperty ;
                  rdfs:subPropertyOf n2mu:have-meal ;
                  rdfs:domain n2mu:person ;
-                 rdfs:range n2mu:drink ,
-                            n2mu:food .
+                 rdfs:range n2mu:food .
 
 
 ###  http://cltl.nl/leolani/n2mu/have-lunch
 n2mu:have-lunch rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf n2mu:have-meal ;
                 rdfs:domain n2mu:person ;
-                rdfs:range n2mu:drink ,
-                           n2mu:food .
+                rdfs:range n2mu:food .
 
 
 ###  http://cltl.nl/leolani/n2mu/have-meal
 n2mu:have-meal rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf n2mu:do-activity ;
-               rdfs:domain n2mu:person ;
-               rdfs:range n2mu:cuisine ,
-                          n2mu:dish ,
-                          n2mu:drink ,
-                          n2mu:food .
+               rdfs:domain n2mu:person .
 
 
 ###  http://cltl.nl/leolani/n2mu/know
@@ -397,19 +388,14 @@ n2mu:know rdf:type owl:ObjectProperty ;
 ###  http://cltl.nl/leolani/n2mu/like
 n2mu:like rdf:type owl:ObjectProperty ;
           rdfs:domain n2mu:agent ;
-          rdfs:range n2mu:agent ,
-                     n2mu:interest .
+          rdfs:range n2mu:agent .
 
 
 ###  http://cltl.nl/leolani/n2mu/listen-to
 n2mu:listen-to rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf n2mu:do-activity ;
                rdfs:domain n2mu:agent ;
-               rdfs:range n2mu:band ,
-                          n2mu:concert ,
-                          n2mu:music-genre ,
-                          n2mu:musical-work ,
-                          n2mu:song .
+               rdfs:range n2mu:musical-work .
 
 
 ###  http://cltl.nl/leolani/n2mu/live-in
@@ -420,7 +406,6 @@ n2mu:live-in rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/locate-in
 n2mu:locate-in rdf:type owl:ObjectProperty ;
-               rdfs:domain n2mu:institution ;
                rdfs:range n2mu:location .
 
 
@@ -428,7 +413,7 @@ n2mu:locate-in rdf:type owl:ObjectProperty ;
 n2mu:love rdf:type owl:ObjectProperty ;
           rdfs:subPropertyOf n2mu:like ;
           rdfs:domain n2mu:agent ;
-          rdfs:range n2mu:interest .
+          rdfs:range n2mu:agent .
 
 
 ###  http://cltl.nl/leolani/n2mu/manufacture-in
@@ -442,18 +427,13 @@ n2mu:manufacture-in rdf:type owl:ObjectProperty ;
 n2mu:music rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf n2mu:play ;
            rdfs:domain n2mu:agent ;
-           rdfs:range n2mu:band ,
-                      n2mu:concert ,
-                      n2mu:music-genre ,
-                      n2mu:musical-work ,
-                      n2mu:song .
+           rdfs:range n2mu:musical-work .
 
 
 ###  http://cltl.nl/leolani/n2mu/own
 n2mu:own rdf:type owl:ObjectProperty ;
          rdfs:domain n2mu:agent ;
-         rdfs:range n2mu:animal ,
-                    n2mu:object .
+         rdfs:range n2mu:object .
 
 
 ###  http://cltl.nl/leolani/n2mu/party
@@ -464,27 +444,27 @@ n2mu:party rdf:type owl:ObjectProperty ;
 
 ###  http://cltl.nl/leolani/n2mu/perform
 n2mu:perform rdf:type owl:ObjectProperty ;
-             rdfs:subPropertyOf n2mu:create .
+             rdfs:subPropertyOf n2mu:create ;
+             rdfs:domain n2mu:person .
 
 
 ###  http://cltl.nl/leolani/n2mu/play
 n2mu:play rdf:type owl:ObjectProperty ;
           rdfs:subPropertyOf n2mu:do-activity ;
-          rdfs:domain n2mu:agent ;
-          rdfs:range n2mu:song ,
-                     n2mu:sport .
+          rdfs:domain n2mu:agent .
 
 
 ###  http://cltl.nl/leolani/n2mu/prepare-drink
 n2mu:prepare-drink rdf:type owl:ObjectProperty ;
                    rdfs:subPropertyOf n2mu:create ;
-                   rdfs:domain n2mu:agent ;
+                   rdfs:domain n2mu:person ;
                    rdfs:range n2mu:drink .
 
 
 ###  http://cltl.nl/leolani/n2mu/program
 n2mu:program rdf:type owl:ObjectProperty ;
-             rdfs:subPropertyOf n2mu:create .
+             rdfs:subPropertyOf n2mu:create ;
+             rdfs:domain n2mu:person .
 
 
 ###  http://cltl.nl/leolani/n2mu/read
@@ -498,8 +478,7 @@ n2mu:read rdf:type owl:ObjectProperty ;
 n2mu:sport rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf n2mu:play ;
            rdfs:domain n2mu:agent ;
-           rdfs:range n2mu:sport ,
-                      n2mu:sports-instrument .
+           rdfs:range n2mu:sport .
 
 
 ###  http://cltl.nl/leolani/n2mu/study-at
@@ -527,12 +506,7 @@ n2mu:visit rdf:type owl:ObjectProperty ;
 n2mu:watch rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf n2mu:do-activity ;
            rdfs:domain n2mu:agent ;
-           rdfs:range n2mu:exhibition ,
-                      n2mu:film-genre ,
-                      n2mu:movie ,
-                      n2mu:museum ,
-                      n2mu:sport ,
-                      n2mu:theater .
+           rdfs:range n2mu:movie .
 
 
 ###  http://cltl.nl/leolani/n2mu/work-as
@@ -556,8 +530,10 @@ n2mu:write rdf:type owl:ObjectProperty ;
            rdfs:range n2mu:book .
 
 
+
 ###  http://groundedannotationframework.org/gaf#containsDenotation
 gaf:containsDenotation rdf:type owl:ObjectProperty ;
+                       owl:inverseOf gaf:denotedIn ;
                        rdfs:domain gaf:Mention ;
                        rdfs:range gaf:Instance .
 
@@ -565,6 +541,7 @@ gaf:containsDenotation rdf:type owl:ObjectProperty ;
 ###  http://groundedannotationframework.org/gaf#denotedBy
 gaf:denotedBy rdf:type owl:ObjectProperty ;
               rdfs:subPropertyOf gaf:denotedIn ;
+              owl:inverseOf gaf:denotes ;
               rdfs:domain gaf:Instance ;
               rdfs:range gaf:Mention .
 
@@ -606,42 +583,47 @@ grasp:wasAttributedTo rdf:type owl:ObjectProperty ;
 
 ###  http://semanticweb.cs.vu.nl/2009/11/sem/eventProperty
 sem:eventProperty rdf:type owl:ObjectProperty ;
-                  rdfs:comment "Event properties connect Events to other SEM Core entities." ;
-                  rdfs:label "event property" .
+                                                        rdfs:comment "Event properties connect Events to other SEM Core entities." ;
+                                                        rdfs:label "event property" .
 
 
 ###  http://semanticweb.cs.vu.nl/2009/11/sem/hasActor
 sem:hasActor rdf:type owl:ObjectProperty ;
              rdfs:subPropertyOf sem:eventProperty ;
-             rdfs:domain grasp:Chat ,
-                         grasp:Utterance ,
-                         sem:Event ;
-             rdfs:range sem:Actor .
+             rdfs:range sem:Actor ;
+                                                   rdfs:comment "Has actor is used to state which Actors or Objects participate in an Event." ;
+                                                   rdfs:label "has Actor".
 
 
 ###  http://semanticweb.cs.vu.nl/2009/11/sem/hasPlace
 sem:hasPlace rdf:type owl:ObjectProperty ;
-             rdfs:subPropertyOf eps:contextProperty ;
-             rdfs:domain eps:Context ;
-             rdfs:range sem:Place .
+             rdfs:subPropertyOf sem:eventProperty ;
+             rdfs:range sem:Place ;
+                                                   rdfs:comment "Has place is used to state in which Place(s) an Event happened. Coordinates can be attached to the Place with the W3C Geospatial Vocabulary (http://www.w3.org/2005/Incubator/geo/XGR-geo-20071023/)." ;
+                                                   rdfs:label "has Place" .
 
 
 ###  http://semanticweb.cs.vu.nl/2009/11/sem/hasSubEvent
 sem:hasSubEvent rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf sem:eventProperty ;
-                rdfs:domain grasp:Chat ,
-                            grasp:Visual ,
-                            sem:Event ;
-                rdfs:range grasp:Detection ,
-                           grasp:Utterance ,
-                           sem:Event .
+                                                      owl:inverseOf <http://semanticweb.cs.vu.nl/2009/11/sem/subEventOf> ;
+                                                      rdfs:comment "Has subevent connects an Event to other Events that belong to it. This is a very generic property that does not mean the subevents fully define the superconcept or that there is any causal relationship." ;
+                                                      rdfs:label "has subevent" ;
+                rdfs:domain sem:Event ;
+                rdfs:range sem:Event .
 
 
 ###  http://semanticweb.cs.vu.nl/2009/11/sem/hasTime
 sem:hasTime rdf:type owl:ObjectProperty ;
-            rdfs:subPropertyOf eps:contextProperty ;
-            rdfs:domain eps:Context ;
-            rdfs:range sem:Time .
+            rdfs:subPropertyOf sem:eventProperty ;
+            rdfs:range sem:Time ;
+                                                  rdfs:comment "Has time is used to indicate at which time an Event took place or when a property under the Temporary Constraint is valid. Has time points to a symbolic representation of time, which allows semantic relations between time resources. (see http://www.w3.org/TR/owl-time/)" ;
+                                                  rdfs:label "has Time" .
+
+###  http://semanticweb.cs.vu.nl/2009/11/sem/subEventOf
+<http://semanticweb.cs.vu.nl/2009/11/sem/subEventOf> rdf:type owl:ObjectProperty ;
+                                                     rdfs:comment "Inverse property of hasSubEvent" ;
+                                                     rdfs:label "subevent of" .
 
 
 ###  http://www.w3.org/1999/02/22-rdf-syntax-ns#value
@@ -675,6 +657,12 @@ prov:wasDerivedFrom rdf:type owl:ObjectProperty ;
 #################################################################
 #    Data properties
 #################################################################
+
+###  http://semanticweb.cs.vu.nl/2009/11/sem/hasBeginTimeStamp
+<http://semanticweb.cs.vu.nl/2009/11/sem/hasBeginTimeStamp> rdf:type owl:DatatypeProperty ;
+                                                            rdfs:subPropertyOf <http://semanticweb.cs.vu.nl/2009/11/sem/hasTimeStamp> ;
+                                                            rdfs:comment "Has begin timestamp is used to indicate the beginning of a time interval. Omitting the hasBeginTimeStamp while stating a hasEndTimeStamp is interpreted as an open ended interval." ;
+                                                            rdfs:label "has begin timestamp" .
 
 ###  http://cltl.nl/leolani/n2mu/age
 n2mu:age rdf:type owl:DatatypeProperty ;
@@ -1996,6 +1984,7 @@ n2mu:writer rdf:type owl:Class ;
 ###  http://cltl.nl/leolani/n2mu/zebra
 n2mu:zebra rdf:type owl:Class ;
            rdfs:subClassOf n2mu:mammal .
+
 
 
 ###  http://groundedannotationframework.org/gaf#Assertion

@@ -59,7 +59,7 @@ def _create_actor(self, capsule, create_label):
 
     # Add actor (friend) is same as person(world)
     if 'person' in actor.types:
-        person = self._rdf_builder.fill_entity(actor.id.split("/")[-1], ['Instance', 'person'], 'LW')
+        person = self._rdf_builder.fill_entity(actor.label, ['Instance', 'person'], 'LW')
         _link_entity(self, person, self.instance_graph, create_label)
         self.claim_graph.add((actor.id, OWL.sameAs, person.id))
 

@@ -11,9 +11,10 @@ from cltl.brain.LTM_question_processing import create_query
 from cltl.brain.LTM_shared import _create_actor
 from cltl.brain.LTM_statement_processing import process_statement
 from cltl.brain.basic_brain import BasicBrain
-from cltl.brain.infrastructure import Thoughts
-from cltl.brain.reasoners import LocationReasoner, ThoughtGenerator, TypeReasoner, TrustCalculator
+from cltl.brain.reasoners import LocationReasoner, TypeReasoner, TrustCalculator
 from cltl.brain.utils.helper_functions import read_query
+from cltl.brain.thoughts.api import Thoughts
+from cltl.brain.thoughts.thought_generator import ThoughtGenerator
 
 
 class LongTermMemory(BasicBrain):
@@ -111,6 +112,8 @@ class LongTermMemory(BasicBrain):
             Contains all necessary information regarding a statement just made.
         reason_types: Boolean
             Signal to entity linking over the semantic web
+        return_thoughts: Boolean
+            Whether to reason and create thoughts
         create_label: Boolean
             Turn automatic rdfs:label on or off for instance graph entities
 
@@ -150,8 +153,8 @@ class LongTermMemory(BasicBrain):
             statement_novelty = self.thought_generator.get_statement_novelty(claim.id)
 
             # Check how many items of the same type as subject and complement we have
-            entity_novelty = self.thought_generator.fill_entity_novelty(capsule['triple'].subject.id,
-                                                                        capsule['triple'].complement.id)
+            entity_novelty = self.thought_generator.fill_entity_novelty(capsule['triple'].subject,
+                                                                        capsule['triple'].complement)
 
             # Find any overlaps
             overlaps = self.thought_generator.get_overlaps(capsule)
@@ -247,6 +250,10 @@ class LongTermMemory(BasicBrain):
         ----------
         capsule: dict
             Contains all necessary information regarding the mentions.
+        reason_types: Boolean
+            Signal to entity linking over the semantic web
+        return_thoughts: Boolean
+            Whether to reason and create thoughts
         create_label: Boolean
             Turn automatic rdfs:label on or off for instance graph entities
 
@@ -289,7 +296,7 @@ class LongTermMemory(BasicBrain):
 
         # Check how many items of the same type as subject and complement we have
         if return_thoughts:
-            entity_novelty = self.thought_generator.fill_entity_novelty(capsule['entity'].id, capsule['entity'].id)
+            entity_novelty = self.thought_generator.fill_entity_novelty(capsule['entity'], capsule['entity'])
         else:
             entity_novelty = None
 

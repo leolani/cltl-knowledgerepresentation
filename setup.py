@@ -25,7 +25,7 @@ setup(
     install_requires=[
         'requests~=2.25',
         'rdflib~=6.1.1',
-        'sparqlwrapper~=1.8',
+        'sparqlwrapper~=2.0.0',
         'numpy~=1.20',
         'fuzzywuzzy~=0.18',
         'nltk~=3.4.4',
@@ -33,7 +33,7 @@ setup(
         'python-Levenshtein~=0.12',
         'importlib_resources~=5.2',
         'tqdm~=4.62',
-        "cltl.combot"
+        "cltl.combot~=1.0.dev0"
     ],
     extras_require={
         "service": [

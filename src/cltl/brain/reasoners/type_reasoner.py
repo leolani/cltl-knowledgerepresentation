@@ -151,7 +151,7 @@ class TypeReasoner(BasicBrain):
 
     def _exact_match_wikidata(self, item):
         """
-        Query wikidata for information on this item to get it's semantic type and description.
+        Query wikidata for information on this item to get its semantic type and description.
         :param item:
         :return:
         """

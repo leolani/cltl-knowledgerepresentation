@@ -38,6 +38,11 @@ def main(log_path):
 
             if response['response']:
                 print(f"{len(response['response'])} responses")
+                for r in response['response']:
+                    print(f"\t{r['slabel']['value']} {r['pOriginal']['value'].split('/')[-1]} {r['olabel']['value']}"
+                          f" by {r['authorlabels']['value']}, "
+                          f"\tcertainty: {r['certaintyValue']['value']} polarity: {r['polarityValue']['value']} "
+                          f"sentiment: {r['sentimentValue']['value']} emotion: {r['emotionValue']['value']}")
 
             response_json = brain_response_to_json(response)
             data.append(response_json)

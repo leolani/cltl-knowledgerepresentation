@@ -7,6 +7,7 @@ from cltl.brain.infrastructure import StoreConnector, RdfBuilder
 from cltl.brain.utils.helper_functions import read_query
 
 
+# noinspection PyAttributeOutsideInit
 class BasicBrain(object):
     _ONE_TO_ONE_PREDICATES = [
         'be-from', 'be-at'

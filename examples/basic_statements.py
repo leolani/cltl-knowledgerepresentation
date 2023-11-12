@@ -18,7 +18,7 @@ from cltl.brain.utils.helper_functions import brain_response_to_json
 def main(log_path):
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
-                           clear_all=False)
+                           clear_all=True)
     data = []
     for (context_capsule, statements_capsules) in tqdm(statements):
         print(f"\n\n---------------------------------------------------------------\n")

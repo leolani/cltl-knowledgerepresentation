@@ -19,7 +19,7 @@ def main(log_path):
     # Create brain connection
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
-                           clear_all=False)
+                           clear_all=True)
 
     data = []
     for (context_capsule, experience_capsules) in tqdm([experiences]):

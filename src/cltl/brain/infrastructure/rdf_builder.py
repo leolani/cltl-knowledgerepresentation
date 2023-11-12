@@ -13,6 +13,7 @@ from cltl.brain.utils.helper_functions import confidence_to_certainty_value, pol
     sentiment_to_sentiment_value, emotion_to_emotion_value
 
 
+# noinspection PyAttributeOutsideInit
 class RdfBuilder(object):
     def __init__(self):
         # type: () -> None
@@ -172,7 +173,8 @@ class RdfBuilder(object):
 
         return uri
 
-    def fill_literal(self, value, datatype=None):
+    @staticmethod
+    def fill_literal(value, datatype=None):
         # type: (str, str) -> Literal
         """
         Create an RDF literal given its value and datatype
@@ -262,7 +264,8 @@ class RdfBuilder(object):
 
         return Entity(entity_id, Literal(label), [''])
 
-    def empty_entity(self):
+    @staticmethod
+    def empty_entity():
         # type: () -> Entity
         """
         Create an empty RDF entity
@@ -276,14 +279,14 @@ class RdfBuilder(object):
         return Entity('', Literal(''), [''])
 
     def fill_provenance(self, author, date):
-        # type: (str, date) -> Provenance
+        # type: (str, str) -> Provenance
         """
         Structure provenance to pair authors and dates when mentions are created
         Parameters
         ----------
         author: str
             Name of actor that generated the knowledge
-        date: date
+        date: str
             Date when knowledge was generated
 
         Returns
@@ -295,7 +298,9 @@ class RdfBuilder(object):
 
         return Provenance(actor, date)
 
-    def fill_perspective(self, perpective_dict):
+    # noinspection PyTypeChecker
+    @staticmethod
+    def fill_perspective(perpective_dict):
         # type: (dict) -> Perspective
         """
         Structure perspective to provide factuality, sentiment and emotion values
@@ -401,7 +406,8 @@ class RdfBuilder(object):
         """
         return uri.strip(self.namespaces[namespace])
 
-    def clean_aggregated_types(self, aggregated_types):
+    @staticmethod
+    def clean_aggregated_types(aggregated_types):
         # type: (str) -> list
         """
         Remove prefixes and suffixes of types when URIs include them
@@ -430,7 +436,8 @@ class RdfBuilder(object):
 
         return clean_types
 
-    def clean_aggregated_detections(self, aggregated_detections):
+    @staticmethod
+    def clean_aggregated_detections(aggregated_detections):
         # type: (str) -> list
         """
         Remove id from detections, if it contains it

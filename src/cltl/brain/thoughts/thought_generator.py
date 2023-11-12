@@ -2,8 +2,10 @@ import pathlib
 import random
 
 from cltl.brain.basic_brain import BasicBrain
-from cltl.brain.infrastructure import CardinalityConflict, NegationConflict, StatementNovelty, EntityNovelty, \
-    Gap, Gaps, Overlap, Overlaps
+from cltl.brain.thoughts.completeness import Gaps, Gap
+from cltl.brain.thoughts.correctness import CardinalityConflict, NegationConflict
+from cltl.brain.thoughts.novelty import StatementNovelty, EntityNovelty
+from cltl.brain.thoughts.overlap import Overlaps, Overlap
 from cltl.brain.utils.helper_functions import read_query
 
 
@@ -41,26 +43,27 @@ class ThoughtGenerator(BasicBrain):
 
         return StatementNovelty(processed_provenance)
 
-    def fill_entity_novelty(self, subject_url, complement_url):
+    def fill_entity_novelty(self, subject, complement):
         """
         Structure entity novelty to signal if these entities have been heard before
         Parameters
         ----------
-        subject_url: str
-            URI of instance
-        complement_url: str
-            URI of instance
+        subject: Entity
+            Instance as subject in the triple
+        complement: Entity
+            Instance as object in the triple
 
         Returns
         -------
             Entity object containing boolean values signaling if they are new
         """
-        subject_novelty = self._check_instance_novelty_(subject_url)
-        complement_novelty = self._check_instance_novelty_(complement_url)
+        subject_novelty = self._check_instance_novelty_(subject.id)
+        complement_novelty = self._check_instance_novelty_(complement.id)
 
-        entity_novelty = EntityNovelty(subject_novelty, complement_novelty)
+        entity_novelty = EntityNovelty({"value": not subject_novelty, "entity": subject},
+                                       {"value": not complement_novelty, "entity": complement})
 
-        if entity_novelty.subject or entity_novelty.complement:
+        if entity_novelty.subject_novelty or entity_novelty.complement_novelty:
             self._log.info(f"Entity Novelty: {entity_novelty.__str__()} ")
 
         return entity_novelty
@@ -135,7 +138,7 @@ class ThoughtGenerator(BasicBrain):
 
     def get_entity_gaps(self, entity, exclude=None):
         """
-        Query and build gaps with regards to the range and domain of the given entity and its predicates
+        Query and build gaps with regard to the range and domain of the given entity and its predicates
         Parameters
         ----------
         entity: Entity

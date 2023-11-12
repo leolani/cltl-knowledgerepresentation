@@ -14,7 +14,6 @@ from random import getrandbits
 from tempfile import TemporaryDirectory
 
 import requests
-from cltl.commons.discrete import UtteranceType
 from tqdm import tqdm
 
 from cltl.brain.long_term_memory import LongTermMemory
@@ -73,7 +72,7 @@ def main(log_path):
     # Create brain connection
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
-                           clear_all=False)
+                           clear_all=True)
 
     for (capsule, detections) in tqdm(unknown_location_scenario):
         print(f"\n\n---------------------------------------------------------------\n")

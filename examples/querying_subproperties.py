@@ -83,7 +83,7 @@ def main(log_path):
     # Create brain connection
     brain = LongTermMemory(address="http://localhost:7200/repositories/sandbox",
                            log_dir=log_path,
-                           clear_all=False)
+                           clear_all=True)
 
     print(f"\n\n---------------------------------------------------------------\n")
     # Create context
@@ -101,7 +101,12 @@ def main(log_path):
     print(f"\n\n---------------------------------------------------------------\n")
     response = brain.query_brain(test_capsules[2])
     if response['response']:
-        print(f"\n{json.dumps(response['response'], indent=4)}\n")
+        print(f"{len(response['response'])} responses")
+        for r in response['response']:
+            print(f"\t{r['slabel']['value']} {r['pOriginal']['value'].split('/')[-1]} {r['olabel']['value']}"
+                  f" by {r['authorlabels']['value']}, "
+                  f"\tcertainty: {r['certaintyValue']['value']} polarity: {r['polarityValue']['value']} "
+                  f"sentiment: {r['sentimentValue']['value']} emotion: {r['emotionValue']['value']}")
 
 
 if __name__ == "__main__":

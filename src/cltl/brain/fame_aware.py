@@ -39,7 +39,7 @@ class FameAwareMemory(LongTermMemory):
             # Try exact matching query
             query = read_query('famous_person') % (comb, comb, comb)
             try:
-                r = requests.get(url, params={'format': 'json', 'query': query}, timeout=3)
+                r = requests.get(url, params={'format': 'json', 'query': query}, timeout=30)
                 data = r.json() if r.status_code == 200 else None
             except:
                 self._log.exception("Failed to query Wikidata")

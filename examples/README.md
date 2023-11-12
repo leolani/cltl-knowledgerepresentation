@@ -5,7 +5,8 @@ comment at the top of the script describing the behaviour of the script.
 
 For these example scripts, you need
 
-1. Setup a repository on [GraphDB Free](http://graphdb.ontotext.com/) called `sandbox`. To run any example script you first
+1. Setup a repository on [GraphDB Free](http://graphdb.ontotext.com/) called `sandbox`. To run any example script you
+   first
    have to launch GraphDB, and then you can run the example script.
 
 1. Install the package from the repository root. It is recommended to do this in a virtual environment:
@@ -30,60 +31,63 @@ For these example scripts, you need
 -like objects like Python dictionaries) in the following format:
 
 ```python
+from datetime import date
+
+from cltl.commons.discrete import UtteranceType
 
 statement_capsule = {
-    "chat": 1,
-    "turn": 1,
-    "author": {"label": "carl", "type": ["person"],
-               'uri': "http://cltl.nl/leolani/friends/carl-1"},
-    "utterance": "I did not take my pills.",
-    "utterance_type": UtteranceType.STATEMENT,
-    "position": "0-25",
-    "subject": {"label": "carl", "type": ["person"],
-                'uri': "http://cltl.nl/leolani/world/carl-1"},
-    "predicate": {"label": "take", "uri": "http://cltl.nl/leolani/n2mu/take"},
-    "object": {"label": "pills", "type": ["object", "medicine"],
-               'uri': "http://cltl.nl/leolani/world/pills"},
-    "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},
-    "context_id": 48
+   "chat": 1,
+   "turn": 1,
+   "author": {"label": "carl", "type": ["person"],
+              'uri': "http://cltl.nl/leolani/friends/carl-1"},
+   "utterance": "I did not take my pills.",
+   "utterance_type": UtteranceType.STATEMENT,
+   "position": "0-25",
+   "subject": {"label": "carl", "type": ["person"],
+               'uri': "http://cltl.nl/leolani/world/carl-1"},
+   "predicate": {"label": "take", "uri": "http://cltl.nl/leolani/n2mu/take"},
+   "object": {"label": "pills", "type": ["object", "medicine"],
+              'uri': "http://cltl.nl/leolani/world/pills"},
+   "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},
+   "context_id": 48
 }
 
 experience_capsule_1 = {
-    "visual": 1,
-    "detection": 1,
-    "source": {"label": "front-camera", "type": ["sensor"],
-               'uri': "http://cltl.nl/leolani/inputs/front-camera"},
-    "image": None,
-    "utterance_type": UtteranceType.EXPERIENCE,
-    "region": [752, 46, 1148, 716],
-    "item": {'label': 'chair 1', 'type': ['chair'], 'id': 1,
-             'uri': "http://cltl.nl/leolani/world/chair-1"},
-    'confidence': 0.68,
-    "context_id": 48
+   "visual": 1,
+   "detection": 1,
+   "source": {"label": "front-camera", "type": ["sensor"],
+              'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+   "image": None,
+   "utterance_type": UtteranceType.EXPERIENCE,
+   "region": [752, 46, 1148, 716],
+   "item": {'label': 'chair 1', 'type': ['chair'], 'id': 1,
+            'uri': "http://cltl.nl/leolani/world/chair-1"},
+   'confidence': 0.68,
+   "context_id": 48
 }
 
 experience_capsule_2 = {
-    "visual": 1,
-    "detection": 2,
-    "source": {"label": "front-camera", "type": ["sensor"],
-               'uri': "http://cltl.nl/leolani/inputs/front-camera"},
-    "image": None,
-    "utterance_type": UtteranceType.EXPERIENCE,
-    "region": [752, 46, 1700, 716],
-    "item": {'label': 'Carl', 'type': ['person'], 'id': None,
-             'uri': "http://cltl.nl/leolani/world/carl-1"},
-    'confidence': 0.94,
-    "context_id": 48
+   "visual": 1,
+   "detection": 2,
+   "source": {"label": "front-camera", "type": ["sensor"],
+              'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+   "image": None,
+   "utterance_type": UtteranceType.EXPERIENCE,
+   "region": [752, 46, 1700, 716],
+   "item": {'label': 'Carl', 'type': ['person'], 'id': None,
+            'uri': "http://cltl.nl/leolani/world/carl-1"},
+   'confidence': 0.94,
+   "context_id": 48
 }
 
 context_capsule = {
-    "context_id": 48,
-    "date": date(2021, 3, 12),  # we take them from the temporal container of scenario
-    "place": "Carl's room",
-    "place_id": 84,
-    "country": "NL",
-    "region": "North Holland",
-    "city": "Amsterdam"
+   "context_id": 48,
+   "date": date(2021, 3, 12),  # we take them from the temporal container of scenario
+   "place": "Carl's room",
+   "place_id": 84,
+   "country": "NL",
+   "region": "North Holland",
+   "city": "Amsterdam"
 }
 
 ```

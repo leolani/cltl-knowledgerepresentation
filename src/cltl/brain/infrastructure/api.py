@@ -165,7 +165,7 @@ class Predicate(RDFBase):
         # type: () -> int
         return self._cardinality
 
-    def casefold(self, subject, complement, format='triple'):
+    def casefold(self, format='triple'):
         # type (str) -> ()
         """
         Format the labels to match triples or natural language
@@ -178,11 +178,10 @@ class Predicate(RDFBase):
 
         """
 
-        subject_label = subject.label if subject is not None and subject.label not in ['', Literal('')] else (
-            subject.types if subject is not None else '?')
-        complement_label = complement.label if complement is not None and complement.label not in ['',
-                                                                                                   Literal('')] else (
-            complement.types if complement is not None else '?')
+        # subject_label = subject.label if subject is not None and subject.label not in ['', Literal('')] \
+        #     else (subject.types if subject is not None else '?')
+        # complement_label = complement.label if complement is not None and complement.label not in ['', Literal('')] \
+        #     else (complement.types if complement is not None else '?')
 
         if format == 'triple':
             # Label
@@ -281,7 +280,7 @@ class Triple(object):
         """
         self._subject.casefold(format)
         self._complement.casefold(format)
-        self._predicate.casefold(self.subject, self.complement, format)
+        self._predicate.casefold(format)
 
     def __iter__(self):
         return iter([('subject', self.subject), ('predicate', self.predicate), ('complement', self.complement)])
@@ -380,14 +379,14 @@ class Perspective(object):
 
 class Provenance(object):
     def __init__(self, author, date):
-        # type: (Entity, date) -> None
+        # type: (Entity, str) -> None
         """
         Construct Provenance Object
         Parameters
         ----------
         author: Entity
             Person who said the mention
-        date: date
+        date: str
             Date when the mention was said
         """
 
@@ -430,7 +429,3 @@ class Provenance(object):
 
     def __repr__(self):
         return f'{self.author} on {self.date.strftime("%B,%Y")}'
-
-
-
-

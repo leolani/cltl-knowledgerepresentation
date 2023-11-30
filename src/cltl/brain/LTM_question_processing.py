@@ -15,7 +15,7 @@ def create_query(self, utterance):
 SELECT distinct ?s (group_concat(distinct ?slbl ; separator="|") as ?slabel) 
                 ?p ?pOriginal 
                 ?o (group_concat(distinct ?olbl ; separator="|") as ?olabel)
-                (group_concat(distinct ?authorlabel ; separator="|") as ?authorlabels) 
+                (group_concat(distinct ?authorlabel ; separator="|") as ?authorlabel)
                 ?certaintyValue ?polarityValue ?sentimentValue ?emotionValue
 WHERE { 
    BIND(<%s> AS ?p).
@@ -66,7 +66,7 @@ GROUP BY ?s ?p ?pOriginal ?o ?author ?certaintyValue ?polarityValue ?sentimentVa
 SELECT distinct ?s (group_concat(distinct ?slbl ; separator="|") as ?slabel) 
                 ?p ?pOriginal 
                 ?o (group_concat(distinct ?olbl ; separator="|") as ?olabel)
-                (group_concat(distinct ?authorlabel ; separator="|") as ?authorlabels) 
+                (group_concat(distinct ?authorlabel ; separator="|") as ?authorlabel)
                 ?certaintyValue ?polarityValue ?sentimentValue ?emotionValue
 WHERE { 
    BIND(<%s> AS ?s).
@@ -117,7 +117,7 @@ GROUP BY ?s ?p ?pOriginal ?o ?author ?certaintyValue ?polarityValue ?sentimentVa
 SELECT distinct ?s (group_concat(distinct ?slbl ; separator="|") as ?slabel) 
                 ?p ?pOriginal 
                 ?o (group_concat(distinct ?olbl ; separator="|") as ?olabel)
-                (group_concat(distinct ?authorlabel ; separator="|") as ?authorlabels) 
+                (group_concat(distinct ?authorlabel ; separator="|") as ?authorlabel)
                 ?certaintyValue ?polarityValue ?sentimentValue ?emotionValue
 WHERE { 
    BIND(<%s> AS ?s).

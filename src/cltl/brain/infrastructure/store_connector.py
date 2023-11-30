@@ -28,8 +28,8 @@ class StoreConnector(object):
         # From serialized string
         post_url = self.address + "/statements"
         response = requests.post(post_url,
-                                 data=data,
-                                 headers={'Content-Type': 'application/x-' + self.format})
+                                 data=data.encode('utf-8'),
+                                 headers={'Content-Type': 'application/x-' + self.format + '; charset=utf-8'})
 
         return str(response.status_code)
 

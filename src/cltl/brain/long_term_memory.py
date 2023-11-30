@@ -12,14 +12,15 @@ from cltl.brain.LTM_shared import _create_actor
 from cltl.brain.LTM_statement_processing import process_statement
 from cltl.brain.basic_brain import BasicBrain
 from cltl.brain.reasoners import LocationReasoner, TypeReasoner, TrustCalculator
-from cltl.brain.utils.helper_functions import read_query
 from cltl.brain.thoughts.api import Thoughts
 from cltl.brain.thoughts.thought_generator import ThoughtGenerator
+from cltl.brain.utils.constants import ONTOLOGY_DETAILS
+from cltl.brain.utils.helper_functions import read_query
 
 
 class LongTermMemory(BasicBrain):
-    def __init__(self, address, log_dir, clear_all=False, calculate_trust=False):
-        # type: (str, pathlib.Path, bool, bool) -> None
+    def __init__(self, address, log_dir, ontology_details=ONTOLOGY_DETAILS, clear_all=False, calculate_trust=False):
+        # type: (str, pathlib.Path, dict, bool, bool) -> None
         """
         Interact with Triple store
 
@@ -29,16 +30,16 @@ class LongTermMemory(BasicBrain):
             IP address and port of the Triple store
         """
 
-        super(LongTermMemory, self).__init__(address, log_dir, clear_all)
+        super(LongTermMemory, self).__init__(address, log_dir, ontology_details, clear_all)
 
         self.myself = None
-        self.query_prefixes = read_query('prefixes')  # USED ONLY WHEN QUERYING
+        self.query_prefixes = self._rdf_builder.correct_ontology_in_query(read_query('prefixes'))  # USED ONLY WHEN QUERYING
 
         # Initialize submodules
-        self.thought_generator = ThoughtGenerator(address, log_dir)
-        self.location_reasoner = LocationReasoner(address, log_dir)
-        self.type_reasoner = TypeReasoner(address, log_dir)
-        self.trust_calculator = TrustCalculator(address, log_dir)
+        self.thought_generator = ThoughtGenerator(address, log_dir, ontology_details=ontology_details)
+        self.location_reasoner = LocationReasoner(address, log_dir, ontology_details=ontology_details)
+        self.type_reasoner = TypeReasoner(address, log_dir, ontology_details=ontology_details)
+        self.trust_calculator = TrustCalculator(address, log_dir, ontology_details=ontology_details)
 
         self.set_location_label = self.location_reasoner.set_location_label
         self.reason_location = self.location_reasoner.reason_location
@@ -286,7 +287,8 @@ class LongTermMemory(BasicBrain):
 
         # Casefold
         source = 'author' \
-            if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION) \
+            if capsule['utterance_type'] in (
+            UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION) \
             else 'source'
         capsule[source]['type'] = [casefold_text(t, format='triple') for t in capsule[source]['type']]
         capsule['item']['type'] = [casefold_text(t, format='triple') for t in capsule['item']['type']]

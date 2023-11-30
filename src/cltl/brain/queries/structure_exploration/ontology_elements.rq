@@ -2,7 +2,6 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX ceo: <http://www.newsreader-project.eu/domain-ontology#>
 PREFIX eps: <http://cltl.nl/episodicawareness/>
-PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
 PREFIX gaf: <http://groundedannotationframework.org/gaf#>
 PREFIX grasp: <http://groundedannotationframework.org/grasp#>
 PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>

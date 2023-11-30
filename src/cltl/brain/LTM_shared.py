@@ -31,12 +31,14 @@ def _link_entity(self, entity, graph, create_label, namespace_mapping=None):
             if namespace_mapping is None else namespace_mapping.update(NAMESPACE_MAPPING)
 
         for item in entity.types:
-            entity_type = self._rdf_builder.create_resource_uri(namespace_mapping.get(item, 'N2MU'), item)
+            entity_type = self._rdf_builder.create_resource_uri(
+                namespace_mapping.get(item, self._rdf_builder.ontology_details['prefix'].upper()), item)
             graph.add((entity.id, RDF.type, entity_type))
 
 
 def _create_actor(self, capsule, create_label):
-    if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION):
+    if capsule['utterance_type'] in (
+    UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION):
         source = 'author'
         ns = 'LF'
         pred = 'know'
@@ -67,7 +69,8 @@ def _create_actor(self, capsule, create_label):
 
 
 def _create_mention(self, capsule, subevent):
-    if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION):
+    if capsule['utterance_type'] in (
+    UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION):
         mention_unit = 'char'
         mention_position = f"{capsule['position']}"
         timestamp = self._rdf_builder.fill_literal(str(capsule['timestamp']), datatype=self.namespaces['XML']['string'])
@@ -155,18 +158,20 @@ def create_interaction_graph(self, capsule, create_label):
 
     # Chat or Visual
     event_type = 'chat' \
-        if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION) \
+        if capsule['utterance_type'] in (
+    UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION) \
         else 'visual'
     event_id = self._rdf_builder.fill_literal(capsule[event_type], datatype=self.namespaces['XML']['string'])
     event_label = f'{event_type}{event_id}'
     event = self._rdf_builder.fill_entity(event_label, ['Event', f"{event_type.title()}"], 'LTa')
     _link_entity(self, event, self.interaction_graph, create_label=True)
-    self.interaction_graph.add((event.id, self.namespaces['N2MU']['id'], event_id))
+    self.interaction_graph.add((event.id, self.namespaces[self._rdf_builder.ontology_details['prefix'].upper()]['id'], event_id))
     self.interaction_graph.add((context.id, self.namespaces['SEM']['hasEvent'], event.id))
 
     # Utterance or Detection are events and instances
     subevent_type = 'utterance' \
-        if capsule['utterance_type'] in (UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION) \
+        if capsule['utterance_type'] in (
+    UtteranceType.STATEMENT, UtteranceType.TEXT_MENTION, UtteranceType.TEXT_ATTRIBUTION) \
         else 'detection'
     subevent_id = self._rdf_builder.fill_literal(capsule['turn']
                                                  if capsule['utterance_type'] in (UtteranceType.STATEMENT,
@@ -179,7 +184,8 @@ def create_interaction_graph(self, capsule, create_label):
 
     # Actor
     actor, interaction = _create_actor(self, capsule, create_label)
-    self.interaction_graph.add((subevent.id, self.namespaces['N2MU']['id'], subevent_id))
+    self.interaction_graph.add(
+        (subevent.id, self.namespaces[self._rdf_builder.ontology_details['prefix'].upper()]['id'], subevent_id))
     self.interaction_graph.add((subevent.id, self.namespaces['SEM']['hasActor'], actor.id))
     self.interaction_graph.add((event.id, self.namespaces['SEM']['hasSubEvent'], subevent.id))
 

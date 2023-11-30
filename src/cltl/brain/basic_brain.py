@@ -4,13 +4,14 @@ from datetime import datetime
 
 from cltl.brain import logger
 from cltl.brain.infrastructure import StoreConnector, RdfBuilder
+from cltl.brain.utils.constants import ONTOLOGY_DETAILS
 from cltl.brain.utils.helper_functions import read_query
 
 
 # noinspection PyAttributeOutsideInit
 class BasicBrain(object):
     _ONE_TO_ONE_PREDICATES = [
-        'be-from', 'be-at'
+        'be-from', 'be-at',
         'live-in',
         'work-at',
         'be-father-of', 'be-mother-of', 'be-husband-of', 'be-wife-of'
@@ -18,8 +19,8 @@ class BasicBrain(object):
 
     _NOT_TO_ASK_PREDICATES = ['faceID', 'name']
 
-    def __init__(self, address, log_dir, clear_all=False, is_submodule=False):
-        # type: (str, pathlib.Path, bool, bool) -> None
+    def __init__(self, address, log_dir, ontology_details=ONTOLOGY_DETAILS, clear_all=False, is_submodule=False):
+        # type: (str, pathlib.Path, dict, bool, bool) -> None
         """
         Interact with Triple store
 
@@ -29,7 +30,7 @@ class BasicBrain(object):
             IP address and port of the Triple store
         """
         self._connection = StoreConnector(address, format='trig')
-        self._rdf_builder = RdfBuilder()
+        self._rdf_builder = RdfBuilder(ontology_details)
 
         self._log = logger.getChild(self.__class__.__name__)
         self._log.info("Booted")
@@ -46,7 +47,7 @@ class BasicBrain(object):
                 self.clear_brain()
 
             # Upload ontology here
-            self.upload_ontology()
+            self.upload_ontology(ontology_details["filepath"])
 
     ########## basic post get behaviour ##########
     def _upload_to_brain(self, data):
@@ -100,13 +101,13 @@ class BasicBrain(object):
 
         return data
 
-    def upload_ontology(self):
+    def upload_ontology(self, ontology_dir):
         """
         Upload ontology
         :return: response status
         """
         if not self.ontology_is_uploaded():
-            self._rdf_builder.load_ontologies()
+            self._rdf_builder.load_ontologies(ontology_dir)
 
             self._log.info("Uploading ontology to brain")
             data = self._serialize(self._brain_log())
@@ -119,6 +120,7 @@ class BasicBrain(object):
         """
         self._log.debug("Checking if ontology is in brain")
         query = read_query('structure_exploration/ontology_uploaded')
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query, ask=True)
 
         return response
@@ -129,6 +131,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('structure_exploration/predicates')
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
 
         return [elem['p']['value'].split('/')[-1] for elem in response]
@@ -139,6 +142,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('structure_exploration/classes')
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
 
         return [elem['c']['value'].split('/')[-1] for elem in response]
@@ -149,6 +153,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('structure_exploration/labels_and_classes')
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
 
         temp = dict()
@@ -163,6 +168,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('structure_exploration/ontology_elements')
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
 
         temp = dict()
@@ -201,6 +207,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('content_exploration/count_triples')
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         return float(response[0]['triples']['value'])
 
@@ -210,6 +217,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('content_exploration/count_statements')
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         return float(response[0]['count']['value'])
 
@@ -219,6 +227,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('trust/count_statements_by') % actor_uri
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         return float(response[0]['num_stat']['value'])
 
@@ -228,6 +237,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('trust/novel_statements_by') % actor_uri
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         return [elem['statement']['value'].split('/')[-1] for elem in response]
 
@@ -237,6 +247,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('content_exploration/count_perspectives')
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         return float(response[0]['count']['value'])
 
@@ -246,6 +257,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('content_exploration/all_negation_conflicts')
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         return response
 
@@ -256,6 +268,7 @@ class BasicBrain(object):
         """
         # TODO: fix query to work on subproperties
         query = read_query('trust/conflicts_by') % (actor_uri, actor_uri)
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         return response
 
@@ -265,6 +278,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('content_exploration/count_friends')
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         return float(response[0]['count']['value'])
 
@@ -274,6 +288,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('content_exploration/my_friends')
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         return [elem['friend']['value'].split('/')[-1] for elem in response]
 
@@ -283,6 +298,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('content_exploration/best_friends')
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         return [(elem['act']['value'], elem['num_chat']['value'].split('/')[-1]) for elem in response]
 
@@ -293,6 +309,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('trust/when_last_chat_with') % actor_uri
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
 
         return response[0]['time']['value'].split('/')[-1] if response != [] else ''
@@ -304,6 +321,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('trust/count_chat_with') % actor_uri
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
 
         return float(response[0]['num_chats']['value'].split('/')[-1]) if response != [] else 0.0
@@ -314,6 +332,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('content_exploration/count_instances')
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         return float(response[0]['count']['value'])
 
@@ -324,6 +343,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('typing/instance_of_type') % instance_type
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         return [elem['s']['value'] for elem in response] if response else []
 
@@ -334,6 +354,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('typing/type_of_instance') % instance_uri
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         return [elem['type']['value'] for elem in response] if response else []
 
@@ -344,6 +365,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('id/id_of_instance') % uri
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         return [elem['id']['value'] for elem in response] if response else []
 
@@ -354,6 +376,7 @@ class BasicBrain(object):
         :return:
         """
         query = read_query('content_exploration/triples_with_predicate') % predicate_uri
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         return [(elem['s']['value'], elem['o']['value']) for elem in response]
 

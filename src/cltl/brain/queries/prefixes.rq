@@ -9,7 +9,6 @@ prefix leolaniFriends: <http://cltl.nl/leolani/friends/>
 prefix leolaniTalk: <http://cltl.nl/leolani/talk/>
 prefix leolaniContext: <http://cltl.nl/leolani/context/>
 prefix leolaniWorld: <http://cltl.nl/leolani/world/>
-prefix n2mu: <http://cltl.nl/leolani/n2mu/>
 prefix ns1: <urn:x-rdflib:>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix prov: <http://www.w3.org/ns/prov#>

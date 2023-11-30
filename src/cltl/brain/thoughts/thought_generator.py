@@ -1,18 +1,18 @@
 import pathlib
 import random
-
 from cltl.brain.basic_brain import BasicBrain
 from cltl.brain.thoughts.completeness import Gaps, Gap
 from cltl.brain.thoughts.correctness import CardinalityConflict, NegationConflict
 from cltl.brain.thoughts.novelty import StatementNovelty, EntityNovelty
 from cltl.brain.thoughts.overlap import Overlaps, Overlap
+from cltl.brain.utils.constants import ONTOLOGY_DETAILS
 from cltl.brain.utils.helper_functions import read_query
 
 
 class ThoughtGenerator(BasicBrain):
 
-    def __init__(self, address, log_dir, clear_all=False):
-        # type: (str, pathlib.Path, bool) -> None
+    def __init__(self, address, log_dir, ontology_details=ONTOLOGY_DETAILS, clear_all=False):
+        # type: (str, pathlib.Path, dict, bool) -> None
         """
         Interact with Triple store
 
@@ -22,7 +22,8 @@ class ThoughtGenerator(BasicBrain):
             IP address and port of the Triple store
         """
 
-        super(ThoughtGenerator, self).__init__(address, log_dir, clear_all, is_submodule=True)
+        super(ThoughtGenerator, self).__init__(address, log_dir, ontology_details=ontology_details, clear_all=clear_all,
+                                               is_submodule=True)
 
     ########## novelty ##########
     def _fill_statement_novelty_(self, raw_provenance):
@@ -82,6 +83,7 @@ class ThoughtGenerator(BasicBrain):
             List of provenance for the instance
         """
         query = read_query('thoughts/statement_novelty') % statement_uri
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
 
         if response and response[0] != {}:
@@ -109,6 +111,7 @@ class ThoughtGenerator(BasicBrain):
             List of provenance for the instance
         """
         query = read_query('thoughts/entity_novelty') % instance_url
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query, ask=True)
 
         return response
@@ -131,7 +134,8 @@ class ThoughtGenerator(BasicBrain):
 
         processed_predicate = self._rdf_builder.fill_predicate(raw_response['p']['value'].split('/')[-1],
                                                                uri=raw_response['p']['value'])
-        processed_range = self._rdf_builder.fill_entity('', namespace='N2MU',
+        processed_range = self._rdf_builder.fill_entity('',
+                                                        namespace=self._rdf_builder.ontology_details['prefix'].upper(),
                                                         types=[raw_response['type2']['value'].split('/')[-1]])
 
         return Gap(entity, processed_predicate, processed_range)
@@ -151,6 +155,7 @@ class ThoughtGenerator(BasicBrain):
         """
         # Role as subject
         query = read_query('thoughts/subject_gaps') % (entity.id, entity.id if exclude is None else exclude.id)
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
 
         if response:
@@ -163,6 +168,7 @@ class ThoughtGenerator(BasicBrain):
 
         # Role as object
         query = read_query('thoughts/object_gaps') % (entity.id, entity.id if exclude is None else exclude.id)
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
 
         if response:
@@ -217,6 +223,7 @@ class ThoughtGenerator(BasicBrain):
         query = read_query('thoughts/object_overlap') % (capsule['triple'].predicate.id,
                                                          capsule['triple'].complement.id,
                                                          capsule['triple'].subject.id)
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
 
         if response and response[0]['types']['value'] != '':
@@ -228,6 +235,7 @@ class ThoughtGenerator(BasicBrain):
         query = read_query('thoughts/subject_overlap') % (capsule['triple'].predicate.id,
                                                           capsule['triple'].subject.id,
                                                           capsule['triple'].complement.id)
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
 
         if response and response[0]['types']['value'] != '':
@@ -293,9 +301,10 @@ class ThoughtGenerator(BasicBrain):
         return conflicts
 
     def get_conflicts_with_one_to_one_predicate(self, one_to_one_predicate):
-        query = read_query('one_to_one_conflicts') % one_to_one_predicate
-
+        query = read_query('one_to_one_conflicts') % (one_to_one_predicate)
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
+
         conflicts = []
         for item in response:
             conflict = {'subject': item['sname']['value'], 'predicate': one_to_one_predicate, 'objects': []}
@@ -329,6 +338,7 @@ class ThoughtGenerator(BasicBrain):
                                                                        capsule['triple'].subject.id,
                                                                        capsule['triple'].complement.id)
 
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         if response and response[0] != {}:
             conflicts = [self._fill_cardinality_conflict_(elem) for elem in response]
@@ -359,6 +369,7 @@ class ThoughtGenerator(BasicBrain):
                                                              capsule['triple'].subject.id,
                                                              capsule['triple'].complement.id)
 
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
         if response and response[0] != {} and len(response) > 2:
             affirmative_conflict = [item for item in response if item['val']['value'].split('#')[-1] == 'POSITIVE']

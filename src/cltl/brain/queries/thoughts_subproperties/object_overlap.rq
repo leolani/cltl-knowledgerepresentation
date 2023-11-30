@@ -1,4 +1,3 @@
-PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX grasp: <http://groundedannotationframework.org/grasp#>
 PREFIX gaf: <http://groundedannotationframework.org/gaf#>
@@ -12,7 +11,7 @@ where {
     BIND(<%s> AS ?o) .
 
     ?s ?p ?o .
-#    ?pOriginal rdfs:subPropertyOf* ?p .
+    #    ?pOriginal rdfs:subPropertyOf* ?p .
     #Takes too long
 
     GRAPH ?g {
@@ -23,7 +22,7 @@ where {
         ?s rdfs:label ?label .
     }
     ?s rdf:type ?type .
-    FILTER (regex(str(?type), "n2mu")) .
+    FILTER (STRSTARTS(str(?type), STR(n2mu:))) .
 
     FILTER (?s != <%s> )
 

@@ -32,3 +32,7 @@ NAMESPACE_MAPPING = {
 }
 
 CAPITALIZED_TYPES = ['person']
+
+ONTOLOGY_DETAILS = {"filepath": None,
+                    "namespace": "http://cltl.nl/leolani/n2mu/",
+                    "prefix": "n2mu"}

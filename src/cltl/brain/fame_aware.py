@@ -22,7 +22,7 @@ class FameAwareMemory(LongTermMemory):
             IP address and port of the Triple store
         """
 
-        super(FameAwareMemory, self).__init__(address, log_dir, clear_all)
+        super(FameAwareMemory, self).__init__(address, log_dir, clear_all=clear_all)
 
     def lookup_person_wikidata(self, person_name):
         """

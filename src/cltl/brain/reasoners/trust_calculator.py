@@ -1,13 +1,13 @@
 import pathlib
-
 from cltl.brain.basic_brain import BasicBrain
+from cltl.brain.utils.constants import ONTOLOGY_DETAILS
 from cltl.brain.utils.helper_functions import read_query, sigmoid
 
 
 class TrustCalculator(BasicBrain):
 
-    def __init__(self, address, log_dir, clear_all=False):
-        # type: (str, pathlib.Path, bool) -> None
+    def __init__(self, address, log_dir, ontology_details=ONTOLOGY_DETAILS, clear_all=False):
+        # type: (str, pathlib.Path, dict, bool) -> None
         """
         Interact with Triple store
 
@@ -17,7 +17,8 @@ class TrustCalculator(BasicBrain):
             IP address and port of the Triple store
         """
 
-        super(TrustCalculator, self).__init__(address, log_dir, clear_all, is_submodule=True)
+        super(TrustCalculator, self).__init__(address, log_dir, ontology_details=ontology_details, clear_all=clear_all,
+                                              is_submodule=True)
 
     def get_trust(self, speaker_uri):
         """
@@ -25,6 +26,7 @@ class TrustCalculator(BasicBrain):
         :return:
         """
         query = read_query('trust/trust_by') % speaker_uri
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
 
         if response and response[0] != {}:
@@ -81,6 +83,7 @@ class TrustCalculator(BasicBrain):
         :return:
         """
         query = read_query('trust/delete_trust')
+        query = self._rdf_builder.correct_ontology_in_query(query)
         _ = self._connection.query(query, post=True)
 
     def compute_trust_network(self):
@@ -118,7 +121,9 @@ class TrustCalculator(BasicBrain):
                     trust = self._rdf_builder.fill_literal(trust_in_friend, datatype=self.namespaces['XML']['float'])
 
                     # Structure knowledge
-                    self.interaction_graph.add((actor.id, self.namespaces['N2MU']['hasTrustworthinessLevel'], trust))
+                    self.interaction_graph.add((actor.id,
+                                                self.namespaces[self._rdf_builder.ontology_details['prefix'].upper()][
+                                                    'hasTrustworthinessLevel'], trust))
 
                 # Finish process of uploading new knowledge to the triple store
                 data = self._serialize(self._brain_log())

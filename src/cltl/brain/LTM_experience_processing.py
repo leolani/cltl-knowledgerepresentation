@@ -36,12 +36,13 @@ def create_instance_graph_for_experience(self, capsule, context, create_label):
         if 'person' not in capsule['item']['type']:
             # Add id information
             objct_id = self._rdf_builder.fill_literal(capsule['item']['id'], datatype=self.namespaces['XML']['string'])
-            self.instance_graph.add((capsule['entity'].id, self.namespaces['N2MU']['id'], objct_id))
+            self.instance_graph.add(
+                (capsule['entity'].id, self.namespaces[self._rdf_builder.ontology_details['prefix'].upper()]['id'], objct_id))
 
             # Open ended learning
-            object_type = self._rdf_builder.create_resource_uri('N2MU', 'object')
+            object_type = self._rdf_builder.create_resource_uri(self._rdf_builder.ontology_details['prefix'].upper(), 'object')
             for t in capsule['item']['type']:
-                learnable_type = self._rdf_builder.create_resource_uri('N2MU', t)
+                learnable_type = self._rdf_builder.create_resource_uri(self._rdf_builder.ontology_details['prefix'].upper(), t)
                 self.ontology_graph.add((learnable_type, RDFS.subClassOf, object_type))
 
 

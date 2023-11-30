@@ -15,17 +15,18 @@ from cltl.brain.utils.helper_functions import confidence_to_certainty_value, pol
 
 # noinspection PyAttributeOutsideInit
 class RdfBuilder(object):
-    def __init__(self):
-        # type: () -> None
+    def __init__(self, ontology_details):
+        # type: (dict) -> None
 
+        self.ontology_details = ontology_details
         self.namespaces = {}
         self.dataset = Dataset()
 
         self._log = logger.getChild(self.__class__.__name__)
         self._log.debug("Booted")
 
-        self._define_namespaces()
-        self._bind_namespaces()
+        self._define_namespaces(ontology_details)
+        self._bind_namespaces(ontology_details)
         self.define_named_graphs()
 
     ########## setting up connection ##########
@@ -38,14 +39,14 @@ class RdfBuilder(object):
         """
         self.dataset = Dataset()
 
-    def _define_namespaces(self):
+    def _define_namespaces(self, ontology_details):
         """
         Define namespaces for different layers (ontology/vocab and resource). Assign them to self
         :return:
         """
         # Namespaces for the instance layer
-        instance_vocab = 'http://cltl.nl/leolani/n2mu/'
-        self.namespaces['N2MU'] = Namespace(instance_vocab)
+        instance_vocab = ontology_details['namespace']
+        self.namespaces[ontology_details['prefix'].upper()] = Namespace(instance_vocab)
         ceo = 'http://www.newsreader-project.eu/domain-ontology#'
         self.namespaces['CEO'] = Namespace(ceo)
         instance_resource = 'http://cltl.nl/leolani/world/'
@@ -101,12 +102,12 @@ class RdfBuilder(object):
         wikibase = 'http://wikiba.se/ontology#'
         self.namespaces['wikibase'] = Namespace(wikibase)
 
-    def _bind_namespaces(self):
+    def _bind_namespaces(self, ontology_details):
         """
         Bind namespaces
         :return:
         """
-        self.dataset.bind('n2mu', self.namespaces['N2MU'])
+        self.dataset.bind(ontology_details['prefix'].lower(), self.namespaces[ontology_details['prefix'].upper()])
         self.dataset.bind('ceo', self.namespaces['CEO'])
         self.dataset.bind('leolaniWorld', self.namespaces['LW'])
 
@@ -142,11 +143,22 @@ class RdfBuilder(object):
         self.perspective_graph = self.dataset.graph(self.create_resource_uri('LTa', 'Perspectives'))
         self.interaction_graph = self.dataset.graph(self.create_resource_uri('LTa', 'Interactions'))
 
-    def load_ontologies(self):
-        with pkg_resources.files("cltl.brain") as pkg_root:
-            ontology_root = pkg_root / 'ontologies'
-            self.ontology_graph.parse(location=os.path.join(ontology_root, 'integration.ttl'), format="turtle")
-            # self.ontology_graph.parse(location=os.path.join(ontology_root, 'ceo_original.ttl'), format="turtle")
+    def load_ontologies(self, ontology_dir):
+        if ontology_dir:
+            self.ontology_graph.parse(location=ontology_dir, format="turtle")
+
+        else:
+            with pkg_resources.files("cltl.brain") as pkg_root:
+                ontology_root = pkg_root / 'ontologies'
+                self.ontology_graph.parse(location=os.path.join(ontology_root, 'integration.ttl'), format="turtle")
+                # self.ontology_graph.parse(location=os.path.join(ontology_root, 'ceo_original.ttl'), format="turtle")
+
+    def correct_ontology_in_query(self, query):
+        txt = f"PREFIX {self.ontology_details['prefix'].lower()}: <{self.ontology_details['namespace']}>\n"
+
+        query = query.replace("n2mu", f'{self.ontology_details["prefix"].lower()}')
+
+        return txt + query
 
     ########## basic constructors ##########
     def create_resource_uri(self, namespace, resource_name):
@@ -221,7 +233,7 @@ class RdfBuilder(object):
             fixed_types = fix_nlp_types(types)
             return Entity(entity_id, Literal(label), fixed_types)
 
-    def fill_predicate(self, label, namespace='N2MU', uri=None):
+    def fill_predicate(self, label, namespace=None, uri=None):
         # type: (str, str, str) -> Predicate
         """
         Create an RDF predicate given its label and its namespace
@@ -239,6 +251,7 @@ class RdfBuilder(object):
 
             Predicate object with given label
         """
+        namespace = self.ontology_details['prefix'].upper() if namespace is None else namespace
         predicate_id = self.create_resource_uri(namespace, label) if not uri else URIRef(to_iri(uri))
 
         return Predicate(predicate_id, Literal(label))

@@ -1,17 +1,16 @@
 import pathlib
-
 import requests
+from cltl.brain.basic_brain import BasicBrain
+from cltl.brain.utils.constants import ONTOLOGY_DETAILS
+from cltl.brain.utils.helper_functions import read_query, remove_articles
 from cltl.commons.casefolding import casefold_text
 from fuzzywuzzy import process
-
-from cltl.brain.basic_brain import BasicBrain
-from cltl.brain.utils.helper_functions import read_query, remove_articles
 
 
 class TypeReasoner(BasicBrain):
 
-    def __init__(self, address, log_dir, clear_all=False):
-        # type: (str, pathlib.Path, bool) -> None
+    def __init__(self, address, log_dir, ontology_details=ONTOLOGY_DETAILS, clear_all=False):
+        # type: (str, pathlib.Path, dict, bool) -> None
         """
         Interact with Triple store
 
@@ -21,7 +20,8 @@ class TypeReasoner(BasicBrain):
             IP address and port of the Triple store
         """
 
-        super(TypeReasoner, self).__init__(address, log_dir, clear_all, is_submodule=True)
+        super(TypeReasoner, self).__init__(address, log_dir, ontology_details=ontology_details, clear_all=clear_all,
+                                           is_submodule=True)
 
     def reason_entity_type(self, item, exact_only=True):
         """

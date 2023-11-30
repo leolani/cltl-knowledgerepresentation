@@ -1,11 +1,11 @@
-PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX grasp: <http://groundedannotationframework.org/grasp#>
 PREFIX gaf: <http://groundedannotationframework.org/gaf#>
 PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
 
-select ?o (SAMPLE(?objectlabel) AS ?objectLabel) ?authorlabel ?date (GROUP_CONCAT(DISTINCT ?p ;separator="|") as ?predicates)
+select ?o (SAMPLE(?objectlabel) AS ?objectLabel) ?authorlabel ?date (GROUP_CONCAT(DISTINCT
+                                                                         ?p ;separator="|") as ?predicates)
 where {
     BIND(<%s> AS ?p) .
     BIND(<%s> AS ?s) .
@@ -24,7 +24,7 @@ where {
     } .
 
     OPTIONAL {
-    ?o rdfs:label ?objectlabel .
+        ?o rdfs:label ?objectlabel .
     }
 
     ?g gaf:denotedBy ?m .

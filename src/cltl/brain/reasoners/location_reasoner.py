@@ -1,14 +1,13 @@
 import pathlib
-
-from cltl.commons.casefolding import casefold_text
-
 from cltl.brain.basic_brain import BasicBrain
+from cltl.brain.utils.constants import ONTOLOGY_DETAILS
 from cltl.brain.utils.helper_functions import read_query
+from cltl.commons.casefolding import casefold_text
 
 
 class LocationReasoner(BasicBrain):
-    def __init__(self, address, log_dir, clear_all=False):
-        # type: (str, pathlib.Path, bool) -> None
+    def __init__(self, address, log_dir, ontology_details=ONTOLOGY_DETAILS, clear_all=False):
+        # type: (str, pathlib.Path, dict, bool) -> None
         """
         Interact with Triple store
 
@@ -18,7 +17,8 @@ class LocationReasoner(BasicBrain):
             IP address and port of the Triple store
         """
 
-        super(LocationReasoner, self).__init__(address, log_dir, clear_all, is_submodule=True)
+        super(LocationReasoner, self).__init__(address, log_dir, ontology_details=ontology_details, clear_all=clear_all,
+                                               is_submodule=True)
 
     def _measure_detection_overlap(self, detections_1, detections_2):
         if detections_1 == detections_2:
@@ -54,6 +54,7 @@ class LocationReasoner(BasicBrain):
     def get_episodic_memory(self):
         # Role as subject
         query = read_query('context/detections_per_context')
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
 
         if response and response[0]['detections']['value'] != '':
@@ -84,6 +85,7 @@ class LocationReasoner(BasicBrain):
     def get_location_memory(self, capsule):
         # brain object memories
         query = read_query('context/ranked_object_ids_per_type') % capsule['context_id']
+        query = self._rdf_builder.correct_ontology_in_query(query)
         response = self._submit_query(query)
 
         location_memory = {}
@@ -159,6 +161,7 @@ class LocationReasoner(BasicBrain):
     def set_location_label(self, context_id, label, old_label='unknown'):
         # Replace as subject, replace label, replace as object in the database (long term memory)
         query = read_query('context/rename_location') % (old_label, label, context_id, old_label, label)
+        query = self._rdf_builder.correct_ontology_in_query(query)
         _ = self._submit_query(query, post=True)
 
         self._log.info(f"Set location to: {label}")

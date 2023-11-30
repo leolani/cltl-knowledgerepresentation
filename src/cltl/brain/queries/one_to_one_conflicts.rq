@@ -1,8 +1,6 @@
-PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX grasp: <http://groundedannotationframework.org/grasp#>
 PREFIX gaf: <http://groundedannotationframework.org/gaf#>
-PREFIX prov: <http://www.w3.org/ns/prov#>
 
 select ?sname
     (group_concat(distinct ?pair ; separator=";") as ?pairs)
@@ -11,8 +9,8 @@ where {
 
     BIND(n2mu:%s AS ?pOriginal).
 
-   ?s ?p ?o .
-   ?pOriginal rdfs:subPropertyOf* ?p .
+               ?s ?p ?o .
+               ?pOriginal rdfs:subPropertyOf* ?p .
 
     GRAPH ?g {
         ?s ?pOriginal ?o .

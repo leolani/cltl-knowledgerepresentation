@@ -1,32 +1,32 @@
-
-PREFIX n2mu: <http://cltl.nl/leolani/n2mu/>
 PREFIX xml1: <https://www.w3.org/TR/xmlschema-2/#>
 PREFIX eps: <http://cltl.nl/episodicawareness/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
 
-SELECT ?type  (GROUP_CONCAT(DISTINCT ?detection_id;separator="|") as ?ids) (GROUP_CONCAT( ?num_observation;separator="|") as ?importance)
+SELECT ?type  (GROUP_CONCAT(DISTINCT ?detection_id;separator="|") as ?ids) (GROUP_CONCAT(
+                                                                                ?num_observation;separator="|") as ?importance)
 WHERE {
 
-SELECT ?detection ?detection_id  (COUNT(DISTINCT ?context) as ?num_observation) (GROUP_CONCAT(DISTINCT ?object_type; separator="|") as ?type)
+    SELECT ?detection ?detection_id  (COUNT(DISTINCT ?context) as ?num_observation) (GROUP_CONCAT(DISTINCT
+                                                                                         ?object_type; separator="|") as ?type)
 
-WHERE {
-    # Identify the place where this context is taking place
-    ?seedContext n2mu:id "%s"^^xml1:string.
-    ?seedContext sem:hasPlace ?place .
+    WHERE {
+        # Identify the place where this context is taking place
+        ?seedContext n2mu:id "%s"^^xml1:string .
+        ?seedContext sem:hasPlace ?place .
 
-    # Get detections and their id
-    ?context sem:hasPlace ?place .
-    ?context eps:hasDetection ?detection .
-    ?detection n2mu:id ?detection_id .
+        # Get detections and their id
+        ?context sem:hasPlace ?place .
+        ?context eps:hasDetection ?detection .
+        ?detection n2mu:id ?detection_id .
 
-    ?detection rdf:type n2mu:object, ?object_type .
+        ?detection rdf:type n2mu:object, ?object_type .
 
-    FILTER(regex(str(?object_type), "n2mu")) .
-    FILTER(!regex(str(?object_type), "object")) .
-}
-group by ?detection ?detection_id
-order by DESC(COUNT(DISTINCT ?context))
+        FILTER (STRSTARTS(str(?object_type), STR(n2mu:))) .
+        FILTER (!regex(str(?object_type), "object")) .
+    }
+    group by ?detection ?detection_id
+    order by DESC(COUNT(DISTINCT ?context))
 
 }
 group by ?type

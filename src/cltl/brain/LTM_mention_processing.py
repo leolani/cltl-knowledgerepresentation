@@ -21,7 +21,8 @@ def create_instance_graph_for_mention(self, capsule, create_label):
         if 'person' not in capsule['item']['type']:
             # Add id information
             objct_id = self._rdf_builder.fill_literal(capsule['item']['id'], datatype=self.namespaces['XML']['string'])
-            self.instance_graph.add((capsule['entity'].id, self.namespaces['N2MU']['id'], objct_id))
+            self.instance_graph.add(
+                (capsule['entity'].id, self.namespaces[self._rdf_builder.ontology_details['prefix'].upper()]['id'], objct_id))
 
 
 def process_mention(self, capsule, create_label):

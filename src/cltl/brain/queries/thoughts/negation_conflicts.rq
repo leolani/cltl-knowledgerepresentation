@@ -13,20 +13,13 @@ where {
     BIND(<%s> AS ?s) .
     BIND(<%s> AS ?o) .
 
-    # Takes too long to query subproperties
-    # ?s ?p ?o .
-    # ?pOriginal rdfs:subPropertyOf* ?p .
-    # GRAPH ?g {
-    #     ?s ?pOriginal ?o .
-    # } .
-
     ?s ?p ?o .
 
     GRAPH ?g {
         ?s ?p ?o .
     } .
 
-    ?g gaf:denotedBy ?m .
+    ?m gaf:denotes ?g .
     ?m grasp:hasAttribution / rdf:value ?val .
     ?val rdf:type graspf:PolarityValue .
 

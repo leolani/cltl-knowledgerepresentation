@@ -95,8 +95,7 @@ class BasicBrain(object):
         data = self.dataset.serialize(format=self._connection.format)
 
         # Clear local memory
-        # TODO fix bug
-        # self._rdf_builder.fresh_local_memory()
+        self._rdf_builder.fresh_local_memory()
         self.assign_local_memory()
 
         return data

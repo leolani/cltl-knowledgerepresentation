@@ -28,7 +28,7 @@ setup(
         'sparqlwrapper~=2.0.0',
         'numpy~=1.20',
         'fuzzywuzzy~=0.18',
-        'nltk~=3.4.4',
+        'nltk~=3.4',
         'iribaker~=0.2',
         'python-Levenshtein~=0.12',
         'importlib_resources~=5.2',

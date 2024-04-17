@@ -38,6 +38,8 @@ class RdfBuilder(object):
 
         """
         self.dataset = Dataset()
+        self._bind_namespaces(self.ontology_details)
+        self.define_named_graphs()
 
     def _define_namespaces(self, ontology_details):
         """
@@ -164,7 +166,7 @@ class RdfBuilder(object):
     def create_resource_uri(self, namespace, resource_name):
         # type: (str, str) -> str
         """
-        Create an URI for the given resource (entity, predicate, named graph, etc) in the given namespace
+        Create a URI for the given resource (entity, predicate, named graph, etc) in the given namespace
         Parameters
         ----------
         namespace: str

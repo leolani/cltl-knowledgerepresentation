@@ -142,3 +142,6 @@ dmypy.json
 
 # Data for examples
 **/*-responses.json
+
+
+**/.DS_Store

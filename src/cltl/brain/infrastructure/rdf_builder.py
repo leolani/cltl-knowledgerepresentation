@@ -1,6 +1,5 @@
-import os
-
 import importlib_resources as pkg_resources
+import os
 from cltl.commons.casefolding import casefold_text
 from cltl.commons.discrete import Certainty, Polarity, Sentiment, Emotion
 from cltl.commons.triple_helpers import fix_nlp_types
@@ -9,13 +8,14 @@ from rdflib import Dataset, Namespace, OWL, URIRef, Literal
 
 from cltl.brain import logger
 from cltl.brain.infrastructure import Predicate, Entity, Triple, Provenance, Perspective
+from cltl.brain.utils.constants import ONTOLOGY_DETAILS
 from cltl.brain.utils.helper_functions import confidence_to_certainty_value, polarity_to_polarity_value, \
     sentiment_to_sentiment_value, emotion_to_emotion_value
 
 
 # noinspection PyAttributeOutsideInit
 class RdfBuilder(object):
-    def __init__(self, ontology_details):
+    def __init__(self, ontology_details=ONTOLOGY_DETAILS):
         # type: (dict) -> None
 
         self.ontology_details = ontology_details

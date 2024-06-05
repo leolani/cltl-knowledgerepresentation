@@ -81,6 +81,6 @@ class StoreConnector(object):
         # From serialized string
         post_url = self.address + "/statements"
         response = requests.get(post_url,
-                                 headers={'Content-Type': 'application/x-' + self.format})
+                                 headers={'Accept': 'application/x-' + self.format})
 
         return str(response.text)

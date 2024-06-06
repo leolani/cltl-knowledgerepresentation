@@ -80,7 +80,7 @@ class BrainService:
                     logger.debug("Skipped capsule type: %s", capsule)
 
                 try:
-                    status = int(brain_response['response']) if 'response' in brain_response else 0
+                    status = len(brain_response['response']) if 'response' in brain_response else 0
                 except ValueError:
                     status = 0
                 if status > 399:

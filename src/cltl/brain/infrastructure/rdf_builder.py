@@ -36,7 +36,7 @@ class RdfBuilder(object):
 
         """
         self.dataset = Dataset()
-        self._bind_namespaces(self.ontology_details)
+        self._bind_namespaces()
         self.define_named_graphs()
 
     def _define_namespaces(self):

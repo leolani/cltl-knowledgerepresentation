@@ -1506,6 +1506,22 @@ questions = ({"context_id": context_id,
                              },
                   "timestamp": datetime.combine(start_date, datetime.now().time()),
                   "context_id": context_id
+                  },
+                 {"chat": 13,
+                  "turn": 13,
+                  "author": {"label": "joey", "type": ["person"], 'uri': "http://cltl.nl/leolani/friends/joey-1"},
+                  "utterance": "What do you know about Piek?",
+                  "utterance_type": UtteranceType.QUESTION,
+                  "position": "",
+                  "subject": {"label": "piek", "type": [],
+                              "uri": "http://cltl.nl/leolani/world/piek-1"
+                              },
+                  "predicate": {"label": "", "uri": "http://cltl.nl/leolani/n2mu/"},
+                  "object": {"label": "", "type": [],
+                             "uri": ""
+                             },
+                  "timestamp": datetime.combine(start_date, datetime.now().time()),
+                  "context_id": context_id
                   }
              ]
              )

@@ -85,5 +85,6 @@ GROUP BY ?s ?p ?pOriginal ?o ?author ?certaintyValue ?polarityValue ?sentimentVa
     query = self.query_prefixes + query
 
     self._log.info("Triple in question: %s", utterance['triple'])
+    self._log.debug("Query became:%s", query)
 
     return query

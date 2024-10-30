@@ -1507,6 +1507,7 @@ questions = ({"context_id": context_id,
                   "timestamp": datetime.combine(start_date, datetime.now().time()),
                   "context_id": context_id
                   },
+                 # Filter by predicate namespace
                  {"chat": 13,
                   "turn": 13,
                   "author": {"label": "joey", "type": ["person"], 'uri': "http://cltl.nl/leolani/friends/joey-1"},
@@ -1517,6 +1518,40 @@ questions = ({"context_id": context_id,
                               "uri": "http://cltl.nl/leolani/world/piek-1"
                               },
                   "predicate": {"label": "", "uri": "http://cltl.nl/leolani/n2mu/"},
+                  "object": {"label": "", "type": [],
+                             "uri": ""
+                             },
+                  "timestamp": datetime.combine(start_date, datetime.now().time()),
+                  "context_id": context_id
+                  },
+                 # Filter by full predicate
+                 {"chat": 13,
+                  "turn": 15,
+                  "author": {"label": "joey", "type": ["person"], 'uri': "http://cltl.nl/leolani/friends/joey-1"},
+                  "utterance": "What is a laptop?",
+                  "utterance_type": UtteranceType.QUESTION,
+                  "position": "",
+                  "subject": {"label": "laptop", "type": [],
+                              "uri": "http://cltl.nl/leolani/world/laptop-1"
+                              },
+                  "predicate": {"label": "", "uri": "http://cltl.nl/leolani/n2mu/"},
+                  "object": {"label": "", "type": [],
+                             "uri": ""
+                             },
+                  "timestamp": datetime.combine(start_date, datetime.now().time()),
+                  "context_id": context_id
+                  },
+                 # Filter by object type and predicate namespace
+                 {"chat": 13,
+                  "turn": 17,
+                  "author": {"label": "joey", "type": ["person"], 'uri': "http://cltl.nl/leolani/friends/joey-1"},
+                  "utterance": "Where is the laptop?",
+                  "utterance_type": UtteranceType.QUESTION,
+                  "position": "",
+                  "subject": {"label": "laptop", "type": [],
+                              "uri": "http://cltl.nl/leolani/world/laptop-1"
+                              },
+                  "predicate": {"label": "", "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"},
                   "object": {"label": "", "type": [],
                              "uri": ""
                              },

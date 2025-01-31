@@ -11,7 +11,7 @@ from tempfile import TemporaryDirectory
 from tqdm import tqdm
 
 from cltl.brain.long_term_memory import LongTermMemory
-from cltl.brain.utils.base_cases import experiences
+from cltl.brain.utils.base_cases import experiences, triple_experiences
 from cltl.brain.utils.helper_functions import brain_response_to_json
 
 
@@ -37,6 +37,23 @@ def main(log_path):
             data.append(response_json)
 
     f = open("responses/basic-experiences-responses.json", "w")
+    json.dump(data, f)
+
+    for (context_capsule, experience_capsules) in tqdm([triple_experiences]):
+        print(f"\n\n---------------------------------------------------------------\n")
+        # Create context
+        response = brain.capsule_context(context_capsule)
+
+        for capsule in experience_capsules:
+            # Create experience
+            print(f"\n\n---------------------------------------------------------------\n")
+            response = brain.capsule_experience_triple(capsule, reason_types=False, return_thoughts=True, create_label=False)
+            print(f'\n{capsule["subject"], capsule["predicate"], capsule["object"]}\n')
+
+            response_json = brain_response_to_json(response)
+            data.append(response_json)
+
+    f = open("responses/triple-experiences-responses.json", "w")
     json.dump(data, f)
 
 

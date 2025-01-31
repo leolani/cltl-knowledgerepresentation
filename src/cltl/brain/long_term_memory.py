@@ -5,7 +5,7 @@ from cltl.commons.casefolding import casefold_text
 from cltl.commons.discrete import UtteranceType
 
 from cltl.brain.LTM_context_processing import process_context
-from cltl.brain.LTM_experience_processing import process_experience
+from cltl.brain.LTM_experience_processing import process_experience, process_visual_relation
 from cltl.brain.LTM_mention_processing import process_mention
 from cltl.brain.LTM_question_processing import create_query
 from cltl.brain.LTM_shared import _create_actor
@@ -141,6 +141,99 @@ class LongTermMemory(BasicBrain):
         # Casefold
         capsule['triple'].casefold(format='triple')
         capsule['author']['type'] = [casefold_text(t, format='triple') for t in capsule['author']['type']]
+
+        # Create graphs and triples
+        claim = process_statement(self, capsule, create_label)
+
+        if return_thoughts:
+            # Check if this knowledge already exists on the brain
+            statement_novelty = self.thought_generator.get_statement_novelty(claim.id)
+
+            # Check how many items of the same type as subject and complement we have
+            entity_novelty = self.thought_generator.fill_entity_novelty(capsule['triple'].subject.id,
+                                                                        capsule['triple'].complement.id)
+
+            # Find any overlaps
+            overlaps = self.thought_generator.get_overlaps(capsule)
+        else:
+            statement_novelty = None
+            entity_novelty = None
+            overlaps = None
+
+        # Finish process of uploading new knowledge to the triple store
+        rdf_log_path = self._brain_log()
+        data = self._serialize(rdf_log_path)
+        code = self._upload_to_brain(data)
+
+        if return_thoughts:
+            # Check for conflicts after adding the knowledge
+            negation_conflicts = self.thought_generator.get_negation_conflicts(capsule)
+            cardinality_conflicts = self.thought_generator.get_complement_cardinality_conflicts(capsule)
+
+            # Check for gaps, in case we want to be proactive
+            subject_gaps = self.thought_generator.get_entity_gaps(entity=capsule['triple'].subject,
+                                                                  exclude=capsule['triple'].complement)
+            complement_gaps = self.thought_generator.get_entity_gaps(entity=capsule['triple'].complement,
+                                                                     exclude=capsule['triple'].subject)
+
+            # Report trust
+            actor, _ = _create_actor(self, capsule, create_label)
+            trust = self.trust_calculator.get_trust(actor.id)
+        else:
+            negation_conflicts = None
+            cardinality_conflicts = None
+            subject_gaps = None
+            complement_gaps = None
+            trust = None
+
+        # Create JSON output
+        thoughts = Thoughts(statement_novelty, entity_novelty, negation_conflicts, cardinality_conflicts,
+                            subject_gaps, complement_gaps, overlaps, trust)
+        output = {'response': code, 'statement': capsule, 'thoughts': thoughts, 'rdf_log_path': rdf_log_path}
+
+        return output
+
+    def capsule_experience_triple(self, capsule, reason_types=False, return_thoughts=True, create_label=False):
+        # type (dict) -> dict
+        """
+        Main function to interact with if a statement is coming into the brain. Takes in an Utterance containing a
+        parsed statement as a Triple, transforms them to linked data, and posts them to the triple store
+        Parameters
+        ----------
+        capsule: dict
+            Contains all necessary information regarding a statement just made.
+        reason_types: Boolean
+            Signal to entity linking over the semantic web
+        create_label: Boolean
+            Turn automatic rdfs:label on or off for instance graph entities
+
+        Returns
+        -------
+        capsule: dict
+            Returns back the capsule, adding the response code and thoughts, which contains information about conflicts,
+            novelty, gaps and overlaps that the statement produces given the data in the triple store
+
+        """
+        # Try to figure out what this entity is
+        if reason_types:
+            if not capsule['subject']['type'] or capsule['subject']['type'] == '':
+                subject_type, _ = self.type_reasoner.reason_entity_type(capsule['subject']['label'], exact_only=True)
+                capsule['subject']['type'] = [subject_type]
+
+            if not capsule['object']['type'] or capsule['object']['type'] == '':
+                object_type, _ = self.type_reasoner.reason_entity_type(capsule['object']['label'], exact_only=True)
+                capsule['object']['type'] = [object_type]
+
+        # Process capsule to right types
+        capsule['triple'] = self._rdf_builder.fill_triple(capsule['subject'], capsule['predicate'], capsule['object'])
+        capsule['perspective'] = self._rdf_builder.fill_perspective(capsule['perspective']) \
+            if 'perspective' in capsule.keys() else self._rdf_builder.fill_perspective({})
+        capsule['utterance_type'] = UtteranceType[capsule['utterance_type']] \
+            if type(capsule['utterance_type']) == str else capsule['utterance_type']
+
+        # Casefold
+        capsule['triple'].casefold(format='triple')
+        capsule['source']['type'] = [casefold_text(t, format='triple') for t in capsule['source']['type']]
 
         # Create graphs and triples
         claim = process_statement(self, capsule, create_label)

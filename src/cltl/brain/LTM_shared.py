@@ -105,9 +105,19 @@ def _create_mention(self, capsule, subevent):
         _link_entity(self, mention, self.perspective_graph, create_label=True)
 
         # Bidirectional link between mention and individual instances
-        self.instance_graph.add((capsule['entity'].id, self.namespaces['GAF']['denotedIn'], mention.id))
-        self.perspective_graph.add((mention.id, self.namespaces['GAF']['containsDenotation'], capsule['entity'].id))
-        self.perspective_graph.add((mention.id, self.namespaces['SEM']['hasBeginTimeStamp'], timestamp))
+        if 'entity' in capsule:
+            self.instance_graph.add((capsule['entity'].id, self.namespaces['GAF']['denotedIn'], mention.id))
+            self.perspective_graph.add((mention.id, self.namespaces['GAF']['containsDenotation'], capsule['entity'].id))
+            self.perspective_graph.add((mention.id, self.namespaces['SEM']['hasBeginTimeStamp'], timestamp))
+        # else:
+        #     if 'subject' in capsule:
+        #         self.instance_graph.add((capsule['subject']['uri'], self.namespaces['GAF']['denotedIn'], mention.id))
+        #         self.perspective_graph.add((mention.id, self.namespaces['GAF']['containsDenotation'], capsule['subject']['uri']))
+        #         self.perspective_graph.add((mention.id, self.namespaces['SEM']['hasBeginTimeStamp'], timestamp))
+        #     if 'object' in capsule:
+        #         self.instance_graph.add((capsule['object']['uri'], self.namespaces['GAF']['denotedIn'], mention.id))
+        #         self.perspective_graph.add((mention.id, self.namespaces['GAF']['containsDenotation'], capsule['object']['uri']))
+        #         self.perspective_graph.add((mention.id, self.namespaces['SEM']['hasBeginTimeStamp'], timestamp))
 
     return mention
 

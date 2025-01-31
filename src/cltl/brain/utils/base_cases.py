@@ -1681,6 +1681,86 @@ mentions = ({"context_id": context_id,
                 }
             ]
             )
+triple_experiences = ({"context_id": context_id,
+                "date": start_date,
+                "place": "Piek's office",
+                "place_id": place_id,
+                "country": "Netherlands",
+                "region": "North Holland",
+                "city": "Amsterdam"},
+               [
+                   {
+                       "visual": 1,
+                       "detection": 1,
+                       "source": {"label": "front-camera", "type": ["sensor"],
+                                  'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+                       "image": None,
+                       "utterance_type": UtteranceType.EXPERIENCE_TRIPLE,
+                       "region": [752, 46, 1148, 716],
+                       "item": {'label': 'chair 1', 'type': ['chair'], 'id': 1,
+                                'uri': "http://cltl.nl/leolani/world/chair-1"},
+                       "subject": {'label': 'chair 1', 'type': ['chair'], 'id': 1,
+                                'uri': "http://cltl.nl/leolani/world/chair-1"},
+                       "predicate": {"label": "be-in", 'id': 1, "uri": "http://cltl.nl/leolani/n2mu/be-in"},
+                       "object": {"label": "Piek's office", "type": ["location"], 'id': 1,
+                                  "uri": "http://cltl.nl/leolani/world/pieks-office"},
+                       "perspective": {"certainty": 68,
+                                       "polarity": 1,
+                                       "sentiment": 0
+                                       },
+
+                       'confidence': 0.68,
+                       "timestamp": datetime.combine(start_date, datetime.now().time()),
+                       "context_id": context_id
+                   },
+                   {
+                       "visual": 1,
+                       "detection": 2,
+                       "source": {"label": "front-camera", "type": ["sensor"],
+                                  'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+                       "image": None,
+                       "utterance_type": UtteranceType.EXPERIENCE_TRIPLE,
+                       "region": [752, 46, 1148, 716],
+                       "item": {'label': 'apple 1', 'type': ['fruit'], 'id': 1,
+                                'uri': "http://cltl.nl/leolani/world/apple-1"},
+                       "subject": {'label': 'apple 1', 'type': ['fruit'],
+                                'uri': "http://cltl.nl/leolani/world/apple-1"},
+                       "predicate": {"label": "be-in", "uri": "http://cltl.nl/leolani/n2mu/be-in"},
+                       "object": {"label": "Piek's office", "type": ["location"],
+                                  "uri": "http://cltl.nl/leolani/world/pieks-office"},
+                       "perspective": {"certainty": 68,
+                                       "polarity": 1,
+                                       "sentiment": 0
+                                       },
+                       'confidence': 0.98,
+                       "timestamp": datetime.combine(start_date, datetime.now().time()),
+                       "context_id": context_id
+                   },
+                   {
+                       "visual": 1,
+                       "detection": 2,
+                       "source": {"label": "front-camera", "type": ["sensor"],
+                                  'uri': "http://cltl.nl/leolani/inputs/front-camera"},
+                       "image": None,
+                       "utterance_type": UtteranceType.EXPERIENCE_TRIPLE,
+                       "region": [752, 46, 1700, 716],
+                       "item": {'label': 'Carl', 'type': ['person'], 'id': None,
+                                'uri': "http://cltl.nl/leolani/world/carl-1"},
+                       "subject": {'label': 'Carl', 'type': ['person'],
+                                'uri': "http://cltl.nl/leolani/world/carl-1"},
+                       "predicate": {"label": "be-in", "uri": "http://cltl.nl/leolani/n2mu/be-in"},
+                       "object": {"label": "Piek's office", "type": ["location"],
+                                  "uri": "http://cltl.nl/leolani/world/pieks-office"},
+                       "perspective": {"certainty": 68,
+                                       "polarity": 1,
+                                       "sentiment": 0
+                                       },
+                       'confidence': 0.94,
+                       "timestamp": datetime.combine(start_date, datetime.now().time()),
+                       "context_id": context_id
+                   }
+               ]
+               )
 
 visuals = ['laptop computer', 'pay-station', 'notebook', 'flowerpot', 'pot', 'tv', 'espresso maker', 'pay-phone',
            'desk', 'printer', 'tool kit', "carpenter's kit", 'chair', 'potted plant', "potter's wheel",

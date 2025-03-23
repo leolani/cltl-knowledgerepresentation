@@ -18,11 +18,14 @@ class BrainService:
                     config_manager: ConfigurationManager):
         config = config_manager.get_config("cltl.brain")
 
-        return cls(config.get("topic_input"), config.get("topic_output"), brain, event_bus, resource_manager)
+        buffer_size = config.get_int("buffer_size") if "buffer_size" in config else 1
 
-    def __init__(self, input_topic: str, output_topic: str, brain: LongTermMemory,
+        return cls(config.get("topic_input"), config.get("topic_output"), buffer_size, brain, event_bus, resource_manager)
+
+    def __init__(self, input_topic: str, output_topic: str, buffer_size: int, brain: LongTermMemory,
                  event_bus: EventBus, resource_manager: ResourceManager):
         self._brain = brain
+        self._buffer_size = buffer_size
 
         self._event_bus = event_bus
         self._resource_manager = resource_manager
@@ -39,6 +42,7 @@ class BrainService:
     def start(self, timeout=30):
         self._topic_worker = TopicWorker([self._input_topic], self._event_bus, provides=[self._output_topic],
                                          resource_manager=self._resource_manager, processor=self._process,
+                                         buffer_size=self._buffer_size,
                                          name=self.__class__.__name__)
         self._topic_worker.start().wait()
 
@@ -53,6 +57,8 @@ class BrainService:
     def _process(self, event: Event[List[dict]]):
         logger.debug("Processing event %s with %s capsules", event.id, len(event.payload))
 
+        return_thoughts = bool(self._output_topic)
+
         response = []
         for capsule in event.payload:
             logger.debug("Capsule: (%s)", capsule)
@@ -66,14 +72,16 @@ class BrainService:
                         logger.error("Skipped capsule type: %s", capsule['type'])
                 elif 'utterance_type' in capsule:
                     if capsule['utterance_type'] == UtteranceType.STATEMENT:
-                        brain_response = self._brain.capsule_statement(capsule, reason_types=True, create_label=True)
+                        brain_response = self._brain.capsule_statement(capsule, reason_types=True, create_label=True,
+                                                                       return_thoughts=return_thoughts)
                     elif capsule['utterance_type'] == UtteranceType.EXPERIENCE:
                         brain_response = self._brain.capsule_experience(capsule, create_label=True)
                     elif capsule['utterance_type'] == UtteranceType.EXPERIENCE_TRIPLE:
-                        brain_response = self._brain.capsule_experience_triple(capsule, create_label=True)
+                        brain_response = self._brain.capsule_experience_triple(capsule, create_label=True,
+                                                                               return_thoughts=return_thoughts)
                     elif capsule['utterance_type'] in (UtteranceType.IMAGE_MENTION, UtteranceType.TEXT_MENTION,
                                                        UtteranceType.TEXT_ATTRIBUTION, UtteranceType.IMAGE_ATTRIBUTION):
-                        brain_response = self._brain.capsule_mention(capsule, create_label=True)
+                        brain_response = self._brain.capsule_mention(capsule, create_label=True, return_thoughts=return_thoughts)
                     elif capsule['utterance_type'] == UtteranceType.QUESTION:
                         brain_response = self._brain.query_brain(capsule)
                     else:

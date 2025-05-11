@@ -298,7 +298,7 @@ class Triple(object):
         hashed_types = hash_claim_id([self.subject_types if self.subject_types is not None else '?',
                                       '->',
                                       self.complement_types if self.complement_types is not None else '?'])
-        return f'{hashed_triple} [{hashed_types}])'
+        return f'{hashed_triple} [{hashed_types}]'
 
 
 class Perspective(object):
@@ -375,6 +375,28 @@ class Perspective(object):
     def emotion(self, new_emotion):
         # type: (Emotion) -> ()
         self._emotion = new_emotion
+
+    def __repr__(self):
+        perspective_text = ""
+
+        if self.polarity.name == 'POSITIVE':
+            perspective_text += 'CONFIRM,'
+        elif self.polarity.name == 'NEGATIVE':
+            perspective_text += 'DENY,'
+
+        if not self.certainty.name == 'UNDERSPECIFIED':
+            perspective_text += self.certainty.name + ", "
+
+        if self.sentiment.name not in ['NEUTRAL', 'UNDERSPECIFIED']:
+            perspective_text += self.sentiment.name + " SENTIMENT, "
+
+        if not self.emotion.name == 'UNDERSPECIFIED':
+            perspective_text += self.emotion.name + " , "
+
+        # if not self.time.name == 'UNDERSPECIFIED':
+        #     perspective_text += self.time.name + " , "
+
+        return perspective_text
 
 
 class Provenance(object):

@@ -1,5 +1,6 @@
-import importlib_resources as pkg_resources
 import os
+
+import importlib_resources as pkg_resources
 from cltl.commons.casefolding import casefold_text
 from cltl.commons.discrete import Certainty, Polarity, Sentiment, Emotion
 from cltl.commons.triple_helpers import fix_nlp_types

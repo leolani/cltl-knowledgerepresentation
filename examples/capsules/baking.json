@@ -51,6 +51,33 @@
         "polarity": 1.0,
         "emotion": 0.0
       },
+      "event_details": [
+        {
+          "subject": {
+            "label": "Selene",
+            "type": [
+              "person"
+            ],
+            "uri": "http://cltl.nl/leolani/world/selene"
+          },
+          "predicate": {
+            "label": "like",
+            "type": [
+              "emotion"
+            ],
+            "uri": "http://cltl.nl/leolani/n2mu/like"
+          },
+          "object": {
+            "label": "baking-cakes",
+            "type": [
+              "change",
+              "artifact",
+              "object"
+            ],
+            "uri": "http://cltl.nl/leolani/world/baking-cakes"
+          }
+        }
+      ],
       "context_id": null,
       "date": "2023-10-03T23:58:06.791725",
       "place": "",

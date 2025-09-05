@@ -196,7 +196,7 @@ def create_interaction_graph(self, capsule, create_label):
     return subevent, actor, interaction
 
 
-def create_claim_graph(self, subject, predicate, complement):
+def create_claim_graph(self, subject, predicate, complement, event_details=[]):
     # Create claim as entity
     claim_label = hash_claim_id([subject.id.split('/')[-1], predicate.label, complement.id.split('/')[-1]])
     claim = self._rdf_builder.fill_entity(claim_label, ['Event', 'Assertion'], 'LW')
@@ -204,7 +204,10 @@ def create_claim_graph(self, subject, predicate, complement):
 
     # Create claim as graph and add triple
     graph = self.dataset.graph(claim.id)
-    graph.add((subject.id, predicate.id, complement.id))
+
+    if event_details:
+        for element in event_details:
+            graph.add((element["subject"].id, element["predicate"].id, element["object"].id))
 
     return claim
 

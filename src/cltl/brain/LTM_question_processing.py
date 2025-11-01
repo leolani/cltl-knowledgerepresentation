@@ -68,7 +68,12 @@ def _create_filter_clauses(triple_element, element_type="s"):
 
     # If the label is given, then filter by that
     elif not _is_empty(triple_element['label']):
-        filter_clause = """FILTER (STRSTARTS(str(?slbl), "%s")) .""" % (triple_element['label'])
+        if element_type == "s":
+            filter_clause = """FILTER (STRSTARTS(str(?slbl), "%s")) .""" % (triple_element['label'])
+        elif element_type == "o":
+            filter_clause = """FILTER (STRSTARTS(str(?olbl), "%s")) .""" % (triple_element['label'])
+        elif element_type == "p":
+            filter_clause = """FILTER (CONTAINS(str(?pOriginal), "%s")) .""" % (triple_element['label'])
 
     return filter_clause
 

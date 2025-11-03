@@ -23,17 +23,17 @@ setup(
     package_data={'cltl.brain': ['ontologies/*', 'ontologies/**/*', 'queries/*', 'queries/**/*']},
     python_requires='>=3.7',
     install_requires=[
-        'requests~=2.25',
-        'rdflib~=6.1.1',
-        'sparqlwrapper~=1.8',
-        'numpy~=1.20',
-        'fuzzywuzzy~=0.18',
-        'nltk~=3.4',
-        'iribaker~=0.2',
-        'python-Levenshtein~=0.12',
-        'importlib_resources~=5.2',
-        'tqdm~=4.62',
-        "cltl.combot~=1.0"
+        'requests',
+        'rdflib',
+        'sparqlwrapper',
+        'numpy',
+        'fuzzywuzzy',
+        'nltk',
+        'iribaker',
+        'python-Levenshtein',
+        'importlib_resources',
+        'tqdm',
+        "cltl.combot"
     ],
     extras_require={
         "service": [

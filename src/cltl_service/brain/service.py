@@ -106,4 +106,4 @@ class BrainService:
 
         if response:
             # TODO: transform brain responses into proper EMISSOR annotations (what to do about thoughts?)
-            self._event_bus.publish(self._output_topic, Event.for_payload(response))
+            self._event_bus.publish(self._output_topic, Event.for_payload(response), source=event)

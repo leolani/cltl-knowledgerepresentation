@@ -8,6 +8,7 @@ from cltl.combot.infra.topic_worker import TopicWorker
 from cltl.commons.discrete import UtteranceType
 
 from cltl.brain.long_term_memory import LongTermMemory
+from cltl.brain.utils.helper_functions import brain_response_to_json
 
 logger = logging.getLogger(__name__)
 
@@ -106,4 +107,5 @@ class BrainService:
 
         if response:
             # TODO: transform brain responses into proper EMISSOR annotations (what to do about thoughts?)
-            self._event_bus.publish(self._output_topic, Event.for_payload(response, source=event))
+            json_response = brain_response_to_json(response)
+            self._event_bus.publish(self._output_topic, Event.for_payload(json_response, source=event))

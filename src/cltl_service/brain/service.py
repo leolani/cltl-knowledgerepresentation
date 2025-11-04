@@ -107,5 +107,11 @@ class BrainService:
 
         if response:
             # TODO: transform brain responses into proper EMISSOR annotations (what to do about thoughts?)
-            json_response = brain_response_to_json(response)
+            json_response = self._to_json(response)
             self._event_bus.publish(self._output_topic, Event.for_payload(json_response, source=event))
+
+    def _to_json(self, response):
+        if isinstance(response, (list, tuple)):
+            return [self._to_json(item) for item in response]
+
+        return brain_response_to_json(response)

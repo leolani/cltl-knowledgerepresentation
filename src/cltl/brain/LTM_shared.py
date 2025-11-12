@@ -204,6 +204,7 @@ def create_claim_graph(self, subject, predicate, complement, event_details=[]):
 
     # Create claim as graph and add triple
     graph = self.dataset.graph(claim.id)
+    graph.add((subject.id, predicate.id, complement.id))
 
     if event_details:
         for element in event_details:

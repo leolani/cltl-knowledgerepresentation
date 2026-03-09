@@ -68,16 +68,10 @@ def create_event(self, capsule, create_label):
 
 def process_statement(self, capsule, create_label):
     # Leolani world (includes instance and claim graphs)
-    #create_instance_graph_for_statement(self, capsule, create_label)
-    #create_instance_graph_for_event(self, capsule, create_label)
     # if the capsule has "event_details"
     if "event_details" in capsule.keys():
         create_event(self, capsule, create_label)
         claim = create_claim_graph_for_event_details(self, capsule["triple_list"])
-    #         claim = create_claim_graph(self, capsule['triple'].subject,
-    #                                capsule['triple'].predicate,
-    #                                capsule['triple'].complement,
-    #                                event_details=capsule["event_details"])
     else:
         claim = create_claim_graph(self, capsule['triple'].subject,
                                    capsule['triple'].predicate,

@@ -4,6 +4,9 @@ from random import getrandbits
 from cltl.commons.discrete import UtteranceType
 
 context_id, place_id, start_date = getrandbits(8), getrandbits(8), date(2017, 10, 24)
+base_iri = "http://example.org/resource"
+date_iri = f"{base_iri}/date/{start_date}"
+
 chat_1 = ({"context_id": context_id,
            "date": start_date,
            "place": "Piek's office",
@@ -1288,12 +1291,19 @@ chat_12 = ({"context_id": context_id,
 
                     },
                     {
+                        "subject": {"label": "drink", "type": ["event"],
+                                    "uri": "http://cltl.nl/leolani/world/drink-1"},
+                        "predicate": {"label": "hasPlace", "uri": "sem:hasPlace"},
+                        "object": {"label": "pub", "type": ["place"],
+                                   "uri": "http://cltl.nl/leolani/world/pub"}
+                    },
+                    {
                         "subject": {"label": "drink", "type":["event"],
                                     "uri": "http://cltl.nl/leolani/world/drink-1"},
                         "predicate": {"label": "hasActor", "uri": "sem:hasActor"},
-                        "object": {"label": "drinking-beer", "type":["interest"],
-                                    "uri": "http://cltl.nl/leolani/world/drinking-beer"}
-                }
+                        "object": {"label": "beer", "type":["drink"],
+                                    "uri": "http://cltl.nl/leolani/world/beer"}
+                    }
                     ],
                 "perspective": {
                     "certainty": 1,
@@ -1318,13 +1328,27 @@ chat_12 = ({"context_id": context_id,
                                "uri": "http://cltl.nl/leolani/world/john-1"
                                }
 
-                },
+                    },
                     {
                         "subject": {"label": "drink", "type": ["event"],
                                     "uri": "http://cltl.nl/leolani/world/drink-2"},
                         "predicate": {"label": "hasActor", "uri": "sem:hasActor"},
-                        "object": {"label": "drinking-beer", "type": ["interest"],
-                                   "uri": "http://cltl.nl/leolani/world/drinking-beer"}
+                        "object": {"label": "beer", "type": ["drink"],
+                                   "uri": "http://cltl.nl/leolani/world/beer"}
+                    },
+                    {
+                        "subject": {"label": "drink", "type": ["event"],
+                                    "uri": "http://cltl.nl/leolani/world/drink-2"},
+                        "predicate": {"label": "hasPlace", "uri": "sem:hasPlace"},
+                        "object": {"label": "pub", "type": ["place"],
+                                   "uri": "http://cltl.nl/leolani/world/pub"}
+                    },
+                    {
+                        "subject": {"label": "drink", "type": ["event"],
+                                    "uri": "http://cltl.nl/leolani/world/drink-2"},
+                        "predicate": {"label": "hasTime", "uri": "sem:hasTime"},
+                        "object": {"label": "8-3-2026", "type": ["date"],
+                                   "uri": date_iri}
                     }
                 ],
                 "perspective": {

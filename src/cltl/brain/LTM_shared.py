@@ -52,7 +52,7 @@ def _create_actor(self, capsule, create_label):
                                           ns,
                                           uri=capsule[source]['uri'])
     _link_entity(self, actor, self.interaction_graph, create_label=True)
-
+    _link_leolani(self)
     # Add leolani knows/senses actor
     predicate = self._rdf_builder.fill_predicate(pred)
     interaction = create_claim_graph(self, self.myself, predicate, actor)
@@ -79,12 +79,21 @@ def _create_mention(self, capsule, subevent):
 
         # Bidirectional link between mention and individual instances
         if capsule['utterance_type'] == UtteranceType.STATEMENT:
-            self.instance_graph.add((capsule['triple'].subject.id, self.namespaces['GAF']['denotedIn'], mention.id))
-            self.instance_graph.add((capsule['triple'].complement.id, self.namespaces['GAF']['denotedIn'], mention.id))
-            self.perspective_graph.add(
-                (mention.id, self.namespaces['GAF']['containsDenotation'], capsule['triple'].subject.id))
-            self.perspective_graph.add(
-                (mention.id, self.namespaces['GAF']['containsDenotation'], capsule['triple'].complement.id))
+            if 'triple_list' in capsule:
+                for triple in capsule['triple_list']:
+                    self.instance_graph.add((triple.subject.id, self.namespaces['GAF']['denotedIn'], mention.id))
+                    self.instance_graph.add((triple.complement.id, self.namespaces['GAF']['denotedIn'], mention.id))
+                    self.perspective_graph.add(
+                        (mention.id, self.namespaces['GAF']['containsDenotation'], triple.subject.id))
+                    self.perspective_graph.add(
+                        (mention.id, self.namespaces['GAF']['containsDenotation'], triple.complement.id))
+            else:
+                self.instance_graph.add((capsule['triple'].subject.id, self.namespaces['GAF']['denotedIn'], mention.id))
+                self.instance_graph.add((capsule['triple'].complement.id, self.namespaces['GAF']['denotedIn'], mention.id))
+                self.perspective_graph.add(
+                    (mention.id, self.namespaces['GAF']['containsDenotation'], capsule['triple'].subject.id))
+                self.perspective_graph.add(
+                    (mention.id, self.namespaces['GAF']['containsDenotation'], capsule['triple'].complement.id))
 
             transcript = self._rdf_builder.fill_literal(capsule['utterance'], datatype=self.namespaces['XML']['string'])
             self.perspective_graph.add((mention.id, RDF.value, transcript))
@@ -212,6 +221,26 @@ def create_claim_graph(self, subject, predicate, complement, event_details=[]):
 
     return claim
 
+def create_claim_graph_for_event_details(self, event_details=[]):
+    for index, detail in enumerate(event_details):
+        subject = detail.subject
+        predicate = detail.predicate
+        complement = detail.complement
+        if index==0:
+            # Create claim as entity
+            claim_label = hash_claim_id([subject.id.split('/')[-1], predicate.label, complement.id.split('/')[-1]])
+            claim = self._rdf_builder.fill_entity(claim_label, ['Event', 'Assertion'], 'LW')
+            _link_entity(self, claim, self.claim_graph, create_label=True)
+            # Create claim as graph and add triple
+            graph = self.dataset.graph(claim.id)
+        ## add all triples to the claims
+        graph.add((subject.id, predicate.id, complement.id))
+
+    if event_details:
+        for element in event_details:
+            graph.add((element.subject.id, element.predicate.id, element.complement.id))
+
+    return claim
 
 def create_perspective_graph(self, capsule, claim, subevent):
     # Mention

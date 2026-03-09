@@ -72,7 +72,10 @@ class BrainService:
                         logger.error("Skipped capsule type: %s", capsule['type'])
                 elif 'utterance_type' in capsule:
                     if capsule['utterance_type'] == UtteranceType.STATEMENT:
-                        brain_response = self._brain.capsule_statement(capsule, reason_types=True, create_label=True,
+                        if "event_details" in capsule:
+                            brain_response = self._brain.capsule_event(capsule, create_label=True)
+                        else:
+                            brain_response = self._brain.capsule_statement(capsule, reason_types=True, create_label=True,
                                                                        return_thoughts=return_thoughts)
                     elif capsule['utterance_type'] == UtteranceType.EXPERIENCE:
                         brain_response = self._brain.capsule_experience(capsule, create_label=True)

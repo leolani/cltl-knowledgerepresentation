@@ -138,6 +138,65 @@ class Entity(RDFBase):
             # Types
             self._types = [t.lower().replace("_", " ") for t in self.types]
 
+class Event(Entity):
+    def __init__(self, id, label, types, offset=None, confidence=0.0):
+        # type: (str, str, List[str], Optional[slice], float) -> None
+        """
+        Construct Entity Object
+        Parameters
+        ----------
+        id: str
+            URI of entity
+        label: str
+            Label of entity
+        types: List[str]
+            List of types for this entity
+        offset: Optional[slice]
+            Indeces of substring where this entity was mentioned
+        confidence: float
+            Confidence value that this entity was mentioned
+        """
+        super(Event, self).__init__(id, label, types, offset, confidence)
+
+    @property
+    def types(self):
+        # type: () -> List[str]
+        return self._types
+
+    @property
+    def types_names(self):
+        # type: () -> str
+        return filtered_types_names(self._types)
+
+    def add_types(self, types):
+        # type: (List[str]) -> ()
+        fixed_types = [t for t in types if t != '' and t is not None]
+        self._types.extend(fixed_types)
+
+    def casefold(self, format='triple'):
+        # type (str) -> ()
+        """
+        Format the labels to match triples or natural language
+        Parameters
+        ----------
+        format
+
+        Returns
+        -------
+
+        """
+        if format == 'triple':
+            # Label
+            self._label = Literal(casefold_text(self.label, format=format))
+            # Types
+            self._types = [casefold_text(t, format=format) for t in self.types]
+
+        elif format == 'natural':
+            # Label
+            self._label = casefold_text(self.label, format=format)
+            self._label = self._label.capitalize() if is_proper_noun(self.types) else self._label
+            # Types
+            self._types = [t.lower().replace("_", " ") for t in self.types]
 
 class Predicate(RDFBase):
     def __init__(self, id, label, offset=None, confidence=0.0, cardinality=1):

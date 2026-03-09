@@ -193,6 +193,123 @@ class LongTermMemory(BasicBrain):
 
         return output
 
+
+    def capsule_event(self, capsule, reason_types=False, return_thoughts=True, create_label=False):
+        # type (dict) -> dict
+        """
+        Main function to interact with if a statement is coming into the brain. Takes in an Utterance containing a
+        parsed statement as a Triple, transforms them to linked data, and posts them to the triple store
+        Parameters
+        ----------
+        capsule: dict
+            Contains all necessary information regarding a statement just made.
+        reason_types: Boolean
+            Signal to entity linking over the semantic web
+        create_label: Boolean
+            Turn automatic rdfs:label on or off for instance graph entities
+
+        Returns
+        -------
+        capsule: dict
+            Returns back the capsule, adding the response code and thoughts, which contains information about conflicts,
+            novelty, gaps and overlaps that the statement produces given the data in the triple store
+
+        """
+        # Try to figure out what this entity is
+        if reason_types:
+            for triple in capsule['event_details']:
+                if not triple['subject']['type'] or triple['subject']['type'] == '':
+                    subject_type, _ = self.type_reasoner.reason_entity_type(triple['subject']['label'], exact_only=True)
+                    triple['subject']['type'] = [subject_type]
+
+                if not triple['object']['type'] or triple['object']['type'] == '':
+                    object_type, _ = self.type_reasoner.reason_entity_type(triple['object']['label'], exact_only=True)
+                    triple['object']['type'] = [object_type]
+
+        # # Process capsule to right types
+        capsule['triple_list'] = []
+        for item in capsule["event_details"]:
+            triple = self._rdf_builder.fill_event_triple(item['subject'], item['predicate'], item['object'])
+            capsule['triple_list'].append(triple)
+        capsule['perspective'] = self._rdf_builder.fill_perspective(capsule['perspective']) \
+             if 'perspective' in capsule.keys() else self._rdf_builder.fill_perspective({})
+        capsule['utterance_type'] = UtteranceType[capsule['utterance_type']] \
+             if type(capsule['utterance_type']) == str else capsule['utterance_type']
+        #
+        # # Casefold
+        # capsule['triple'].casefold(format='triple')
+        # capsule['author']['type'] = [casefold_text(t, format='triple') for t in capsule['author']['type']]
+
+        # Create graphs and triples
+        claim = process_statement(self, capsule, create_label)
+
+        # We set return_thoughts to False, because the thought functions have not been adapted for triple_list and not for events as subject   '
+        return_thoughts = False
+        statement_novelty = []
+        entity_novelty = False
+        overlaps = []
+        if return_thoughts:
+            for triple in capsule['triple_list']:
+                # Check if this knowledge already exists on the brain []
+                triple_statement_novelty = self.thought_generator.get_statement_novelty(claim.id)
+                statement_novelty.extend(triple_statement_novelty)
+                # Check how many items of the same type as subject and complement we have
+               # boolean_value
+                triple_entity_novelty = self.thought_generator.fill_entity_novelty(triple.subject.id,  triple.complement.id)
+                if entity_novelty is None:
+                    entity_novelty = triple_entity_novelty
+                # Find any overlaps []
+                triple_overlaps = self.thought_generator.get_overlaps(triple)
+                overlaps.extend(triple_overlaps)
+        else:
+            statement_novelty = None
+            entity_novelty = None
+            overlaps = None
+
+        # Finish process of uploading new knowledge to the triple store
+        rdf_log_path = self._brain_log()
+        data = self._serialize(rdf_log_path)
+        code = self._upload_to_brain(data)
+
+        negation_conflicts = []
+        cardinality_conflicts = []
+        subject_gaps = []
+        complement_gaps = []
+
+        if return_thoughts:
+            for triple in capsule['triple_list']:
+                # Check for conflicts after adding the knowledge
+                triple_negation_conflicts = self.thought_generator.get_negation_conflicts(triple)
+                negation_conflicts.extend(triple_negation_conflicts)
+
+                triple_cardinality_conflicts = self.thought_generator.get_complement_cardinality_conflicts(triple)
+                cardinality_conflicts.extend(triple_cardinality_conflicts)
+
+                # Check for gaps, in case we want to be proactive
+                triple_subject_gaps = self.thought_generator.get_entity_gaps(entity=triple.subject,
+                                                                      exclude=triple.complement)
+                subject_gaps.extend(triple_subject_gaps)
+
+                triple_complement_gaps = self.thought_generator.get_entity_gaps(entity=triple.complement,
+                                                                         exclude=triple.subject)
+                complement_gaps.extends[triple_complement_gaps]
+                # Report trust
+                # actor, _ = _create_actor(self, capsule, create_label)
+                # trust = self.trust_calculator.get_trust(actor.id)
+        else:
+            negation_conflicts = None
+            cardinality_conflicts = None
+            subject_gaps = None
+            complement_gaps = None
+            trust = None
+
+        # Create JSON output
+        thoughts = Thoughts(statement_novelty, entity_novelty, negation_conflicts, cardinality_conflicts,
+                            subject_gaps, complement_gaps, overlaps, trust)
+        output = {'response': code, 'statement': capsule, 'thoughts': thoughts, 'rdf_log_path': rdf_log_path}
+
+        return output
+
     def capsule_experience_triple(self, capsule, reason_types=False, return_thoughts=True, create_label=False):
         # type (dict) -> dict
         """
@@ -402,3 +519,108 @@ class LongTermMemory(BasicBrain):
         output = {'response': code, 'mention': capsule, 'thoughts': thoughts, 'rdf_log_path': rdf_log_path}
 
         return output
+def main():
+    # Initialize LongTermMemory instance with dummy parameters
+    scenario_filepath = pathlib.Path('../../data/')
+    graph_filepath = scenario_filepath / pathlib.Path('graph/')
+    graph_filepath.mkdir(parents=True, exist_ok=True)
+    # Create brain connection
+    ltm = LongTermMemory(address="http://localhost:7200/repositories/sandbox",  # Location to save accumulated graph
+                           log_dir=graph_filepath,  # Location to save step-wise graphs
+                           clear_all=True)
+    # Context capsule
+    # Define contextual features
+    from tqdm import tqdm
+    from random import getrandbits
+    import requests
+    from datetime import date, datetime
+    context_id = getrandbits(8)
+    place_id = getrandbits(8)
+    location = requests.get("https://ipinfo.io").json()
+    start_date = date(2021, 3, 12)
+    context_capsule =  {"context_id": context_id,
+     "date": start_date,
+     "place": "Carl's room",
+     "place_id": place_id,
+     "country": location['country'],
+     "region": location['region'],
+     "city": location['city']}
+
+    response = ltm.capsule_context(context_capsule)
+
+    # Create a sample capsule to test capsule_statement
+    sample_capsule_statement =  {  # CARL SAYS CANNOT SEE HIS PILLS
+            "chat": 1,
+            "turn": 1,
+            "author": {"label": "carl", "type": ["person"], 'uri': "http://cltl.nl/leolani/friends/carl-1"},
+            "utterance": "I need to take my pills, but I cannot find them.",
+            "utterance_type": UtteranceType.STATEMENT,
+            "position": "0-25",
+            "subject": {"label": "carl", "type": ["person"], 'uri': "http://cltl.nl/leolani/world/carl-1"},
+            "predicate": {"label": "see", "uri": "http://cltl.nl/leolani/n2mu/see"},
+            "object": {"label": "pills", "type": ["object", "medicine"], 'uri': "http://cltl.nl/leolani/world/pills-1"},
+            "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},
+            "timestamp": datetime.combine(start_date, datetime.now().time()),
+            "context_id": context_id
+        }
+    # Test the capsule_statement function
+    print("\nTesting capsule_statement...")
+    statement_output = ltm.capsule_statement(
+        sample_capsule_statement,
+        reason_types=True,
+        return_thoughts=True,
+        create_label=True
+    )
+
+    # Print the output for capsule_statement
+    print("Response Code:", statement_output.get('response'))
+    print("Statement Processed:", statement_output.get('statement'))
+    print("Thoughts:", statement_output.get('thoughts'))
+    print("RDF Log Path:", statement_output.get('rdf_log_path'))
+
+    # Create a sample capsule to test capsule_event
+    sample_capsule_event = {  # CARL SAYS CANNOT SEE HIS PILLS
+        "chat": 1,
+        "turn": 1,
+        "author": {"label": "carl", "type": ["person"], 'uri': "http://cltl.nl/leolani/friends/carl-1"},
+        "utterance": "I need to take my pills, but I cannot find them.",
+        "utterance_type": UtteranceType.STATEMENT,
+        "position": "0-25",
+        "event_details": [
+            {"subject": {"label": "lunch", "type": ["Activity"],  "uri": "http://cltl.nl/leolani/world/lunch1"},
+            "predicate": {"label": "agent", "uri": "http://cltl.nl/leolani/n2mu/hasAgent"},
+            "object": {"label": "carl", "type": ["person"], 'uri': "http://cltl.nl/leolani/world/carl-1"}},
+            {"subject": {"label": "lunch", "type": ["Activity"], "uri": "http://cltl.nl/leolani/world/lunch1"},
+             "predicate": {"label": "object", "uri": "http://cltl.nl/leolani/n2mu/hasObject"},
+             "object": {"label": "apples", "type": ["object", "medicine"], 'uri': "http://cltl.nl/leolani/world/pills-1"}},
+            {"subject": {"label": "lunch", "type": ["Activity"], "uri": "http://cltl.nl/leolani/world/lunch1"},
+             "predicate": {"label": "location", "uri": "http://cltl.nl/leolani/n2mu/hasPlace"},
+             "object": {"label": "home", "type": ["place"], 'uri': "http://cltl.nl/leolani/world/home-1"}},
+            {"subject": {"label": "lunch", "type": ["Activity"], "uri": "http://cltl.nl/leolani/world/lunch1"},
+             "predicate": {"label": "time", "uri": "http://cltl.nl/leolani/n2mu/hasTime"},
+             "object": {"label": "sunday", "type": ["time"], 'uri': "http://cltl.nl/leolani/world/sunday"}}
+        ],
+        "perspective": {"certainty": 1, "polarity": -1, "sentiment": -1},
+        "timestamp": datetime.combine(start_date, datetime.now().time()),
+        "context_id": context_id
+    }
+
+    # Test the capsule_event function
+    print("\nTesting capsule_event...")
+    event_output = ltm.capsule_event(
+        sample_capsule_event,
+        reason_types=True,
+        return_thoughts=True,
+        create_label=True
+    )
+
+    # Print the output for capsule_event
+    print("Response Code:", event_output.get('response'))
+    print("Event Processed:", event_output.get('statement'))
+    print("Thoughts:", event_output.get('thoughts'))
+    print("RDF Log Path:", event_output.get('rdf_log_path'))
+
+
+# Run the main function
+if __name__ == "__main__":
+    main()

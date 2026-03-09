@@ -1262,9 +1262,86 @@ chat_11 = ({"context_id": context_id,
            ]
            )
 
+
+chat_12 = ({"context_id": context_id,
+            "date": start_date,
+            "place": "Piek's office",
+            "place_id": place_id,
+            "country": "Netherlands",
+            "region": "North Holland",
+            "city": "Amsterdam"},
+           [
+               {"chat": 12,
+                "turn": 1,
+                "author": {"label": "piek", "type": ["person"], 'uri': "http://cltl.nl/leolani/friends/piek-1"},
+                "utterance": "I drink beer",
+                "utterance_type": UtteranceType.STATEMENT,
+                "position": "0-15",
+                "event_details": [ {
+                        "subject": {"label": "drink", "type": ["event"],
+                                    "uri": "http://cltl.nl/leolani/world/drink-1"
+                                    },
+                        "predicate": {"label": "hasActor", "uri": "sem:hasActor"},
+                        "object": {"label": "piek", "type": ["person"],
+                                   "uri": "http://cltl.nl/leolani/world/piek-1"
+                                   }
+
+                    },
+                    {
+                        "subject": {"label": "drink", "type":["event"],
+                                    "uri": "http://cltl.nl/leolani/world/drink-1"},
+                        "predicate": {"label": "hasActor", "uri": "sem:hasActor"},
+                        "object": {"label": "drinking-beer", "type":["interest"],
+                                    "uri": "http://cltl.nl/leolani/world/drinking-beer"}
+                }
+                    ],
+                "perspective": {
+                    "certainty": 1,
+                    "polarity": 1,
+                    "sentiment": 1
+                },
+                "timestamp": datetime.combine(start_date, datetime.now().time()),
+                "context_id": context_id
+                },
+               {"chat": 12,
+                "turn": 1,
+                "author": {"label": "piek", "type": ["person"], 'uri': "http://cltl.nl/leolani/friends/piek-1"},
+                "utterance": "John drinks beer",
+                "utterance_type": UtteranceType.STATEMENT,
+                "position": "0-15",
+                "event_details": [{
+                    "subject": {"label": "drink", "type": ["event"],
+                                "uri": "http://cltl.nl/leolani/world/drink-2"
+                                },
+                    "predicate": {"label": "hasActor", "uri": "sem:hasActor"},
+                    "object": {"label": "john", "type": ["person"],
+                               "uri": "http://cltl.nl/leolani/world/john-1"
+                               }
+
+                },
+                    {
+                        "subject": {"label": "drink", "type": ["event"],
+                                    "uri": "http://cltl.nl/leolani/world/drink-2"},
+                        "predicate": {"label": "hasActor", "uri": "sem:hasActor"},
+                        "object": {"label": "drinking-beer", "type": ["interest"],
+                                   "uri": "http://cltl.nl/leolani/world/drinking-beer"}
+                    }
+                ],
+                "perspective": {
+                    "certainty": 1,
+                    "polarity": 1,
+                    "sentiment": 1
+                },
+                "timestamp": datetime.combine(start_date, datetime.now().time()),
+                "context_id": context_id
+                }
+           ]
+           )
+
 statements_old_team = [chat_1, chat_2, chat_3, chat_4, chat_5, chat_6, chat_7]
 statements_new_team = [chat_8, chat_9, chat_10, chat_11]
 statements = statements_old_team + statements_new_team
+events = [chat_12]
 
 context_id, start_date = getrandbits(8), date(2020, 11, 3)
 conflicting_statements = ({"context_id": context_id,
@@ -1695,7 +1772,7 @@ triple_experiences = ({"context_id": context_id,
                        "source": {"label": "front-camera", "type": ["sensor"],
                                   'uri': "http://cltl.nl/leolani/inputs/front-camera"},
                        "image": None,
-                       "utterance_type": UtteranceType.EXPERIENCE_TRIPLE,
+                       "utterance_type": UtteranceType.EXPERIENCE,
                        "region": [752, 46, 1148, 716],
                        "item": {'label': 'chair 1', 'type': ['chair'], 'id': 1,
                                 'uri': "http://cltl.nl/leolani/world/chair-1"},
@@ -1719,7 +1796,7 @@ triple_experiences = ({"context_id": context_id,
                        "source": {"label": "front-camera", "type": ["sensor"],
                                   'uri': "http://cltl.nl/leolani/inputs/front-camera"},
                        "image": None,
-                       "utterance_type": UtteranceType.EXPERIENCE_TRIPLE,
+                       "utterance_type": UtteranceType.EXPERIENCE,
                        "region": [752, 46, 1148, 716],
                        "item": {'label': 'apple 1', 'type': ['fruit'], 'id': 1,
                                 'uri': "http://cltl.nl/leolani/world/apple-1"},
@@ -1742,7 +1819,7 @@ triple_experiences = ({"context_id": context_id,
                        "source": {"label": "front-camera", "type": ["sensor"],
                                   'uri': "http://cltl.nl/leolani/inputs/front-camera"},
                        "image": None,
-                       "utterance_type": UtteranceType.EXPERIENCE_TRIPLE,
+                       "utterance_type": UtteranceType.EXPERIENCE,
                        "region": [752, 46, 1700, 716],
                        "item": {'label': 'Carl', 'type': ['person'], 'id': None,
                                 'uri': "http://cltl.nl/leolani/world/carl-1"},

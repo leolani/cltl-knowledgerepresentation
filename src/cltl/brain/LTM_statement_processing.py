@@ -1,5 +1,5 @@
 from cltl.brain.LTM_shared import _link_entity, _link_leolani, create_interaction_graph, create_claim_graph, \
-    interlink_graphs, create_perspective_graph
+    interlink_graphs, create_perspective_graph, create_claim_graph_for_event_details
 
 
 ######################################## Helpers for statement processing ########################################
@@ -30,27 +30,54 @@ def create_instance_graph_for_statement(self, capsule, create_label):
     capsule['triple'].complement.add_types(['Instance'])
     _link_entity(self, capsule['triple'].complement, self.instance_graph, create_label)
 
-def create_event(self, capsule, create_label):
-    for element in capsule["event_details"]:
+
+def create_instance_graph_for_event(self, capsule, create_label):
+    # type (dict, bool) -> None
+    """
+    Create linked data related to what leolani learned/knows about the world
+    Parameters
+    ----------
+    self:
+    capsule: dict
+    create_label: bool
+
+    Returns
+    -------
+
+
+    """
+    _link_leolani(self) # Todo: do we need to this every time or can we add only on certain cases (e.g empty graph)
+    for detail in capsule["event_details"]:
         # Subject
-        element['subject'].add_types(['Instance'])
-        _link_entity(self, capsule['subject'], self.instance_graph, create_label)
+        detail.subject.add_types(['Instance'])
+        _link_entity(self, detail.subject, self.instance_graph, create_label)
 
         # Complement
-        element['object'].add_types(['Instance'])
-        _link_entity(self, capsule['object'], self.instance_graph, create_label)
+        detail.complement.add_types(['Instance'])
+        _link_entity(self, detail.complement, self.instance_graph, create_label)
+
+def create_event(self, capsule, create_label):
+    for element in capsule['triple_list']:
+        # Subject
+        element.subject.add_types(['Instance'])
+        _link_entity(self, element.subject, self.instance_graph, create_label)
+
+        # Complement
+        element.complement.add_types(['Instance'])
+        _link_entity(self, element.complement, self.instance_graph, create_label)
 
 def process_statement(self, capsule, create_label):
     # Leolani world (includes instance and claim graphs)
-    create_instance_graph_for_statement(self, capsule, create_label)
-
+    #create_instance_graph_for_statement(self, capsule, create_label)
+    #create_instance_graph_for_event(self, capsule, create_label)
     # if the capsule has "event_details"
     if "event_details" in capsule.keys():
         create_event(self, capsule, create_label)
-        claim = create_claim_graph(self, capsule['triple'].subject,
-                                   capsule['triple'].predicate,
-                                   capsule['triple'].complement,
-                                   event_details=capsule["event_details"])
+        claim = create_claim_graph_for_event_details(self, capsule["triple_list"])
+    #         claim = create_claim_graph(self, capsule['triple'].subject,
+    #                                capsule['triple'].predicate,
+    #                                capsule['triple'].complement,
+    #                                event_details=capsule["event_details"])
     else:
         claim = create_claim_graph(self, capsule['triple'].subject,
                                    capsule['triple'].predicate,
@@ -62,7 +89,10 @@ def process_statement(self, capsule, create_label):
 
     # Links across
     interlink_graphs(self, mention, actor, statement, claim, make_friend)
-
-    self._log.info(f"Triple in statement: {capsule['triple']}")
+    if "triple_list" in capsule.keys():
+        for triple in capsule["triple_list"]:
+            self._log.info(f"Triple in statement: {triple}")
+    else:
+        self._log.info(f"Triple in statement: {capsule['triple']}")
 
     return claim

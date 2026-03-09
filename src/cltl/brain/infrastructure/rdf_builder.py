@@ -8,7 +8,7 @@ from iribaker import to_iri
 from rdflib import Dataset, Namespace, OWL, URIRef, Literal
 
 from cltl.brain import logger
-from cltl.brain.infrastructure import Predicate, Entity, Triple, Provenance, Perspective
+from cltl.brain.infrastructure import Predicate, Entity, Event, Triple, Provenance, Perspective
 from cltl.brain.utils.helper_functions import confidence_to_certainty_value, polarity_to_polarity_value, \
     sentiment_to_sentiment_value, emotion_to_emotion_value
 
@@ -221,6 +221,35 @@ class RdfBuilder(object):
             fixed_types = fix_nlp_types(types)
             return Entity(entity_id, Literal(label), fixed_types)
 
+    def fill_event(self, label, types, namespace='LW', uri=None):
+        # type: (str, list, str, str) -> Entity
+        """
+        Create an RDF entity given its label, types and its namespace
+        Parameters
+        ----------
+        label: str
+            Label of entity
+        types: List[str]
+            List of types for this entity
+        uri: str
+            URI of the entity, is available (i.e. when extracting concepts from wikidata)
+        namespace: str
+            Namespace where entity belongs to
+
+        Returns
+        -------
+            Entity object with given label
+        """
+        types = [t for t in types if t not in [None, '']]
+
+        if not types and label != '':
+            self._log.warning(f'Unknown type: {label}')
+            return self.fill_event_from_label(label, namespace)
+        else:
+            entity_id = self.create_resource_uri(namespace, label) if not uri else URIRef(to_iri(uri))
+            fixed_types = fix_nlp_types(types)
+            return Event(entity_id, Literal(label), fixed_types)
+
     def fill_predicate(self, label, namespace='N2MU', uri=None):
         # type: (str, str, str) -> Predicate
         """
@@ -263,6 +292,27 @@ class RdfBuilder(object):
         entity_id = self.create_resource_uri(namespace, label) if not uri else URIRef(to_iri(uri))
 
         return Entity(entity_id, Literal(label), [''])
+
+    def fill_event_from_label(self, label, namespace='LW', uri=None):
+        # type: (str, str, str) -> Entity
+        """
+        Create an RDF entity given its label and its namespace
+        Parameters
+        ----------
+        label: str
+            Label of entity
+        uri: str
+            URI of the entity, is available (i.e. when extracting concepts from wikidata)
+        namespace: str
+            Namespace where entity belongs to
+
+        Returns
+        -------
+            Entity object with given label and no type information
+        """
+        entity_id = self.create_resource_uri(namespace, label) if not uri else URIRef(to_iri(uri))
+
+        return Event(entity_id, Literal(label), [''])
 
     def empty_entity(self):
         # type: () -> Entity
@@ -359,6 +409,40 @@ class RdfBuilder(object):
 
         return Triple(subject, predicate, object)
 
+    def fill_event_triple(self, subject_dict, predicate_dict, object_dict, namespace='LW'):
+            # type: (dict, dict, dict, str) -> Triple
+            """
+            Create an RDF entity given its label and its namespace
+            Parameters
+            ----------
+            subject_dict: dict
+                Information about label and type of subject
+            predicate_dict: dict
+                Information about type of predicate
+            object_dict: dict
+                Information about label and type of object
+            namespace: str
+                Information about which namespace the entities belongs to
+
+            Returns
+            -------
+                Entity object with given label
+            """
+            # Fix types
+            if type(subject_dict['type']) is not list:
+                [subject_dict['type']] = [[subject_dict['type']]]
+
+            if type(object_dict['type']) is not list:
+                [object_dict['type']] = [[object_dict['type']]]
+
+            subject = self.fill_event(subject_dict['label'], subject_dict['type'], namespace=namespace,
+                                       uri=subject_dict['uri'])
+            predicate = self.fill_predicate(predicate_dict['label'], uri=predicate_dict['uri'])
+            object = self.fill_entity(object_dict['label'], object_dict['type'], namespace=namespace,
+                                      uri=object_dict['uri'])
+
+            return Triple(subject, predicate, object)
+
     def fill_triple_from_label(self, subject_label, predicate, object_label, namespace='LW'):
         # type: (str, str, str, str) -> Triple
         """
@@ -430,7 +514,7 @@ class RdfBuilder(object):
             bare_type = casefold_text(bare_type, format='triple')
             clean_types.append(bare_type)
 
-        return clean_types
+            return clean_types
 
     def clean_aggregated_detections(self, aggregated_detections):
         # type: (str) -> list

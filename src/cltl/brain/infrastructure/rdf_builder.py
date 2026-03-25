@@ -2,7 +2,7 @@ import os
 
 import importlib_resources as pkg_resources
 from cltl.commons.casefolding import casefold_text
-from cltl.commons.discrete import Certainty, Polarity, Sentiment, Emotion
+from cltl.commons.discrete import Certainty, Polarity, Sentiment, Emotion, Level, GoEmotion
 from cltl.commons.triple_helpers import fix_nlp_types
 from iribaker import to_iri
 from rdflib import Dataset, Namespace, OWL, URIRef, Literal
@@ -10,7 +10,7 @@ from rdflib import Dataset, Namespace, OWL, URIRef, Literal
 from cltl.brain import logger
 from cltl.brain.infrastructure import Predicate, Entity, Event, Triple, Provenance, Perspective
 from cltl.brain.utils.helper_functions import confidence_to_certainty_value, polarity_to_polarity_value, \
-    sentiment_to_sentiment_value, emotion_to_emotion_value
+    sentiment_to_sentiment_value, emotion_to_emotion_value, level_to_level_value, go_emotion_to_go_emotion_value
 
 
 class RdfBuilder(object):
@@ -67,6 +67,8 @@ class RdfBuilder(object):
         self.namespaces['GRASPs'] = Namespace(sentiment_vocab)
         emotion_vocab = 'http://groundedannotationframework.org/grasp/emotion#'
         self.namespaces['GRASPe'] = Namespace(emotion_vocab)
+        level_vocab = 'http://groundedannotationframework.org/grasp/level#'
+        self.namespaces['GRASPl'] = Namespace(level_vocab)
         attribution_resource_friends = 'http://cltl.nl/leolani/friends/'
         self.namespaces['LF'] = Namespace(attribution_resource_friends)
         attribution_resource_inputs = 'http://cltl.nl/leolani/inputs/'
@@ -118,6 +120,7 @@ class RdfBuilder(object):
         self.dataset.bind('graspf', self.namespaces['GRASPf'])
         self.dataset.bind('grasps', self.namespaces['GRASPs'])
         self.dataset.bind('graspe', self.namespaces['GRASPe'])
+        self.dataset.bind('graspl', self.namespaces['GRASPl'])
         self.dataset.bind('leolaniFriends', self.namespaces['LF'])
         self.dataset.bind('leolaniInputs', self.namespaces['LI'])
 
@@ -366,14 +369,21 @@ class RdfBuilder(object):
         certainty = perpective_dict.get('certainty', Certainty.UNDERSPECIFIED)
         polarity = perpective_dict.get('polarity', Polarity.UNDERSPECIFIED)
         sentiment = perpective_dict.get('sentiment', Sentiment.UNDERSPECIFIED)
-        emotion = perpective_dict.get('emotion', Emotion.UNDERSPECIFIED)
+        ekman_emotion = perpective_dict.get('emotion', Emotion.UNDERSPECIFIED)
+        go_emotion = perpective_dict.get('emotion', GoEmotion.UNDERSPECIFIED)
+        level = perpective_dict.get('level', Level.UNDERSPECIFIED)
 
         certainty_value = confidence_to_certainty_value(certainty)
         polarity_value = polarity_to_polarity_value(polarity)
         sentiment_value = sentiment_to_sentiment_value(sentiment)
-        emotion_value = emotion_to_emotion_value(emotion)
-
-        return Perspective(certainty_value, polarity_value, sentiment_value, emotion=emotion_value)
+        ekman_emotion_value = emotion_to_emotion_value(ekman_emotion)
+        go_emotion_value = go_emotion_to_go_emotion_value(go_emotion)
+        level_value = level_to_level_value(level)
+        if ekman_emotion_value == Emotion.UNDERSPECIFIED and not go_emotion_value==GoEmotion.UNDERSPECIFIED:
+            emotion_value=go_emotion_value
+        else:
+            emotion_value = ekman_emotion_value
+        return Perspective(certainty_value, polarity_value, sentiment_value, emotion=emotion_value, level=level_value)
 
     def fill_triple(self, subject_dict, predicate_dict, object_dict, namespace='LW'):
         # type: (dict, dict, dict, str) -> Triple

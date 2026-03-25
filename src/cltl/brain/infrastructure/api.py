@@ -3,7 +3,7 @@ from datetime import date, datetime
 from typing import List, Optional
 
 from cltl.commons.casefolding import casefold_text
-from cltl.commons.discrete import Certainty, Polarity, Sentiment, Emotion, Time
+from cltl.commons.discrete import Certainty, Polarity, Sentiment, Emotion, Time, Level, GoEmotion
 from cltl.commons.triple_helpers import filtered_types_names
 from rdflib import Literal
 
@@ -363,8 +363,8 @@ class Triple(object):
 
 
 class Perspective(object):
-    def __init__(self, certainty, polarity, sentiment, time=None, emotion=None):
-        # type: (Certainty, Polarity, Sentiment, Time, Emotion) -> None
+    def __init__(self, certainty, polarity, sentiment, time=None, emotion=None, level=None):
+        # type: (Certainty, Polarity, Sentiment, Time, Emotion, Level) -> None
         """
         Construct Perspective Object
         Parameters
@@ -386,6 +386,7 @@ class Perspective(object):
         self._sentiment = sentiment
         self._time = time
         self._emotion = emotion
+        self._level = level
 
     @property
     def certainty(self):
@@ -436,6 +437,16 @@ class Perspective(object):
     def emotion(self, new_emotion):
         # type: (Emotion) -> ()
         self._emotion = new_emotion
+
+    @property
+    def level(self):
+        # type: () -> Optional[Level]
+        return self._level
+
+    @level.setter
+    def level(self, new_level):
+        # type: (Level) -> ()
+        self._level = new_level
 
 
 class Provenance(object):

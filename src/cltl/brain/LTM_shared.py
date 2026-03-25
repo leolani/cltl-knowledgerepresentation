@@ -132,10 +132,15 @@ def _create_mention(self, capsule, subevent):
 
 
 def _create_attribution(self, capsule, mention, claim):
+    perspective = capsule['perspective']
+    #print(f"Creating attribution with perspective: certainty={perspective.certainty}, polarity={perspective.polarity}, sentiment={perspective.sentiment}, emotion={perspective.emotion}, level={perspective.level}")
     attribution_suffix = f"{capsule['perspective'].certainty.value}" \
                          f"{capsule['perspective'].polarity.value}" \
                          f"{capsule['perspective'].sentiment.value}" \
-                         f"{capsule['perspective'].emotion.value}"
+                         f"{capsule['perspective'].level.value}"
+    #                      #   f"{capsule['perspective'].emotion.value}" \
+    for emotion in capsule["perspective"].emotion:
+        attribution_suffix+=str(emotion.value)
     attribution_prefix = claim.label if claim else "UNKNOWN"
 
     attribution_label = attribution_prefix + f"_{attribution_suffix}"
@@ -152,14 +157,24 @@ def _create_attribution(self, capsule, mention, claim):
             ns = 'GRASPs'
         elif typ in ['_emotion']:
             ns = 'GRASPe'
+        elif typ in ['_level']:
+            ns = 'GRASPl'
         else:
             ns = 'GRASP'
 
-        attribution_value = self._rdf_builder.fill_entity(val.name,
-                                                          ['AttributionValue', f"{typ[1:].title()}Value"],
-                                                          ns)
-        _link_entity(self, attribution_value, self.perspective_graph, create_label=True)
-        self.perspective_graph.add((attribution.id, RDF.value, attribution_value.id))
+        if typ in ['_emotion']:
+            for emotion in val:
+                emotion_value = self._rdf_builder.fill_entity(emotion.name,
+                                                              ['AttributionValue', f"{typ[1:].title()}Value"],
+                                                              ns)
+                _link_entity(self, emotion_value, self.perspective_graph, create_label=True)
+                self.perspective_graph.add((attribution.id, RDF.value, emotion_value.id))
+        else:
+            attribution_value = self._rdf_builder.fill_entity(val.name,
+                                                              ['AttributionValue', f"{typ[1:].title()}Value"],
+                                                              ns)
+            _link_entity(self, attribution_value, self.perspective_graph, create_label=True)
+            self.perspective_graph.add((attribution.id, RDF.value, attribution_value.id))
 
     # Bidirectional link between mention and attribution
     self.perspective_graph.add((mention.id, self.namespaces['GRASP']['hasAttribution'], attribution.id))

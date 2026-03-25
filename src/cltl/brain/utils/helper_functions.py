@@ -5,7 +5,7 @@ from datetime import date
 import importlib_resources as pkg_resources
 import numpy as np
 from cltl.commons.casefolding import casefold_text
-from cltl.commons.discrete import Certainty, Polarity, Sentiment, Emotion
+from cltl.commons.discrete import Certainty, Polarity, Sentiment, Level, Emotion, GoEmotion
 from rdflib import URIRef, Literal
 
 import cltl.brain
@@ -61,10 +61,19 @@ def polarity_to_polarity_value(polarity):
 def sentiment_to_sentiment_value(sentiment):
     return Sentiment.as_enum(sentiment)
 
+def level_to_level_value(level):
+    return Level.as_enum(level)
 
 def emotion_to_emotion_value(emotion):
     return Emotion.as_enum(emotion)
 
+def go_emotion_to_go_emotion_value(emotion):
+    if type(emotion)==str:
+        return [GoEmotion.as_enum(emotion)]
+    elif type(emotion)==list:
+        return [GoEmotion.as_enum(e) for e in emotion]
+    else:
+        return [GoEmotion.UNDERSPECIFIED]
 
 def replace_in_file(file, word, word_replacement):
     for i, line in enumerate(open(file)):

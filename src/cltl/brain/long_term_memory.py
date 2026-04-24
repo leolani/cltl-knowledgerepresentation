@@ -243,6 +243,9 @@ class LongTermMemory(BasicBrain):
         # Create graphs and triples
         claim = process_statement(self, capsule, create_label)
 
+        if not claim:
+            return None
+
         # We set return_thoughts to False, because the thought functions have not been adapted for triple_list and not for events as subject   '
         return_thoughts = False
         statement_novelty = []

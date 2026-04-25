@@ -69,24 +69,26 @@ def create_event(self, capsule, create_label):
 def process_statement(self, capsule, create_label):
     # Leolani world (includes instance and claim graphs)
     # if the capsule has "event_details"
+    claim = None
     if "event_details" in capsule.keys():
-        create_event(self, capsule, create_label)
-        claim = create_claim_graph_for_event_details(self, capsule["triple_list"])
+        if len(capsule["event_details"]) > 0:
+            create_event(self, capsule, create_label)
+            claim = create_claim_graph_for_event_details(self, capsule["triple_list"])
     else:
         claim = create_claim_graph(self, capsule['triple'].subject,
                                    capsule['triple'].predicate,
                                    capsule['triple'].complement)
+    if claim:
+        # Leolani talk (includes interaction and perspective graphs)
+        statement, actor, make_friend = create_interaction_graph(self, capsule, create_label)
+        mention, attribution = create_perspective_graph(self, capsule, claim, statement)
 
-    # Leolani talk (includes interaction and perspective graphs)
-    statement, actor, make_friend = create_interaction_graph(self, capsule, create_label)
-    mention, attribution = create_perspective_graph(self, capsule, claim, statement)
-
-    # Links across
-    interlink_graphs(self, mention, actor, statement, claim, make_friend)
-    if "triple_list" in capsule.keys():
-        for triple in capsule["triple_list"]:
-            self._log.info(f"Triple in statement: {triple}")
-    else:
-        self._log.info(f"Triple in statement: {capsule['triple']}")
+        # Links across
+        interlink_graphs(self, mention, actor, statement, claim, make_friend)
+        if "triple_list" in capsule.keys():
+            for triple in capsule["triple_list"]:
+                self._log.info(f"Triple in statement: {triple}")
+        else:
+            self._log.info(f"Triple in statement: {capsule['triple']}")
 
     return claim
